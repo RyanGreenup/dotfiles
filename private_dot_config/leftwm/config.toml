@@ -1,0 +1,409 @@
+# https://github.com/leftwm/leftwm/wiki/Config#keybind-commands
+
+# TODO rofi
+# TODO hjkl
+# TODO Next theme
+# TODO toggle stacking, fib and monocle
+
+
+modkey = "Mod4"
+mousekey = "Mod4"
+workspaces = []
+# tags = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+tags = ["1.Browser ♖", "2.Term ♗", "3.Shell ♔", "4.Code ♕", "5", "6.Notes 📝", "7", "5.Messaging", "9", "10"]
+# layouts = ["MainAndVertStack", "MainAndHorizontalStack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "CenterMain", "CenterMainBalanced", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
+disable_current_tag_swap = false
+
+[[keybind]]
+command = "FloatingToTile"
+modifier = ["modkey", "Shift"]
+key = "t"
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+modifier = ["modkey"]
+key = "d"
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+modifier = ["modkey"]
+key = "space"
+
+
+[[keybind]]
+command = "Execute"
+value = "rofi -show calc -modi calc -no-show-match -no-sort -theme arthur"
+modifier = ["modkey"]
+key = "c"
+
+
+
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme arthur"
+modifier = ["modkey"]
+key = "slash"
+
+[[keybind]]
+command = "Execute"
+value = "rofi -show run"
+modifier = ["modkey"]
+key = "p"
+# value = "dmenu_run"
+
+
+[[keybind]]
+command = "SetLayout"
+value = "Monocle"
+modifier = ["modkey", "Shift"]
+key = "m"
+
+
+[[keybind]]
+command = "Execute"
+value = "alacritty"
+modifier = ["modkey", "Shift"]
+key = "Return"
+
+[[keybind]]
+command = "CloseWindow"
+modifier = ["modkey", "Shift"]
+key = "q"
+
+[[keybind]]
+command = "CloseWindow"
+modifier = ["Alt"]
+key = "F4"
+
+[[keybind]]
+command = "SoftReload"
+modifier = ["modkey", "Shift"]
+key = "r"
+
+[[keybind]]
+command = "HardReload"
+modifier = ["modkey", "Control"]
+key = "r"
+
+[[keybind]]
+command = "Execute"
+value = "pkill leftwm"
+modifier = ["modkey", "Shift"]
+key = "x"
+
+[[keybind]]
+command = "Execute"
+value = "slock"
+modifier = ["modkey", "Control"]
+key = "l"
+
+[[keybind]]
+command = "MoveToLastWorkspace"
+modifier = ["modkey", "Shift"]
+key = "w"
+
+[[keybind]]
+command = "SwapTags"
+modifier = ["modkey"]
+key = "w"
+
+[[keybind]]
+command = "MoveWindowUp"
+modifier = ["modkey", "Shift"]
+key = "Up"
+
+[[keybind]]
+command = "MoveWindowDown"
+modifier = ["modkey", "Shift"]
+key = "Down"
+
+[[keybind]]
+command = "MoveWindowUp"
+modifier = ["modkey", "Shift"]
+key = "k"
+
+[[keybind]]
+command = "MoveWindowDown"
+modifier = ["modkey", "Shift"]
+key = "j"
+
+
+[[keybind]]
+command = "IncreaseMainWidth"
+value = "5"
+modifier = ["modkey"]
+key = "r"
+
+
+[[keybind]]
+command = "MoveWindowTop"
+modifier = ["modkey"]
+key = "Return"
+
+[[keybind]]
+command = "FocusWindowUp"
+modifier = ["modkey"]
+key = "Up"
+
+[[keybind]]
+command = "FocusWindowDown"
+modifier = ["modkey"]
+key = "Down"
+
+
+[[keybind]]
+command = "FocusWindowUp"
+modifier = ["modkey"]
+key = "k"
+
+[[keybind]]
+command = "FocusWindowDown"
+modifier = ["modkey"]
+key = "j"
+
+
+
+[[keybind]]
+command = "NextLayout"
+modifier = ["modkey", "Control"]
+key = "Up"
+
+[[keybind]]
+command = "PreviousLayout"
+modifier = ["modkey", "Control"]
+key = "Down"
+
+[[keybind]]
+command = "FocusWorkspaceNext"
+modifier = ["modkey"]
+key = "Right"
+
+[[keybind]]
+command = "FocusWorkspacePrevious"
+modifier = ["modkey"]
+key = "Left"
+
+
+[[keybind]]
+command = "FocusWorkspaceNext"
+modifier = ["modkey"]
+key = "h"
+
+[[keybind]]
+command = "FocusWorkspacePrevious"
+modifier = ["modkey"]
+key = "l"
+
+[[keybind]]
+command = "GotoTag"
+value = "1"
+modifier = ["modkey"]
+key = "1"
+
+[[keybind]]
+command = "GotoTag"
+value = "2"
+modifier = ["modkey"]
+key = "2"
+
+[[keybind]]
+command = "GotoTag"
+value = "3"
+modifier = ["modkey"]
+key = "3"
+
+[[keybind]]
+command = "GotoTag"
+value = "4"
+modifier = ["modkey"]
+key = "4"
+
+[[keybind]]
+command = "GotoTag"
+value = "5"
+modifier = ["modkey"]
+key = "5"
+
+[[keybind]]
+command = "GotoTag"
+value = "6"
+modifier = ["modkey"]
+key = "6"
+
+[[keybind]]
+command = "GotoTag"
+value = "7"
+modifier = ["modkey"]
+key = "7"
+
+[[keybind]]
+command = "GotoTag"
+value = "8"
+modifier = ["modkey"]
+key = "8"
+
+[[keybind]]
+command = "GotoTag"
+value = "9"
+modifier = ["modkey"]
+key = "9"
+
+[[keybind]]
+command = "MoveToTag"
+value = "1"
+modifier = ["modkey", "Shift"]
+key = "1"
+
+[[keybind]]
+command = "MoveToTag"
+value = "2"
+modifier = ["modkey", "Shift"]
+key = "2"
+
+[[keybind]]
+command = "MoveToTag"
+value = "3"
+modifier = ["modkey", "Shift"]
+key = "3"
+
+[[keybind]]
+command = "MoveToTag"
+value = "4"
+modifier = ["modkey", "Shift"]
+key = "4"
+
+[[keybind]]
+command = "MoveToTag"
+value = "5"
+modifier = ["modkey", "Shift"]
+key = "5"
+
+[[keybind]]
+command = "MoveToTag"
+value = "6"
+modifier = ["modkey", "Shift"]
+key = "6"
+
+[[keybind]]
+command = "MoveToTag"
+value = "7"
+modifier = ["modkey", "Shift"]
+key = "7"
+
+[[keybind]]
+command = "MoveToTag"
+value = "8"
+modifier = ["modkey", "Shift"]
+key = "8"
+
+[[keybind]]
+command = "MoveToTag"
+value = "9"
+modifier = ["modkey", "Shift"]
+key = "9"
+
+
+
+# Requires more recent version of leftWM?? VVVVVVVVVVVVVVVVVVVVVVVVVVVV
+[[keybind]]
+command = "ToggleFullScreen"
+modifier = ["modkey"]
+key = "m"
+
+[[keybind]]
+command = "RotateTag"
+modifier = ["modkey"]
+key = "z"
+ 
+# *  Margin Multiplier
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "2.5"
+modifier = ["modkey", "Control"]
+key = "equal"
+
+
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "1"
+modifier = ["modkey", "Control"]
+key = "minus"
+
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "0"
+modifier = ["modkey", "Control"]
+key = "0"
+
+# * Move Tags
+# Tags are like desktops, workspaces are like monitors (good for ultrawides)
+[[keybind]]
+command = "FocusNextTag"
+modifier = ["Control", "Alt"]
+key = "Right"
+
+[[keybind]]
+command = "FocusPreviousTag"
+modifier = ["Control", "Alt"]
+key = "Left"
+
+## * Layouts
+[[keybind]]
+command = "SetLayout"
+value = "Fibonacci"
+modifier = ["modkey"]
+key = "f"
+
+[[keybind]]
+command = "SetLayout"
+value = "Fibonacci"
+modifier = ["modkey"]
+key = "F1"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndDeck"
+modifier = ["modkey"]
+key = "F2"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndVertStack"
+modifier = ["modkey"]
+key = "F3"
+
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndHorizontalStack"
+modifier = ["modkey"]
+key = "F4"
+
+[[keybind]]
+command = "SetLayout"
+value = "CenterMain"
+modifier = ["modkey"]
+key = "F5"
+
+[[keybind]]
+command = "SetLayout"
+value = "CenterMainBalanced"
+modifier = ["modkey"]
+key = "F6"
+
+[[keybind]]
+command = "SetLayout"
+value = "GridHorizontal"
+modifier = ["modkey"]
+key = "F7"
+
+# * Start work
+
+[[keybind]]
+command = "Execute"
+value = "alacritty -e work" # DarkBlue is also nice
+modifier = ["modkey"]
+key = "Home"
