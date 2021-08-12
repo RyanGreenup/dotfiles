@@ -1,0 +1,65 @@
+#!/bin/bash
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc config border_width         5
+bspc config window_gap          60
+
+# bspc config split_ratio          0.52
+bspc config split_ratio          0.618 # Nautilus spiral
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Window focus follows the mouse
+bspc config focus_follows_pointer true
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Mattermost desktop='^2'
+bspc rule -a Signal desktop='^2'
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+bspc rule -a Emacs state=tiling
+bspc rule -a Zathura state=tiling
+bspc rule -a plasmashell state=floating border=off layer=normal
+bspc rule -a krunner state=floating border=off
+
+
+bspc rule -a "Gimp-2.8" desktop=^2 follow=on
+#bspc rule -a Screenkey manage=off
+bspc rule -a Plasma state=floating manage=off layer=normal
+#bspc rule -a krunner state=floating sticky=on
+bspc rule -a Klipper state=floating
+bspc rule -a plasmashell sticky=on layer=above state=floating
+bspc rule -a plasma sticky=on layer=above state=floating
+#bspc rule -a latte-dock sticky=on layer=above state=floating
+#bspc rule -a lattedock sticky=on layer=above state=floating
+bspc rule -a yakuake sticky=on layer=above state=floating
+bspc rule -a guake sticky=on layer=above state=floating
+#bspc rule -a jetbrains-idea state=floating
+for p in {single,borderless}_monocle; do bspc config "$p" true; done
+
+sxhkd -c ~/.config/sxhkd/sxhkdrc &
+#sleep 8
+#compton --config ~/.config/compton/compton.conf &
+compton & # Now called picom, see also the arch wiki page on picom and compton-conf
+# nitrogen --restore
+
+
+# Start a bar at the top for no good reason.
+# $HOME/.config/polybar/launch.sh
+sleep 3 && plank -n dock1 & disown
+# plank -n dock2   & disown
+yakuake & disown
+
+# Start some Default Applications
+mattermost & disown
+signal-desktop & disown
+
+
+
+# Related Reading
+# https://my-take-on.tech/2020/07/03/some-tricks-for-sxhkd-and-bspwm/#rotating-windows-tree
