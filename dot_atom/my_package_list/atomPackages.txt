@@ -3,12 +3,14 @@ atom-material-syntax@1.0.8
 atom-material-ui@2.1.3
 clipboard-plus@0.5.1
 git-time-machine@2.1.0
+go-snippets@0.5.1
 language-julia@0.21.2
 language-markdown@0.37.0
 language-r@0.4.2
 language-rust@0.4.12
 language-scheme@1.4.0
 markdown-preview-plus@4.11.1
+python-snippets@1.9.0
 teletype@0.13.4
 vim-mode-clipboard-plus@0.3.0
 vim-mode-plus@1.36.6
