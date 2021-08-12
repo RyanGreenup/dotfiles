@@ -1,0 +1,18 @@
+---
+version: "2.1"
+services:
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PASSWORD=lampcupmonitor
+      - SUDO_PASSWORD=lampcupmonitor
+    volumes:
+      - /home/ryan/DotFiles/docker-compose/.docker-compose-yml/vscode/config:/config
+      - /home/ryan/Notes/MD:/config/workspace/MDNotes
+    ports:
+      - 8443:8443
+    restart: unless-stopped
