@@ -84,13 +84,12 @@ nnoremap <Leader>m :set syntax=markdown<CR>
 
 """"" Vim-Plug
 
-" Set up if not already installed
-if empty(glob('~/.config/nvim/plugged'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" Set up if not already installed [jgvpwtai]
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
@@ -275,4 +274,4 @@ set modelineexpr  "This does all the magic folding
 "
 " Comments MUST be on the first column or this will break, that's the issue
 
-
+" [jgvpwtai]: https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation  
