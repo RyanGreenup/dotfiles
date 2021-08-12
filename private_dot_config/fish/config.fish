@@ -4,7 +4,9 @@ set PATH /home/ryan/.cargo/bin $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
 
 # Set Default Editor to Emacs
-set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
+# set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
+# set VISUAL 'code'
+set VISUAL 'nvim'
 
 # Defined in - @ line 1
 function f --wraps='cd ; exa -RGL 3' --description 'alias f=cd; exa -RGL 3'
