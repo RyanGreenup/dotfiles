@@ -1,0 +1,4 @@
+kahole.magit
+vscodevim.vim
+VSpaceCode.vspacecode
+VSpaceCode.whichkey
