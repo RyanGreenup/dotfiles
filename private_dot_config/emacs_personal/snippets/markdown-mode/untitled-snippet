@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: details dialog summary
+# uuid: det-diag-sum-2398123
+# key: det
+# condition: t
+
+# --
+
+  <!-- Sometimes you need a dot, <br> ruins the spacing Important --><details ${6: open} markdown="1"><summary><p>
+
+$2
+</p></summary><p>
+    ${3:text or whitespace must be here}
+* ${0: List item Must be Here}
+    ${5:text or whitespace must be here}
+</p>
+<!--Newline Important-->
+</details>
+<!--Newline Important-->

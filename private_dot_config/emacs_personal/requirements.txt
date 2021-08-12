@@ -1,0 +1,29 @@
+# Python
+## Linting with FlyMake (not Flycheck) (flymake works with eglot is simpler)
+flake8
+python-pycodestyle
+python-pydocstyle
+python-testfixtures-
+python-flake8-docstrings
+python-flake8-isort
+python-flake8-typing-imports-
+python-pyflakes
+## Linting with flycheck
+python-pylint
+
+# JavaScript
+eslint
+
+# R
+R-lintr # https://aur.archlinux.org/packages/r-lintr/
+
+# Julia
+julia -e 'import Pkg; Pkg.add("EmacsTools")'
+
+# C
+ccls
+clangd # optional if ccls available
+jsonrpc-glib # for formatting the buffer
+
+# org export html
+monolith

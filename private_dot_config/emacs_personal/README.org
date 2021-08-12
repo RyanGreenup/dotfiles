@@ -1,0 +1,238 @@
+#+TITLE: My Emacs Config
+
+What should I do with hooks like super star mode?
+Evaluating the babel languages is easiest inside the init-org though.
+
+Implement a similar thing with hydra and programming modes (for company / ya snippet)
+
+(profile with esup)
+
+
+* Design Decisions
+** Package Manager
+I was considering:
+
+- [[https://github.com/jwiegley/use-package#installing-use-package][use-package]]
+  - Very Modular
+- [[https://github.com/purcell/emacs.d/blob/master/lisp/init-elpa.el][The Standard Package.el with magic lisp]]
+  - No External Dependencies
+  - Doesn't load from GitHub though
+- [[https://github.com/raxod502/straight.el#install-packages][Straight]]
+- Bash Scripts / AUR / Pacman
+  - This would require more configuring though
+
+I went with straight because it can load from MELPA or GitHub and it
+integrates with use-package.
+
+** Listing Packages
+Should I:
+
+- Load the package in each =.el= file or
+0 all together in one file?
+
+I opted for all together in one file, that way it's easier to comment them
+out, straight [[https://github.com/raxod502/straight.el#how-do-i-uninstall-a-package][only loads]] what's mentioned so this seems really convenient
+
+** Org Extensions
+   Using =elp= it seems that =superstar-mode= adds about 0.04 seconds of
+   work in loading the org-agenda, this isn't insignificant, but it's
+   sufficiently low to justify the trade off.
+
+** Startup Time
+   Wrapping things in =(add-hook 'after-init-hook (lambda () ...))=
+   isn't helpful because the user is still stuck waiting, this can be
+   seen by the following example:
+
+   1. define the following in your =init.el=
+
+      #+begin_src elisp
+	(evil-mode)
+	(evil-define-key 'normal 'global (kbd "p") 'print-time-delta)
+
+	    (defun print-time-delta ()
+	    (interactive)
+		(message
+		    (format "Responding to User input!; Init Time:\n---> %s\n Final Startup Time (post after-init-hook):\n---> %s\n"
+			(float-time
+			    (time-subtract after-init-time before-init-time))
+			(float-time
+			    (time-subtract (current-time) before-init-time))
+		    )
+		)
+	    )
+      #+end_src
+
+   2. startup emacs and immediately press p, this will report when user input is interpreted.
+
+
+   It shows that wrapping things in an =after-init= hook isn't useful.
+     
+
+    
+
+* TODO Org Mode
+** TODO Get Julia Working with babel  
+
+   The only way to get the following julia babel to evaluate, is to first evalauate:
+
+   #+begin_src elisp
+    (load "~/.emacs.d/straight/repos/org/contrib/lisp/ob-julia.el")
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+   I need to find a better way to install that with straight.
+
+   #+begin_src julia :results output
+    print(3)
+   #+end_src
+
+   #+RESULTS:
+   : 3
+
+   Getting Julia to work reliably will be tiring.
+
+
+   Worth noting that I also had this ominuous snippet in my old config:
+
+   #+begin_src 
+
+;;;; Julia LSP
+;; This is needed for Julia LSP otherwise it crashes
+;; https://github.com/non-Jedi/lsp-julia/issues/35
+(setq lsp-enable-folding t)
+
+
+
+
+   #+end_src
+** Agenda
+
+* TODO Winner Mode
+
+* TODO Create a Deferred loading =.el=
+
+* Outshine Mode
+ 
+* Configure Garbage Collection
+  - [ ] Is it garbage collecting at startup?
+  - [ ] Is it garbage collecting during swoop or during loading org?
+  - [ ] Garbage colect at idle?
+
+
+* Installation Time
+    < 2 minutes for a fresh install on fast internet
+
+
+
+* Issues
+** Helm
+1. open `emacs -Q`
+2. Paste in the following lisp to install helm and ESS:
+    ```
+    ;; Set up straight
+
+    (defvar bootstrap-version)
+    (let ((bootstrap-file
+	   (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	  (bootstrap-version 5))
+      (unless (file-exists-p bootstrap-file)
+	(with-current-buffer
+	    (url-retrieve-synchronously
+	     "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	     'silent 'inhibit-cookies)
+	  (goto-char (point-max))
+	  (eval-print-last-sexp)))
+      (load bootstrap-file nil 'nomessage))
+
+    (straight-use-package 'helm) 
+    (straight-use-package 'ess) 
+
+    ;; (add-hook 'after-init-hook (lambda () (helm-mode 1)(message "Enabled Helm Mode")))
+
+    ```
+
+3. Evaluate the LISP with `M-x eval-buffer`
+4. Open an R file with `C-x C-f /tmp/file.R`
+5. Attempt to start an inferior process with `C-c C-z`
+  1. Emacs should report `helm-internal: Wrong type argument: window-live-p, nil`
+6. Disable helm-mode with `M-x helm-mode`
+8. Attempt to start an inferior process with `C-c C-z` and it should work
+* Styling
+
+  I considered something like:
+
+  #+begin_src elisp
+(custom-set-faces
+  '(org-level-1 ((t (:inherit outline-1 :height 1.7))))
+  '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+)
+  #+end_src
+
+  Or:
+
+  #+begin_src elisp
+(org-mode)
+;; Styling must be evaluated before
+(setq org-hidden-keywords '(title))
+;; set basic title font
+(set-face-attribute 'org-level-8 nil :weight 'bold :inherit 'default)
+;; Low levels are unimportant => no scaling
+(set-face-attribute 'org-level-7 nil  :inherit 'org-level-8)
+(set-face-attribute 'org-level-6 nil :inherit 'org-level-8)
+(set-face-attribute 'org-level-5 nil :inherit 'org-level-8)
+(set-face-attribute 'org-level-4 nil :inherit 'org-level-8)
+;; Top ones get scaled the same as in LaTeX (\large, \Large, \LARGE)
+(set-face-attribute 'org-level-3 nil :family 'unspecified :inherit 'org-level-8 :height 1.2) ;\large
+(set-face-attribute 'org-level-2 nil :family 'unspecified :inherit 'org-level-8 :height 1.44) ;\Large
+(set-face-attribute 'org-level-1 nil :family 'unspecified :inherit 'org-level-8 :height 1.728) ;\LARGE
+;; Only use the first 4 styles and do not cycle.
+(setq org-cycle-level-faces nil)
+(setq org-n-level-faces 4)
+;; Document Title, (\huge)
+(set-face-attribute 'org-document-title nil
+                    :height 2.074
+                    :foreground "Liberation Serif"
+                    :inherit 'org-level-8)
+
+  #+end_src
+
+  But in the end I was happier with just the defaults
+
+
+  The superstar-mode ones can also be changed:
+
+  #+begin_src elisp
+(add-hook 'org-mode-hook (lambda ()
+			   (org-superstar-mode 1)
+			    (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
+			     (setq org-superstar-item-bullet-alist
+			            '((?+ . ?•)
+			              (?* . ?➤)
+			              (?- . ?–)))
+			     (setq org-superstar-remove-leading-stars nil) ; This removes the indent
+						    (texfrag-mode 1)
+			   ))
+  #+end_src
+
+* Org Ref
+  Org-Ref must be =(require 'org-ref)= manually, it doesn't declare
+  autoloads properly, [[https://github.com/raxod502/straight.el#install-packages][See the Manual]]
+
+  It will load after 2 seconds of idle time, if you're already in an
+  org buffer that buffer must be reloaded with =M-x org-mode= in order
+  for org-ref to start working.
+
+  The alternative is loading it init and it adds a 0.4 second penalty,
+  so this way you get better startup and if =org-ref= is needed just
+  wait 2 seconds and it will come in as well.
+
+  The compromise being that I need to quickly open emacs more often
+  than I need to use org-ref and I don't always want to use the daemon
+  if I've been mucking around with some elisp.
+
+  

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Plus
+# key: pl
+# --
+
+ + $0

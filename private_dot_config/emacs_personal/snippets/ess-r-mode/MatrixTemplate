@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: matrix
+# key: mat
+# --
+
+a <- rbind(c("x" = 0, "y" = 2, "z" = 3),
+           c("x" = 0, "y" = 2, "z" = 3),
+           c("x" = 3, "y" = 2, "z" = 3))
