@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Markdown Anchor
+# key: ak                                
+# --
+
+<a name="${1:Link-Name (this is the target)}"></a>
+
+[${2: Display Text (this is the destination)}](#$1)

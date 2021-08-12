@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: R Markdown Code Block
+# key: rkd
+# --
+
+\`\`\`{r}
+$1
+\`\`\`
+$0

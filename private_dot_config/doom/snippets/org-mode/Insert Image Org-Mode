@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Insert Image Org-Mode
+# key: iim
+# --
+
+#+NAME: $1
+#+CAPTION: $2
+#+attr_html: :width 400px
+#+attr_latex: :width 0.5\textwidth
+[[$3
+
+$0

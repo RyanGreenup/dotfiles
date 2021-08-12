@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Dplyr Select Columnt
+# key: dps
+# --
+
+(${1: varname} <- ${2:dataframe} %>%
+    dplyr::select(${3:colname} == ${4:colvalue})
+
+$5

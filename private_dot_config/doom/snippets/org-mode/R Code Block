@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: R Code Block
+# key: rkd
+# --
+
+#+NAME: $1
+#+CAPTION: $2
+#+begin_src R
+$3
+#+end_src
+$0

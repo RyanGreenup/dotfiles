@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: sql source code block
+# uuid:
+# key: sql
+# condition: t
+# --
+
+#+begin_src sqlite :db ./Exam/Sample/testdb.sqlite
+select $1 as $2, $3 as $4,
+       from ($5)
+       group $6
+       limit $7
+       /* comments like this */
+       ;
+#+END_SRC
+
+$0

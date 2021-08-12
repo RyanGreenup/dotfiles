@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Julia Source
+# uuid: Julia-source-code-block
+# key: jl
+# condition: t
+# --
+
+#+begin_src julia :results output
+$1
+#+end_src
+
+$0

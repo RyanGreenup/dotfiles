@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Roman Math
+# key: rm
+# --
+
+\mathrm{$1} $0
