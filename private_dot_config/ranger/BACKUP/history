@@ -1,0 +1,50 @@
+shell mkdir RCSS
+find la
+flat
+r
+filter 0
+open_with md
+search .1
+search .rmd
+filter
+find 
+flat 4
+filter 1
+search Practical
+search *.rmd
+search rmd
+filter *.rmd
+fzf
+FZF
+bulkrename 
+search med
+search mint
+filter 
+flat -1
+search 
+filter .tex
+q
+open_with 
+rename 
+rename MathModNotes.tex
+filter [*.org|*.html]
+filter \.org|\.html
+!mkdir IntroDataSci
+
+shell mkdir IntroDataSci
+shell cd /home/ryan/Dropbox/Studies/IDCAssignment/SubmissionPaper/
+filter .org
+open_with kk
+find o
+search or
+shell cd .
+search read
+fif readme
+find n
+search us
+search juli
+open_with h
+delete
+search desk
+find unn
+search Un
