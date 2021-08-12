@@ -1,0 +1,13 @@
+include dracula.conf
+## include ./themes/3024_Day.conf
+/home/ryan/DotFiles/Kitty/.config/kitty/kitty.conf
+ include ./theme.conf
+font_family Source Code Pro
+bold_font        Source Code Pro
+italic_font      Source Code Pro Italic
+bold_italic_font Source Code Pro Bold Italic
+remember_window_size false
+initial_window_width  900
+initial_window_height 800
+focus_follows_mouse yes
+map ctrl+c copy_or_interrupt
