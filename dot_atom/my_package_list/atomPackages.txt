@@ -8,6 +8,7 @@ language-markdown@0.37.0
 language-r@0.4.2
 language-rust@0.4.12
 language-scheme@1.4.0
+markdown-preview-plus@4.11.1
 teletype@0.13.4
 vim-mode-clipboard-plus@0.3.0
 vim-mode-plus@1.36.6
