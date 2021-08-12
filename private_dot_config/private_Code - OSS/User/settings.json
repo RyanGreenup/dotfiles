@@ -47,5 +47,6 @@
         }
     ],
     "vim.foldfix": true,
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "terminal.integrated.fontFamily": "Fira Code"
 }

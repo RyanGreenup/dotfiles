@@ -1,4 +1,13 @@
+bmalehorn.vscode-fish
+golang.go
+Ikuyadeu.r
+James-Yu.latex-workshop
+julialang.language-julia
 kahole.magit
+mads-hartmann.bash-ide-vscode
+matklad.rust-analyzer
+ms-python.python
 vscodevim.vim
 VSpaceCode.vspacecode
 VSpaceCode.whichkey
+yzhang.markdown-all-in-one
