@@ -1,0 +1,9 @@
+[Unit]
+Description=sxhkd, simple X Hotkey Daemon for use with BSPWM
+
+[Service]
+ExecStart=/usr/bin/sxhkd
+
+
+[Install]
+WantedBy=default.target

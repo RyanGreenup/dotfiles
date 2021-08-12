@@ -1,0 +1,8 @@
+[Unit]
+Description=Rclone Webdav Server for Sync Directory
+
+[Service]
+ExecStart=/usr/bin/bash %h/Sync/.webdav/rclone.sh
+
+[Install]
+WantedBy=default.target
