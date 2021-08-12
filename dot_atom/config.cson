@@ -57,6 +57,7 @@
   core:
     disabledPackages: [
       "language-gfm"
+      "markdown-preview"
     ]
     packagesWithKeymapsDisabled: [
       "Hydrogen"
@@ -94,9 +95,9 @@
     mathConfig:
       enableLatexRenderingByDefault: true
       numberEquations: true
+    style: "github"
     syncConfig: {}
     syntaxThemeName: "atom-dark-syntax"
-    useGitHubStyle: true
   organized: {}
   "preview-inline": {}
   "spell-check":
