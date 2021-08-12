@@ -1,0 +1,23 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+## Program
+
+
+### Description
+# This will print 'Hello World' to the STDOUT.
+
+### Code
+    ## Zenity
+command=`zenity --title "Run commands" --entry --text "Command"`
+## Bash
+eval $command
+exit 0
+
+
+
+
+## vim:fdm=expr:fdl=0
+## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='
+

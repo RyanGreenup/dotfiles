@@ -1,0 +1,122 @@
+#! /usr/bin/env bash
+#
+## Author: Ryan Greenup <ryan.greenup@protonmail.com>
+
+# * Shell Settings
+set -o errexit  # abort on nonzero exitstatus
+set -o nounset  # abort on unbound variable
+set -o pipefail # don't hide errors within pipes
+
+## * Main Function
+main() {
+    setVars
+    arguments  "${@:-}" # Pass empty string if arguments are empty
+    openThings
+
+
+}
+
+## ** Helper Functions
+
+## ** Open Things
+openThings () {
+cd "${DIR}"
+echo "${TikzFile}" > "${FILE}"
+pdflatex "${FILE}" -shell-escape --interaction=nonstopmode > /dev/null
+zathura "${FILE_BASE}.pdf" & disown
+firefox 'https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ:_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing' 'https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ#Arcs' 'ryansnotes.org/dokuwiki' '' & disown
+echo 'latexmk -pdf -pvc -shell-escape --interaction=nonstopmode' # In case I don't want to use shell-escape
+nvim "${FILE}"
+}
+
+## *** Set variables almost globally
+
+setVars () {
+    readonly script_name=$(basename "${0}")
+    readonly script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+    IFS=$'\t\n'   # Split on newlines and tabs (but not on spaces)
+    DIR="$(mktemp -d)"
+    FILE_BASE="tikzpic"
+    FILE="${FILE_BASE}.tex"
+
+
+    TikzFile='% \documentclass[tikz, convert={density=300,size=1080x800,outext=out_pic.png}]{standalone}
+\documentclass[tikz]{standalone}
+\begin{document}
+\begin{tikzpicture}[color=black, domain = 0:10, scale = (2/3)]
+\draw (0,0) node(bl){} -- (4,0) node(br){} -- (4,4) node(tr){} -- (0,4) node(tl){} -- (0, 0);
+\end{tikzpicture}
+\end{document}
+
+% Use the following for live preview
+% latexmk -pdf -pvc -shell-escape --interaction=nonstopmode
+% convert -resize 1200x1200 -density 7200 -quality 75 file.pdf file.png
+% convert -resize 1200x1200 -density 7200 file.pdf file.svg
+
+'
+}
+
+## *** Interpret arguments
+arguments () {
+    while test $# -gt 0
+    do
+        case "$1" in
+            --help) Help
+                ;;
+            -h) Help
+                ;;
+            --opt3) echo "option 3"
+                ;;
+            --opt4) echo "option 4"
+                ;;
+            --opt5) echo "option 5"
+                ;;
+            --opt6) echo "option 6"
+                ;;
+            --opt7) echo "option 7"
+                ;;
+            --opt8) echo "option 8"
+                ;;
+            --opt9) echo "option 9"
+                ;;
+            --opt10) echo "option 10"
+                ;;
+            --*) echo "bad option "${1}" in "${script_name}""
+                ;;
+            *) echo -e "argument \e[1;35m${1}\e[0m has no definition."
+                ;;
+        esac
+        shift
+    done
+}
+
+## *** Print Help
+
+Help () {
+        # Display Help
+        echo "This opens everything needed for a tikz diagram"
+        echo
+        echo "Syntax: scriptTemplate [-g|h|t|v|V]"
+        echo "options:"
+#         echo "g     Print the GPL license notification."
+#         echo "h     Print this Help."
+#         echo "v     Verbose mode."
+#         echo "V     Print software version and exit."
+
+
+    echo
+    echo -e "    \e[3m\e[1m    tikznote \e[0m; Helpful Shell Scripts for Markdown Notes"
+    echo -e "    \e[1;31m -------------------------\e[0m "
+    echo
+
+    echo -e " \e[1;91m    \e[1m no Bindings \e[0m\e[0m \e[1;34m┊┊┊ \e[0m Description "
+    echo -e " ..............\e[1;34m┊┊┊\e[0m........................................... "
+    echo -e " \e[1;93m N/A \e[0m \e[1;34m   ┊┊┊ \e[0m N/A"
+    echo
+
+
+        exit 0
+}
+
+## * Call Main Function
+main "${@:-}"

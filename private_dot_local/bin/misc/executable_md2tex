@@ -1,0 +1,33 @@
+#! /bin/sh
+
+
+
+# Define the input as the first argument
+input=${1?Error: no file given}
+
+# Make the name the file name before the extension
+name=$(echo "$input" |cut -f 1 -d '.')
+nameout=$name"Conv"
+
+# Convert the given document to 'latex', make the output the
+    # name but with the different extension
+#pandoc $name.md -s -t latex -o $nameout.tex
+pandoc $input -s -f gfm -t latex $nameout.tex
+
+# Use vim to clean the document up, the macros are defined in the vimrc
+ex -e -c "normal! 99@z" -c wq $name.md
+#ex -e -c "normal! qz:/\\(\\begin{align}n%xxxxq" -c "normal! 99@z" -c wq $nameout.md
+
+#################################
+##########the vim commands#######
+##############################33
+
+
+#"This fixes the align environment from md to tex:
+#let @z=':/\\(\\begin{align}n%xxxx'
+
+
+# Be mindful that Typora does work, probably better than markdown, (stick to there format) and claim to use Github Flavoured Markdown `gfm`
+
+
+

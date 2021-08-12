@@ -1,0 +1,3 @@
+#!/bin/bash 
+echo $(xclip -o | pandoc -f markdown -t mediawiki)
+

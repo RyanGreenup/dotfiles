@@ -1,0 +1,14 @@
+#!/bin/bash
+echo '
+xclip -selection clipboard -o |\
+pandoc -f dokuwiki -t org |\
+cat - <(echo "#+OPTIONS: H:5") |\
+xclip -selection clipboard 
+'
+
+xclip -selection clipboard -o |\
+pandoc -f dokuwiki -t org |\
+cat - <(echo "#+OPTIONS: H:5") |\
+xclip -selection clipboard 
+
+

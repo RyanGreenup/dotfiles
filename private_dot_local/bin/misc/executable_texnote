@@ -1,0 +1,63 @@
+#!/bin/bash
+set -e
+
+# Copy the File Template
+#cp ~/Templates/LaTeX.tex .
+
+
+# Test that the directory is empty
+if [ -z "$(ls -A .)" ]; then
+   echo "Empty"
+else
+    echo "Directory Not Empty, Press y to continue"
+    read -p 'Continue?: ' continue 
+    if [ $continue != 'y' ]; then
+        exit 1
+    fi
+fi
+
+# Copy the File Template
+echo "Please enter a filename 💼: "
+read -p 'Filename: ' filename 
+cp ~/Templates/LaTeX/LaTeX.tex ./$filename.tex
+
+
+#Change the Heading
+echo "Please enter a Document Heading: "
+read -p 'Title ␁: ' title 
+sed -i "s/Title913498432198/$title/g" $filename.tex
+
+echo runlatex
+#Compile the latex
+pdflatex -interaction=nonstopmode $filename.tex && disown #&& disown #use && not &, must wait for it to finish or zathura cannot load
+
+echo hidefiles
+#hide latex files in directory
+ls *.aux *.bbl *.blg *.brf *.lof *.log *.lot *.out *.toc -1 > .hidden & disown
+
+echo setwindow
+# Before using `setwindow`
+
+command -v wmctrl >/dev/null 2>&1 || { echo >&2 "I require wmctrl but it's not installed.  it can be installed with sudo apt wmctrl, the windows will be unaligned!."; exit 1; }
+
+
+
+echo openzathura
+#Preview PDF
+#zathura $filename.pdf & disown
+# I found a python script online that will resize the window
+if hash wmctrl 2>/dev/null; then
+    setwindow "zathura "$filename.pdf"" 960 0 50 100 & disown
+else
+    echo "I require wmctrl but it's not installed.  it can be installed with sudo apt wmctrl, the windows will be unaligned!."
+    zathura "$filename.pdf"
+fi
+
+
+#setwindow "zathura "$filename.pdf"" 960 0 50 100 & disown
+
+
+
+echo opennvim
+#Open in Vim
+nvim +173 $filename.tex

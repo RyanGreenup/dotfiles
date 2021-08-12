@@ -1,0 +1,50 @@
+#!/bin/bash
+
+xclip -o -selection clipboard | pandoc -f mediawiki -t org | xclip -selection clipboard
+
+## # Print Help
+## if [ "$1" == "-h" ]; then
+##     echo "Usage: `basename $0` <Format> <CSS>"
+##     style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+##     exit 0
+## fi
+##
+## # Make a working File from clipboard
+## filename=lkjdskjjalkjkj392jlkj
+## xclip -o -selection clipboard >> $filename
+## LocalFile=$filename.org
+##    # LocalFilename=$(echo $LocalFile |cut -f 1 -d '.')
+##
+##
+## #    if [[ "$2" == "" ]]; then
+## #        style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+## #        echo "This is using Default Style with Org Support"
+## #    else
+## #        style=$2
+## #        echo "The stylesheet is" $2
+## #    fi
+##
+## pandoc -s  -f org -t mediawiki $filename -o $filename
+##
+## ## echo "
+## ## This was converted from =org= to =md= using =pandoc -t gfm= at time:
+## ## $(date --utc +%FT%H-%M-%S)
+## ## " >> $filename
+##
+## cat $filename | xclip -selection clipboard
+## rm $filename
+##
+## #nv & disown
+## echo "Conversion from Org Successful, MD is in Clipboard"
+##
+## exit 0
+##
+## #emacs -Q & disown
+## #gedit & disown
+## #gnome-terminal -- nvim & disown # Nah because it won't start in org-mode
+## #emacs # Too heavy
+##
+## ## I should be able to do but I haven't had any luck with that for some reason:
+## #   alias o2w='xclip -o -selection clipboard | \
+## #   pandoc -f org -t mediawiki | \
+## #   xclip -selection clipboard'

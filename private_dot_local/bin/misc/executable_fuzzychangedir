@@ -1,0 +1,59 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+# This only echos the directory, make an alias in whichever
+# shell you like
+
+#This will fuzzy find over a directory and preview the file to the side,
+# when you press enter on that file it will open it in vim.
+
+# This would be perfect if I could have fuzzy find
+   #search the words as well like :Ag does
+
+## Program 
+
+### Help Statement
+if [ "$1" == "-h" ]; then
+  echo " "
+  echo "This is written in bash but compatible with all shells"
+  echo " "
+  echo " -g will search all dir globally"
+  echo "Usage in bash/zsh:  cd \"$`basename $0`\" "
+  echo "Usage in fish: cd (`basename $0`) "
+  echo " "
+  echo "This is shell agnostic, because it performs a Dir Change it can be a pain in the ass to escape subshell, rather this should be a function inside a shell config (but I haven't decided which shell to stick with) and/or an alias, I'd recommend just doing an alias so that bash scripts will stand the test of time"
+  exit 0
+fi
+
+### Global
+if [ "$1" == "-g" ]; then
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+echo "$dir"
+}
+fd
+exit 0
+fi
+
+### Local
+# adjust maxdepth to better define what you mean by 'local'
+fd() {
+  dir=`find * -maxdepth 6 -type d -print 2> /dev/null | fzf-tmux` \
+    && cd "$DIR"
+echo "$dir"
+}
+fd
+
+
+### Exit the script
+# If I don't exit the script I can't pipe this into things
+exit 1
+
+
+
+
+## vim:fdm=expr:fdl=0
+## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='

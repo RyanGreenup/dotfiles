@@ -1,0 +1,18 @@
+#!/bin/bash
+OUTPUT_FORMAT="markdown_github+tex_math_dollars --markdown-headings=atx"
+
+# Print Help
+if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` <Format> <CSS>"
+    style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+    exit 0
+fi
+
+
+xclip -sel clip -o  | pandoc -f org -t gfm+tex_math_dollars  --markdown-headings=atx | xclip -sel clip
+
+#emacs -Q & disown
+#gedit & disown
+#gnome-terminal -- nvim & disown # Nah because it won't start in org-mode
+#emacs # Too heavy
+

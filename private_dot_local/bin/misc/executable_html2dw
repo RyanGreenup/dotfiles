@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo '
+xclip -selection clipboard -o |\
+pandoc -f html -t dokuwiki |\
+xclip -selection clipboard 
+'
+
+xclip -selection clipboard -o |\
+pandoc -f html -t dokuwiki |\
+xclip -selection clipboard 
+

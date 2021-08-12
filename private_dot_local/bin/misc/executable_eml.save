@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Make a working File from clipboard
+xclip -o -selection clipboard >> myemail
+
+# Decide the format
+if [ "$1" == "-h" ]; then
+  echo "Usage: `basename $0` <Format> <CSS>"
+  style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+  exit 0
+elif [[ "$1" == *-m* ]]; then
+    mv myemail myemail.md
+    EmailFile=myemail.md
+    if [[ "$2" == "" ]]; then
+        style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+        echo "This is using Default Style with Org Support"
+    else
+        style=$2
+        echo "The stylesheet is" $2
+    fi
+elif [[ "$1" == *-o* ]]; then
+    mv myemail myemail.org
+    EmailFile=myemail.org
+    if [[ "$2" == "" ]]; then
+        style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+        echo "This is using Default Style with Org Support"
+    else
+        style=$2
+        echo "The stylesheet is" $2
+    fi
+elif [[ "$1" == *-t* ]]; then
+    echo "This is TeX input"
+     if [[ "$2" == "" ]]; then
+        style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+        echo "This is using Default Style with Org Support"
+     else
+        style=$2
+        echo "The stylesheet is" $2
+    fi
+     # DONE can I just use --standalone with pandoc?
+     # I could but sometimes it doesn't embed the CSS unless
+     # all the mathml works out, so, you might as well manually embed the CSS
+     # embedding all the SVG is the real work, but, I've already done it.
+mv myemail myemail.tex
+
+#TODO Use `sed` or `sd` to replace $$\begin{aligned} \end{aligned}$$ with \begin{align} \end{align}
+
+t2h myemail.tex $style -std --mathml 
+ # pandoc --mathml --from latex+raw_tex --standalone --toc -c $style --lua-filter ~/bin/tikz.lua -s myemail.tex -o myemail.html
+   # This will not include the svg files, instead you need to use ~sed~ to put them inside the HTML, I'm not going to do that here, instead I'm going to do that inside the `svgmerge` script, that way it's all maintained in one script.
+rm myemail.tex
+ echo "<style>" >> myemail.html 
+ cat ~/Dropbox/profiles/Emacs/org-css/github-org.css >> myemail.html
+ echo "</style>" >> myemail.html
+cat myemail.html | xclip -selection clipboard
+ rm myemail.html
+ echo "Success, Clipboard is HTML with CSS:" $stlye
+ exit 0 # I might want to restructure this, exiting here is not very clean.
+else
+    mv myemail myemail.org
+    EmailFile=myemail.org
+fi
+
+
+pandoc -s --toc --self-contained --mathml $EmailFile -o myemail.html
+rm $EmailFile
+# 
+# ## CSS
+# #You will obviously need to add a CSS to the html or it will look like garbage, when you tell pandoc to do that it will sometimes fail to include the css if there is an issue with the `mathml`, which there almost always is, so, just include the CSS seperately.
+# #
+# #> Be mindful that you will want to use a CSS coresponding to an `org-file` if you use `org` that way to-do items and schedules will come out looking sensible.
+# 
+ echo "<style>" >> myemail.html 
+ cat ~/Dropbox/profiles/Emacs/org-css/github-org.css >> myemail.html
+ echo "</style>" >> myemail.html
+ cat myemail.html | xclip -selection clipboard
+ rm myemail.html
+
+#TODO Add support for Custom CSS and markdown/tex files
+
+thunderbird --compose "body='TODO Figure out how to copy into here',format='html'"

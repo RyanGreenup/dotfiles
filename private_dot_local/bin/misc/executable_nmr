@@ -1,0 +1,7 @@
+#! /bin/bash
+
+nautilus ~/Dropbox/Studies/NMR-Project/ & disown
+mathematica & disown
+emacs & disown
+exit 0
+

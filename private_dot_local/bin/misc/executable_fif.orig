@@ -1,0 +1,33 @@
+<<<<<<< HEAD
+#!/bin/zsh
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+
+## Test for Dependencies
+
+  command -v rg >/dev/null 2>&1 || { echo >&2 "I require RipGrep but it's not installed.  Aborting."; exit 1; }
+ command -v highlight >/dev/null 2>&1 || { echo >&2 "I require highlight but it's not installed. install it with sudo apt install highlight  Aborting."; exit 1; }
+ command -v mdcat >/dev/null 2>&1 || { echo >&2 "I require mdcat but it's not installed. install it with cargo install mdcat Aborting."; exit 1; }
+ command -v fzf >/dev/null 2>&1 || { echo >&2 "I require fzf but it's not installed.  Aborting."; exit 1; }
+
+#if [[  !(command -v highlight) ]]; then
+#	echo "you need to install highlight first"
+
+## Program 
+
+### Input Test
+# Theres no point using this if there is no recursive term to search for,
+# Give an error if that's the case:
+#  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+
+### Searching
+#
+## rg --files-with-matches --no-messages "$1" | fzf --bind pgup:preview-page-up,pgdn:preview-page-down  --preview "mdcat {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1'"
+
+
+sk --ansi --bind pgup:preview-page-up,pgdn:preview-page-down  --preview "mdcat {}" -i -c 'rg --follow --color=always --line-number -l"{}" .'
+=======
+#!/bin/bash
+FindInFile.sh ./
+>>>>>>> 6dcd5c092aaf4747c36d748e8fcd5e280a8466fd

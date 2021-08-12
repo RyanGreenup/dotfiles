@@ -1,0 +1,27 @@
+#/bin/bash
+
+#xdg-open '/home/ryan/Dropbox/Studies/IntrotoDataSci' & disown
+nautilus '/home/ryan/Dropbox/Studies/IntrotoDataSci' & disown
+rstudio & disown
+
+#xdg-open 'https://www.datacamp.com/home' & disown
+xdg-open '/home/ryan/Dropbox/Studies/IntrotoDataSci/Textbook(2).pdf'  & disown
+boostnote & disown
+notable & disown
+firefox https://vuws.westernsydney.edu.au & disown
+
+
+######### Temporary / Current Files
+
+
+#xdg-open'/home/ryan/Dropbox/Studies/IntrotoDataSci/Practicals/03_Solutions.pdf' & disown
+#xdg-open '/home/ryan/Dropbox/Studies/IntrotoDataSci/Practicals/03_Tutorial.pdf' & disown
+#xdg-open '/home/ryan/Dropbox/Studies/IntrotoDataSci/Practicals/03_Practical.Rmd' & disown
+#
+#
+
+
+cd /home/ryan/Dropbox/Studies/IntrotoDataSci/ExamProject/temp
+vim '/home/ryan/Dropbox/Studies/IntrotoDataSci/ExamProject/temp/Scratch.tex' 
+
+

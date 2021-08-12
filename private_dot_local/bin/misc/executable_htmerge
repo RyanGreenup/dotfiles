@@ -1,0 +1,56 @@
+#!/bin/bash
+
+inputhtml=$1
+inputcss=$2
+
+#Add top Style Tags
+ echo '
+ 
+ <style>
+
+ 
+ "text/css"
+ 
+
+ ' >> $inputhtml
+
+# Cat needs a new file
+ cat $inputhtml $inputcss  >> temp.html
+
+# Add a style tag at the end
+ echo "
+ </style>
+ " >> temp.html
+      # sed -i '$a </style>' temp.html
+
+# delete and rename the file
+rm $inputhtml
+mv temp.html  $inputhtml
+
+
+# things that didn't work out
+            #sed doesn't like multi lines
+                  #vim might have worked well here
+      # A problem i was having was the VSCode wasn't
+            #saving because of the vim overlay,
+            # that's why I was having so much trouble
+            # with everything.
+
+#sed -i "s/l/ARRRRRRRRRRRRRRRRRRRRRRRHHHHHGGG/g" ./output.html 
+
+#sed -i "s/<style>(?s).*<\/style>/ARRRRRRRRRRRRRRRRRRRRRRRHHHHHGGG/g" ./output.html 
+#perl -i -pe 's/<style>[\s\S]+<\/style>/MYTEXT/g;'  output.html
+
+#Working Regex
+#<style>(?s).*<\/style>
+#<style>[\s\S]+<\/style> # sed does not support [\s\S] which is just rediculous
+
+
+
+
+
+
+
+
+
+

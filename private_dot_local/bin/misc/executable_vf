@@ -1,0 +1,35 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+
+#This will fuzzy find over a directory and preview the file to the side,
+# when you press enter on that file it will open it in vim.
+
+# This would be perfect if I could have fuzzy find
+   #search the words as well like :Ag does
+
+## Program 
+
+
+### Input Test
+# Theres no point using this if there is no recursive term to search for,
+# Give an error if that's the case:
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+
+### Searching
+nvim "$(rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}")"
+
+# Because of spaces you always have to do:
+#     `yourcommand "$filename"
+
+### Exit the script
+# If I don't exit the script I can't pipe this into things
+exit 1
+
+
+
+
+
+## vim:fdm=expr:fdl=0
+## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='

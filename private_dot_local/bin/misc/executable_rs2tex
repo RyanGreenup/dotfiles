@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Include a help statment
+if [ "$1" == "-h" ]; then
+  echo "Usage: `basename $0` <md>  "
+  echo "The md file should be an export from rstudio,
+  this doesn't do anything about math etc', look at ~/bin/md2tex but that's rough"
+  exit 0
+fi
+
+
+# Make the name the file name before the extension
+name=$(echo $1 |cut -f 1 -d '.')
+nameout=$name
+
+
+pandoc --toc --listings -s $1 -o $nameout.tex && pdflatex $nameout.tex
+xdg-open $nameout.pdf & disown
+
+# Make the name the file name before the extension
+#name=$(echo "$input" |cut -f 1 -d '.')
+#nameout=$name"Conv"
+
+#pandoc --toc --listings -s $1 -o mytex.tex && pdflatex mytex.tex
+#xdg-open mytex.pdf
+
+#
+## As for variables only if not specified
+#if [ "$1" != *".tex" ]; then
+#    echo "Please Give me a *.TeX file, You can't drag and drop,
+#            Probably just restart and feed as an argument where:
+#            t2h TeX CSS"
+#    read -p 'Filename: ' texfile
+#    echo "Please give me a CSS Stylesheet"
+#    read -p 'Filename: ' stylesheet
+#else
+#    texfile=$1
+#    stylesheet=$2
+#fi
+#
+#
+#
+#
+## Make the name the file name before the extension
+#name=$(echo "$texfile" |cut -f 1 -d '.')
+#nameout=$name".html"
+#
+##Perform pandoc
+#  #This doesnt work with tikz
+#    #pandoc -s --mathjax --toc -c $stylesheet $texfile -o $nameout
+#
+##This does work with tikz
+#pandoc --mathjax --from latex+raw_tex --toc -c $stylesheet --lua-filter ~/bin/tikz.lua -s $texfile -o $nameout
+#    #The lua script was taken from https://pandoc.org/lua-filters.html#building-images-with-tikz
+#
+#if [ "$3" == "-std" ]; then
+#  svgMerge $nameout
+#fi
+#
+##Merge in the Stylesheet
+#htmerge $nameout $stylesheet

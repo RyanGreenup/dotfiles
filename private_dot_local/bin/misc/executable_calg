@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#typora ~/Dropbox/Analysis/MD_Working_Directory
+#gvim ~/Dropbox/Analysis/MD_Working_Directory
+#nemo ~/Dropbox/Analysis/MD_Working_Directory
+#gvim ~/Dropbox/Studies/MathModelling/Notes/
+
+xdg-open /home/ryan/Dropbox/Studies/CompAlg/Working & disown
+xdg-open /home/ryan/Dropbox/Studies/CompAlg/Working/04_Problems/04_Exercises/04_ExercisesPureTex & disown
+xdg-open '/home/ryan/Dropbox/Studies/CompAlg/ClassCodes/AllCodes.pdf' & disown
+
+
+
+mathematica & disown
+boostnote & disown
+
+
+# Open the Textbook:'/home/ryan/Dropbox/Studies/CompAlg/WolframTB_Hazrat.pdf' 
+
+xdg-open ~/Dropbox/Studies/CompAlg/WolframTB_Hazrat.pdf 
+

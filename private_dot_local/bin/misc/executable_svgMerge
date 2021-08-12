@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#svgfile=9d9af7b10ca33c3d1bf4e525a1e32af0a2dc5a9a.svg
+htmlfile=$1
+
+command -v pdf2svg >/dev/null 2>&1 || { echo >&2 "I require pdf2svg but it's not
+installed. If you're on Ubuntu or Arch it should be in the repos so try
+something like sudo apt install pdf2svg or sudo pacman -Syu pdf2svg or whatever.  Aborting."; exit 1; }
+
+if [ "$1" == "-h" ]; then
+  echo "`basename $0` <SVG> <HTML>"
+  exit 0
+fi
+
+# for consistency recreate the html file
+t2h doseReport.tex github-pandoc.css > t2h.log 2> /dev/null
+rm -f t2h.log
+
+ls *svg >> pics.txt
+for value in $(cat pics.txt)
+do
+  svgfile=$value
+
+#Specify the specific Regex to remove
+oldtext="<p><img src=\"$svgfile\" \/><\/p>" # This might have been causing issues
+#oldtext="$svgfile"
+
+#capture the text of the svg
+svtext="$(cat $svgfile)" # This won't work
+echo $(sed '' $svgfile) # this won't work either, we
+                            #need to escape special characters
+newtext=$(sed 's@[/\&]@\\&@g;$!s/$/\\/' $svgfile)
+#newtext="=========="
+# https://unix.stackexchange.com/a/152192
+    #basically the 's@[/\&]@\\&@g;$!s/$/\\/' is necessary to
+      #escape all the misbehaved characters
+
+
+# Identify the line in the html
+     # sed -i -e "s/$oldtext/====/g" doseReport.html
+
+# Replace the line
+ sed -i -e "s/$oldtext/$newtext/g" $htmlfile
+
+ # Remove the svg
+ rm $svgfile
+done
+rm pics.txt

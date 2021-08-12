@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ if [[ "$1" == "" ]]; then
+ 	echo "Warning: No argument given, opening Org index"
+	emacsclient --create-frame  ~/Notes/Org/index.org & disown
+elif [[ "$1" != "" ]]; then
+ 	echo "Opening $1"
+       emacsclient --create-frame $1 & disown
+else
+  echo "logic error in `basename $0` "
+fi
+
+
+
+

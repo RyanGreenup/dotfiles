@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+# Make a working File from clipboard
+filename=alkdjk43o8u98dslkj
+xclip -o -selection clipboard >> $filename
+LocalFile=$filename.html
+   # LocalFilename=$(echo $LocalFile |cut -f 1 -d '.')
+
+
+pandoc -f html -t markdown $filename -o $filename
+
+
+
+cat $filename | xclip -selection clipboard
+rm $filename 
+
+echo "Conversion from HTML Successful, MD is in Clipboard"
+
+exit 0
+
+

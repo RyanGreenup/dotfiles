@@ -1,0 +1,36 @@
+#!/bin/bash
+BIBFILE="/home/ryan/Sync/Notes/ref.bib"
+
+# ............................................................
+#  Define Main Function  .....................................
+# ............................................................
+main () {
+    bibtex-ls "${BIBFILE}" |\
+        fzf --multi --ansi |\
+	bibtex-cite |\
+	xclip -sel clip
+}
+
+
+# ............................................................
+#  Test for Dependencies .....................................
+# ............................................................
+testDepend () {
+    for i in ${StringArray[@]}; do
+        command -v "$i" >/dev/null 2>&1 || { echo >&2 "I require $i but it's not installed.  Aborting."; exit 1; }
+    done
+}
+
+
+declare -a StringArray=(
+                        "bibtex"
+                        "fzf"
+                        "bibtex-cite"
+                        "xclip"
+                       )
+
+
+
+# Run Functions ----------------------------------------------
+testDepend
+main

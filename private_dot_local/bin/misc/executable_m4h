@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Create the Config File
+echo "\Preamble{xhtml,mathml}
+\Configure{@HEAD}{%
+\HCode{<script type="text/javascript"
+   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_CHTML">
+ </script>\Hnewline}}
+\begin{document}
+\EndPreamble" > mathjax.cfg
+
+    # you could link to the master at ~/Dropbox/profiles/latex/mathjax.cfg
+        # the reason I didn't was because each file may need customisation.
+
+# Ask for the input file
+echo Drag and Drop File
+read filename
+dir=$(cd -P -- "$(dirname -- "$filename")" && pwd -P)
+
+#Change Directory
+cd $dir
+#echo pwd
+
+#Run command
+#make4ht -c ./mathjax.cfg $filename 
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+## Program
+
+#emacsclient -a env XLIB_SKIP_ARGB_VISUALS=1  emacs -c ~/Dropbox/Notes/MD/notes/index.md & disown
+#emacsclient -c ~/Dropbox/Notes/MD/notes/index.md --alternate-editor=$(env XLIB_SKIP_ARGB_VISUALS=1  emacs) & disown 
+#--alternate-editor=$(env XLIB_SKIP_ARGB_VISUALS=1  emacs)
+
+if pgrep emacs 2>/dev/null; then
+    echo "Emacs Server Found"
+    emacsclient -c ~/Dropbox/Notes/MD/notes/index.md  & disown 
+else
+    echo "Emacs not Running, starting new instance"
+    emacsclient   --alternate-editor=$(env XLIB_SKIP_ARGB_VISUALS=1  emacs)-c ~/Dropbox/Notes/MD/notes/index.md  & disown 
+
+fi
+
+### Description
+# # This will create a new note in the dropbox folder and name it according to the time it was created
+# 
+# 
+# if [[ $1 == "" ]]; then
+#   # ### Ask for a title
+#   echo "Please input a FileName NO SPACES"
+#   read NoteFileName
+# else
+# # First Argument becomes note title
+# NoteFileName=$1
+# fi
+# 
+# 
+# 
+# ### Code
+# notefile=~/Dropbox/Notable/notes/$NoteFileName.md 
+# # firefox & disown # Open previewer
+# 
+# #nvim  ~/Dropbox/Notable/notes/$(date --utc +%FT%H-%M-%S).md
+# # touch  $notefile
+# # 
+# # 
+# # 
+# # if $(sed -n 2p < "$notefile"); then
+# #     echo "Please input a NoteTitle"
+# #     read NoteTitle
+# #     echo "---
+# # title: $NoteTitle
+# # pinned: false
+# # tags: [TerminalNotes, Notebooks/TerminalNotes]
+# # ---
+# # " >> $notefile
+# #    echo "Added a YAML"
+# # else
+# #     echo "The file has text on the second line"
+# # fi
+# # 
+# # #nvim +6 $notefile
+# # nvim + $notefile
+# # 
+# # 
+# # 
+# # 
+# # ## vim:fdm=expr:fdl=0
+# # ## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='
+# # 

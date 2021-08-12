@@ -1,0 +1,13 @@
+#!/bin/bash
+
+vim '/home/ryan/Dropbox/Studies/MathModelling/Notes/Diffeq/latex_working/00_master.tex' & disown
+
+xdg-open '/home/ryan/Dropbox/Studies/MathModelling/Notes/Diffeq/latex_working' & disown
+
+xdg-open '/home/ryan/Dropbox/Studies/MathModelling'  & disown
+
+xdg-open '/home/ryan/Dropbox/Notability/Modelling With DiffEq' & disown
+# So you neither nautilus or nemo support opening mutliple tabs from the command line,
+
+# xdg-open has the advantage of using what's installed rather that
+    #requiring nemo/nautilus whatever

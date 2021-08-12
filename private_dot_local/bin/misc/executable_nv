@@ -1,0 +1,133 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+## Program
+
+
+### Description
+# This will create a new note in the dropbox folder and name it according to the time it was created
+
+
+### Code
+
+# Ranger isn't ideal because I can't preview mathematics
+#ranger ~/Dropbox/Notable/notes/
+   # For pure coding notes I'd just use Boostnote anyway,
+   # it's more likely that I will have math notes in my free MD files,
+   # so, being able to see the math is crucial.
+
+# Instead Use Visual Studio because it is FOSS!!! :)
+#gnome--terminal -- $(cd ~/Dropbox/Notes/)
+#notable & disown
+#code ~/Dropbox//Notes/MD/notes/ & disown
+
+cd ~/Notes/MD
+
+
+
+# This will need to be adjusted for university
+# Current ip address
+#ipaddress= $(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+   # ifconfig is deprecated
+ipaddress=$(hostname -I | awk '{print $1}') # Refer to  [[https://opensource.com/article/18/5/how-find-ip-address-linux]]
+ip="$(ifconfig | grep -A 1 'wlan0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
+ehco $ip 
+if [[ "$ip" == *"192.168.0.134"* ]]; then
+#    echo "If test works"
+    echo ""
+#    mkdocs serve --dev-addr 192.168.0.134:8111 --dirtyreload
+else
+    echo ""
+#    echo "Ip Address doesn't match, using LocalHost"
+#    mkdocs serve --dirtyreload # Using --dirtyreload improves refresh time from ~10 s to ~2 s
+fi
+
+
+
+
+# Just put an if test here!!!!
+#mkdocs serve --dev-addr 192.168.0.134:8111 --dirtyreload
+
+kitty -- nvim  & disown
+# boostnote ; notable & disown
+
+
+echo "
+
+Use Cairo-Dock to put Boostnote / Notable in the tray so that there in memory.
+
+Browse notes with:
+
+    * ranger / vim (open with SPC f f)
+        * preview with SPC v (global access , change in ~/.vimrc)
+    * ! typora . & disown
+    * ! code. & disown
+
+Edit notes in:
+
+    * emacs
+        ! emacs . & disown
+    * code
+    * typora
+    * Notable
+    * Boostnote
+
+	are you at home?
+
+     h... Yes, I'm at Home so Serve MkDocs on 192.168.1.134:8111
+     n... No, serve it on LocalHost
+     p... No, I'm on my Hotspot
+     a... Abort
+	"
+# Take the next single keystroke
+read -d'' -s -n1
+type=$REPLY
+
+# reassign type to the corresponding keystroke
+
+if [[ $type == h ]]; then
+		echo ""
+		echo "will serve MkDocs on 192.168.1.134 because device is at home and with a static IP"
+    echo "TODO make this just test for the static IP outright"
+    echo ""
+    echo 'qrencode -t UTF8 "http://192.168.0.134:8111"; mkdocs serve --dev-addr 192.168.0.134:8111'
+    qrencode -t UTF8 "http://192.168.0.134:8111"
+    read -n 1 -s -r -p "Press any key to continue"
+    mkdocs serve --dev-addr 192.168.0.134:8111 --dirtyreload
+elif [[ $type == n ]]; then
+		echo ""
+		echo "will serve MkDocs on LocalHost"
+    echo "TODO make this just test for the static IP outright"
+    echo ""
+    echo "mkdocs serve --dev-addr localhost:8000"
+    mkdocs serve --dev-addr localhost:8000 --dirtyreload
+elif [[ $type == p ]]; then
+		echo ""
+		echo "will serve MkDocs on LocalHost"
+    echo "TODO assign a static IP address for Hotspot,
+            I can get iamcco to work on hotspot, but, not mkdocs serve?"
+    echo "TODO make this just test for the static IP outright"
+    echo ""
+    echo 'qrencode -t UTF8 "http://192.168.0.134:8111"; mkdocs serve --dev-addr 192.168.0.134:8111'
+    qrencode -t UTF8 "http://192.168.0.134:8111"
+    read -n 1 -s -r -p "Press any key to continue"
+    mkdocs serve --dev-addr 192.168.0.134:8111 --dirtyreload
+elif [[ $type == a ]]; then
+    echo "borting"
+else
+		echo "
+		   Correct input not detected.
+		   either specify an argument or press the corresponding key,
+       TODO specify an argument option
+		   refer to the help with `basename $0` -h.
+		   "
+		exit 0
+fi
+exit 0 # 0 is success
+
+
+
+## vim:fdm=expr:fdl=0
+## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='
+

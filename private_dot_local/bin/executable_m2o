@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+# Print Help
+if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` <Format> <CSS>"
+    style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+    exit 0
+fi
+
+
+xclip -sel clip -o |\
+pandoc -s -f markdown -t org  |\
+xclip -sel clip
+
+
+exit 0
+
+#emacs -Q & disown
+#gedit & disown
+#gnome-terminal -- nvim & disown # Nah because it won't start in org-mode
+#emacs # Too heavy
+

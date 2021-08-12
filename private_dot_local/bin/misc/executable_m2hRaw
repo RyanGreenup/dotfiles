@@ -1,0 +1,41 @@
+#!/bin/bash
+
+
+# Print Help
+if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` <Format> <CSS>"
+    style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+    exit 0
+fi
+
+# Make a working File from clipboard
+filename=alkdjk43o8u98dslkj
+xclip -o -selection clipboard >> $filename
+LocalFile=$filename.html
+   # LocalFilename=$(echo $LocalFile |cut -f 1 -d '.')
+
+
+#    if [[ "$2" == "" ]]; then
+#        style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+#        echo "This is using Default Style with Org Support"
+#    else
+#        style=$2
+#        echo "The stylesheet is" $2
+#    fi
+
+pandoc -f markdown -t html $filename -o $filename
+
+
+
+cat $filename | xclip -selection clipboard
+rm $filename 
+
+echo "Conversion from MD Successful, HTML is in Clipboard"
+
+exit 0
+
+#emacs -Q & disown
+#gedit & disown
+#gnome-terminal -- nvim & disown # Nah because it won't start in org-mode
+#emacs # Too heavy
+

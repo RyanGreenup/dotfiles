@@ -1,0 +1,21 @@
+#!/bin/bash
+# Don't forget to adjust the permissions with:
+#chmod +x ~/somecrazyfolder/script1
+
+## Program
+
+
+### Description
+# This will run the RScript in the not directory to list the yaml tags, this R script requires rmarkdown and dplyr
+
+# You MUST cd because that's where the R script obtains the Working Directory
+cd  ~/Dropbox/Notable/notes
+Rscript ./ListTags.R
+
+
+
+
+exit 0
+
+#~/Dropbox/Notable/notes/Rscript/ListTags.R
+

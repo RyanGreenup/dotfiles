@@ -1,0 +1,16 @@
+#!/bin/bash
+
+firefox  https://github.com/Kungsgeten/org-brain & disown
+firefox https://www.datacamp.com/users/sign_in & disown
+firefox https://docs.juliadiffeq.org/latest/basics/plot/ & disown
+firefox https://plot.ly/python/getting-started/ & disown
+emacs & disown
+boostnote & disown
+gxmessage "linux Book" & disown
+
+
+
+
+
+
+

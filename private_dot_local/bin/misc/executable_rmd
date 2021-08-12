@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+
+# Test that bcat is installed
+   # Don't use `which` use `command`
+      # https://stackoverflow.com/a/677212/10593632
+
+      command -v bcat>/dev/null 2>&1 || { echo >&2 
+      "I require bcat but it's not installed.  Aborting. 
+      it can be installed with: 
+      
+      gem install bcat 
+      
+      refer to the Github:
+          https://github.com/rtomayko/bcat"; exit 1; }
+
+
+
+# Test that firefox is installed
+   # Don't use `which` use `command`
+      # https://stackoverflow.com/a/677212/10593632
+
+      command -v firefox>/dev/null 2>&1 || { echo >&2 
+      "I require firefox but it's not installed.  Aborting. 
+      it can be installed with: 
+      
+      sudo apt install firefox
+      
+       Must be firefox or safari because chromium does not support mathml "; exit 1; }
+
+# Read Markdown Files
+
+
+#pandoc $1 --mathml -H ~/Dropbox/profiles/Templates/CSS/gitOrgWrapped.css  | bcat -h
+
+
+# With WebTeX
+#pandoc $1 --webtex -H ~/Dropbox/profiles/Templates/CSS/gitOrgWrapped.css  | bcat -h
+
+# With MathJax
+#pandoc $1 --mathjax -H ~/Dropbox/profiles/Templates/CSS/gitOrgWrapped.css  | bcat -h
+
+# Without CSS
+#pandoc $1 --mathml  | bcat -h
+
+# With Lynx
+pandoc $1 --mathml  | lynx -stdin
+
+

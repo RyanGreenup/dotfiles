@@ -1,0 +1,32 @@
+#! /bin/sh
+
+# Define the input as the first argument
+input=${1?Error: no file given}
+
+# Make the name the file name before the extension
+name=$(echo "$input" |cut -f 1 -d '.')
+nameout=$name"Conv"
+
+# Convert the given document to 'gfm', make the output the
+    # name but with the different extension
+pandoc -s $input -t gfm -o $nameout.md
+
+# Use vim to clean the document up, the macros are defined in the vimrc
+#ex -e -c "normal! 99@a" -c "normal! 99@b" -c "normal! 99@c" -c "normal! 99@c" -c wq $nameout.md
+
+#################################
+##########the vim commands#######
+##############################33
+
+
+#"This fixes all the references
+#let @a=':/\[\\\[.*[^\\]\\\]\]ndwwxxxxxdwxi}$bbi$\eqref{'
+
+#"This changes \[ to $$ in an elegant fashion
+#let @b=':%s/\\\[/$$/g:%s/\\\]/$$' 
+
+#"This changes align back to aligned
+#let @c=':%s/aligned/align'
+
+#"This fixes no new line $$
+#let @d=':/\$\$.oNllDjp:/.\$\$nlvlxop'

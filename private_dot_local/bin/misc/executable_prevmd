@@ -1,0 +1,22 @@
+#! /bin/sh
+
+# Define the input as the first argument
+input=${1?Error: no file given}
+input=$1
+
+# Make the name the file name before the extension
+name=$(echo "$input" |cut -f 1 -d '.')
+nameout=$name".html"
+
+# Convert the given document to HTML
+    # name but with the different extension
+
+pandoc --mathml --standalone -s -t html "$input" -H ~/Dropbox/css/github-pandoc-std.css -o "$name"".html" # &&  firefox --new-window "$name"".html"  #&& rm "$name"".html"
+
+echo "
+pandoc --mathml --standalone -s -t html
+"$input" -H ~/Dropbox/css/github-pandoc-std.css
+-o "$name"".html"
+&&  firefox --new-tab"$name"".html" 
+#&& rm "$name"".html"
+"

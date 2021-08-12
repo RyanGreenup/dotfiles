@@ -1,0 +1,90 @@
+#!/bin/bash
+
+
+# TODO make this the time
+tmpfile=$(mktemp)
+tmpCSS=$(mktemp)
+ trap "rm $tmpfile $tmpCSS" EXIT
+
+# Make a working File from clipboard
+xclip -o -selection clipboard >> $tmpfile
+
+function main() {
+    parseArguments
+    AppendCSS
+    usePandoc
+    clipBoard
+    openTBird
+    exit 0
+}
+
+function AppendCSS() {
+    echo "<style>" > $tmpCSS
+    cat $style >> $tmpCSS
+    echo "</style>" >> $tmpCSS
+}
+
+function usePandoc() {
+   pandoc -s -B $tmpCSS --self-contained --mathml $EmailFile -o $tmpfile.html
+
+}
+
+function clipBoard() {
+    cat $tmpfile.html | xclip -selection clipboard
+    echo "Success, Clipboard is HTML with CSS:" $stlye
+}
+
+function openTBird() {
+    thunderbird --compose "message=$tmpfile.html,format='html', mail.strictly_mime='true'"
+}
+
+function parseArguments() {
+    # Decide the format
+    if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` <Format> <CSS>"
+    style=~/Templates/CSS/Org-CSS/github-pandoc.css
+    exit 0
+    elif [[ "$1" == *-m* ]]; then
+        mv $tmpfile $tmpfile.md
+        EmailFile=$tmpfile.md
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    elif [[ "$1" == *-o* ]]; then
+        mv $tmpfile $tmpfile.org
+        EmailFile=$tmpfile.org
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    elif [[ "$1" == *-t* ]]; then
+        echo "This is TeX input"
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet 2" $is
+        fi
+        t2h tmpfile.tex $style -std -mathml
+    else # Otherwise just assume it's org and copy paste
+        mv $tmpfile $tmpfile.org
+        EmailFile=$tmpfile.org
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    fi
+}
+
+main

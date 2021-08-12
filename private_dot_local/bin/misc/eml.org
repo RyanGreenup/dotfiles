@@ -1,0 +1,136 @@
+#+TITLE: Email Function
+
+* Usage
+#+begin_src bash
+eml <FORMAT> <CSS PATH>
+#+end_src
+
+
+** Examples
+1. Export =org-mode= to email
+    #+begin_src bash
+    eml
+    #+end_src
+2. Export /MarkDown/ to email
+    #+begin_src bash
+    eml -m
+    #+end_src
+3. Export =org-mode= to email with custom CSS
+    #+begin_src bash
+    eml -o ~/Templates/CSS/Org-CSS/Modest.css
+    #+end_src
+* Bug
+** Thunderbird Line Spacing
+For code blocks you have to delete the inserted text and then press =M-i h C-v M-i= to re-insert the html, otherwise the line spacing is wrong.
+
+This appears to be a bug with thunderbird, possibly related to =LFCR= end-of-line bullshit
+
+* Further information
+
+This is fairly straight forward, there are two Arguments:
+
++ =-o= / =-m= / =-t=
+  + denotes filetype input, default input is =org-mode=
++ =<PATH>=
+  + Is a path to a CSS File
+
+** Code
+First I create some Temporary files and set a =trap= to clean them up afterwards:
+
+#+begin_src bash
+tmpfile=$(mktemp)
+trap "rm $tmpfile" EXIT
+
+# Make a working File from clipboard
+xclip -o -selection clipboard >> $tmpfile
+#+end_src
+
+Then I describe the function:
+
+#+begin_src bash
+function main() {
+    parseArguments
+    usePandoc
+    AppendCSS
+    clipBoard
+    openTBird
+    exit 0
+}
+#+end_src
+
+Explain the Function:
+
+#+begin_src bash
+function AppendCSS() {
+    echo "<style>" >> $tmpfile.html
+    cat ~/Dropbox/profiles/Emacs/org-css/github-org.css >> $tmpfile.html
+    echo "</style>" >> $tmpfile.html
+}
+
+function usePandoc() {
+    pandoc -s --toc --self-contained --mathml $EmailFile -o $tmpfile.html
+}
+
+function clipBoard() {
+    cat $tmpfile.html | xclip -selection clipboard
+    echo "Success, Clipboard is HTML with CSS:" $stlye
+}
+
+function openTBird() {
+    thunderbird --compose "message=$tmpfile.html,format='html'"
+}
+
+#+end_src
+
+and Finally Parse the Variables:
+#+begin_src bash
+function parseArguments() {
+    # Decide the format
+    if [ "$1" == "-h" ]; then
+    echo "Usage: `basename $0` <Format> <CSS>"
+    style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+    exit 0
+    elif [[ "$1" == *-m* ]]; then
+        mv $tmpfile $tmpfile.md
+        EmailFile=$tmpfile.md
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    elif [[ "$1" == *-o* ]]; then
+        mv $tmpfile $tmpfile.org
+        EmailFile=$tmpfile.org
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    elif [[ "$1" == *-t* ]]; then
+        echo "This is TeX input"
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet 2" $is
+        fi
+        t2h tmpfile.tex $style -std -mathml
+    else # Otherwise just assume it's org and copy paste
+        mv $tmpfile $tmpfile.org
+        EmailFile=$tmpfile.org
+        if [[ "$2" == "" ]]; then
+            style=~/Dropbox/profiles/Emacs/org-css/github-org.css
+            echo "This is using Default Style with Org Support"
+        else
+            style=$2
+            echo "The stylesheet is" $2
+        fi
+    fi
+}
+
+#+end_src
