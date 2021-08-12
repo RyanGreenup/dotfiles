@@ -1,0 +1,11 @@
+'.source.r':
+  'Sequence':
+    'prefix': '1\:'
+    'body': 'seq_len($1)$0'
+"editor-fold":
+  "prefix": "// e"
+  "body": "// <editor-fold desc='$1'>\n// </editor-fold>"
+'.source.gfm':
+  'inline math':
+    'prefix': 'mk'
+    'body': '\$$1\$$0'

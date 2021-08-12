@@ -1,0 +1,136 @@
+"*":
+  arpeggio:
+    chords:
+      cno:
+        snippet: "console.log($1)"
+      con:
+        snippet: "console.log($1)"
+      ei:
+        command: "editor:delete-to-beginning-of-word"
+        timeout: 16
+      fun: "function"
+      kd:
+        snippet: '''
+          ```$1
+          $2
+          ```$0
+        '''
+      key:
+        snippet: "<kbd>$1</kbd>$2"
+        timeout: 16
+      mk:
+        snippet: "$$1$$0"
+      my: '''
+        function() {
+         $1
+        }
+      '''
+      ret: "return "
+      sr:
+        command: "editor:delete-to-beginning-of-word"
+        timeout: 16
+      tru: "true"
+      "{}":
+        snippet: '''
+          {
+            $1
+          }
+        '''
+  "asciidoc-preview":
+    forceExperimental: true
+    frontMatter: true
+    scrollMode: false
+  "atom-beautify":
+    executables:
+      emacs:
+        path: "/usr/local/bin/emacs"
+      rscript:
+        path: "/usr/local/bin/Rscript"
+    r: {}
+  "atom-fuzzy-grep":
+    detectGitProjectAndUseGitGrep: false
+    grepCommandString: "rg -i -n -H --no-heading --column -l -L --pcre2"
+  "atom-html-preview":
+    enableMathJax: true
+  "atom-notes":
+    orderByFuzzyFileNameMatch: true
+  core:
+    disabledPackages: [
+      "language-gfm"
+    ]
+    packagesWithKeymapsDisabled: [
+      "Hydrogen"
+    ]
+    telemetryConsent: "limited"
+  "custom-folds":
+    prefix_0: "<editor-fold \\*\\ "
+  editor:
+    fontSize: 12
+    scrollPastEnd: true
+    showIndentGuide: true
+  "exception-reporting":
+    userId: "bb00ee35-e95a-49ae-b41b-1ece11d9f837"
+  "markdown-preview":
+    allowUnsafeProtocols: true
+    grammars: [
+      "source.gfm"
+      "source.litcoffee"
+      "text.html.basic"
+      "text.md"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.gfm.notes"
+    ]
+  "markdown-preview-enhanced":
+    codeBlockTheme: "darcula.css"
+    enableScriptExecution: true
+    fileExtension: ".md, .mmark, .markdown, .rmd, .Rmd"
+    frontMatterRenderingOption: "table"
+    previewTheme: "atom-dark.css"
+  "markdown-preview-plus":
+    markdownItConfig:
+      useFootnote: true
+      useToc: true
+    mathConfig:
+      enableLatexRenderingByDefault: true
+      numberEquations: true
+    syncConfig: {}
+    syntaxThemeName: "atom-dark-syntax"
+    useGitHubStyle: true
+  organized: {}
+  "preview-inline": {}
+  "spell-check":
+    grammars: [
+      "source.asciidoc"
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.rst"
+      "text.restructuredtext"
+      "source.gfm.notes"
+    ]
+  "terminal-plus":
+    core:
+      mapTerminalsToAutoOpen: true
+  "tree-view": {}
+  "vim-mode-plus":
+    useClipboardAsDefaultRegister: true
+  "vk-terminal":
+    style:
+      theme: "dracula"
+  welcome:
+    showOnStartup: false
+".breakpoints.hydrogen":
+  editor:
+    scrollPastEnd: true
+    showIndentGuide: true
+    showInvisibles: true
+".org-mode.source":
+  editor:
+    scrollPastEnd: true
+    showIndentGuide: true
+".shell-org-mode.source":
+  editor:
+    scrollPastEnd: true
+    showIndentGuide: true

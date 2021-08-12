@@ -1,0 +1,16 @@
+'atom-text-editor':
+  'ctrl-alt-|': 'custom:piper'
+
+'atom-workspace atom-text-editor:not([mini])':
+  'ctrl-k f f': 'open-this:here'
+  'ctrl-k f d': 'open-this:split-down'
+  'ctrl-k f r': 'open-this:split-right'
+  'ctrl-enter': 'hydrogen:run-and-move-down'
+  'ctrl-shift-enter': 'hydrogen:run-all'
+  'alt-enter': 'hydrogen:run'
+
+# You can find the hydrogen stuff
+# [[/home/ryan/.atom/packages/Hydrogen/keymaps/hydrogen.cson][here]]
+'atom-text-editor[data-grammar="source gfm"]:not([mini])':
+  'tab':        'markdown-folding:cycle'
+  'shift-tab':  'markdown-folding:foldall-h1'
