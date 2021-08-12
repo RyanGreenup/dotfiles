@@ -1,10 +1,3 @@
-search Temp
-q
-search ook
-rW. M. Haynes, David R. Lide, Thomas J. Bruno - CRC handbook of chemistry and physics_ a ready-reference book of chemical and physical data-CRC Press (2016).pdf
-rename CRC_97.pdf
-cd /home/ryan/Downloads/
-rename W. M. Haynes, David R. Lide, Thomas J. Bruno - CRC handbook of chemistry and physics_ a ready-reference book of chemical and physical data-CRC Press (2016).pdf
 rename Roth_Astronomy_Handbook_2009_Springer.pdf
 search astro
 rename Sample_pdf
@@ -12,7 +5,6 @@ rename Final
 rename Sample
 bulkrename
 search otes
-search emacs
 rename .emacs.d_doom
 rename .emacs.d_purcell_custom
 rename .emacs.d
@@ -46,5 +38,13 @@ search agen
 search ocerj
 shell mkdir .config
 rename docker-compose-yml
-delete
+shell mkdir R
+open_with h
 unmark
+delete
+shell cp '/home/ryan/DotFiles/Templates/Templates' ~/
+search cripts
+shell mkdir .local
+search scrip
+search emacs
+shell cp -r '/home/ryan/DotFiles/EmacsPersonal2/.config/emacs' ~/.config/
