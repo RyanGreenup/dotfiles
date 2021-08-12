@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=udiskie
+TryExec=udiskie
+Exec=udiskie --no-automount --notify --smart-tray
+Terminal=false
+Type=Application
+StartupNotify=false
+Hidden=false
+OnlyShowIn=awesome
