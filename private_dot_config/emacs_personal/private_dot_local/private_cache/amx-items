@@ -1,0 +1,16 @@
+
+;; ----- amx-history -----
+(
+ follow-mode
+ R
+ cd
+ 5x5
+ SAS
+ amx
+ arp
+)
+
+;; ----- amx-data -----
+(
+ (follow-mode . 1)
+)
