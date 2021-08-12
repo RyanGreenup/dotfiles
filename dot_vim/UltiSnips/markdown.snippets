@@ -1,0 +1,552 @@
+global !p
+texMathZones = ['texMathZone'+x for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'V', 'W', 'X', 'Y', 'Z']]
+# If you have http://www.drchip.org/astronaut/vim/vbafiles/amsmath.vba.gz,
+# you want to add:
+# texMathZones += ['texMathZone'+x for x in ['E', 'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS', 'J', 'JS', 'K', 'KS', 'L', 'LS']]
+texIgnoreMathZones = ['texMathText']
+
+texMathZoneIds = vim.eval('map('+str(texMathZones)+", 'hlID(v:val)')")
+texIgnoreMathZoneIds = vim.eval('map('+str(texIgnoreMathZones)+", 'hlID(v:val)')")
+
+def math():
+    synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+    if not set(texIgnoreMathZoneIds).isdisjoint(synstackids):
+        return False
+    return not set(texMathZoneIds).isdisjoint(synstackids)
+    # isdisjoint() can short-circuit as soon as a match is found
+
+endglobal
+
+
+context "math()" 
+snippet || "Modulus Operator" wA
+\left| $1 \right| $0
+endsnippet
+
+
+context "math()"
+snippet cc "Subset" wA
+    \subset $0
+endsnippet
+
+context "math()"
+snippet ra "Subset" wA
+    \rightarrow $0
+endsnippet
+
+
+context "math()"
+snippet lim "Limits" wA
+\lim_{$1}\left[ $2 \right] $0
+endsnippet
+
+context "math()"
+snippet lid "Limits" wA
+\lim_{\Delta Z\rightarrow 0}\left[ $1 \right] $0
+endsnippet
+
+context "math()"
+snippet pr "PaRenthesis" iA
+\left( $1 \right) $0
+endsnippet
+
+snippet cols "Multiple Columns"
+\begin{multicols}{2}
+  \begin{align*}
+    a=b
+  \end{align*}\break
+  \begin{align*}
+    b=c
+  \end{align*}
+\end{multicols}
+endsnippet
+
+
+context "math()"
+snippet sr "^2" iA
+^2
+endsnippet
+
+
+context "math()"
+snippet br "BRackets" iA
+\left[ $1 \right] $0
+endsnippet
+
+context "math()"
+snippet mod "Modulus Operator" wA
+    \left| $1 \right| $0
+endsnippet
+
+
+snippet mk "Math" wA
+$${1}$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$2
+endsnippet
+
+snippet dk "CodeBlock" wA
+\`\`\`{$1}
+$2
+\`\`\`
+$0
+endsnippet
+
+snippet fldk "Folding Code Block" wA
+<details open><summary>Question</summary>
+<p>
+
+$1{$\int 4x^3 \mathrm{d}x$}
+
+<details closed><summary>Solution</summary>
+<p>
+
+$2{$x^4$}
+
+</p>
+</details>
+
+<details closed><summary>Code</summary>
+<p>
+
+\`\`\`{py}
+from __future__ import division
+from sympy import *
+x, y, z, t = symbols('x y z t')
+k, m, n = symbols('k m n', integer=True)
+f, g, h = symbols('f g h', cls=Function)
+init_printing()
+$4{integrate(4*x**3, x)}
+\`\`\`
+
+
+</p>
+</details>
+
+</p>
+</details>
+$0
+endsnippet
+
+
+
+snippet det "Details"
+  <!-- Sometimes you need a dot, <br> ruins the spacing Important --><details ${6: open} markdown="1"><summary><p>
+
+$2
+</p></summary><p>
+    ${3:text or whitespace must be here}
+* ${0: List item Must be Here}
+    ${5:text or whitespace must be here} 
+</p>
+<!--Newline Important-->
+</details>
+<!--Newline Important-->
+endsnippet
+
+snippet kindaolddet "Details"
+<details ${6: open} markdown="1"><summary><h$1> $2 </h$1></summary>
+<p>
+${3:First Line Must be Here}
+
+
+* ${4: List item Must be Here}
+
+${5: Must be a text Line Immediately preceeding </p> and a \n Immediately following}
+</p>
+
+</details>
+$0
+endsnippet
+
+snippet odet "Summary as MD Details" wA
+<details markdown="1">
+<summary markdown="1">
+
+${1:${VISUAL}}
+
+</summary>
+
+${2:${VISUAL}}
+
+</details>
+endsnippet
+
+snippet li "List Item"
+<li> $1 </li>
+$0
+endsnippet
+
+
+
+snippet kd "Code" wA
+\`${1}\`$0
+endsnippet
+
+snippet kb "Code" wA
+<kbd>${1}</kbd>$0
+endsnippet
+
+snippet dm "Math" wA
+$$\begin{aligned}
+$1
+\end{aligned}$$
+$0
+endsnippet
+
+
+
+context "math()"
+snippet ali "Math" wA
+$$\begin{aligned}
+        &$1 \quad &\ldots \quad    & {\small \text{($2)}} \cr
+\implies  &$3   \quad &\ldots \quad    & {\small \text{($4)}}
+\end{aligned}$$
+$0
+endsnippet
+
+context "math()"
+snippet ti "times" iA
+\times $0
+endsnippet
+
+
+context "math()"
+snippet dt "times" iA
+\cdot $0
+endsnippet
+
+
+context "math()"
+snippet pl "add" iA
++ $0
+endsnippet
+
+
+context "math()"
+snippet mi "add" iA
+- $0
+endsnippet
+
+context "math()"
+snippet ee "equal" iA
+= $0
+endsnippet
+
+
+context "math()"
+snippet ae "equal" iA
+&= $0
+endsnippet
+
+context "math()"
+snippet imp "equal" iA
+ \implies  $0
+endsnippet
+
+
+context "math()"
+snippet nim "equal" iA
+ \centernot\implies $0
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+context "math()"
+priority 10
+snippet "bar" "bar" riA
+\overline{$1}$0
+endsnippet
+
+
+context "math()"
+priority 100
+snippet "([a-zA-Z])bar" "bar" riA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+
+context "math()"
+priority 10
+snippet "hat" "hat" riA
+\hat{$1}$0
+endsnippet
+
+context "math()"
+priority 100
+snippet "([a-zA-Z])hat" "hat" riA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet "(\\?\w+)(,\.|\.,)" "Vector postfix" riA
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet 
+
+
+context "math()"
+snippet sc "Complex" wA
+\mathbb{C} $0
+endsnippet
+
+context "math()"
+snippet rls "Reals" wA
+\mathbb{R} $0
+endsnippet
+
+context "math()"
+snippet sin "integer" 
+\mathbb{Z} $0
+endsnippet
+
+
+context "math()"
+snippet sn "Natural" wA
+\mathbb{N} $0
+endsnippet
+
+
+context "math()"
+snippet __ "underscore" iA
+_{$1} $0
+endsnippet
+
+
+snippet bxmk  "makeabox" wA
+\begin{tcolorbox}
+
+${1: Top Text} 
+\begin{align}
+${2: 3&=x} & \text{${3:desc}}
+\end{align}
+${4:text}
+\end{tcolorbox}
+$0
+endsnippet
+
+snippet indmk "Make Indented section" wA
+\ \\
+
+\hfill\begin{minipage}{\dimexpr\textwidth-3cm}
+${1: \lipsum[2]}
+\end{minipage}
+\ \\
+
+$0
+endsnippet
+
+
+snippet qed "underscore" wA
+\begin{flushright}
+{\rule{0.7em}{0.7em}}
+\end{flushright}
+ $0
+endsnippet
+
+snippet CR "CauchyR"
+the \textit{Cauchy Riemann} equations $0
+endsnippet
+
+context "math()"
+snippet d "differential Operator" w
+\mathrm{d} $0
+endsnippet
+
+context "math()"
+snippet pd "Partial Derivative Operator" w
+\partial $0
+endsnippet
+
+
+context "math()"
+snippet ddz "underscore" wA
+\frac{\mathrm{d} }{\mathrm{d} z}
+endsnippet
+
+
+context "math()"
+snippet ddx "Derivative Rto x Operator" wA
+\frac{\mathrm{d} }{\mathrm{d} x}
+endsnippet
+
+
+context "math()"
+snippet px "partial op respect x" wA
+\frac{\partial }{\partial x}
+endsnippet
+
+
+context "math()"
+snippet py "partial op respect y" wA
+\frac{\partial }{\partial y}
+endsnippet
+
+
+context "math()"
+snippet pux "CR components" wA
+\frac{\partial u }{\partial x}
+endsnippet
+
+context "math()"
+snippet puy "CR components" wA
+\frac{\partial u }{\partial y}
+endsnippet
+
+context "math()"
+snippet pvx "CR components" wA
+\frac{\partial v }{\partial x}
+endsnippet
+
+
+context "math()"
+snippet pvy "CR components" wA
+\frac{\partial v }{\partial x}
+endsnippet
+
+context "math()"
+snippet cis "Cis" wA
+\cis{$1}$0
+endsnippet
+
+context "math()"
+priority 10
+snippet "op" "operator" riA
+\mathrm{$1}$0
+endsnippet
+
+
+context "math()"
+priority 100
+snippet "([a-zA-Z][a-zA-Z][a-zA-Z])op" "operator" riA
+\mathrm{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet cos "Cos" wA
+\cos{$1}$0
+endsnippet
+
+
+context "math()"
+snippet sin "sin" wA
+\sin{$1}$0
+endsnippet
+
+context "math()"
+snippet neq "noteq" wA
+\neq$0
+endsnippet
+
+
+
+context "math()"
+snippet log "complexnaturallog" wA
+\log_e{\left( $1 \right) }$0
+endsnippet
+
+context "math()"
+snippet Log "complexnaturallog" wA
+\Log_e{\left( $1 \right) }$0
+endsnippet
+
+context "math()"
+snippet ln "complexRealLog" wA
+\ln{ $1 }$0
+endsnippet
+
+snippet iff "if only" 
+if and only if
+endsnippet
+
+
+context "math()"
+snippet intp "Integral" wA
+\int^{$1}_{$2}\left( $3 \right) \mathrm{d}$4 $0
+endsnippet
+
+context "math()"
+snippet sum "Integral" wA
+\sum^{$1}_{$2}\left[ $3 \right] $0
+endsnippet
+
+
+
+context "math()"
+snippet int "Integral" wA
+\int^{$1}_{$2} $3  \mathrm{d}$4 $0
+endsnippet
+
+snippet CGT "CG Theorem"
+the \textit{Cauchy-Goursat Theorem}
+endsnippet
+
+
+context "math()"
+snippet rt "Integral" wA
+\sqrt{$1} $0 
+endsnippet
+
+snippet rq "ModelTag" wA
+#Models
+endsnippet
+
+
+snippet hshtg "ModelTag" wA
+ <p style = "font-family:Courier New,Courier, monospace,serif;font-size:22px;font-style:italic; " align="right"  color=blue>
+<b> 
+     $1  <br>
+     $2
+</b></p>
+$0
+endsnippet
+
+context "math()"
+snippet // "Frac" wA
+\frac{$1}{$2} $0
+endsnippet
+
+
+
+## Fraction Stuff for Math
+
+snippet / "Fraction" i
+\\frac{${VISUAL}}{$1}$0
+endsnippet
+
+context "math()"
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+priority 1000
+context "math()"
+snippet '^.*\)/' "() frac" wrA
+`!p
+stripped = match.string[:-1]
+depth = 0
+i = len(stripped) - 1
+while True:
+	if stripped[i] == ')': depth += 1
+	if stripped[i] == '(': depth -= 1
+	if depth == 0: break;
+	i-=1
+snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+`{$1}$0
+endsnippet
+
+
+snippet __ "SubText" wA
+_{$1} $0
+endsnippet
+
