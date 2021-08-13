@@ -65,3 +65,10 @@ end
 function pz --description 'Fuzzy Find to preview and install with pacman'
   pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv;
 end
+
+
+## Make sure to reflink btrfs
+
+function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
+  cp --reflink=auto $argv;
+end
