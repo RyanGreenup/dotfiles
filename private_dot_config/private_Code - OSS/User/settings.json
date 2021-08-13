@@ -49,5 +49,19 @@
     "vim.foldfix": true,
     "editor.mouseWheelZoom": true,
     "terminal.integrated.fontFamily": "Fira Code",
-    "editor.rulers": [79, 120]
+    "[git-commit]": {
+        "editor.rulers": [
+            50
+        ]
+    },
+    "[python, r]": {
+        "editor.rulers": [
+            79,
+            120
+        ],
+    },
+    "editor.rulers": [
+        79,
+        120
+    ]
 }
