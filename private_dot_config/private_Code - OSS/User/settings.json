@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Abyss",
+    "workbench.colorTheme": "Dracula At Night",
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindingsNonRecursive": [
@@ -48,5 +48,6 @@
     ],
     "vim.foldfix": true,
     "editor.mouseWheelZoom": true,
-    "terminal.integrated.fontFamily": "Fira Code"
+    "terminal.integrated.fontFamily": "Fira Code",
+    "editor.rulers": [79, 120]
 }

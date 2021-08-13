@@ -117,5 +117,10 @@
 		"key": "ctrl+l",
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
+	},
+	{
+		"key": "ctrl+shift+enter",
+		"command": "python.execInTerminal",
+		"when": "editorTextFocus && !findInputFocussed && !notebookEditorFocused && editorLangId == 'python'"
 	}
 ]
