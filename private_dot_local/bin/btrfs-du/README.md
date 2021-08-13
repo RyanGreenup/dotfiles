@@ -1,5 +1,5 @@
 # BTRFS subvolume/snapshot size with paths
-> This was forked from (btrfs-df)[https://github.com/stecman/btrfs-df] and modified to have help printout so i can remember how to use it.
+> This was forked from [btrfs-df](https://github.com/stecman/btrfs-df) and modified to have help printout so i can remember how to use it.
 
 List BTRFS subvolume space use information similar to `df -h` with paths displayed.
 
