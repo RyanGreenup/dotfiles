@@ -1,4 +1,5 @@
 bmalehorn.vscode-fish
+cstrap.python-snippets
 golang.go
 Ikuyadeu.r
 James-Yu.latex-workshop
