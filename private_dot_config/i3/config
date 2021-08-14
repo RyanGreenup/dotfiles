@@ -545,7 +545,10 @@ for_window [class="plasmashell" window_type="notification"] border none, move ri
 no_focus [class="plasmashell" window_type="notification"]
 
 for_window [title="Desktop - Plasma"] kill, floating enable, border none
-exec --no-startup-id feh --bg-scale ~/.config/i3/kk-Frax-MiniMandel-Blue-4K.jpg
+# feh --bg-scale (find /usr/share/wallpapers/ /usr/share/backgrounds/ -name "*.png" | fzf --preview 'jp2a --colors {}')
+# exec --no-startup-id feh --bg-scale ~/.config/i3/kk-Frax-MiniMandel-Blue-4K.jpg
+exec --nostartup-id feh --bg-scale /usr/share/wallpapers/MilkyWay/contents/images/5120x2880.png 
+
 
 
 ## Auto layout
