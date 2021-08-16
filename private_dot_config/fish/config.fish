@@ -67,8 +67,8 @@ function pz --description 'Fuzzy Find to preview and install with pacman'
 end
 
 
-## Make sure to reflink btrfs
-
-function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
-  cp --reflink=auto $argv;
-end
+# ## Make sure to reflink btrfs
+# 
+# function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
+#   cp --reflink=auto $argv;
+# end

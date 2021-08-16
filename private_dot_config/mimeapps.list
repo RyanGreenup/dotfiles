@@ -2,6 +2,7 @@
 application/pdf=zathura.desktop
 text/plain=nvim
 text/x-markdown=nvim.desktop
+text/x-markdown=nvim.desktop
 application/x-shellscript=code-oss.desktop
 text/x-r-source=emacsclient.desktop
 inode/x-empty=nvim.desktop
