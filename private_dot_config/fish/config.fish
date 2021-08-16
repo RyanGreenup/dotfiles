@@ -66,6 +66,10 @@ function pz --description 'Fuzzy Find to preview and install with pacman'
   pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv;
 end
 
+function wk --description 'Alias for work script' --wraps='workdispatch'
+  workdispatch
+end
+
 
 # ## Make sure to reflink btrfs
 # 
