@@ -1,0 +1,74 @@
+#!/bin/bash
+set -eu
+pkgname="work-dispatcher"
+# Change directory
+cd "$HOME/.local/${pkgname}"
+
+
+
+main() {
+    if [[ "${1-}" == "open" ]]; then
+        # choose a Project file script
+        filename="$(fzf_files)"
+        # Run the file
+        python "${filename}"
+    elif [[ "${1-}" == "new" ]]; then
+        echo -ne "Enter a Project Title: \n\t -→  "
+        read new_filename
+        echo "${template}" > "${new_filename}.py"
+	chmod +x "${new_filename}.py"
+        nvim "${new_filename}.py"
+    elif [[ "${1-}" == "edit" ]]; then
+        nvim .
+    else
+        echo "Usage:"
+        echo -e "\t* List current projects"
+        echo -e "\t\t $(basename ${0}) open"
+        echo -e "\t* Create a new projects"
+        echo -e "\t\t $(basename ${0}) new"
+        echo -e "\t* Edit current projects"
+        echo -e "\t\t $(basename ${0}) edit"
+    fi
+}
+
+fzf_files() {
+    find ~/.local/work-dispatcher/          \
+        -type f -executable                 \
+        -name '*.py'                        \
+        -exec basename {} \;               |    \
+            fzf --height "50%"                  \
+                --preview 'python {} --description | mdcat'
+}
+
+# Template --------------------------------------------------------------------
+template='
+#!/usr/bin/python3
+import os
+import sys
+
+def main():
+    """
+# Open Wikipeida
+this script will:
+
+  * Open a **random** *Wikipedia* article in the browser
+  * Open *Neovim* at a __*L*a*T*e*X*__ or Markdown file
+
+    """
+    if len(sys.argv) > 1 and sys.argv[1] == "--description":
+        print(main.__doc__)
+    else:
+        os.system("firefox https://en.wikipedia.org/wiki/Special:Random")
+        os.system("nvim $mktemp")
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+'
+
+
+main "${@-}"
+
