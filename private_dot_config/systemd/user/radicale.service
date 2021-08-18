@@ -1,0 +1,14 @@
+[Unit]
+Description=Start Radicale using settings under ~/.local/radicale and SSL under /etc/ssl/private/
+
+[Service]
+ExecStart=/usr/bin/bash %h/.config/systemd/user/run_Radicale.bash
+
+
+[Install]
+WantedBy=default.target
+
+
+
+
+
