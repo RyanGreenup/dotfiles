@@ -1,0 +1,7 @@
+[user]
+	email = exogenesis@protonmail.com
+	name = Ryan G
+[credential]
+	helper = store
+[core]
+	editor = nvim
