@@ -1,0 +1,257 @@
+# Maintainer: Ryan Grennup <RyanHGreenup@protonmail.com>
+# Constants -------------------------------------------------------------------
+  pkgname=ryang-base
+  pkgver=0.0.1
+  pkgrel=1
+  pkgdesc="Base system configuration" 
+  arch=('any')
+  url="https://gitlab.com/ryangreenup/arch-pkgs"
+  license=('GPL')
+
+# Packages --------------------------------------------------------------------
+  # Base packages
+  depends=(
+    zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps
+    make cmake rhash gcc
+    cups
+    ntfs-3g
+    htop
+    wget w3m
+    spectacle
+    xdg-user-dirs
+    alsa-utils pulseaudio pavucontrol
+    tk
+    tldr fzf zsh fish rsync 
+    syncthing
+    stow
+    sudo reflector refind intel-ucode ntp
+    ranger
+    maim # Screenshots
+    man-pages
+    m4
+    cronie
+    docker docker-compose
+    jq highlight
+    recoll
+  )
+
+  # defaults
+  depends+=(
+  perl-file-mimeinfo
+  # Strangely, xdg-utils assumes that kfmclient is installed,
+  # rather than fight it, I decided to just install konqueror [rd698] [gt262867]
+  xdg-utils konqueror 
+)
+
+  # rust-utils
+  depends+=(
+    skim           # fzf
+    bat            # cat
+    mdcat          # Prettier cat
+    fd             # find 
+    ripgrep        # Grep
+    dust           # du
+    gitui
+  )
+
+  # Eth
+  depends+=(
+    etherwall
+    lolminer
+    clinfo
+  # Driver            OpenGL   32bit
+    xf86-video-amdgpu mesa     lib32-mesa
+  # Open CL Compatiability [lol265]
+    opencl-amd opencl-mesa
+
+
+  )
+
+  # Bluetooth
+  depends+=(
+    bluez
+    bluez-utils
+  )
+
+
+  # Utilities
+  depends+=(
+    dolphin
+    firefox
+    chromium
+    chezmoi
+    kitty
+    keepassxc
+    anbox-git
+    vlc
+    gparted
+    xf86-input-wacom
+    peek
+  )
+
+  # Games
+  depends+=(
+    steam-native-runtime
+    # mesa or nvidia mesa depending
+  )
+
+  # Notetaking
+  depends+=(
+    joplin-desktop
+    logseq-desktop
+  )
+
+  # Programming Languages
+  depends+=(
+    rust go python r julia guile nodejs yarn lua lua51
+    sagemath sagemath-doc sage-data-graphs sage-notebook-exporter
+    nvm
+  )
+
+  # Networking
+  depends+=(
+    network-manager-applet
+    networkmanager
+    networkmanager-openvpn
+    nm-connection-editor
+    openvpn
+  )
+
+  # Document Production 
+  depends+=(
+    pandoc
+    biber
+    texinfo
+    texlive-bibtexextra
+    texlive-core
+    texlive-fontsextra
+    texlive-formatsextra
+    texlive-games
+    texlive-humanities
+    texlive-langextra
+    texlive-langgreek
+    texlive-latexextra
+    texlive-music
+    texlive-pictures
+    texlive-pstricks
+    texlive-publishers
+    texlive-science
+    texmacs
+    lyx
+    libreoffice-fresh
+    python-bibtexparser-git
+    python-pyperclip
+  )
+
+  # Uni Tools
+  depends+=(
+    obs-studio
+    xf86-input-wacom xdotool xournalpp wmctrl
+    graphviz
+    plantuml
+    inkscape
+    gimp gegl
+    imagemagick
+    ktikz
+    zoom
+    jitsi-meet-desktop
+    geogebra
+    ispell
+  )
+
+
+  # Media Tools
+  depends+=(
+    jellyfin
+  )
+
+  # Fonts
+  depends+=(
+    ttf-anonymous-pro
+    ttf-arphic-ukai
+    ttf-arphic-uming
+    ttf-baekmuk
+    ttf-bitstream-vera
+    ttf-caladea
+    ttf-carlito
+    ttf-cascadia-code
+    ttf-cormorant
+    ttf-croscore
+    ttf-dejavu
+    ttf-droid
+    ttf-eurof
+    ttf-fantasque-sans-mono
+    ttf-fira-code
+    ttf-fira-mono
+    ttf-fira-sans
+    ttf-font-awesome
+    ttf-hanazono
+    ttf-hannom
+    ttf-ibm-plex
+    ttf-inconsolata
+    ttf-indic-otf
+    ttf-input
+    ttf-ionicons
+    ttf-jetbrains-mono
+    ttf-joypixels
+    ttf-junicode
+    ttf-khmer
+    ttf-lato
+    ttf-liberation
+    ttf-linux-libertine
+    ttf-linux-libertine-g
+    ttf-monofur
+    ttf-monoid
+    ttf-nerd-fonts-symbols
+    ttf-opensans
+    ttf-proggy-clean
+    ttf-roboto
+    ttf-roboto-mono
+    ttf-sarasa-gothic
+    ttf-sazanami
+    ttf-tibetan-machine
+    ttf-ubuntu-font-family
+
+  )
+
+# Source ----------------------------------------------------------------------
+  source=()
+  md5sums=()
+  
+# Packaging ------------------------------------------------------------------
+  package() { :; }
+  # Sub Packages ================================================================
+    # see man page
+    package_sub-name() { :; }
+
+# Hooks -----------------------------------------------------------------------
+  # runs before the package contents are installed the first time the package is installed
+  pre_install() { :; }
+  # after the package contents are installed the first time the package is installed
+  post_install() { 
+    systemctl enable --now cronie
+    systemctl enable --now ntpd
+    systemctl enable --now syncthing@ryan
+    systemctl enable --now syncthing@http
+    systemctl enable --now bluetooth
+    systemctl enable --now docker
+    systemctl enable --now jellyfin
+    }
+  # before the package contents are installed when a package is being upgraded
+  pre_upgrade() { :; }
+  # after the package contents are installed when a package is being upgraded
+  post_upgrade() { :; }
+  # before the package contents are removed when a package is being removed
+  pre_remove() { :; }
+  # after the package contents are removed when a package is being removed
+  post_remove() { :; }
+
+
+
+# ............................................................
+# ........... References .....................................
+# ............................................................
+# [rd698]:    https://www.reddit.com/r/i3wm/comments/698jup/xdgopen_solution_for_i3/
+# [gt262867]: https://bugs.gentoo.org/262867
+# [lol265]:   https://github.com/Lolliedieb/lolMiner-releases/issues/265#issuecomment-779673054
+
