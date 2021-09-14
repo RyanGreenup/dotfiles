@@ -1,5 +1,11 @@
 #!/bin/bash
 set -eu
+BOLD='\e[1;1m'
+UL='\e[4;1m'
+PURPLE='\e[1;35m'
+GREEN='\e[1;32m'
+RESET='\e[0m'
+
 pkgname="work-dispatcher"
 # Change directory
 cd "$HOME/.local/${pkgname}"
@@ -22,11 +28,11 @@ main() {
         nvim .
     else
         echo "Usage:"
-        echo -e "\t* List current projects"
+        echo -e "\t* ${PURPLE}${UL}Open${RESET} a project from the current list"
         echo -e "\t\t $(basename ${0}) open"
-        echo -e "\t* Create a new projects"
+        echo -e "\t* Create a ${PURPLE}${UL}new${RESET} projects"
         echo -e "\t\t $(basename ${0}) new"
-        echo -e "\t* Edit current projects"
+        echo -e "\t* ${PURPLE}${UL}Edit${RESET} current projects"
         echo -e "\t\t $(basename ${0}) edit"
     fi
 }
