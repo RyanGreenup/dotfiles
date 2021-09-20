@@ -48,6 +48,7 @@
 (evil-define-key 'normal 'global (kbd "<leader>bb") 'helm-buffers-list)
 (evil-define-key 'normal 'global (kbd "<leader>nrf") 'org-roam-node-find)
 (evil-define-key 'normal 'global (kbd "<leader>nri") 'org-roam-node-insert)
+(evil-define-key 'normal 'global (kbd "<leader>nru") 'my/roam/org-id-update-id-current-file)
 (evil-define-key 'normal 'global (kbd "<leader>'") 'helm-resume)
 (evil-define-key 'normal 'global (kbd "<leader>'") 'helm-resume)
 (evil-define-key 'normal 'global (kbd "<leader>wu") 'winner-undo)

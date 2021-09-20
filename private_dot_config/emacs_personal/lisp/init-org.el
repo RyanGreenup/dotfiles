@@ -10,6 +10,7 @@
 (setq org-startup-folded "overview")
 (setq org-cycle-include-plain-lists 'integrate)
 (setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-use-tag-inheritance t)
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-tags-column 80)
 (setq org-agenda-files '("~/Notes/Org/agenda/"))
@@ -222,6 +223,11 @@
 
   )
 )
+;;; Org Roam
+(defun my/roam/org-id-update-id-current-file ()
+  "Scan the current buffer for Org-ID locations and update them."
+  (interactive)
+  (org-id-update-id-locations (list (buffer-file-name (current-buffer)))))
 ;;; Org Roam Server
 (setq
         ;; org-roam-server-host "127.0.0.1"
