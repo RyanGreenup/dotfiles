@@ -1,57 +1,48 @@
-
-  h1 {
-      color: white;
+/* h1 {
+    color: white;
     font-weight: 400;
     background-color: #6272a4;
     width: 100%;
-    border: 3px solid  #6272a4;
-  }
+    border: 3px solid #6272a4;
+}
 
-  h2 {
-    /* margin: 2em; */
-      color: white;
+h2 {
+    color: white;
     font-weight: 300;
     background-color: #6272a4;
     width: 100%;
-    border: 2px solid  #6272a4;
-  }
+    border: 2px solid #6272a4;
+}
 
-
-  h3 {
-      /* margin: 3em; */
-      color: white;
+h3 {
+    color: white;
     font-weight: 200;
     background-color: #6272a4;
-  }
+}
 
-  h4 {
-      /* margin: 3em; */
-      color: white;
+h4 {
+    color: white;
     font-weight: 150;
     background-color: #6272a4;
-  }
+}
 
-  h5 {
-      margin: 4em;
-    /* color: black; */
+h5 {
+    margin: 4em;
     font-weight: 125;
     width: 100%;
     text-decoration: underline;
-  }
+}
 
-  h6 {
-      margin: 4em;
-    /* color: black; */
+h6 {
+    margin: 4em;
     font-weight: 100;
     width: 100%;
     text-decoration: italic;
-  }
-
+} */
 
 body {
     margin: 0 auto;
-    font-family: "Linux Libertine", "Segoe UI", Helvetica, serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", "冬青黑体", "Microsoft YaHei", "微软雅黑", "Microsoft YaHei UI", "WenQuanYi Micro Hei", "文泉驿雅黑", Dengxian, "等线体", STXihei, "华文细黑",
-"Liberation Sans";
+    font-family: "Linux Libertine", "Segoe UI", Helvetica, serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", "冬青黑体", "Microsoft YaHei", "微软雅黑", "Microsoft YaHei UI", "WenQuanYi Micro Hei", "文泉驿雅黑", Dengxian, "等线体", STXihei, "华文细黑", "Liberation Sans";
     /* color: #222222; */
     line-height: 1.5;
     padding: 15px;
@@ -65,7 +56,8 @@ p {
     margin-bottom: 16px;
 }
 
-ul, ol {
+ul,
+ol {
     padding: 0;
     padding-left: 24px;
 }
@@ -74,14 +66,22 @@ li {
     line-height: 24px;
 }
 
-li ul, li ol {
+li ul,
+li ol {
     margin-left: 16px;
 }
 
-p, ul, ol {
+p,
+ul,
+ol {
     font-size: 16px;
     line-height: 24px;
 }
+
+
+/*
+border: 1px #ffb86c solid;
+*/
 
 pre {
     display: block;
@@ -90,135 +90,160 @@ pre {
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
+    /* background-color: #282a36 !important; */
+    /* background-color: #44475a !important; */
+    padding: 0em;
+    border-radius: 5px;
+    border: 1px #6e356c solid;
+    /* Wrap Text on long lines */
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }
 
-code {
+pre code {
     font-family: "Fira Code", Consolas, Monaco, Monospace, Courier;
-    /* color: #8E24AA; */
     word-break: break-word;
+    word-wrap: break-word;
+    flex-wrap: wrap;
+    font-family: "Fira Code", Consolas, Monaco, Monospace, Courier;
+    word-break: break-word;
+    /* color: #f8f8f2; */
 }
 
+
+/*
 pre code {
     display: block;
     overflow-x: auto;
     padding: 0.3em;
-    /* color: #222222; */    /* (Disable for theme-agnostic (i.e. white when using dracula theme) */
-    /* border: 0.075em solid #6272a4; */
-    border-left: .75em solid #6272a4;
-    /* border-radius: 7px; */ /* Make it rounded */
-    /* margin-left: 1em; */ /*Indent Margin, but this causes ugly background colours*/
-    line-height: 1.5;
-    font-family: "Roboto Mono Medium", monofur, "Fira Code", Consolas, Monaco, Monospace, Courier;
-    white-space: pre;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-}
+    /* color: #222222; */
 
-pre code.markdown-metadata {
+
+/* (Disable for theme-agnostic (i.e. white when using dracula theme) */
+
+
+/* border: 0.075em solid #6272a4; */
+
+border-left: .75em solid #6272a4;
+
+/* border-radius: 7px; */
+
+
+/* Make it rounded */
+
+
+/* margin-left: 1em; */
+
+
+/*Indent Margin, but this causes ugly background colours*/
+
+line-height: 1.5;
+font-family: "Roboto Mono Medium",
+monofur,
+"Fira Code",
+Consolas,
+Monaco,
+Monospace,
+Courier;
+white-space: pre;
+-moz-tab-size: 4;
+-o-tab-size: 4;
+tab-size: 4;
+
+}
+*/ pre code.markdown-metadata {
     border-left: .5em solid #80CBC4;
 }
-
 aside {
     display: block;
     float: right;
     width: 390px;
 }
-
 blockquote {
-    color: #666;
-    border-left: .5em solid #7a7a7a;
-    padding: 0 1em;
-    margin-left: 0;
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+    font-size: 0.75em;
+    font-style: italic;
 }
-
-blockquote p {
-    color: #666;
+blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
 }
-
-hr {
-    display: block;
-    text-align: left;
-    margin: 1em 0;
-    border: none;
-    height: 2px;
-    background: #999;
-}
-
 table {
-   padding: 0;
-   margin: 1rem 0.5rem;
-   border-collapse: collapse;
+    padding: 0;
+    margin: 1rem 0.5rem;
+    border-collapse: collapse;
 }
-
 table tr {
-   border-top: 2px solid #cccccc;
-   /* background-color: white; */
-   margin: 0;
-   padding: 0;
+    border-top: 2px solid #cccccc;
+    /* background-color: white; */
+    
+    margin: 0;
+    padding: 0;
 }
-
 table tr:nth-child(2n) {
-   /* background-color: #f8f8f8; */
+    /* background-color: #f8f8f8; */
 }
-
 table tr th {
-   font-weight: bold;
-   border: 2px solid #cccccc;
-   margin: 0;
-   padding: 6px 13px;
+    font-weight: bold;
+    border: 2px solid #cccccc;
+    margin: 0;
+    padding: 6px 13px;
 }
-
 table tr td {
-   border: 2px solid #cccccc;
-   margin: 0;
-   padding: 6px 13px;
+    border: 2px solid #cccccc;
+    margin: 0;
+    padding: 6px 13px;
 }
-
-table tr th :first-child, table tr td :first-child {
-   margin-top: 0;
+table tr th :first-child,
+table tr td :first-child {
+    margin-top: 0;
 }
-
-table tr th :last-child, table tr td :last-child {
-   margin-bottom: 0;
+table tr th :last-child,
+table tr td :last-child {
+    margin-bottom: 0;
 }
-
 div.mermaid-diagram {
     margin: 16px 0px 16px 0px;
     overflow-y: hidden;
 }
-
 div.flowchart-diagram {
     padding: 0px 5px 0px 5px;
     margin: 16px 0px 16px 0px;
     width: fit-content;
     overflow: hidden;
 }
-
 div.wavedrom-diagram {
     padding: 0px 5px 0px 5px;
     margin: 16px 0px 16px 0px;
     width: fit-content;
     overflow: hidden;
 }
-
 div.plantuml-diagram {
     padding: 5px 5px 0px 5px;
     margin: 16px 0px 16px 0px;
     width: fit-content;
     overflow: hidden;
 }
-
 .img-package {
     text-align: center;
 }
-
 img.img-center {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-
 span.img-caption {
     min-width: 20%;
     max-width: 80%;
@@ -230,12 +255,19 @@ span.img-caption {
     text-align: center;
     line-height: 1.5;
 }
-
-.emoji_zero,.emoji_one,.emoji_two,.emoji_three,.emoji_four,.emoji_five,.emoji_six,.emoji_seven,.emoji_eight,.emoji_nine {
+.emoji_zero,
+.emoji_one,
+.emoji_two,
+.emoji_three,
+.emoji_four,
+.emoji_five,
+.emoji_six,
+.emoji_seven,
+.emoji_eight,
+.emoji_nine {
     margin-left: 5px;
     margin-right: 8px;
 }
-
 div.preview-hint {
     opacity: 0.5;
     margin-top: 30%;
@@ -251,12 +283,10 @@ table.hljs-ln tr {
     border: none;
     background-color: transparent;
 }
-
 table.hljs-ln tr td {
     border: none;
     background-color: transparent;
 }
-
 table.hljs-ln tr td.hljs-ln-numbers {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -264,7 +294,6 @@ table.hljs-ln tr td.hljs-ln-numbers {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-
     text-align: center;
     color: #AAA;
     border-right: 1px solid #CCC;
@@ -272,95 +301,241 @@ table.hljs-ln tr td.hljs-ln-numbers {
     padding-right: 5px;
     white-space: nowrap;
 }
-
 table.hljs-ln tr td.hljs-ln-code {
     padding-left: 10px;
 }
-
 ::-webkit-scrollbar {
     background-color: #EAEAEA;
     width: 14px;
     height: 14px;
     border: none;
 }
-
 ::-webkit-scrollbar-corner {
     background-color: #EAEAEA;
 }
-
 ::-webkit-scrollbar-button {
     /* This selector affects the styling of both the up & down and left & right buttons of a scrollbar */
+    
     height: 14px;
     width: 14px;
     background-color: #EAEAEA;
 }
-
 ::-webkit-scrollbar-button:hover {
     background-color: #D0D0D0;
 }
-
 ::-webkit-scrollbar-button:active {
     background-color: #B2B2B2;
 }
-
 ::-webkit-scrollbar-track {
     /* This selector affects the styling of the area in the scrollbar between the two buttons */
+    
     background-color: #EAEAEA;
 }
-
 ::-webkit-scrollbar-thumb {
     /* This selector affects the styling of draggable element of the scollbar */
+    
     border: none;
     background-color: #DADADA;
 }
-
 ::-webkit-scrollbar-thumb:hover {
     background-color: #D0D0D0;
 }
-
 ::-webkit-scrollbar-thumb:active {
     background-color: #B2B2B2;
 }
-
 ::-webkit-scrollbar-button:horizontal:increment {
     background-image: url(right.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
-
 ::-webkit-scrollbar-button:horizontal:decrement {
     background-image: url(left.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
-
 ::-webkit-scrollbar-button:vertical:increment {
     background-image: url(down.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
-
 ::-webkit-scrollbar-button:vertical:decrement {
     background-image: url(up.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
-
 ::selection {
-  background: #1976D2;
-  color: #EEEEEE;
+    background: #1976D2;
+    color: #EEEEEE;
 }
-
 .modal-box {
     background-color: rgb(234, 234, 234);
     background-color: rgba(234, 234, 234, 0.95);
 }
-
 span.modal-close {
     color: #666666;
 }
-
 span.modal-close:hover,
 span.modal-close:focus {
     color: #222222;
+}
+
+/* checkbox aspect */
+li.md-checkbox [type="checkbox"]:not(:checked)+label:before,
+li.md-checkbox [type="checkbox"]:checked+label:before {
+    /*    content: ''; /* Unchecked glyph*/
+    
+    */ position: absolute;
+    left: 0;
+    top: -3px;
+    width: 1em;
+    height: 1em;
+    border: 1px solid var(--black);
+    background: var(--black);
+    border-radius: 1px;
+}
+
+/* checked mark aspect */
+li.md-checkbox [type="checkbox"]:not(:checked)+label:after,
+li.md-checkbox [type="checkbox"]:checked+label:after {
+    /*    content: ''; /* Checked glyph*/
+    
+    */ position: absolute;
+    left: 0;
+    top: -3px;
+    width: 1em;
+    height: 1em;
+    border: 1px solid var(--black);
+    background: var(--black);
+    border-radius: 1px;
+    transition: all .2s;
+}
+
+/* If I wanted to modify the blockquotes */
+
+/* 
+blockquote {
+    color: var(--white) !important;
+    font-style: regular !important; 
+    opacity: 1;
+    padding-right: 8px;
+    border-radius: 8px !important;
+    border-left: 6px solid var(--green);
+    background-color: var(--light-grey);
+}
+
+blockquote strong {
+    font-style: bold !important; 
+    color: var(--green) !important;
+}
+
+blockquote em {
+    font-style: italic !important; 
+    color: var(--blue) !important;
+}
+*/
+
+/* e.g. Usage:
+<span class="todo TODO">TODO</span> */
+.todo {
+    font-family: monospace;
+    color: red;
+}
+.done {
+    font-family: monospace;
+    color: green;
+}
+.priority {
+    font-family: monospace;
+    color: orange;
+}
+.tag {
+    background-color: #eee;
+    font-family: monospace;
+    padding: 2px;
+    font-size: 80%;
+    font-weight: normal;
+    float: right;
+}
+.timestamp {
+    color: #bebebe;
+}
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+.infobubble {
+    display: table;
+    margin: 1em;
+    padding: 2em;
+    background: #d9dae4;
+    box-shadow: 7px 7px 5px rgb(81, 54, 92);
+    border: 1px solid rgb(81, 27, 208);
+    border-radius: 5px;
+    border-width: 1px;
+}
+div.info,
+div.success,
+div.warning,
+div.error {
+    display: table;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px;
+    padding-right: 150px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 3px rgb(81, 54, 92);
+    border: 1px solid rgb(81, 27, 208);
+    border-radius: 5px;
+    border-width: 1px;
+}
+div.info {
+    color: #00529b;
+    background-color: #bde5f8;
+    content: "⌛";
+}
+div.success {
+    color: #4f8a10;
+    background-color: #dff2bf;
+    content: "💸";
+}
+div.warning {
+    color: #9f6000;
+    background-color: #FEEFB3;
+    content: "🌋";
+}
+div.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    content: "❌";
+}
+.admonition {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: left;
+}
+.admonition.note {
+    /* csslint allow: adjoining-classes */
+    
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.admonition.warning {
+    /* csslint allow: adjoining-classes */
+    
+    color: #c09853;
+    background-color: #fcf8e3;
+    border-color: #fbeed5;
+}
+.admonition.danger {
+    /* csslint allow: adjoining-classes */
+    
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+.admonition-title {
+    font-weight: bold;
+    text-align: left;
 }
