@@ -55,6 +55,7 @@
 (straight-use-package 'org-ref) ;; does not declare autoloads! MUST
 				;; use (require 'org-ref) somewhere
 				;; (called in init-org)
+
 ;;;;; Org Roam Server
 (straight-use-package 'org-roam-server)
 
@@ -139,6 +140,10 @@
 ;;;; Programming
 (straight-use-package 'elmacro)
 (straight-use-package 'ess)
+(straight-use-package 'go-mode)
+(add-hook 'go-mode-hook 'eglot-ensure)
+(straight-use-package 'rust-mode)
+(add-hook 'rust-mode-hook 'eglot-ensure)
 (straight-use-package 'poly-R)
 (straight-use-package 'hl-todo)
 (straight-use-package 'highlight-indent-guides)
