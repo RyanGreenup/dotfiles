@@ -123,7 +123,7 @@
 
 (defun open-local-config ()
   (interactive)
-  (find-file "~/.emacs.d/init.el")
+  (find-file "~/.config/emacs/init.el")
   )
 
 (defun My-Copy-File-Path ()
