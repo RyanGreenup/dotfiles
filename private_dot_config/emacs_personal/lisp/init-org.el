@@ -245,6 +245,21 @@
 ;;; Misc Tools
 ;;;; Open all org-agenda files
 (defun open-all-org-agenda-files () (interactive) (let ((files (org-agenda-files))) (mapcar (lambda (x) (find-file x)) files)))
+;;;; Find backlinks with counsel-rg
+(defun rg-for-backlinks ()
+    (interactive)
+    (counsel-rg
+	(file-name-nondirectory
+	    (buffer-file-name)) "~/Notes"))
+;;;; TODO Insert backlinks using py script
+;; TODO this is (eventually) going to be rewritten in go (or rust :shrug:)
+;; NOTE if you can't find it, grep for 1637991050
+(defun insert-backlinks ()
+     (interactive)
+    (insert
+    (shell-command-to-string
+	(concat "python " "/home/ryan/Studies/programming/go/bleve/backlinks/backlinks.py "
+		(buffer-file-name)))))
 ;;; Hooks
 (add-hook 'org-mode-hook (lambda ()
 			   (org-superstar-mode 1)
