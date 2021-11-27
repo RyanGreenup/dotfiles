@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR="/home/ryan/Sync/Apps/focalboard/focalboard-app"
+cd ${DIR}
+
+./focalboard-app >&2 & disown
+

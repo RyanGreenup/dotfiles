@@ -13,15 +13,15 @@
 (setq org-agenda-use-tag-inheritance t)
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-tags-column 80)
-(setq org-agenda-files '("~/Notes/Org/agenda/"))
+(setq org-agenda-files '("~/Agenda/"))
 ;; Hide Finished Agenda Items
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
 ;;;;; Org Capture
 (setq org-capture-templates
-      '(("t" "Task" entry (file+headline "~/Notes/Org/agenda/todo.org" "Tasks")
+      '(("t" "Task" entry (file+headline "~/Agenda/todo.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "~/Notes/Org/agenda/journal.org")
+        ("j" "Journal" entry (file+datetree "~/Agenda/journal.org")
          "* %?\nEntered on %U\n  %i\n  %a")))
 ;;;;; Spell Check
 (add-to-list 'ispell-skip-region-alist '("#\\+begin_src". "#\\+end_src"))
@@ -245,7 +245,7 @@
 ;;; Misc Tools
 ;;;; Open all org-agenda files
 (defun open-all-org-agenda-files () (interactive) (let ((files (org-agenda-files))) (mapcar (lambda (x) (find-file x)) files)))
-;;; Hooks 
+;;; Hooks
 (add-hook 'org-mode-hook (lambda ()
 			   (org-superstar-mode 1)
              		   (texfrag-mode 1)
@@ -301,7 +301,7 @@
 (defun after-org ()
 "A function that will run once after org mode is started.
 This function is called by an after 'org-mode' hook and
-removes that hook after running. 
+removes that hook after running.
 
 The idea is to delay an action until after 'org-mode' has been
 started, in order to reduce startup times.
