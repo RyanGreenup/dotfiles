@@ -223,7 +223,11 @@
 
   )
 )
-;;; Org Roam
+;;; Org-Roam
+(defun my/org-id-update-org-roam-files ()
+  "Update Org-ID locations for all Org-roam files."
+  (interactive)
+  (org-id-update-id-locations (org-roam--list-all-files)))
 (defun my/roam/org-id-update-id-current-file ()
   "Scan the current buffer for Org-ID locations and update them."
   (interactive)
