@@ -74,6 +74,9 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+;;;;; Babel
+(straight-use-package 'ob-go)
+(straight-use-package 'go-mode)
 ;;;; Emacs Application Framework
 ;;;; Interface
 ;;;; Macros

@@ -362,6 +362,7 @@ Ideally this function should also be run after an idle timer as well."
 		(gnuplot     . t)
 		(asymptote   . t)
 		(java        . t)
+		(go          . t)
 		;; (javascript  . t) ;; TODO
 		(sed         . t)
 		(shell       . t)
