@@ -14,6 +14,9 @@
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-tags-column 80)
 (setq org-agenda-files '("~/Agenda/"))
+(setq org-agenda-span-10
+      org-agenda-start-on-weekday nil
+      org-agenda-start-day "-3d")
 ;; Hide Finished Agenda Items
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
