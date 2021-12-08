@@ -24,7 +24,7 @@
        (> init-current-time 17))
       )
     (if is-daytime
-	(load-theme 'light-blue)
+	(load-theme 'adwaita)
       (load-theme 'flucui-dark)
       )
     )
