@@ -321,6 +321,7 @@
 ;; I should look at how that was done and review my doom config
 ;;;; Beginning
 (add-hook 'org-mode-hook  #'after-org)
+
 (defun after-org ()
 "A function that will run once after org mode is started.
 This function is called by an after 'org-mode' hook and
@@ -343,7 +344,6 @@ Ideally this function should also be run after an idle timer as well."
     (require 'org-ref)  ;; Org-Ref MUST be required, see README
     (setq org-roam-v2-ack t)
     (setq org-id-link-to-org-use-id t) ;; Use ids for links everywhere
-    (org-roam-mode 1)
 
 ;;;;; Use Zathura for Preview
 (add-to-list 'org-file-apps '("\\.pdf" . "zathura %s"))
