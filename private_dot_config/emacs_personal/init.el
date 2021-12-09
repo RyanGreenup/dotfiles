@@ -43,6 +43,8 @@
     (require 'init-change-theme-timer)
 
 ;;;; Interface
+(global-auto-revert-mode 1)
+
 ;;;;;; Which key
 (require 'init-which-key)
 ;;;;;; Scrolling
