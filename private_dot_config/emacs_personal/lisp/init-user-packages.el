@@ -55,7 +55,7 @@
 (straight-use-package 'org-ref) ;; does not declare autoloads! MUST
 				;; use (require 'org-ref) somewhere
 				;; (called in init-org)
-
+(straight-use-package 'ivy-bibtex)
 ;;;;; Org Roam Server
 (straight-use-package 'org-roam-server)
 

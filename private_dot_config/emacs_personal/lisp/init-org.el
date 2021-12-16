@@ -207,13 +207,6 @@
   )
 
 ;;; org-ref
-;; (require 'org-ref) ;; Must be required, see README
-(setq reftex-default-bibliography '("~/Notes/ref.bib"))
-
-;; see org-ref for use of these variables
-(setq org-ref-bibliography-notes "~/Sync/Studies/Papers/notes.org"
-      org-ref-default-bibliography '("~/Notes/ref.bib")
-      org-ref-pdf-directory "~/Sync/Studies/Papers/PDFS")
 ;;;;; Hide Citation Syntax
 (add-hook 'org-mode-hook
   (lambda ()
@@ -227,6 +220,46 @@
 
   )
 )
+
+
+;;;; Configure Org-Ref (v3)
+;; Much of this was adapted from the README
+;; https://github.com/jkitchin/org-ref#2021-10-18-mon-short-list-of-the-main-breaking-changes
+
+(setq bibtex-completion-bibliography '("~/Sync/Notes/ref.bib"
+					 "~/Sync/Notes/archive.bib")
+
+    ;; I'm just using zotero for this, I find it easier so I'll leave this commented out
+    ;; bibtex-completion-library-path '("~/Dropbox/emacs/bibliography/bibtex-pdfs/")
+	bibtex-completion-notes-path "~/Sync/Notes/Org/references/"
+	bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+
+	bibtex-completion-additional-search-fields '(keywords)
+	bibtex-completion-display-formats
+	'((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+	  (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+	  (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	  (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	  (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+	bibtex-completion-pdf-open-function
+	(lambda (fpath)
+	  (call-process "open" nil 0 nil fpath)))
+
+;;;;; Set ivy as the default backend
+;; Also adapted from the README
+(require 'org-ref-ivy)
+
+(setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+      org-ref-insert-label-function 'org-ref-insert-label-link
+      org-ref-insert-ref-function 'org-ref-insert-ref-link
+      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+
+
+(add-hook 'org-mode-hook (lambda ()
+    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)))
+
+
 ;;; Org-Roam
 (defun my/org-id-update-org-roam-files ()
   "Update Org-ID locations for all Org-roam files."
