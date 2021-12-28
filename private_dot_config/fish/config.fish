@@ -2,6 +2,7 @@ set PATH /home/ryan/.local/bin $PATH
 set PATH /home/ryan/bin $PATH
 set PATH /home/ryan/.cargo/bin $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
+set PATH $HOME/go/bin $PATH
 
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
