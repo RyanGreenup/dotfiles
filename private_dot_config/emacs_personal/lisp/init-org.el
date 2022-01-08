@@ -41,6 +41,8 @@
 ;;;;; Org Download
 (setq org-download-method 'directory)
 (setq-default org-download-image-dir "./media/")
+;;;;; Org Cliplink
+(straight-use-package 'org-cliplink)
 ;;;;; Refiling
 (setq org-refile-targets '((nil :maxlevel . 9)
                                 (org-agenda-files :maxlevel . 9)))
