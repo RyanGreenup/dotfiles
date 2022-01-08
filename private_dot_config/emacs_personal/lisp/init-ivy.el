@@ -24,7 +24,8 @@
 (evil-define-key 'normal 'global (kbd "<leader>ff") 'counsel-find-file) ; Use ivy
 (evil-define-key 'normal 'global (kbd "<leader>fr") 'consult-recent-files) ;; use ivy
 (straight-use-package 'ivy-posframe)
-(ivy-posframe-mode)
+
+;; (ivy-posframe-mode) ;; TODO I disabled this because I didn't like it
 
 ;;;;; PosFrame
 (evil-define-key 'normal 'global (kbd "<leader>/") 'counsel-rg)
