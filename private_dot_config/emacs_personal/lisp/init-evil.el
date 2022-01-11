@@ -47,7 +47,7 @@
 (evil-define-key 'normal 'global (kbd "<leader>gt") 'git-timemachine)
 (evil-define-key 'normal 'global (kbd "<leader>bb") 'helm-buffers-list)
 (evil-define-key 'normal 'global (kbd "<leader>nb") 'rg-for-backlinks)
-(evil-define-key 'normal 'global (kbd "<leader>nb") 'org-cliplink)
+(evil-define-key 'normal 'global (kbd "<leader>nl") 'org-cliplink)
 (evil-define-key 'normal 'global (kbd "<leader>nrf") 'org-roam-node-find)
 (evil-define-key 'normal 'global (kbd "<leader>nri") 'org-roam-node-insert)
 (evil-define-key 'normal 'global (kbd "<leader>nru") 'my/roam/org-id-update-id-current-file)
