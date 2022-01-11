@@ -7,13 +7,37 @@
     packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     end
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
     -- Include Packages
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
 
 	-- LSP and Treesitter
-	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
+  config = function()
+    require'nvim-treesitter.configs'.setup {
+      -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+      highlight = {
+        enable = true,
+
+        disable = {'latex', 'tex'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+       -- Vimtex highlighting is needed for mathematics with ultisnips though,
+       -- otherwise the math environment won't be detected by the math() function
+       -- Hence ignore latex environments so it still works.
+        additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+      },
+      ensure_installed = {'org'}, -- Or run :TSUpdate org
+    }
+  end
+
+  }
+
+  -- Autosave
+  use {"Pocco81/AutoSave.nvim",config = function()
+    local autosave = require("autosave")
+    autosave.setup( { enabled = true})
+  end
+}
 
 	-- Misc
 	use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
@@ -60,6 +84,9 @@ return require('packer').startup(function()
 
   -- LSP
   use 'neovim/nvim-lspconfig'
+
+  -- Vista (Jump to LSP issues)
+  use 'liuchengxu/vista.vim'
 
 
   -- nvim-cmp

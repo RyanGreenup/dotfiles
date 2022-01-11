@@ -54,6 +54,7 @@ map('n'	, '<leader>fr'     , '<cmd>Telescope oldfiles<cr>'   , default_opts)
 map('n'	, '<leader>fg'     , '<cmd>Telescope<CR>'            , default_opts)
 map('n'	, '<leader>fb'     , '<cmd>Telescope buffers<cr>'    , default_opts)
 map('n'	, '<leader>fh'     , '<cmd>Telescope help_tags<cr>'  , default_opts)
+map('n'	, '<leader>e'     , '<cmd>Telescope quickfix<cr>'  , default_opts)
 -- Change Directory to File
 map('n'	, '<leader>fcd'    , '<cmd>:cd %:p:h<cr>'            , default_opts)
 -- Copy File path

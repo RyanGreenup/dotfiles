@@ -25,6 +25,18 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- Lua needs to be done seperately
+
+nvim_lsp.sumneko_lua.setup{
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+}
+
 
 
 ------------------------------------------------------------
