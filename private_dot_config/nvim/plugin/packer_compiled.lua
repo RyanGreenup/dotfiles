@@ -70,6 +70,7 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["AutoSave.nvim"] = {
+    config = { "\27LJ\1\2F\0\0\3\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\1\2\0003\2\3\0>\1\2\1G\0\1\0\1\0\1\fenabled\2\nsetup\rautosave\frequire\0" },
     loaded = true,
     path = "/home/ryan/.local/share/nvim/site/pack/packer/start/AutoSave.nvim",
     url = "https://github.com/Pocco81/AutoSave.nvim"
@@ -118,11 +119,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ryan/.local/share/nvim/site/pack/packer/start/dracula",
     url = "https://github.com/dracula/vim"
-  },
-  ["dracula-theme"] = {
-    loaded = true,
-    path = "/home/ryan/.local/share/nvim/site/pack/packer/start/dracula-theme",
-    url = "https://github.com/dracula/dracula-theme"
   },
   firenvim = {
     loaded = true,
@@ -302,14 +298,18 @@ time([[Config for orgmode]], false)
 time([[Config for nvim-treesitter]], true)
 try_loadstring("\27LJ\1\2Ú\1\0\0\4\0\f\0\0154\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\b\0003\2\3\0003\3\4\0:\3\5\0023\3\6\0:\3\a\2:\2\t\0013\2\n\0:\2\v\1>\0\2\1G\0\1\0\21ensure_installed\1\2\0\0\borg\14highlight\1\0\0&additional_vim_regex_highlighting\1\2\0\0\borg\fdisable\1\3\0\0\nlatex\btex\1\0\1\venable\2\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
 time([[Config for nvim-treesitter]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-try_loadstring("\27LJ\1\0026\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
-time([[Config for gitsigns.nvim]], false)
+-- Config for: AutoSave.nvim
+time([[Config for AutoSave.nvim]], true)
+try_loadstring("\27LJ\1\2F\0\0\3\0\4\0\a4\0\0\0%\1\1\0>\0\2\0027\1\2\0003\2\3\0>\1\2\1G\0\1\0\1\0\1\fenabled\2\nsetup\rautosave\frequire\0", "config", "AutoSave.nvim")
+time([[Config for AutoSave.nvim]], false)
 -- Config for: nvim-tree.lua
 time([[Config for nvim-tree.lua]], true)
 try_loadstring("\27LJ\1\2;\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\14nvim-tree\frequire\0", "config", "nvim-tree.lua")
 time([[Config for nvim-tree.lua]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\1\0026\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)

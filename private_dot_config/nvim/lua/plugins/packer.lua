@@ -131,7 +131,6 @@ return require('packer').startup(function(use)
     'morhetz/gruvbox',
     'tomasr/molokai',
     'sonph/onehalf',
-    'dracula/dracula-theme',
     'gosukiwi/vim-atom-dark',
     'NLKNguyen/papercolor-theme',
     'jacoborus/tender.vim',
