@@ -17,20 +17,20 @@ key = "t"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme Darkblue" # DarkBlue is also nice
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme DarkBlue"
 modifier = ["modkey"]
 key = "d"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme Darkblue" # DarkBlue is also nice
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme DarkBlue"
 modifier = ["modkey"]
 key = "space"
 
 
 [[keybind]]
 command = "Execute"
-value = "rofi -show calc -modi calc -no-show-match -no-sort -theme Darkblue"
+value = "rofi -show calc -modi calc -no-show-match -no-sort -theme DarkBlue"
 modifier = ["modkey"]
 key = "c"
 
@@ -39,7 +39,7 @@ key = "c"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme Darkblue"
+value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme DarkBlue"
 modifier = ["modkey"]
 key = "slash"
 
@@ -303,6 +303,54 @@ key = "9"
 
 
 
+
+############################################################
+### My Stuff ###############################################
+############################################################
+
+
+[[keybind]]
+command = "ToggleFullScreen"
+modifier = ["modkey"]
+key = "m"
+
+[[keybind]]
+command = "RotateTag"
+modifier = ["modkey"]
+key = "z"
+
+# *  Margin Multiplier
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "2.5"
+modifier = ["modkey", "Control"]
+key = "equal"
+
+
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "1"
+modifier = ["modkey", "Control"]
+key = "minus"
+
+[[keybind]]
+command = "SetMarginMultiplier"
+value = "0"
+modifier = ["modkey", "Control"]
+key = "0"
+
+# * Move Tags
+# Tags are like desktops, workspaces are like monitors (good for ultrawides)
+[[keybind]]
+command = "FocusNextTag"
+modifier = ["Control", "Alt"]
+key = "Right"
+
+[[keybind]]
+command = "FocusPreviousTag"
+modifier = ["Control", "Alt"]
+key = "Left"
+
 ## * Layouts
 [[keybind]]
 command = "SetLayout"
@@ -354,10 +402,7 @@ modifier = ["modkey"]
 key = "F7"
 
 
-
 [[keybind]]
-command = "SetLayout"
-value = "Monocle"
-modifier = ["modkey", "Shift"]
-key = "m"
-
+command = "HardReload"
+modifier = ["modkey", "Control"]
+key = "r"
