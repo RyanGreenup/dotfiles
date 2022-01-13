@@ -17,20 +17,20 @@ key = "t"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme Darkblue" # DarkBlue is also nice
 modifier = ["modkey"]
 key = "d"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme Darkblue" # DarkBlue is also nice
 modifier = ["modkey"]
 key = "space"
 
 
 [[keybind]]
 command = "Execute"
-value = "rofi -show calc -modi calc -no-show-match -no-sort -theme arthur"
+value = "rofi -show calc -modi calc -no-show-match -no-sort -theme Darkblue"
 modifier = ["modkey"]
 key = "c"
 
@@ -39,7 +39,7 @@ key = "c"
 
 [[keybind]]
 command = "Execute"
-value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme arthur"
+value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme Darkblue"
 modifier = ["modkey"]
 key = "slash"
 
