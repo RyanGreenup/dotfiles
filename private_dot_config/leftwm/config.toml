@@ -1,13 +1,47 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+tags = ["1.Browser ♖", "2.Term ♗", "3.Shell ♔", "4.Code ♕", "5", "6.Notes 📝", "7", "5.Messaging", "9", "10"]
 layouts = ["MainAndVertStack", "MainAndHorizontalStack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "CenterMain", "CenterMainBalanced", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
 layout_mode = "Workspace"
 scratchpad = []
 disable_current_tag_swap = false
 focus_behaviour = "Sloppy"
 focus_new_windows = true
+
+[[keybind]]
+command = "FloatingToTile"
+modifier = ["modkey", "Shift"]
+key = "t"
+
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+modifier = ["modkey"]
+key = "d"
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme arthur" # DarkBlue is also nice
+modifier = ["modkey"]
+key = "space"
+
+
+[[keybind]]
+command = "Execute"
+value = "rofi -show calc -modi calc -no-show-match -no-sort -theme arthur"
+modifier = ["modkey"]
+key = "c"
+
+
+
+
+[[keybind]]
+command = "Execute"
+value = "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 6ch; }' -theme arthur"
+modifier = ["modkey"]
+key = "slash"
 
 [[keybind]]
 command = "Execute"
@@ -17,7 +51,7 @@ key = "p"
 
 [[keybind]]
 command = "Execute"
-value = "alacritty"
+value = "kitty"
 modifier = ["modkey", "Shift"]
 key = "Return"
 
@@ -266,3 +300,64 @@ command = "MoveToTag"
 value = "9"
 modifier = ["modkey", "Shift"]
 key = "9"
+
+
+
+## * Layouts
+[[keybind]]
+command = "SetLayout"
+value = "Fibonacci"
+modifier = ["modkey"]
+key = "f"
+
+[[keybind]]
+command = "SetLayout"
+value = "Fibonacci"
+modifier = ["modkey"]
+key = "F1"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndDeck"
+modifier = ["modkey"]
+key = "F2"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndVertStack"
+modifier = ["modkey"]
+key = "F3"
+
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndHorizontalStack"
+modifier = ["modkey"]
+key = "F4"
+
+[[keybind]]
+command = "SetLayout"
+value = "CenterMain"
+modifier = ["modkey"]
+key = "F5"
+
+[[keybind]]
+command = "SetLayout"
+value = "CenterMainBalanced"
+modifier = ["modkey"]
+key = "F6"
+
+[[keybind]]
+command = "SetLayout"
+value = "GridHorizontal"
+modifier = ["modkey"]
+key = "F7"
+
+
+
+[[keybind]]
+command = "SetLayout"
+value = "Monocle"
+modifier = ["modkey", "Shift"]
+key = "m"
+
