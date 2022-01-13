@@ -1,8 +1,11 @@
 #!/bin/bash
 
+file="~/Sync/Notes/Org/index.org"
+file="~/Notes/pages/contents.org"
+
  if [[ "$1" == "" ]]; then
  	echo "Warning: No argument given, opening Org index"
-	emacsclient --create-frame  ~/Notes/Org/index.org & disown
+	emacsclient --create-frame  "${file}" & disown
 elif [[ "$1" != "" ]]; then
  	echo "Opening $1"
        emacsclient --create-frame $1 & disown
