@@ -7,6 +7,7 @@ set PATH $HOME/go/bin $PATH
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 set VISUAL nvim
+set EDITOR nvim
 
 # ..............................................................................
 # * Better Coreutils / Built-ins................................................
@@ -40,12 +41,18 @@ end
 # * Notetaking Stuff ...........................................................
 # ..............................................................................
 
+# open non empty arguments in EDITOR
+function _private_open
+  if [ ! (count $argv) -eq 0 ]
+      nvim $argv
+  end
+end
+
 
 # ** Searching .................................................................
 function _private_search
     set notes_dir $argv
 
-    nvim (
         sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
             --bind pgup:preview-page-up,pgdn:preview-page-down      \
             --preview "bat --style grid --color=always              \
@@ -53,18 +60,17 @@ function _private_search
                             --italic-text=always                    \
                             --decorations=always"                |  \
         sed "s#^#$notes_dir/#"
-    )
 end
 
 # *** Search New notes
 function ns
-    _private_search ~/Notes
+    _private_open (_private_search ~/Notes)
 end
 
 # *** Search ALL notes
 # I symlinked ~/Notes under ~/Sync/Notes to catch it in this (excludes dokuwiki though)
 function nS
-    _private_search ~/Sync/Notes
+    _private_open (_private_search ~/Sync/Notes)
 end
 
 # ** Finding ......................................................................
@@ -78,15 +84,13 @@ end
 
 # *** Find main notes
 function nf --description 'Find Notes'
-    set _notes (_private_finding ~/Notes) \
-        && nvim $_notes
+    _private_open (_private_finding ~/Notes)
 end
 
 # *** Find ALL notes
 function nF
     # Find the notes and open if not cancelled
-    set _notes (_private_finding ~/Notes ~/Sync/Notes /srv/http/dokuwiki/) \
-        && nvim $_notes
+    _private_open (_private_finding ~/Notes ~/Sync/Notes /srv/http/dokuwiki/)
 end
 
 
