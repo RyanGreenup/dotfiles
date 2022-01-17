@@ -84,6 +84,10 @@ function nsd # Dokuwiki
     _private_open (_private_search $__notes_dw)
 end
 
+function nl
+    echo "[["(note_taking fzf | xargs basename | rev | cut -f 2- -d '.' | rev )"]]"
+end
+
 # *** Reindex notes
 
 function nR
