@@ -8,6 +8,7 @@ set PATH $HOME/go/bin $PATH
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 set VISUAL nvim
 set EDITOR nvim
+# set EDITOR emacsclient -nw  # This isn't bad, still a little slower than nvim though
 
 # ..............................................................................
 # * Better Coreutils / Built-ins................................................
@@ -44,7 +45,7 @@ end
 # open non empty arguments in EDITOR
 function _private_open
   if [ ! (count $argv) -eq 0 ]
-      nvim $argv
+      $EDITOR $argv
   end
 end
 
