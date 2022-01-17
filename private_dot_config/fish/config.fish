@@ -41,6 +41,10 @@ end
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
 # ..............................................................................
+set __notes_dir $HOME/Notes
+set __notes_old $HOME/Sync/Notes
+set __notes_dw  /srv/http/dokuwiki/data
+set __note_taking_dirs $__notes_dir $__notes_old $__notes_dw
 
 # open non empty arguments in EDITOR
 function _private_open
@@ -53,6 +57,7 @@ end
 # ** Searching .................................................................
 function _private_search
     set notes_dir $argv
+    cd $notes_dir
 
         sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
             --bind pgup:preview-page-up,pgdn:preview-page-down      \
@@ -63,21 +68,42 @@ function _private_search
         sed "s#^#$notes_dir/#"
 end
 
+
 # *** Search New notes
 function ns
-    _private_open (_private_search ~/Notes)
+    _private_open (_private_search $__notes_dir)
 end
 
 # *** Search ALL notes
 # I symlinked ~/Notes under ~/Sync/Notes to catch it in this (excludes dokuwiki though)
-function nS
-    _private_open (_private_search ~/Sync/Notes)
+function nso
+    _private_open (_private_search $__notes_old)
 end
+
+function nsd # Dokuwiki
+    _private_open (_private_search $__notes_dw)
+end
+
+# *** Reindex notes
+
+function nR
+  for dir in $__note_taking_dirs
+    echo $dir
+    note_taking reindex -d $dir
+  end
+end
+
+function nr
+    note_taking reindex -d $__notes_dir
+end
+
+
+
 
 # ** Finding ......................................................................
 ## I could have used `note_taking fzf` but skim and bat is prettier
 function _private_finding
-    fd '\.org$|\.md$' $argv |
+    fd '\.org$|\.md$|\.txt$' $argv |
         sk --ansi -m -c 'rg -l -t markdown -t org -t txt --ignore-case "{}"' \
             --preview "bat --style snip {} 2> /dev/null --color=always" \
             --bind 'ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down'
@@ -85,13 +111,31 @@ end
 
 # *** Find main notes
 function nf --description 'Find Notes'
-    _private_open (_private_finding ~/Notes)
+    _private_open (_private_finding $__notes_dir)
 end
 
 # *** Find ALL notes
 function nF
     # Find the notes and open if not cancelled
-    _private_open (_private_finding ~/Notes ~/Sync/Notes /srv/http/dokuwiki/)
+    _private_open (_private_finding $__note_taking_dirs)
+end
+
+function nfm
+  ~/.local/bin/mediawikisearch.bash
+end
+
+function nn
+  nnm
+end
+
+function nno
+    echo "Enter note Title:"
+    emacs (read).org
+end
+
+function nnm
+    echo "Enter note Title:"
+    nvim (read).md
 end
 
 
