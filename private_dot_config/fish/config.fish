@@ -130,12 +130,20 @@ end
 
 function nno
     echo "Enter note Title:"
-    emacs (read).org
+    set title (read)
+    echo $notes_dir
+    set file (readlink -f "$__notes_dir/pages/$title.org") # use readlink to clean path
+    echo "# $title" >> $file
+    emacs $file
 end
 
 function nnm
     echo "Enter note Title:"
-    nvim (read).md
+    set title (read)
+    echo $notes_dir
+    set file (readlink -f "$__notes_dir/pages/$title.md") # use readlink to clean path
+    echo "# $title" >> $file
+    $EDITOR $file
 end
 
 
