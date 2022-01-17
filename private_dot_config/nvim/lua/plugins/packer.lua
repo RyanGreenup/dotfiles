@@ -32,12 +32,9 @@ return require('packer').startup(function(use)
 
   }
 
-  -- Autosave
-  use {"Pocco81/AutoSave.nvim",config = function()
-    local autosave = require("autosave")
-    autosave.setup( { enabled = true})
-  end
-}
+  -- TODO Autosave
+  -- The last autosave package was very unreliabel
+    -- Cursor moved around all the time for instance
 
 	-- Misc
 	use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
