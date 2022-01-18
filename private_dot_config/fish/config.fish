@@ -84,10 +84,6 @@ function nsd # Dokuwiki
     _private_open (_private_search $__notes_dw)
 end
 
-function nl
-    echo "[["(note_taking fzf | xargs basename | rev | cut -f 2- -d '.' | rev )"]]"
-end
-
 # *** Reindex notes
 
 function nR
@@ -162,7 +158,7 @@ end
 
 # All Available Packages
 function pZ --description 'Fuzzy Find to preview and install with pacman'
-    paru -Slq | fzf --multi --preview 'paru -Si {1}' | xargs -ro sudo paru -S $argv
+    paru -Slq | fzf --multi --preview 'paru -Si {1}' | xargs -ro paru -S $argv
 end
 
 # Open work Dispatcher
