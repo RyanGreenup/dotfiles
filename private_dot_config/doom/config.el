@@ -93,7 +93,13 @@
 (setq org-logseq-dir "~/Notes")
 (map! :leader
       :desc "Open Logseq Contents" "l c" #'org-logseq-toggle-contents-sidebar)
-()
+(after! org
+  (setq org-agenda-span 10
+        org-agenda-start-on-weekday nil
+        org-agenda-start-day "-3d")
+  (setq org-tags-column 80))
+
+
 
 ;;;;; Enable TexFrag Mode
 ;; Texfrag mode is way faster and looks nicer so use that instead
