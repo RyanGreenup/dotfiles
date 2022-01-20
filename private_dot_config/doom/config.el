@@ -29,9 +29,9 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Agenda/")
+;; (setq org-directory "~/Agenda/")
 (setq org-agenda-files (list "~/Agenda" "~/Notes/journals"))
-(setq initial-buffer-choice "~/Agenda/todo.org")
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -56,9 +56,44 @@
 ;; they are implemented.
 
 
+;;; Set org mode Agenda stuff
+;;;; Variables
+(setq my/tasks_dir "~/Agenda/")
+(setq my/notes_dir "~/Notes/")
+(setq my/journal_dir (concat my/notes_dir "journals/"))
+(setq my/tasks_list (concat my/tasks_dir "todo.org"))
+;; Todays journal will have the last name using rfc3339 ⊂ iso-8601
+(setq todays_journal
+      (format (concat my/journal_dir "%s")
+              (car (last (directory-files my/journal_dir)))))
+;; Set the initial buffer
+(setq initial-buffer-choice todays_journal)
+;;;; Agenda Files
+(setq org-directory my/tasks_dir)
+(setq org-agenda-files (list my/tasks_dir my/journal_dir))
+;;;; Functions
+;; Journal
+(defun my/open_todays_journal ()
+  (interactive)
+  (find-file todays_journal))
+;; Takks
+(defun my/open_tasks ()
+  (interactive)
+  (find-file my/tasks_list))
+;;;; Keybindings
+;;;;; General Emacs
+;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
+;; (global-set-key (kbd "<f1> t") 'my/open_tasks)
+;;;;; Doom
+(map! :leader
+      :desc "Open Todays journal" "<f2> t" 'my/open_tasks)
+(map! :leader
+      :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
+;;; Misc Hooks etc
 (setq org-logseq-dir "~/Notes")
 (map! :leader
       :desc "Open Logseq Contents" "l c" #'org-logseq-toggle-contents-sidebar)
+()
 
 ;;;;; Enable TexFrag Mode
 ;; Texfrag mode is way faster and looks nicer so use that instead
