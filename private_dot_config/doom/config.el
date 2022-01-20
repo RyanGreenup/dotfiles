@@ -67,7 +67,8 @@
       (format (concat my/journal_dir "%s")
               (car (last (directory-files my/journal_dir)))))
 ;; Set the initial buffer
-(setq initial-buffer-choice todays_journal)
+;; (setq initial-buffer-choice todays_journal)
+
 ;;;; Agenda Files
 (setq org-directory my/tasks_dir)
 (setq org-agenda-files (list my/tasks_dir my/journal_dir))
