@@ -100,7 +100,21 @@
         org-agenda-start-day "-3d")
   (setq org-tags-column 80))
 
-
+;;; Easier window changing
+;; https://github.com/syl20bnr/spacemacs/issues/5933
+;; https://www.reddit.com/r/emacs/comments/kftv15/doom_emacs_problems_rebinding_keys/
+(map!
+     :map evil-motion-state-map
+ "C-k" 'evil-window-up)
+(map!
+     :map evil-motion-state-map
+ "C-h" 'evil-window-left)
+(map!
+     :map evil-motion-state-map
+ "C-l" 'evil-window-right)
+(map!
+     :map evil-motion-state-map
+ "C-j" 'evil-window-down)
 
 ;;;;; Enable TexFrag Mode
 ;; Texfrag mode is way faster and looks nicer so use that instead
