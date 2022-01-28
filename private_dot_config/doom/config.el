@@ -77,10 +77,16 @@
 (defun my/open_todays_journal ()
   (interactive)
   (find-file todays_journal))
-;; Takks
+;; Tasks
 (defun my/open_tasks ()
   (interactive)
   (find-file my/tasks_list))
+;; Notes
+(defun my/open-notes ()
+  (interactive)
+  (find-file (concat my/notes_dir "pages"))
+  ;; (ranger (concat my/notes_dir "pages"))
+  (+default/find-file-under-here))
 ;;;; Keybindings
 ;;;;; General Emacs
 ;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
@@ -90,6 +96,8 @@
       :desc "Open Todays journal" "<f2> t" 'my/open_tasks)
 (map! :leader
       :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
+(map! :leader
+      :desc "Open Todays journal" "<f2> n" 'my/open-notes)
 ;;; Misc Hooks etc
 (setq org-logseq-dir "~/Notes")
 (map! :leader
@@ -116,6 +124,10 @@
      :map evil-motion-state-map
  "C-j" 'evil-window-down)
 
+(map!
+ "C-c a" 'org-agenda)
+
+
 ;;;;; Enable TexFrag Mode
 ;; Texfrag mode is way faster and looks nicer so use that instead
 (add-hook 'org-mode-hook
@@ -128,3 +140,4 @@
     (texfrag-mode)
   )
 )
+
