@@ -77,16 +77,23 @@
 (defun my/open_todays_journal ()
   (interactive)
   (find-file todays_journal))
-;; Takks
+;; Tasks
 (defun my/open_tasks ()
   (interactive)
   (find-file my/tasks_list))
 ;; Notes
-(defun my/open-notes ()
+(defun my/open_notes ()
   (interactive)
-  (find-file (concat my/notes_dir "pages"))
-  ;; (ranger (concat my/notes_dir "pages"))
-  (+default/find-file-under-here))
+  (desktop-change-dir my/notes_dir)
+  (find-file)
+  )
+(defun my/notes-find ()
+ (interactive)
+  ;; Built in way
+ (find-file "~/Notes/pages/" )
+ (+default/find-file-under-here)
+  ;; Projectile way
+ (projectile-find-file-in-directory "~/Notes/pages"))
 ;;;; Keybindings
 ;;;;; General Emacs
 ;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
@@ -97,7 +104,7 @@
 (map! :leader
       :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
 (map! :leader
-      :desc "Open Todays journal" "<f2> n" 'my/open-notes)
+      :desc "Open Todays journal" "<f2> n" 'my/notes-find)
 ;;; Misc Hooks etc
 (setq org-logseq-dir "~/Notes")
 (map! :leader
