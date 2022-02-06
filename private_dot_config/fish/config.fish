@@ -42,20 +42,27 @@ end
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
 # ..............................................................................
+set __agenda_dir $HOME/Agenda
 set __notes_dir $HOME/Notes
 set __notes_old $HOME/Sync/Notes
 set __notes_dw  /srv/http/dokuwiki/data
 set __note_taking_dirs $__notes_dir $__notes_old $__notes_dw
 
 # git
+function __try_run
+    command -v $argv[1] > /dev/null 2>&1 && $argv[1]
+end
+
+function __git_helper
+    __try_run gitui || lazygit
+end
+
 function gn
-    cd ~/Notes
-    command -v "gitui" > /dev/null 2>&1 && gitui || lazygit
+    cd $__notes_dir && __git_helper
 end
 
 function gt
-    cd ~/Agenda
-    command -v "gitui" > /dev/null 2>&1 && gitui || lazygit
+    cd $__agenda_dir && __git_helper
 end
 
 # open non empty arguments in EDITOR
