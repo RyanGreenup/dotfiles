@@ -38,6 +38,7 @@ function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
     xclip -selection clipboard $argv
 end
 
+
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
 # ..............................................................................
@@ -45,6 +46,15 @@ set __notes_dir $HOME/Notes
 set __notes_old $HOME/Sync/Notes
 set __notes_dw  /srv/http/dokuwiki/data
 set __note_taking_dirs $__notes_dir $__notes_old $__notes_dw
+
+# git
+function gn
+    gitui -d ~/Notes
+end
+
+function gt
+gitui -d ~/Agenda/
+end
 
 # open non empty arguments in EDITOR
 function _private_open
