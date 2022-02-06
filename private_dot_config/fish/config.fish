@@ -49,11 +49,13 @@ set __note_taking_dirs $__notes_dir $__notes_old $__notes_dw
 
 # git
 function gn
-    gitui -d ~/Notes
+    cd ~/Notes
+    command -v "gitui" > /dev/null 2>&1 && gitui || lazygit
 end
 
 function gt
-gitui -d ~/Agenda/
+    cd ~/Agenda
+    command -v "gitui" > /dev/null 2>&1 && gitui || lazygit
 end
 
 # open non empty arguments in EDITOR
