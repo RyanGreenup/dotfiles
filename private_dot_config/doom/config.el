@@ -149,8 +149,7 @@
 ;;; Org Ref Stuff
 
 
-(setq my/bib_locations '("~/Notes/ref.bib"))
-(setq my/bib_notes_location "~/Notes/refs/")
+
 (after! org
   (require 'org-ref-ivy)
 
@@ -160,9 +159,9 @@
         org-ref-insert-ref-function 'org-ref-insert-ref-link
         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 
-  (setq bibtex-completion-bibliography 'my/bib_locations
-        ;; bibtex-completion-library-path '("~/Zotero/storage/")
-        bibtex-completion-notes-path 'my/bib_notes_location
+  (setq bibtex-completion-bibliography '("~/Notes/ref.bib")                        ;; NOTE .bib file location
+        bibtex-completion-library-path '("~/Zotero/storage/")                      ;; NOTE PDF file location (TODO need flat ./citeky.pdf files)
+        bibtex-completion-notes-path "~/Notes/refs.org"                            ;; NOTE lit notes .org file
         bibtex-completion-additional-search-fields '(keywords)
         bibtex-completion-pdf-open-function
           (lambda (fpath)
@@ -179,3 +178,4 @@
     org-latex-packages-alist '(("" "minted"))
     org-latex-pdf-process
     '("latexmk -8bit -f -shell-escape -xelatex -interaction=nonstopmode %F")))
+
