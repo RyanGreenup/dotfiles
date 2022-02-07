@@ -38,6 +38,28 @@ function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
     xclip -selection clipboard $argv
 end
 
+## Easy weather
+function wtr
+    # TODO put a test of age in here
+    if test -f /tmp/weather.txt
+        set have_weather true
+    else
+        set have_weather false
+    end
+
+
+    if $have_weather
+        bat /tmp/weather.txt
+    else
+        curl v2.wttr.in > /tmp/weather.txt && set have_weather true
+        curl wttr.in >> /tmp/weather.txt && set have_weather true
+    end
+
+    if ! $have_weather
+        echo "Unable to download weather"
+    end
+end
+
 
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
