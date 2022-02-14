@@ -73,5 +73,5 @@
   ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; Org Ref
-(package! org-ref
+(package! org-ref)
 (package! ivy-bibtex)
