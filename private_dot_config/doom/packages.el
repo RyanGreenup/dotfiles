@@ -60,3 +60,18 @@
 
 (package! outshine)
 (package! texfrag)
+
+;; Fish
+(package! fish-mode)
+;; Tree Sitter
+;; Implements Tree-Sitter
+(package! tree-sitter)
+(package! tree-sitter-langs)
+
+  ;; (require tree-sitter-langs)
+  ;; (global-tree-sitter-mode)
+  ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+;; Org Ref
+(package! org-ref
+(package! ivy-bibtex)
