@@ -30,7 +30,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 ;; (setq org-directory "~/Agenda/")
-(setq org-agenda-files (list "~/Agenda" "~/Notes/journals"))
+(setq org-agenda-files (list "~/Agenda" "~/Notes/slipbox/journals"))
 
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -59,7 +59,7 @@
 ;;; Set org mode Agenda stuff
 ;;;; Variables
 (setq my/tasks_dir "~/Agenda/")
-(setq my/notes_dir "~/Notes/")
+(setq my/notes_dir "~/Notes/slipbox")
 (setq my/journal_dir (concat my/notes_dir "journals/"))
 (setq my/tasks_list (concat my/tasks_dir "todo.org"))
 ;; Todays journal will have the last name using rfc3339 ⊂ iso-8601
@@ -90,10 +90,10 @@
 (defun my/notes-find ()
  (interactive)
   ;; Built in way
- (find-file "~/Notes/pages/" )
+ (find-file "~/Notes/slipbox/pages/" )
  (+default/find-file-under-here)
   ;; Projectile way
- (projectile-find-file-in-directory "~/Notes/pages"))
+ (projectile-find-file-in-directory "~/Notes/slipbox/pages"))
 ;;;; Keybindings
 ;;;;; General Emacs
 ;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
@@ -106,7 +106,7 @@
 (map! :leader
       :desc "Open Todays journal" "<f2> n" 'my/notes-find)
 ;;; Misc Hooks etc
-(setq org-logseq-dir "~/Notes")
+(setq org-logseq-dir "~/Notes/slipbox")
 (map! :leader
       :desc "Open Logseq Contents" "l c" #'org-logseq-toggle-contents-sidebar)
 (after! org
