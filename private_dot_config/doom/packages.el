@@ -75,3 +75,4 @@
 ;; Org Ref
 (package! org-ref)
 (package! ivy-bibtex)
+(package! org-super-agenda)

@@ -60,7 +60,7 @@
 ;;;; Variables
 (setq my/tasks_dir "~/Agenda/")
 (setq my/notes_dir "~/Notes/slipbox")
-(setq my/journal_dir (concat my/notes_dir "journals/"))
+(setq my/journal_dir (concat my/notes_dir "/journals/"))
 (setq my/tasks_list (concat my/tasks_dir "todo.org"))
 ;; Todays journal will have the last name using rfc3339 ⊂ iso-8601
 (setq todays_journal
@@ -146,36 +146,15 @@
     (texfrag-mode)
   )
 )
+
+;;; Set up a load path
+(setq doom-config-directory "~/.config/doom")
+(add-to-list 'load-path (expand-file-name "lisp" doom-config-directory))
+
 ;;; Org Ref Stuff
+(require 'init-org-ref)
 
-
-
-(after! org
-  (require 'org-ref-ivy)
-
-  (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-        org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-        org-ref-insert-label-function 'org-ref-insert-label-link
-        org-ref-insert-ref-function 'org-ref-insert-ref-link
-        org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-
-  (setq bibtex-completion-bibliography '("~/Notes/ref.bib")                        ;; NOTE .bib file location
-        bibtex-completion-library-path '("~/Zotero/storage/")                      ;; NOTE PDF file location (TODO need flat ./citeky.pdf files)
-        bibtex-completion-notes-path "~/Notes/refs.org"                            ;; NOTE lit notes .org file
-        bibtex-completion-additional-search-fields '(keywords)
-        bibtex-completion-pdf-open-function
-          (lambda (fpath)
-                  (call-process "zathura" nil 0 nil fpath)))
-
-
-  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link))
-
-;;; Set the org-mode latex backend
-(after! org
-  ; LaTeXMk is more efficient
-  ;; Execute either depending on which one you want, and or swap order
-  (setq org-latex-listings 'minted
-    org-latex-packages-alist '(("" "minted"))
-    org-latex-pdf-process
-    '("latexmk -8bit -f -shell-escape -xelatex -interaction=nonstopmode %F")))
-
+;;; Configure Org Super Agenda
+(require 'init-org-super-agenda)
+(map!
+ "C-c A" 'my/org-super-agenda)
