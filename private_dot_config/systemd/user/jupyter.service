@@ -2,7 +2,7 @@
 Description=Jupyter Server for Sync/DataSci Directory
 
 [Service]
-ExecStart=/usr/bin/bash %h/Sync/DataSci/.jupyter/start_jupyter.sh
+ExecStart=/usr/bin/bash %h/Studies/DataSci/.jupyter/start_jupyter.sh
 
 [Install]
 WantedBy=default.target
