@@ -117,11 +117,14 @@ return require('packer').startup(function(use)
   -- Programming
   use 'ray-x/go.nvim'
 
-  -- OIrg Mode
+  -- Org Mode
   use {'nvim-orgmode/orgmode', config = function()
           require('orgmode').setup{}
   end
       }
+
+  -- Which Key
+  use 'folke/which-key.nvim'
 
   -- Themes
   use {
