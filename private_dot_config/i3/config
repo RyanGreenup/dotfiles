@@ -4,7 +4,7 @@
 # Edit the ~/.Xresources to change the i3 DPI on different DPIs
 
 
-exec ~/.fehbg
+exec --no-startup-id ~/.fehbg
 # When `feh --bg-scale` is run it automatically creates a file at `~/.fehbg`
 # with a script to set the last wallpaper again.
 # This will set that at startup.
@@ -480,8 +480,8 @@ set $i3_resurrect i3-resurrect
 ## bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 ## bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 ## bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86MonBrightnessDown exec sudo xbacklight -dec 10
-bindsym XF86MonBrightnessUp exec sudo xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
 ## bindsym XF86AudioPlay exec playerctl play-pause
 ## bindsym XF86AudioNext exec playerctl next
 ## bindsym XF86AudioPrev exec playerctl previous
