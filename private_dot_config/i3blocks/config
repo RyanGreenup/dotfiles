@@ -33,6 +33,12 @@ command=$SCRIPT_DIR/blocks/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
+
+[uptime]
+label=🕰
+command= echo "$(echo "$(date -u -d @$(cat /proc/uptime | cut -d ' ' -f 1) +"%d") - 1" | bc) $(date -u -d @$(cat /proc/uptime | cut -d ' ' -f 1) +"%T")"
+interval=1
+
 [audio]
 label=
 interval=1
