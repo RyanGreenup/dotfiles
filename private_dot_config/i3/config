@@ -4,6 +4,11 @@
 # Edit the ~/.Xresources to change the i3 DPI on different DPIs
 
 
+exec ~/.fehbg
+# When `feh --bg-scale` is run it automatically creates a file at `~/.fehbg`
+# with a script to set the last wallpaper again.
+# This will set that at startup.
+
 ## Default Stuff
   # Title Bar Menus
   	# Way more realestate without this but turn on when you need it
@@ -31,7 +36,7 @@ set $mod Mod4
 #font pango:monospace 19
 
 # This does the window tops
-font pango:Source Code Pro Semibold 25px
+font pango:Fira Code       Semibold 15px
 ## exec xrandr --dpi 184 ## Yeah but that that happens on laptop, probably just do ~/.xresrouces?
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -420,14 +425,15 @@ mode "$mode_gaps_left" {
 # https://github.com/Airblader/i3/tree/gaps-next
 # delete or uncomment the following lines if you do not have it or do not
 # want it
-gaps inner 10
-gaps outer 10
+gaps inner 20
+gaps outer 20
 for_window [class="^.*"] border pixel 5
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
  bar {
-          status_command i3status
+          # status_command i3status
+          status_command i3blocks
           height 30    # Disabled in favour or lxqt
  }
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
@@ -435,10 +441,6 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # The bar doesn't look nice with a Desktop Environment
 #  The reason for using lxde/lxqt or mate is, essentially, to have xdg-open in a sane way, nice notifications, vol/brightness control
 #  I noteiced that xdg-open didn't work with LXQT, maybe worked with LXDE and worked really well with Mate
-
-# exec ~/.fehbg
-# output "*" bg /home/ryan/Pictures/MathWallpapers.png fill
-exec firefox https://i3wm.org/docs/refcard.html
 
 ### Remember Windows (Resurrect)
 ### Colour focused windows
@@ -542,9 +544,6 @@ for_window [class="plasmashell" window_type="notification"] border none, move ri
 no_focus [class="plasmashell" window_type="notification"]
 
 for_window [title="Desktop - Plasma"] kill, floating enable, border none
-# feh --bg-scale (find /usr/share/wallpapers/ /usr/share/backgrounds/ -name "*.png" | fzf --preview 'jp2a --colors {}')
-# exec --no-startup-id feh --bg-scale ~/.config/i3/kk-Frax-MiniMandel-Blue-4K.jpg
-exec --nostartup-id feh --bg-scale /usr/share/wallpapers/MilkyWay/contents/images/5120x2880.png
 
 
 
