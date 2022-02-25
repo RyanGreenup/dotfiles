@@ -435,7 +435,8 @@ for_window [class="^.*"] border pixel 5
  bar {
           # status_command i3status
           status_command i3blocks
-          height 30    # Disabled in favour or lxqt
+          height 35
+
  }
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -554,7 +555,7 @@ exec_always --no-startup-id i3-auto-layout
 
 ## Requires xdotool and i3-auto-layout (pip)
 # Reroute STDERR so you can see if it fails
-bindsym $mod+Escape exec "~/.local/bin/i3-instant-layout --list 2>&1 | rofi -dmenu -matching fuzzy | ~/.local/bin/i3-instant-layout -"
+bindsym $mod+Escape exec "i3-instant-layout --list 2>&1 | dmenu | i3-instant-layout -"
 bindsym $mod+Shift+Escape exec "bash ~/.config/i3/rofi_layout.sh"
 bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 
