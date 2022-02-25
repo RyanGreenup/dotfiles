@@ -1,5 +1,6 @@
 [Unit]
 Description=Powertop tunings
+# Remember to run powertop --calibrate once in the life of the OS
 
 [Service]
 Type=oneshot
