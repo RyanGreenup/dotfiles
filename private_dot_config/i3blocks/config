@@ -39,6 +39,11 @@ label=🕰
 command= echo "$(echo "$(date -u -d @$(cat /proc/uptime | cut -d ' ' -f 1) +"%d") - 1" | bc) $(date -u -d @$(cat /proc/uptime | cut -d ' ' -f 1) +"%T")"
 interval=1
 
+[brightness]
+label=🔅
+command= echo "$(brightnessctl g) * 100 / $(brightnessctl m)" | bc
+interval=1
+
 [audio]
 label=
 interval=1
