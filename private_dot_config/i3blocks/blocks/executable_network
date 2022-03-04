@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+# device="$(ls /sys/class/net/ | grep e* | head -n 1)"
 device="${BLOCK_INSTANCE:-wlan0}"
 status=$(cat /sys/class/net/${device}/operstate)
 

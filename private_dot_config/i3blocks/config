@@ -155,15 +155,15 @@ interval=30
 label=
 interval=5
 
-[network]
-label=
-instance=enp4s0f2
-interval=10
-
-[network]
-label=
-instance=wlp3s0
-interval=10
+# [network]
+# label=
+# instance=enp4s0f2
+# interval=10
+#
+# [network]
+# label=
+# instance=wlp3s0
+# interval=10
 
 #[packages]
 #label=
@@ -237,12 +237,9 @@ interval=5
 
 # Part 12
 
-[window]
-command=~/.i3-blocks/blocks/scroll $BLOCK_NAME
-label=
-markup=pango
-interval=repeat
-
-[keymap]
+[keystate]
 label=
-interval=10
+interval=1
+
+
+# ~/.config/i3blocks/blocks/keystate
