@@ -155,15 +155,15 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:Terminal/Emacs"
-set $ws2 "2:Internet"
-set $ws3 "3"
+set $ws1 "1:Terminalo"
+set $ws2 "2:Interreto"
+set $ws3 "3:Redaktisto"
 set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7:Notes"
-set $ws8 "8:Messaging"
-set $ws9 "9"
+set $ws5 "5:REPL"
+set $ws6 "6:Libroj"
+set $ws7 "7:Notoj"
+set $ws8 "8:Babiloj"
+set $ws9 "9:Agordo"
 set $ws10 "10"
 set $ws11 "11"
 set $ws12 "12"
