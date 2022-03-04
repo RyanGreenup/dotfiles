@@ -208,6 +208,12 @@ function wk --description 'Alias for work script' --wraps='workdispatch'
 end
 
 
+# ............................................................
+# Niceties
+# ............................................................
+function kill_discord
+    ps ax | grep discord | cut  -d ' ' -f 1 | xargs kill
+end
 
 # ## Make sure to reflink btrfs
 # function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
