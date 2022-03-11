@@ -166,7 +166,7 @@ function nfm
 end
 
 function nn
-  nnm
+    note_taking new -d "$__notes_dir"
 end
 
 function nno
