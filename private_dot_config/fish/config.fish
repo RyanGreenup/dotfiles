@@ -199,7 +199,7 @@ end
 
 # All Available Packages
 function pZ --description 'Fuzzy Find to preview and install with pacman'
-    paru -Slq | fzf --multi --preview 'paru -Si {1}' | xargs -ro paru -S $argv
+    paru -Slq | fzf --multi --preview 'paru -Si {1}' | xargs -ro paru -S --noconfirm --needed $argv
 end
 
 # Open work Dispatcher
