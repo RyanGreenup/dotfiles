@@ -66,5 +66,6 @@
     ],
     "terminal.integrated.sendKeybindingsToShell": true,
     "workbench.editor.wrapTabs": true,
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "files.autoSave": "onFocusChange"
 }
