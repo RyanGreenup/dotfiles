@@ -1,0 +1,121 @@
+let PATH = $PATH:/home/ryan/.local/bin
+let PATH = $PATH:/home/ryan/bin
+let PATH = $PATH:/home/ryan/.cargo/bin
+let PATH = $PATH:$HOME/.gem/ruby/2.7.0/bin/
+let PATH = $PATH:$HOME/go/bin
+export PATH = $PATH
+
+let script_file = "/tmp/command.ion"
+
+
+# ..............................................................................
+# * Better Coreutils / Built-ins................................................
+# ..............................................................................
+
+fn get_directory n
+    fd -t d -d $n | sk --preview 'exa -Gl {}'
+end
+
+
+fn write_command script_file -- Opens a text file for editing a command
+    echo '#!/usr/bin/ion' > $script_file
+    nvim $script_file
+end
+
+fn run_command script_file
+    ion $script_file
+end
+
+fn smart_cd x
+    cd $x
+    let too_long = 30
+    for depth in 5..1
+        if test $(fd -d $depth | wc -l) -lt $too_long
+            exa -TL $depth
+            return
+        end
+    end
+    exa -lG
+end
+
+
+## Easy weather
+fn wtr
+    # TODO put a test of age in here
+
+    if test -f /tmp/weather.txt
+        bat -p /tmp/weather.txt
+    else
+        curl v2.wttr.in > /tmp/weather.txt
+        curl wttr.in >> /tmp/weather.txt
+        bat -p /tmp/weather.txt
+    end
+end
+
+
+# ..............................................................................
+# * Notetaking stuff ...........................................................
+# ..............................................................................
+let agenda_dir = "$HOME/Agenda"
+let notes_dir = "$HOME/Notes"
+let notes_old = "$HOME/Sync/Notes"
+let note_taking_dirs = "$notes_dir $notes_old"
+
+fn try_run program
+    test -n $(which $program)
+end
+
+fn git_helper
+   let helpers = ["gitui" "lazygit"]
+   for h in @helpers
+       if try_run $h
+           $h
+           return
+       end
+    end
+    echo "No Git Helpers installed"
+end
+
+fn ng
+    cd $notes_dir && git_helper
+end
+
+fn tg
+   cd $agenda_dir && git_helper
+end
+
+fn note_search_with_bat
+    cd $notes_dir
+        sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
+            --bind pgup:preview-page-up,pgdn:preview-page-down      \
+            --preview "bat --style grid --color=always              \
+                            --terminal-width 80 $notes_dir/{+}      \
+                            --italic-text=always                    \
+                            --decorations=always"                |  \
+        sed "s#^#$notes_dir/#"
+end
+
+## I could have used `note_taking fzf` but skim and bat is prettier
+fn note_find_with_bat
+    cd $notes_dir
+    fd '\.org$|\.md$|\.txt$' $notes_dir |
+        sk --ansi -m -c 'rg -l -t markdown -t org -t txt --ignore-case "{}"' \
+            --preview "bat --style snip {} 2> /dev/null --color=always" \
+            --bind 'ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down'
+end
+
+# ..............................................................................
+# * Aliases ....................................................................
+# ..............................................................................
+alias c     = 'cd $(get_directory 3)'
+alias d    = "smart_cd"
+alias l     = "exa -lG"
+alias w     = "write_command $script_file"
+alias r     = "run_command $script_file"
+alias copy  = "xclip -sel clip"
+alias x     = "copy"
+alias paste = "xclip -sel clip -o"
+
+alias ns = "note_search_with_bat"
+alias nf = "note_find_with_bat"
+
