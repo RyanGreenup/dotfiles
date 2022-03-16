@@ -6,7 +6,8 @@ let PATH = $PATH:$HOME/go/bin
 export PATH = $PATH
 
 let script_file = "/tmp/command.ion"
-
+# Starship
+eval $(starship init ion)
 
 # ..............................................................................
 # * Better Coreutils / Built-ins................................................
@@ -97,8 +98,9 @@ end
 
 ## I could have used `note_taking fzf` but skim and bat is prettier
 fn note_find_with_bat
-    cd $notes_dir
-    fd '\.org$|\.md$|\.txt$' $notes_dir |
+    # Change directory means relative file names from find/fd
+    cd $notes_dir/slipbox/pages
+    fd '\.org$|\.md$|\.txt$' |\
         sk --ansi -m -c 'rg -l -t markdown -t org -t txt --ignore-case "{}"' \
             --preview "bat --style snip {} 2> /dev/null --color=always" \
             --bind 'ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down'
