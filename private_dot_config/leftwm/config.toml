@@ -17,6 +17,13 @@ key = "t"
 
 [[keybind]]
 command = "Execute"
+value = "leftwm_change_theme.sh"
+modifier = ["modkey"]
+key = "a"
+
+
+[[keybind]]
+command = "Execute"
 value = "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str 'element-icon { size: 3ch;}' -theme DarkBlue"
 modifier = ["modkey"]
 key = "d"
