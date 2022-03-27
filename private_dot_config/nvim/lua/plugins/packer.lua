@@ -126,6 +126,9 @@ return require('packer').startup(function(use)
   -- Which Key
   use 'folke/which-key.nvim'
 
+  -- Lightspeed, like easy motion
+  use 'ggandor/lightspeed.nvim'
+
   -- Themes
   use {
     'morhetz/gruvbox',
