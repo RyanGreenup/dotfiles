@@ -49,7 +49,7 @@ return require('packer').startup(function(use)
 	-- Markdown
 	use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
 	use 'instant-markdown/vim-instant-markdown'
-
+  use { 'nblock/vim-dokuwiki' }
 
 	-- Appearance
 	use {

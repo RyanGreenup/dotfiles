@@ -44,6 +44,8 @@ map('n', '<leader>q', ':qa!<CR>', default_opts)
 map('n'	, '<leader>f/'     , '<cmd>Telescope live_grep<cr>'  , default_opts)
 map('n'	, '<leader>ht'     , '<cmd>Telescope colorscheme<cr>', default_opts)
 map('n'	, '<leader>ff'     , '<cmd>Telescope find_files<cr>' , default_opts)
+map('n'	, '<leader>bp'     , ':bp<CR>' , default_opts)
+map('n'	, '<leader>bn'     , ':bn<CR>' , default_opts)
 map('n'	, '<leader>fp'     , ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr>', default_opts)
 map('n'	, '<leader>ss'     , '<cmd>Telescope current_buffer_fuzzy_find<cr>' , default_opts)
 map('n'	, '<C-p>'     , '<cmd>Telescope find_files<cr>' , default_opts)
@@ -94,6 +96,7 @@ vim.cmd[[
 
 ]]
 
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
 -- autocmd BufEnter *.md :map <f12> :w<cr>:!typora "%" & disown <Enter>
 -- autocmd BufEnter *.md :map <Space>fo :w<cr>:!marktext "%" & disown <Enter>
 -- autocmd BufEnter *.md :map <Space>foa :w<cr>:!atom "%" & disown <Enter>
