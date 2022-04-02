@@ -5,7 +5,8 @@ tex="$(xclip -sel clip -o | tr -d '\n')"
 name="/tmp/$(echo ${tex} | xxhsum -H0 | cut -f 1 -d ' ').svg"
 
 echo ${tex}
-tex2svg "${tex}" > "${name}"
+tex2svg="/home/ryan/Studies/programming/javascript/mathjax-node-cli/bin/tex2svg"
+${tex2svg} "${tex}" > "${name}"
 
 # Copy the filename to the clipboard
 echo "${name}" | xclip -sel clip
