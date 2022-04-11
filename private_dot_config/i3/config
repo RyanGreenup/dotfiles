@@ -525,7 +525,7 @@ bindsym $mod+Up workspace prev_on_output
 bindsym $mod+Shift+equal exec i3_balance_workspace
 
 # Take Screenshot
-bindsym $mod+Print maim --select | xclip -selection clipboard -target image/png
+bindsym $mod+Shift+s exec --no-startup-id maim --select | xclip -selection clipboard -target image/png
 
 # Convenient KDE Stuff# Plasma compatibility improvements
 for_window [window_role="pop-up"] floating enable
