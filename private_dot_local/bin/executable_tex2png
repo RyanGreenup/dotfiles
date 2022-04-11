@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# * Shell Settings
+set -o errexit  # abort on nonzero exitstatus
+set -o nounset  # abort on unbound variable
+# set -o pipefail # don't hide errors within pipes
+
+# * Main Function
+main() {
+    check_dependencies gm "/Graphics Magick/"
+    check_dependencies latex "LaTeX"
+    dir="$(mktemp -d)"
+    cd "${dir}"
+    filename="file"
+    latex_opts="-interaction=nonstopmode"
+
+    echo "${tex_contents}" > "${filename}.tex" && \
+        nvim "${filename}.tex"
+
+    latex "${latex_opts}" "${filename}.tex" > log.txt && \
+        gm convert -density 10000 "${filename}.dvi"  "${filename}.png"
+
+    readlink -f "${filename}.png"
+    cat "${filename}.png" | xclip -sel clip -t image/png
+}
+
+check_dependencies() {
+    command -v "${1}" >/dev/null 2>&1 || { echo >&2 "I require ${2} but it's not installed.  Aborting."; exit 1; }
+}
+
+tex_contents='
+\documentclass[crop]{standalone}
+
+\usepackage{amsmath}
+
+\begin{document}
+    \(\begin{aligned}
+    f\left( a \right) = \frac{1}{2 \pi i} \oint_{\gamma} \frac{f \left( z \right) }{z-a} \rm{d}z
+    \end{aligned}\)
+\end{document}
+'
+
+
+
+# * Call Main Function
+main "${@:-}"
+
+
