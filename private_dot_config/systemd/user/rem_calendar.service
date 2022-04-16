@@ -1,0 +1,8 @@
+[Unit]
+Description=Run Watchexec to build calendar whenever todo.org file changes
+
+[Service]
+ExecStart="%h/Agenda/org2cal_html.sh"
+
+[Install]
+WantedBy=default.target
