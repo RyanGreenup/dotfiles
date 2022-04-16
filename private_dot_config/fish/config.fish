@@ -207,6 +207,11 @@ function wk --description 'Alias for work script' --wraps='workdispatch'
     emacsclient --create-frame ~/Agenda/todo.org ~/Agenda/projects.org & disown
 end
 
+# Man pages
+function vman
+    man $argv[1] | nvim -MR +"set filetype=man" -
+end
+
 
 # ............................................................
 # Niceties
