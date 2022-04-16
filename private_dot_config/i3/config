@@ -545,10 +545,20 @@ bindsym $mod+Shift+equal exec i3_balance_workspace
 
 # Take Screenshot
 bindsym $mod+Shift+s exec --no-startup-id maim --select | xclip -selection clipboard -target image/png
+
 # Open Org Agenda
-# xprop | grep CLASS
-for_window [title="agenda"] floating enable
-bindsym $mod+Shift+a exec --no-startup-id  "st -g 80x70 -t agenda -e dash -c 'org_agenda $(ls ~/Agenda/*\.org) -t -o; read 1'"
+bindsym $mod+Shift+a exec --no-startup-id  org_agenda ~/Agenda/*\.org -to | pandoc -f org -t html -s -o /tmp/agenda.html && firefox /tmp/agenda.html
+
+# Open Calendar
+# bindsym $mod+Shift+u exec --no-startup-id  org_agenda ~/Agenda/*\.org --rem | remind -p3 - | rem2ps | zathura -
+bindsym $mod+Shift+u exec --no-startup-id  firefox ~/Notes/calendar.html
+
+# # xprop | grep CLASS
+# for_window [title="agenda"] floating enable
+# bindsym $mod+Shift+a exec --no-startup-id  "st -g 140x120 -t agenda -e dash -c 'org_agenda $(ls ~/Agenda/*\.org) -t -o; read 1'"
+# # org_agenda (ls ~/Agenda/*\.org) -t -o | gxmessage -title "Todays Agenda" -font 'mono 12' -file -
+# bindsym $mod+Shift+u exec --no-startup-id "cat ~/Sync/reminders.rem | remind -p3 - | rem2ps | zathura -"
+
 
 ## Popup terminal..........................................
 # Set your preferred terminal emulator# Give it a title
