@@ -158,3 +158,10 @@
 (require 'init-org-super-agenda)
 (map!
  "C-c A" 'my/org-super-agenda)
+
+
+;;; Configure icalendar ics export
+(setq org-icalendar-include-todo t
+      org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+      org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+      org-icalendar-with-timestamps t)
