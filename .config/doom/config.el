@@ -168,10 +168,10 @@
 (setq org-icalendar-alarm-time 0)
 
 (setq org-caldav-url "http://localhost:8925/remote.php/dav/calendars/ryan")
-(setq org-caldav-calendar-id "org_mode_cal")
+(setq org-caldav-calendar-id "org-mode-1")
 (setq org-caldav-inbox "~/Agenda/inbox.org")
-(setq org-caldav-files
-      (directory-files "~/Agenda" 'full (rx ".org" eos)))
+(setq org-caldav-files '("~/Agenda/todo.org" "~/Agenda/someday_maybe.org" "~/Agenda/Reading_List.org" "~/Agenda/projects.org"))
+(setq org-caldav-sync-changes-to-org 'all) ;; must be set as 'all or timestamp won't sync org <- cal
 (setq org-caldav-delete-calendar-entries "always")
 (setq org-caldav-backup-file "/tmp/caldav-backup.org")
 ;; C-u M-x org-caldav-delete-everything
