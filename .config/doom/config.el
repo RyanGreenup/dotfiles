@@ -173,4 +173,5 @@
 (setq org-caldav-files
       (directory-files "~/Agenda" 'full (rx ".org" eos)))
 (setq org-caldav-delete-calendar-entries "always")
+(setq org-caldav-backup-file "/tmp/caldav-backup.org")
 ;; C-u M-x org-caldav-delete-everything
