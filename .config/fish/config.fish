@@ -224,3 +224,12 @@ end
 # function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
 #   cp --reflink=auto $argv;
 # end
+
+
+set dotfiles_dir $HOME/.local/share/dotfiles
+function gd
+    git --work-tree $HOME --git-dir $dotfiles_dir $argv
+end
+function gdui
+    gitui -w $HOME -d $dotfiles_dir
+end
