@@ -165,3 +165,12 @@
       org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
       org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
       org-icalendar-with-timestamps t)
+(setq org-icalendar-alarm-time 0)
+
+(setq org-caldav-url "http://localhost:8925/remote.php/dav/calendars/ryan")
+(setq org-caldav-calendar-id "org_mode_cal")
+(setq org-caldav-inbox "~/Agenda/inbox.org")
+(setq org-caldav-files
+      (directory-files "~/Agenda" 'full (rx ".org" eos)))
+(setq org-caldav-delete-calendar-entries "always")
+;; C-u M-x org-caldav-delete-everything
