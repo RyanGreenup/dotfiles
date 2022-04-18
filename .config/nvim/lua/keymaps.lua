@@ -41,7 +41,7 @@ map('n', '<leader>q', ':qa!<CR>', default_opts)
 
 
 -- Fuzzy Find stuff
-map('n'	, '<leader>f/'     , '<cmd>Telescope live_grep<cr>'  , default_opts)
+map('n'	, '<leader>/'     , '<cmd>Telescope live_grep<cr>'  , default_opts)
 map('n'	, '<leader>ht'     , '<cmd>Telescope colorscheme<cr>', default_opts)
 map('n'	, '<leader>ff'     , '<cmd>Telescope find_files<cr>' , default_opts)
 map('n'	, '<leader>bp'     , ':bp<CR>' , default_opts)
