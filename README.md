@@ -1,15 +1,17 @@
 # Dotfiles
 
-My dotfiles, now being managed with [Chezmoi](https://github.com/twpayne/chezmoi/blob/master/docs/QUICKSTART.md).
+My dotfiles, now being managed with a [bare git repo](https://gitlab.com/RyanGreenup/bare_dot_go).
 
-## Usage 
-To use these dotfiles, [set chezmoi to use this repo](https://github.com/twpayne/chezmoi/blob/master/docs/QUICKSTART.md#using-chezmoi-across-multiple-machines):
+## Usage
+To use these dotfiles:
 
 ```bash
- chezmoi init https://gitlab.com/projects/new#blank_project
- chezmoi apply
- # in the future update with
- chezmoi update
+git_repo="https://gitlab.com/ryangreenup/dotfiles"
+tmp_dot_dir="$(mktemp -d)"
+dot_dir="$HOME/.local/share/dotfiles"
+git clone --separate-git-dir="${dot_dir}" "${git_repo}" "${tmp_dot_dir}"
+rsync --recursive --verbose --exclude '.git' "${tmp_dot_dir}"/ $HOME/
+gitui -w $HOME -d "${dot_dir}"
 ```
 
 ## Seperate
