@@ -168,10 +168,25 @@
 (setq org-icalendar-alarm-time 0)
 
 (setq org-caldav-url "http://localhost:8925/remote.php/dav/calendars/ryan")
-(setq org-caldav-calendar-id "org-mode-1")
+(setq org-caldav-calendar-id "org-mode-3")
 (setq org-caldav-inbox "~/Agenda/inbox.org")
 (setq org-caldav-files '("~/Agenda/todo.org" "~/Agenda/someday_maybe.org" "~/Agenda/Reading_List.org" "~/Agenda/projects.org"))
-(setq org-caldav-sync-changes-to-org 'all) ;; must be set as 'all or timestamp won't sync org <- cal
-(setq org-caldav-delete-calendar-entries "always")
+(setq org-caldav-sync-changes-to-org 'all) ;; must be set as 'all or timestamp won't sync org <- cal, use gitui and stage changes first
+                                           ;; e.g. using (my/org-caldav-sync)
+(setq org-caldav-delete-calendar-entries 'always)
 (setq org-caldav-backup-file "/tmp/caldav-backup.org")
 ;; C-u M-x org-caldav-delete-everything
+;; Helper function to prevent mistakes
+(defun my/org-caldav-sync ()
+  (interactive)
+  (setq my/agenda-dir "$HOME/Agenda")
+  ;; Stage the git repo to detect changes related to sync
+  ;; Or should I stash?
+  (if
+    (shell-command (format "cd %s && git add -u" my/agenda-dir))
+      (message (format  "Staged changes under %s" my/agenda-dir))
+      (message (format  "Warning: Unable to changes under %s" my/agenda-dir)))  (org-caldav-sync)
+  ;; Perform the sync
+  (org-caldav-sync)
+  ;; Save the buffers
+  (org-save-all-org-buffers))
