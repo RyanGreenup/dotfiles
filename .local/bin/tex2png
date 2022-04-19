@@ -21,7 +21,7 @@ main() {
         gm convert -density 10000 "${filename}.dvi"  "${filename}.png"
 
     readlink -f "${filename}.png"
-    cat "${filename}.png" | xclip -sel clip -t image/png
+    xclip -sel clip -t image/png < "${filename}.png"
 }
 
 check_dependencies() {
