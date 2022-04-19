@@ -115,6 +115,13 @@
         org-agenda-start-day "-3d")
   (setq org-tags-column 80))
 
+ (setq org-agenda-time-grid
+         '((daily today weekly require-timed)
+         (800 900 1000 1200 1300 1400  1500 1600 1700 1800 1900 2000)
+         "......" "----------------"))
+;; See also
+;; (require 'calfw-org)
+
 ;;; Easier window changing
 ;; https://github.com/syl20bnr/spacemacs/issues/5933
 ;; https://www.reddit.com/r/emacs/comments/kftv15/doom_emacs_problems_rebinding_keys/
