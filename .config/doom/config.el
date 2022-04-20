@@ -197,3 +197,11 @@
   (org-caldav-sync)
   ;; Save the buffers
   (org-save-all-org-buffers))
+
+;; ~/.config/doom/config.el
+(map!
+     :map ess-mode-map
+     "<S-return>" #'ess-eval-region-or-function-or-paragraph-and-step)
+(map!
+     :map ess-mode-map
+     "<M-return>" #'ess-eval-region-or-function-or-paragraph)
