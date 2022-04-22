@@ -129,6 +129,9 @@ return require('packer').startup(function(use)
   -- Lightspeed, like easy motion
   use 'ggandor/lightspeed.nvim'
 
+  -- Notifications
+  use { 'rcarriga/nvim-notify' }
+
   -- Themes
   use {
     'morhetz/gruvbox',

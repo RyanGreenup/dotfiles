@@ -96,9 +96,47 @@ vim.cmd[[
 
 ]]
 
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
 -- autocmd BufEnter *.md :map <f12> :w<cr>:!typora "%" & disown <Enter>
 -- autocmd BufEnter *.md :map <Space>fo :w<cr>:!marktext "%" & disown <Enter>
 -- autocmd BufEnter *.md :map <Space>foa :w<cr>:!atom "%" & disown <Enter>
 
 
+------------------------------------------------------------
+-- dokuwiki stuff
+------------------------------------------------------------
+vim.notify = require("notify")
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>:lua vim.notify("decreased")<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> i=<End>=<Esc>0  ]]
+
+-- vim.api.nvim_create_autocmd({ event = "FileType", group = "MyGroupName", pattern = "*.txt", callback = function require("notify")("My super important message") end, once = true})
+-- vim.api.nvim_create_autocmd({ event = "FileType", group = "MyGroupName", pattern = "*.txt", callback = function require("notify")("My super important message") end, once = true})
+
+
+vim.notify = require("notify")
+
+function dokuwiki_heading(decrease)
+  local pos = vim.api.nvim_win_get_cursor(0)[2]
+  local line = vim.api.nvim_get_current_line()
+
+  -- count the number of ==
+  local _, c = line:gsub("=","")
+  local hnum = c/2-1
+
+  -- Remove the first and last equal
+  if decrease then
+    line, _ = line:gsub("^=","", 1)
+    line, _ = line:gsub("=$","", 1)
+  else
+    line, _ = line:gsub("^=","==", 1)
+    line, _ = line:gsub("=$","==", 1)
+  end
+  vim.api.nvim_set_current_line(line)
+
+  -- Notify the user of the Heading Number
+  vim.notify(tostring(hnum))
+  print("#: ", hnum)
+end
+
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
