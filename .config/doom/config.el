@@ -153,6 +153,11 @@
     (texfrag-mode)
   )
 )
+(add-hook 'dokuwiki-mode-hook
+  (lambda ()
+    (texfrag-mode)
+  )
+)
 
 ;;; Set up a load path
 (setq doom-config-directory "~/.config/doom")
@@ -201,7 +206,20 @@
 ;; ~/.config/doom/config.el
 (map!
      :map ess-mode-map
+     "<M-return>" #'ess-eval-region-or-function-or-paragraph
      "<S-return>" #'ess-eval-region-or-function-or-paragraph-and-step)
+
+(defun clever-math()
+  (interactive)
+  (major-mode-suspend)
+  (markdown-mode)
+  (texfrag-document)
+  (read-string "Press Enter when Math Appears (this is a hack)")
+  (major-mode-restore))
 (map!
-     :map ess-mode-map
-     "<M-return>" #'ess-eval-region-or-function-or-paragraph)
+     :map dokuwiki-mode-map
+     "<backtab>" #'outline-cycle-buffer
+     "<tab>"     #'outline-cycle
+     "<return>"  #'outline-toggle-children
+     "M-<right>" #'outline-demote
+     "M-<left>"  #'outline-promote)
