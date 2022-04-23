@@ -46,10 +46,10 @@ map('n'	, '<leader>ht'     , '<cmd>Telescope colorscheme<cr>', default_opts)
 map('n'	, '<leader>ff'     , '<cmd>Telescope find_files<cr>' , default_opts)
 map('n'	, '<leader>bp'     , ':bp<CR>' , default_opts)
 map('n'	, '<leader>bn'     , ':bn<CR>' , default_opts)
-map('n'	, '<leader>fp'     , ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr>:cd lua<cr>', default_opts)
+map('n'	, '<leader>fp'     , ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr>', default_opts)
 map('n'	, '<leader>ss'     , '<cmd>Telescope current_buffer_fuzzy_find<cr>' , default_opts)
 map('n'	, '<C-p>'     , '<cmd>Telescope find_files<cr>' , default_opts)
-map('n'	, '<leader><leader>', '<cmd>Telescope commands<cr>'   , default_opts)
+-- map('n'	, '<leader><leader>', '<cmd>Telescope commands<cr>'   , default_opts)
 map('n'	, '<M-x>', '<cmd>Telescope commands<cr>'   , default_opts)
 map('n'	, '<leader>bb'     , '<cmd>Telescope buffers<cr>'    , default_opts)
 map('n'	, '<C-x><C-b>'     , '<cmd>Telescope buffers<cr>'    , default_opts)
@@ -119,24 +119,33 @@ function dokuwiki_heading(decrease)
   local pos = vim.api.nvim_win_get_cursor(0)[2]
   local line = vim.api.nvim_get_current_line()
 
-  -- count the number of ==
-  local _, c = line:gsub("=","")
-  local hnum = c/2-1
 
   -- Remove the first and last equal
   if decrease then
-    line, _ = line:gsub("^=","", 1)
+    line, _ = line:gsub("=","", 1)
     line, _ = line:gsub("=$","", 1)
   else
-    line, _ = line:gsub("^=","==", 1)
+    line, _ = line:gsub("=","==", 1)
     line, _ = line:gsub("=$","==", 1)
   end
   vim.api.nvim_set_current_line(line)
+
+  -- count the number of ==
+  local _, c = line:gsub("=","")
+  local hnum = 7-c/2
 
   -- Notify the user of the Heading Number
   vim.notify(tostring(hnum))
   print("#: ", hnum)
 end
 
+
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
+
+
+
+-- Folding
+-- https://vim.fandom.com/wiki/Folding
+vim.cmd [[ nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Space>")<CR> ]]
+vim.cmd [[ vnoremap <Space> zf ]]
