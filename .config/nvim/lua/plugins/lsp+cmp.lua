@@ -21,8 +21,6 @@
       end,
     },
     mapping = {
-      ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-n>"] = cmp.mapping.select_next_item(),
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
       ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -103,9 +101,22 @@ end
 --------------------------------------------------------------------------------
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
+
+require'lspconfig'.sumneko_lua.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+}
+
 local servers = {
   'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
-  'dotls', 'gopls', 'sumneko_lua', 'java_language_server', 'jsonls', 'julials',
+  'dotls', 'gopls', 'java_language_server', 'jsonls', 'julials',
   'kotlin_language_server', 'nimls', 'pyright', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls' }

@@ -14,7 +14,7 @@ local default_opts = { noremap = true, silent = true }
 map('n', '<leader>c', ':nohl<CR>', default_opts)
 
 -- map Esc to kk
-map('i', 'kk', '<Esc>', {noremap = true})
+map('i', 'kk', '<Esc>', { noremap = true })
 
 -- don't use arrow keys
 map('', '<up>', '<nop>', { noremap = true })
@@ -41,29 +41,29 @@ map('n', '<leader>q', ':qa!<CR>', default_opts)
 
 
 -- Fuzzy Find stuff
-map('n'	, '<leader>/'     , '<cmd>Telescope live_grep<cr>'  , default_opts)
-map('n'	, '<leader>ht'     , '<cmd>Telescope colorscheme<cr>', default_opts)
-map('n'	, '<leader>ff'     , '<cmd>Telescope find_files<cr>' , default_opts)
-map('n'	, '<leader>bp'     , ':bp<CR>' , default_opts)
-map('n'	, '<leader>bn'     , ':bn<CR>' , default_opts)
-map('n'	, '<leader>fp'     , ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr>', default_opts)
-map('n'	, '<leader>ss'     , '<cmd>Telescope current_buffer_fuzzy_find<cr>' , default_opts)
-map('n'	, '<C-p>'     , '<cmd>Telescope find_files<cr>' , default_opts)
+map('n', '<leader>/', '<cmd>Telescope live_grep<cr>', default_opts)
+map('n', '<leader>ht', '<cmd>Telescope colorscheme<cr>', default_opts)
+map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', default_opts)
+map('n', '<leader>bp', ':bp<CR>', default_opts)
+map('n', '<leader>bn', ':bn<CR>', default_opts)
+map('n', '<leader>fp', ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr> :cd lua<CR>', default_opts)
+map('n', '<leader>ss', '<cmd>Telescope current_buffer_fuzzy_find<cr>', default_opts)
+map('n', '<C-p>', '<cmd>Telescope find_files<cr>', default_opts)
 -- map('n'	, '<leader><leader>', '<cmd>Telescope commands<cr>'   , default_opts)
-map('n'	, '<M-x>', '<cmd>Telescope commands<cr>'   , default_opts)
-map('n'	, '<leader>bb'     , '<cmd>Telescope buffers<cr>'    , default_opts)
-map('n'	, '<C-x><C-b>'     , '<cmd>Telescope buffers<cr>'    , default_opts)
-map('n'	, '<C-x>b'         , '<cmd>Telescope buffers<cr>'    , default_opts)
-map('n'	, '<leader>fr'     , '<cmd>Telescope oldfiles<cr>'   , default_opts)
-map('n'	, '<leader>fg'     , '<cmd>Telescope<CR>'            , default_opts)
-map('n'	, '<leader>fb'     , '<cmd>Telescope buffers<cr>'    , default_opts)
-map('n'	, '<leader>fh'     , '<cmd>Telescope help_tags<cr>'  , default_opts)
-map('n'	, '<leader>e'     , '<cmd>Telescope quickfix<cr>'  , default_opts)
+map('n', '<M-x>', '<cmd>Telescope commands<cr>', default_opts)
+map('n', '<leader>bb', '<cmd>Telescope buffers<cr>', default_opts)
+map('n', '<C-x><C-b>', '<cmd>Telescope buffers<cr>', default_opts)
+map('n', '<C-x>b', '<cmd>Telescope buffers<cr>', default_opts)
+map('n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', default_opts)
+map('n', '<leader>fg', '<cmd>Telescope<CR>', default_opts)
+map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', default_opts)
+map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', default_opts)
+map('n', '<leader>e', '<cmd>Telescope quickfix<cr>', default_opts)
 -- Change Directory to File
-map('n'	, '<leader>fcd'    , '<cmd>:cd %:p:h<cr>'            , default_opts)
+map('n', '<leader>fcd', '<cmd>:cd %:p:h<cr>', default_opts)
 -- Copy File path
-map('n'	, '<leader>fy'     , '<cmd>:let @+=expand("%:p")<cr>', default_opts) -- Copy File path
-map('n'	, '<leader>fY'     , '<cmd>:let @+=expand("%")<cr>', default_opts) -- Copy File path
+map('n', '<leader>fy', '<cmd>:let @+=expand("%:p")<cr>', default_opts) -- Copy File path
+map('n', '<leader>fY', '<cmd>:let @+=expand("%")<cr>', default_opts) -- Copy File path
 
 -----------------------------------------------------------
 -- Applications & Plugins shortcuts:
@@ -72,12 +72,12 @@ map('n'	, '<leader>fY'     , '<cmd>:let @+=expand("%")<cr>', default_opts) -- Co
 map('n', '<C-t>', ':Term<CR>', { noremap = true })
 
 -- nvim-tree
-map('n', '<C-n>', ':NvimTreeToggle<CR>', default_opts)       -- open/close
-map('n', '<leader>r', ':NvimTreeRefresh<CR>', default_opts)  -- refresh
+map('n', '<C-n>', ':NvimTreeToggle<CR>', default_opts) -- open/close
+map('n', '<leader>r', ':NvimTreeRefresh<CR>', default_opts) -- refresh
 map('n', '<leader>n', ':NvimTreeFindFile<CR>', default_opts) -- search file
 
 -- Vista tag-viewer
-map('n', '<C-m>', ':Vista!!<CR>', default_opts)   -- open/close
+map('n', '<C-m>', ':Vista!!<CR>', default_opts) -- open/close
 
 
 ------------------------------------------------------------
@@ -86,7 +86,7 @@ map('n', '<C-m>', ':Vista!!<CR>', default_opts)   -- open/close
 vim.cmd [[ autocmd BufEnter *.md :map <f2> :! pandoc -s --katex "%" -o "%".html && chromium "%".html & disown <Enter> <Enter> ]]
 vim.cmd [[ autocmd BufEnter *.md :setlocal filetype=markdown ]]
 
-vim.cmd[[
+vim.cmd [[
     nmap <Leader>meelo :!pandoc -s --self-contained "%" --listings --toc  -H ~/Templates/LaTeX/ScreenStyle.sty --pdf-engine-opt=-shell-escape --citeproc --bibliography $HOME/Sync/Documents/ref.bib -o /tmp/note.pdf ; xdg-open /tmp/note.pdf & disown
 
 
@@ -122,23 +122,22 @@ function dokuwiki_heading(decrease)
 
   -- Remove the first and last equal
   if decrease then
-    line, _ = line:gsub("=","", 1)
-    line, _ = line:gsub("=$","", 1)
+    line, _ = line:gsub("=", "", 1)
+    line, _ = line:gsub("=$", "", 1)
   else
-    line, _ = line:gsub("=","==", 1)
-    line, _ = line:gsub("=$","==", 1)
+    line, _ = line:gsub("=", "==", 1)
+    line, _ = line:gsub("=$", "==", 1)
   end
   vim.api.nvim_set_current_line(line)
 
   -- count the number of ==
-  local _, c = line:gsub("=","")
-  local hnum = 7-c/2
+  local _, c = line:gsub("=", "")
+  local hnum = 7 - c / 2
 
   -- Notify the user of the Heading Number
   vim.notify(tostring(hnum))
   print("#: ", hnum)
 end
-
 
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
@@ -149,3 +148,30 @@ vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_headi
 -- https://vim.fandom.com/wiki/Folding
 vim.cmd [[ nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Space>")<CR> ]]
 vim.cmd [[ vnoremap <Space> zf ]]
+
+-- TODO Shift+TAB to toggle between open and close
+
+
+-- TODO Fullscreen use a which.key setup
+-- make a toggle
+-- set lines=999
+-- set columns=999
+-- vim.cmd [[ nmap <leader>mf ':set lines=999<CR>:set columns=999<CR>' ]]
+vim.cmd [[ nmap <leader>qF ':set lines=90<CR>:set columns=60<CR>' ]]
+
+IS_SMALL=true
+function toggle_full(make_big)
+    if make_big then
+      vim.cmd [[ :set lines=20 ]]
+      vim.cmd [[ :set columns=40 ]]
+      return false
+    else
+      vim.cmd [[ :set lines=999 ]]
+      vim.cmd [[ :set columns=110 ]]
+      return true
+    end
+end
+
+-- map('n', '<leader>tw', ':set columns=90<CR>', default_opts)
+map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
+
