@@ -53,6 +53,7 @@ map('n', '<C-p>', '<cmd>Telescope find_files<cr>', default_opts)
 map('n', '<M-x>', '<cmd>Telescope commands<cr>', default_opts)
 map('n', '<leader>bb', '<cmd>Telescope buffers<cr>', default_opts)
 map('n', '<C-x><C-b>', '<cmd>Telescope buffers<cr>', default_opts)
+map('n', '<leader>\'', '<cmd>Telescope resume<cr>', default_opts)
 map('n', '<C-x>b', '<cmd>Telescope buffers<cr>', default_opts)
 map('n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', default_opts)
 map('n', '<leader>fg', '<cmd>Telescope<CR>', default_opts)
@@ -210,4 +211,28 @@ function dokuwiki_headings_list()
   -- vim.api.nvim_set_current_line(s)
 end
 
+
+function dokuwiki_open_link()
+  local file = vim.api.nvim_buf_get_name(0)
+  local regex =  ' \'^=.*=$\' '
+  local rg_cmd = "rg -n"..regex..file.." | "
+
+  -- TODO awk would be nicer than sd
+  local awk_align = [[awk -F':' '{printf "%3d:%s\n", $0, $2}' | ]]
+  local rm_trailing = "sd '=+$' '' | "
+  local h1 = [[sd '(\d):======' '$1:#'     | ]]
+  local h2 = [[sd '(\d):====='  '$1:.##'    | ]]
+  local h3 = [[sd '(\d):===='   '$1:..###'   | ]]
+  local h4 = [[sd '(\d):==='    '$1:...####'  | ]]
+  local h5 = [[sd '(\d):=='     '$1:....#####' | ]]
+  local cmd = rg_cmd..awk_align..rm_trailing..h1..h2..h3..h4..h5.." dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
+
+  local f = assert(io.popen(cmd, 'r'))
+  local s = tonumber(f:read('*a'))
+  f:close()
+  vim.api.nvim_win_set_cursor(0, {s, 1})
+  -- vim.api.nvim_set_current_line(s)
+end
+
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
+map('n', '<C-c><C-o>', ':lua dokuwiki_headings_list()<CR>', default_opts)
