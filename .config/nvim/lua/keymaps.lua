@@ -175,3 +175,31 @@ end
 -- map('n', '<leader>tw', ':set columns=90<CR>', default_opts)
 map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 
+
+
+-- autosave
+-- https://stackoverflow.com/questions/17365324/auto-save-in-vim-as-you-type
+
+function my_autosave()
+    vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
+    vim.notify("Autosave Enabled")
+end
+
+
+
+
+function dokuwiki_headings_list()
+  local file = vim.api.nvim_buf_get_name(0)
+  local regex =  ' \'^=.*=$\' '
+  local rg_cmd = "rg -n"..regex..file
+
+  local cmd = rg_cmd.." | dmenu -if -l 20 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
+
+  local f = assert(io.popen(cmd, 'r'))
+  local s = tonumber(f:read('*a'))
+  f:close()
+  vim.api.nvim_win_set_cursor(0, {s, 1})
+  -- vim.api.nvim_set_current_line(s)
+end
+
+map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
