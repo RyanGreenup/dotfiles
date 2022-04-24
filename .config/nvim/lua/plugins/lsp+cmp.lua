@@ -130,3 +130,101 @@ for _, lsp in pairs(servers) do
     }
   }
 end
+
+
+
+
+
+------------------------------------------------------------
+-- Some LSP styling [^1]
+------------------------------------------------------------
+local lsp = vim.lsp
+local max_width = math.max(math.floor(vim.o.columns * 0.7), 100)
+local max_height = math.max(math.floor(vim.o.lines * 0.3), 30)
+-- NOTE: the hover handler returns the bufnr,winnr so can be used for mappings
+lsp.handlers['textDocument/hover'] = lsp.with(
+  lsp.handlers.hover,
+  { border = 'rounded', max_width = max_width, max_height = max_height }
+)
+
+lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help, {
+  border = 'rounded',
+  max_width = max_width,
+  max_height = max_height,
+})
+
+
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●', -- Could be '●', '▎', 'x'
+    source = "always",  -- Or "if_many"
+  },
+  float = {
+    source = "always",  -- Or "if_many"
+  },
+})
+vim.cmd [[
+  highlight! DiagnosticLineNrError guibg=#51202A guifg=#FF0000 gui=bold
+  highlight! DiagnosticLineNrWarn guibg=#51412A guifg=#FFA500 gui=bold
+  highlight! DiagnosticLineNrInfo guibg=#1E535D guifg=#00FFFF gui=bold
+  highlight! DiagnosticLineNrHint guibg=#1E205D guifg=#0000FF gui=bold
+
+  sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=DiagnosticLineNrError
+  sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=DiagnosticLineNrWarn
+  sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=DiagnosticLineNrInfo
+  sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
+]]
+
+
+-- Nicer icons
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+local M = {}
+
+M.icons = {
+  Class = " ",
+  Color = " ",
+  Constant = " ",
+  Constructor = " ",
+  Enum = "了 ",
+  EnumMember = " ",
+  Field = " ",
+  File = " ",
+  Folder = " ",
+  Function = " ",
+  Interface = "ﰮ ",
+  Keyword = " ",
+  Method = "ƒ ",
+  Module = " ",
+  Property = " ",
+  Snippet = "﬌ ",
+  Struct = " ",
+  Text = " ",
+  Unit = " ",
+  Value = " ",
+  Variable = " ",
+}
+
+function M.setup()
+  local kinds = vim.lsp.protocol.CompletionItemKind
+  for i, kind in ipairs(kinds) do
+    kinds[i] = M.icons[kind] or kind
+  end
+end
+
+return M
+
+--[[
+------------------------------------------------------------
+Footnotes -----------------------------------------------
+------------------------------------------------------------
+
+[^1] https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
+[^1] https://teddit.net/r/neovim/comments/r5kwg7/rounded_corners_for_popup_menus/
+[^1] https://github.com/akinsho/dotfiles/blob/41f327dd47d91af42d1ed050745b85f422b87365/.config/nvim/plugin/lsp.lua#L184-L194
+
+--]]
