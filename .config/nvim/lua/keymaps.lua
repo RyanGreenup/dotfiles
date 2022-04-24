@@ -191,9 +191,17 @@ end
 function dokuwiki_headings_list()
   local file = vim.api.nvim_buf_get_name(0)
   local regex =  ' \'^=.*=$\' '
-  local rg_cmd = "rg -n"..regex..file
+  local rg_cmd = "rg -n"..regex..file.." | "
 
-  local cmd = rg_cmd.." | dmenu -if -l 20 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
+  -- TODO awk would be nicer than sd
+  local awk_align = [[awk -F':' '{printf "%3d:%s\n", $0, $2}' | ]]
+  local rm_trailing = "sd '=+$' '' | "
+  local h1 = [[sd '(\d):======' '$1:#'     | ]]
+  local h2 = [[sd '(\d):====='  '$1:.##'    | ]]
+  local h3 = [[sd '(\d):===='   '$1:..###'   | ]]
+  local h4 = [[sd '(\d):==='    '$1:...####'  | ]]
+  local h5 = [[sd '(\d):=='     '$1:....#####' | ]]
+  local cmd = rg_cmd..awk_align..rm_trailing..h1..h2..h3..h4..h5.." dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
 
   local f = assert(io.popen(cmd, 'r'))
   local s = tonumber(f:read('*a'))
