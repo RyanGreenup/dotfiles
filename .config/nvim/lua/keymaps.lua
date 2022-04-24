@@ -71,6 +71,9 @@ map('n', '<leader>fY', '<cmd>:let @+=expand("%")<cr>', default_opts) -- Copy Fil
 -----------------------------------------------------------
 -- open terminal
 map('n', '<C-t>', ':Term<CR>', { noremap = true })
+-- open help for lsp
+map('n', '<leader>hk', ':e +/#mappings ~/.config/nvim/lua/plugins/lsp+cmp.lua<CR>', { noremap = true })
+
 
 -- nvim-tree
 map('n', '<C-n>', ':NvimTreeToggle<CR>', default_opts) -- open/close
@@ -106,16 +109,6 @@ vim.cmd [[
 -- dokuwiki stuff
 ------------------------------------------------------------
 vim.notify = require("notify")
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>:lua vim.notify("decreased")<CR>  ]]
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> i=<End>=<Esc>0  ]]
-
--- vim.api.nvim_create_autocmd({ event = "FileType", group = "MyGroupName", pattern = "*.txt", callback = function require("notify")("My super important message") end, once = true})
--- vim.api.nvim_create_autocmd({ event = "FileType", group = "MyGroupName", pattern = "*.txt", callback = function require("notify")("My super important message") end, once = true})
-
-
-vim.notify = require("notify")
-
 function dokuwiki_heading(decrease)
   local pos = vim.api.nvim_win_get_cursor(0)[2]
   local line = vim.api.nvim_get_current_line()
@@ -140,59 +133,29 @@ function dokuwiki_heading(decrease)
   print("#: ", hnum)
 end
 
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
 
-
-
--- Folding
--- https://vim.fandom.com/wiki/Folding
-vim.cmd [[ nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Space>")<CR> ]]
-vim.cmd [[ vnoremap <Space> zf ]]
-
--- TODO Shift+TAB to toggle between open and close
-
-
--- TODO Fullscreen use a which.key setup
--- make a toggle
--- set lines=999
--- set columns=999
--- vim.cmd [[ nmap <leader>mf ':set lines=999<CR>:set columns=999<CR>' ]]
-vim.cmd [[ nmap <leader>qF ':set lines=90<CR>:set columns=60<CR>' ]]
-
-IS_SMALL=true
+IS_SMALL = true
 function toggle_full(make_big)
-    if make_big then
-      vim.cmd [[ :set lines=20 ]]
-      vim.cmd [[ :set columns=40 ]]
-      return false
-    else
-      vim.cmd [[ :set lines=999 ]]
-      vim.cmd [[ :set columns=110 ]]
-      return true
-    end
+  if make_big then
+    vim.cmd [[ :set lines=20 ]]
+    vim.cmd [[ :set columns=40 ]]
+    return false
+  else
+    vim.cmd [[ :set lines=999 ]]
+    vim.cmd [[ :set columns=110 ]]
+    return true
+  end
 end
-
--- map('n', '<leader>tw', ':set columns=90<CR>', default_opts)
-map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
-
-
-
--- autosave
--- https://stackoverflow.com/questions/17365324/auto-save-in-vim-as-you-type
 
 function my_autosave()
-    vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
-    vim.notify("Autosave Enabled")
+  vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
+  vim.notify("Autosave Enabled")
 end
-
-
-
 
 function dokuwiki_headings_list()
   local file = vim.api.nvim_buf_get_name(0)
-  local regex =  ' \'^=.*=$\' '
-  local rg_cmd = "rg -n"..regex..file.." | "
+  local regex = ' \'^=.*=$\' '
+  local rg_cmd = "rg -n" .. regex .. file .. " | "
 
   -- TODO awk would be nicer than sd
   local awk_align = [[awk -F':' '{printf "%3d:%s\n", $0, $2}' | ]]
@@ -202,37 +165,25 @@ function dokuwiki_headings_list()
   local h3 = [[sd '(\d):===='   '$1:..###'   | ]]
   local h4 = [[sd '(\d):==='    '$1:...####'  | ]]
   local h5 = [[sd '(\d):=='     '$1:....#####' | ]]
-  local cmd = rg_cmd..awk_align..rm_trailing..h1..h2..h3..h4..h5.." dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
+  local cmd = rg_cmd .. awk_align .. rm_trailing .. h1 .. h2 .. h3 .. h4 .. h5 .. " dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
 
   local f = assert(io.popen(cmd, 'r'))
   local s = tonumber(f:read('*a'))
   f:close()
-  vim.api.nvim_win_set_cursor(0, {s, 1})
+  vim.api.nvim_win_set_cursor(0, { s, 1 })
   -- vim.api.nvim_set_current_line(s)
 end
 
 
-function dokuwiki_open_link()
-  local file = vim.api.nvim_buf_get_name(0)
-  local regex =  ' \'^=.*=$\' '
-  local rg_cmd = "rg -n"..regex..file.." | "
-
-  -- TODO awk would be nicer than sd
-  local awk_align = [[awk -F':' '{printf "%3d:%s\n", $0, $2}' | ]]
-  local rm_trailing = "sd '=+$' '' | "
-  local h1 = [[sd '(\d):======' '$1:#'     | ]]
-  local h2 = [[sd '(\d):====='  '$1:.##'    | ]]
-  local h3 = [[sd '(\d):===='   '$1:..###'   | ]]
-  local h4 = [[sd '(\d):==='    '$1:...####'  | ]]
-  local h5 = [[sd '(\d):=='     '$1:....#####' | ]]
-  local cmd = rg_cmd..awk_align..rm_trailing..h1..h2..h3..h4..h5.." dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
-
-  local f = assert(io.popen(cmd, 'r'))
-  local s = tonumber(f:read('*a'))
-  f:close()
-  vim.api.nvim_win_set_cursor(0, {s, 1})
-  -- vim.api.nvim_set_current_line(s)
-end
-
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>:lua vim.notify("decreased")<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> i=<End>=<Esc>0  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
+-- Folding
+-- https://vim.fandom.com/wiki/Folding
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Space>")<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :vnoremap <Space> zf<CR>  ]]
+vim.cmd [[ nmap <leader>qF ':set lines=90<CR>:set columns=60<CR>' ]]
+map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
-map('n', '<C-c><C-o>', ':lua dokuwiki_headings_list()<CR>', default_opts)
