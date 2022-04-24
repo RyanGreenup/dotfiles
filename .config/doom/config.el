@@ -209,6 +209,9 @@
      "<M-return>" #'ess-eval-region-or-function-or-paragraph
      "<S-return>" #'ess-eval-region-or-function-or-paragraph-and-step)
 
+
+
+;;; Dokuwiki stuff
 (defun clever-math()
   (interactive)
   (major-mode-suspend)
@@ -216,10 +219,55 @@
   (texfrag-document)
   (read-string "Press Enter when Math Appears (this is a hack)")
   (major-mode-restore))
+
+(defun my-dw/open-link()
+  (interactive)
+        (setq link (thing-at-point 'sexp))
+        (setq link (format "%s.txt" link))
+        (find-file link)
+        (dokuwiki-mode))
+
+(defun my/select-inside-brackets()
+  (interactive)
+   ;; https://stackoverflow.com/questions/11280565/emacs-lisp-extract-number-under-point-between-two-brackets
+   (setq page (when (re-search-forward "\\[\\([0-9]+\\)\\]" nil t)
+  (string-to-number (match-string 1))))
+   (message page))
+
+(defun my-dw/open-link()
+  (interactive)
+        (setq link (thing-at-point--read-from-whole-string 'sexp))
+        (setq link (format "%s.txt" link))
+;;        (find-file link)
+        (setq page (shell-command-to-string (format  "fd -H txt ~/Notes/dokuwiki/data/pages  | fzf --filter='%s' | head -n 1 | tr -d '\n'" link)))
+        (message page)
+       ;; (find-file page)
+        )
+
+(defun my/insert-link()
+  (interactive)
+  ;; make relative path
+  ;; then replace '/' with ':'
+  (setq page (shell-command-to-string "cd ~/Notes/dokuwiki/data/pages; fd -H txt  |  dmenu -i -f -l 30 | sed 's#\.txt$##' | tr -d '\./' | tr -d '\n'"))
+  (insert (format "[[:%s]]" page)))
+
+
+(defun my-find-link ()
+  (interactive)
+  (setq last-command-event 118)
+  (evil-visual-char nil nil 'inclusive t)
+  (setq last-command-event 91)
+  (evil-inner-bracket nil 152 153 'inclusive)
+  (setq last-command-event 121)
+  (evil-yank 135 153 'inclusive nil nil)
+  (setq last-command-event 'f4))
+
 (map!
      :map dokuwiki-mode-map
      "<backtab>" #'outline-cycle-buffer
      "<tab>"     #'outline-cycle
-     "<return>"  #'outline-toggle-children
+     "C-c C-p C-d"  #'outline-toggle-children
      "M-<right>" #'outline-demote
-     "M-<left>"  #'outline-promote)
+     "M-<left>"  #'outline-promote
+     "C-c C-o"    'my-find-link
+     "C-c C-l"  #'my/insert-link)

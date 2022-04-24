@@ -77,3 +77,5 @@
 (package! org-ref)
 (package! ivy-bibtex)
 (package! org-super-agenda)
+(package! dokuwiki-mode)
+(package! outline-magic)
