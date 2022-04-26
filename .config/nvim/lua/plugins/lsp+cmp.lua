@@ -21,7 +21,10 @@
       end,
     },
     mapping = {
+      -- https://teddit.net/r/neovim/comments/u7nsje/nvimcmp_completion_issue_cn_gives_basic_completion/
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
+      ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
       ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
       ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
