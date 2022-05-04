@@ -233,3 +233,14 @@ end
 function gdui
     gitui -w $HOME -d $dotfiles_dir
 end
+
+function open_dokuwiki_clipboard
+   set file \
+       (xclip -sel clip -o |\
+          awk -F '/' '{print $NF}' |\
+          awk -F '=' '{print $NF}' |\
+          sed 's#:#/#' |\
+          sed 's#$#.txt#' |\
+          sed 's#^#~/Notes/dokuwiki/data/pages/#')
+    emacsclient -c $file
+end

@@ -262,12 +262,60 @@
   (evil-yank 135 153 'inclusive nil nil)
   (setq last-command-event 'f4))
 
+(defun dokuwiki-insert-heading ()
+  (interactive)
+  (setq n (- 7 (read-number "Enter Heading Level: ")))
+ (insert (format "%s %s %s"
+                 (make-string n ?=)
+                 (read-string "Enter Heading: ")
+                 (make-string n ?=))))
+
+
+(defun dokuwiki-demote ()
+  (interactive)
+  (delete-forward-char 1 nil)
+  (move-end-of-line 1)
+  ((lambda
+     (&rest args)
+     (interactive "p\nP")
+     args)
+   1 nil)
+  (delete-backward-char 1 nil)
+  (doom/backward-to-bol-or-indent
+   (point)))
+
+(defun dokuwiki-promote ()
+  (interactive)
+  (move-beginning-of-line 1)
+  (outline-show-entry)
+  (move-beginning-of-line 1)
+  (insert "=")
+  (move-end-of-line 1)
+  (insert "=")
+  (move-beginning-of-line 1)
+  (outline-hide-entry))
+
+
+(defun dokuwiki-demote ()
+  (interactive)
+  (move-beginning-of-line 1)
+  (outline-show-entry)
+  (move-beginning-of-line 1)
+  (delete-forward-char 1)
+  (move-end-of-line 1)
+  (delete-backward-char 1)
+  (move-beginning-of-line 1)
+  (outline-hide-entry))
+
+(what-line)
+(insert)
 (map!
      :map dokuwiki-mode-map
-     "<backtab>" #'outline-cycle-buffer
-     "<tab>"     #'outline-cycle
-     "C-c C-p C-d"  #'outline-toggle-children
-     "M-<right>" #'outline-demote
-     "M-<left>"  #'outline-promote
-     "C-c C-o"    'my-find-link
-     "C-c C-l"  #'my/insert-link)
+     "<backtab>"    #'outline-cycle-buffer
+     "<tab>"        #'outline-cycle
+;;     "C-c C-p C-d"  #'clever-math
+     "M-<right>"    #'dokuwiki-demote
+     "M-<left>"     #'dokuwiki-promote
+     "C-c C-o"       'my-find-link
+     "C-<return>" #'dokuwiki-insert-heading
+     "C-c C-l"      #'my/insert-link)
