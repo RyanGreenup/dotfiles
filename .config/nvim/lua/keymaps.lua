@@ -151,6 +151,7 @@ function my_autosave()
   vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
   vim.notify("Autosave Enabled")
 end
+map('n', '<leader>ta', ':lua my_autosave()<CR>', default_opts)
 
 function dokuwiki_headings_list()
   local file = vim.api.nvim_buf_get_name(0)
