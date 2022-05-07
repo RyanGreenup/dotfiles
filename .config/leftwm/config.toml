@@ -1,7 +1,7 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["1.Browser ♖", "2.Term ♗", "3.Shell ♔", "4.Code ♕", "5", "6.Notes 📝", "7", "5.Messaging", "9", "10"]
+tags = ["1.Browser ♖", "2.Term ♗", "3.Shell ♔", "4.Code ♕", "5", "6.Notes 📝", "7", "8.Messaging", "9", "10"]
 layouts = ["MainAndVertStack", "MainAndHorizontalStack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "CenterMain", "CenterMainBalanced", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
 layout_mode = "Workspace"
 scratchpad = []
@@ -63,9 +63,16 @@ modifier = ["modkey", "Shift"]
 key = "Return"
 
 [[keybind]]
+command = "Execute"
+value = "printf mem | sudo tee /sys/power/state"
+modifier = ["modkey", "Shift"]
+key = "BackSpace"
+
+
+[[keybind]]
 command = "CloseWindow"
 value = ""
-modifier = ["modkey", "Shift"]
+modifier = ["modkey"]
 key = "q"
 
 [[keybind]]
