@@ -32,6 +32,7 @@ cmd [[
     nmap <leader>ri    <plug>(iron-interrupt)
     nmap <leader>rq    <Plug>(iron-exit)
     nmap <leader>rc    <Plug>(iron-clear)
+    nmap <leader>rf    <Plug>(iron-focus)
 
     nnoremap <Leader>rr :IronRepl<CR>
 
