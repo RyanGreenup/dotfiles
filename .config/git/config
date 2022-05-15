@@ -5,3 +5,10 @@
 	helper = store
 [core]
 	editor = nvim
+	quotePath = false
+	commitGraph = true
+[receive]
+	advertisePushOptions = true
+	procReceiveRefs = refs/for
+[gc]
+	writeCommitGraph = true
