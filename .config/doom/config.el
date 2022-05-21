@@ -105,6 +105,36 @@
       :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
 (map! :leader
       :desc "Open Todays journal" "<f2> n" 'my/notes-find)
+;;;; Agenda overview
+(defun agenda-overview ()
+  (interactive)
+  (org-agenda-list 90)
+  (evil-window-vsplit nil nil)
+  (evil-window-vsplit nil nil)
+  (evil-window-vsplit nil nil)
+  (evil-goto-first-line nil)
+  ;; (org-agenda-toggle-time-grid)
+  (require 'follow)
+  (follow-redraw))
+
+;; https://emacs.stackexchange.com/questions/28905/color-specific-days-in-different-background-in-org-agenda
+;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Face-Attributes.html
+(defun my-org-agenda-get-day-face-fn (date)
+"Return the face DATE should be displayed with."
+  (let ((day-of-week (calendar-day-of-week date)))
+    (cond
+      (
+        '(:height 160 :family "Fira Sans"
+;;          :box (:line-width (5 . 1) :color "red" :style "bold")
+          :underline (:color "indianred" :style line)
+          :inverse-video nil
+          :foreground "royalblue"
+          )
+
+        ))))
+
+(setq org-agenda-day-face-function 'my-org-agenda-get-day-face-fn)
 ;;; Misc Hooks etc
 (setq org-logseq-dir "~/Notes/slipbox")
 (map! :leader
@@ -319,3 +349,7 @@
      "C-c C-o"       'my-find-link
      "C-<return>" #'dokuwiki-insert-heading
      "C-c C-l"      #'my/insert-link)
+
+
+
+
