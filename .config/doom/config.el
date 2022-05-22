@@ -116,6 +116,13 @@
   ;; (org-agenda-toggle-time-grid)
   (require 'follow)
   (follow-redraw))
+;;;;; Calfw
+(defun my/org-calendar ()
+  (interactive)
+        (require 'calfw)
+        (require 'calfw-cal)
+        (require 'calfw-org)
+        (cfw:open-org-calendar))
 
 ;; https://emacs.stackexchange.com/questions/28905/color-specific-days-in-different-background-in-org-agenda
 ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
