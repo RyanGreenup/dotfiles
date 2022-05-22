@@ -18,6 +18,9 @@ c.tabs.position = 'left'
 c.tabs.show = 'multiple'
 # colors.webpage.prefers_color_scheme_dark
 
+## Dark mode
+config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
+config.bind('tj', 'config-cycle content.javascript.enabled')
 
 
 ## Styling
@@ -35,6 +38,3 @@ styles.dracula.draw.blood(c, {
 
 
 
-## Optional Dark mode
-config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
-config.bind('tj', 'config-cycle content.javascript.enabled')
