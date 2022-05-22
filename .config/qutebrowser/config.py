@@ -1,3 +1,5 @@
+config.load_autoconfig()
+# config.load_autoconfig(False) # Pass False to load the default stuff
 c.url.searchengines = {
         'dg': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',
