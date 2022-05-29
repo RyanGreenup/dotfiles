@@ -17,10 +17,10 @@ c.tabs.position = 'left'
 ##   - switching: Show the tab bar when switching tabs.
 c.tabs.show = 'multiple'
 # colors.webpage.prefers_color_scheme_dark
+# c.editor.command = ["gvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
+# c.editor.command = ["emacsclient", "-f", "{file}"]
+c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
 
-## Dark mode
-config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
-config.bind('tj', 'config-cycle content.javascript.enabled')
 
 
 ## Styling
@@ -36,5 +36,16 @@ styles.dracula.draw.blood(c, {
     }
 })
 
+# Tor Proxy
+# TODO https://searx.tiekoetter.com/search?q=qutebrowser+toggle+proxy&language=en-US&time_range=&safesearch=0&theme=simple
+c.content.proxy = 'socks://localhost:9050/'
+## i2p Proxy
+# c.content.proxy = 'http://localhost:4444/'
+# c.content.proxy = 'socks://localhost:4447/'
+#
+#
 
 
+## Optional Dark mode
+config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
+config.bind('tj', 'config-cycle content.javascript.enabled')
