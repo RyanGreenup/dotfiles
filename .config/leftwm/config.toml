@@ -2,12 +2,34 @@ modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
 tags = ["1.Browser ♖", "2.Term ♗", "3.Shell ♔", "4.Code ♕", "5", "6.Notes 📝", "7", "8.Messaging", "9", "10"]
-layouts = ["MainAndVertStack", "MainAndHorizontalStack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "CenterMain", "CenterMainBalanced", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
-layout_mode = "Workspace"
-scratchpad = []
+# Comment out to use defaults
+# layouts = ["MainAndVertStack", "MainAndHorizontalStack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "CenterMain", "CenterMainBalanced", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
+layout_mode = "Tag"
 disable_current_tag_swap = false
 focus_behaviour = "Sloppy"
 focus_new_windows = true
+
+# See [https://github.com/leftwm/leftwm/wiki/Config#scratchpads](https://github.com/leftwm/leftwm/wiki/Config#scratchpads)
+[[scratchpad]]
+name = "Alacritty" # This is the name which is referenced when calling (case-sensitive)
+value = "alacritty" # The command to load the application if it isn't started
+# x, y, width, height are in pixels when an integer is inputted or a percentage when a float is inputted.
+# These values are relative to the size of the workspace, and will be restricted depending on the workspace size.
+x = 860
+y = 390
+height = 800
+width = 1400
+
+[[keybind]]
+command = "ToggleScratchPad"
+value = "Alacritty" # Name set for the scratchpad
+modifier = ["modkey"]
+key = "grave"
+
+[[keybind]]
+command = "ReturnToLastTag"
+modifier = ["modkey"]
+key = "Tab"
 
 [[keybind]]
 command = "FloatingToTile"
@@ -56,9 +78,11 @@ value = "dmenu_run"
 modifier = ["modkey"]
 key = "p"
 
+# Open terminal (kitty is slow)
 [[keybind]]
 command = "Execute"
-value = "kitty"
+# value = "st" # keeps crashing
+value = "alacritty" # Just works :shrug:
 modifier = ["modkey", "Shift"]
 key = "Return"
 
@@ -420,3 +444,9 @@ key = "F7"
 command = "HardReload"
 modifier = ["modkey", "Control"]
 key = "r"
+
+[[keybind]]
+command = "Execute"
+value = "maim --select | xclip -selection clipboard -target image/png"
+modifier = ["modkey", "Shift"]
+key = "s"
