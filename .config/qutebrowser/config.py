@@ -45,7 +45,13 @@ c.content.proxy = 'socks://localhost:9050/'
 #
 #
 
+c.hints.selectors["code"] = [
+    # Selects all code tags whose direct parent is not a pre tag
+    ":not(pre) > code",
+    "pre"
+]
 
 ## Optional Dark mode
 config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
 config.bind('tj', 'config-cycle content.javascript.enabled')
+config.bind('cc',  'hint code userscript code_select.py')
