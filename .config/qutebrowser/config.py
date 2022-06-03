@@ -38,7 +38,8 @@ styles.dracula.draw.blood(c, {
 
 # Tor Proxy
 # TODO https://searx.tiekoetter.com/search?q=qutebrowser+toggle+proxy&language=en-US&time_range=&safesearch=0&theme=simple
-c.content.proxy = 'socks://localhost:9050/'
+## c.content.proxy = 'socks://localhost:9050/'
+c.content.cookies.accept = 'no-3rdparty'
 ## i2p Proxy
 # c.content.proxy = 'http://localhost:4444/'
 # c.content.proxy = 'socks://localhost:4447/'
@@ -55,3 +56,4 @@ c.hints.selectors["code"] = [
 config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
 config.bind('tj', 'config-cycle content.javascript.enabled')
 config.bind('cc',  'hint code userscript code_select.py')
+config.bind('ed',  'spawn --userscript edit_dw.sh')
