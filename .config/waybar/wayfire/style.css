@@ -1,0 +1,168 @@
+* {
+    border: none;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    min-height: 0;
+    color: black;
+}
+
+window#waybar {
+    background-color: #000000;
+    background-image: linear-gradient(315deg, #000000 0%, #395368 74%);
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background: rgba(43, 48, 59, 0);
+}
+
+tooltip label {
+   color: white;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#custom-launcher,
+#custom-power,
+#custom-layout,
+#custom-updater,
+#custom-snip,
+#custom-wallpaper,
+#custom-layout,
+#taskbar,
+#tray,
+#workspaces,
+#mode,
+#idle_inhibitor,
+#mpd {
+    padding: 6;
+    margin: 6;
+    color: white;
+    border-radius:20;
+
+}
+
+#window{
+    margin: 0px 4px;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#network.disconnected {
+    color: red;
+}
+
+#pulseaudio {
+    font-size: 12;
+}
+
+#pulseaudio.muted {
+    color: red;
+    font-size: 20;
+
+}
+
+#custom-power{
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+#custom-launcher{
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+#custom-updater {
+    color:rgb(130, 0, 0);
+    font-weight: bold;
+}
+
+#custom-snip {
+    font-size: 20;    
+}
+
+#custom-wallpaper {
+    font-size: 22px;
+}
+
+#custom-layout {
+    font-size: 25px;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+    color: #ffffff;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    color: #ffffff;
+}
+
+#idle_inhibitor.activated {
+    background-color: #171717;
+    color: #ffffff;
+    border-radius: 20px 0px 0px 20px;
+}
+
+#language {
+    background-color: #171717;
+    color: #ffffff;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0px 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}
+
