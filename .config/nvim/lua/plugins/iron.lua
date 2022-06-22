@@ -1,43 +1,65 @@
-local iron = require('iron')
+local iron = require("iron.core")
 
-iron.core.add_repl_definitions {
-  python = {
-    mycustom = {
-      command = {"mycmd"}
-    }
+iron.setup{
+  config = {
+    -- Highlights the last sent block with bold
+    highlight_last = "IronLastSent",
+
+    -- Toggling behavior is on by default.
+    -- Other options are: `single` and `focus`
+    visibility = require("iron.visibility").toggle,
+
+    -- Scope of the repl
+    -- By default it is one for the same `pwd`
+    -- Other options are `tab_based` and `singleton`
+    scope = require("iron.scope").path_based,
+
+    -- Whether the repl buffer is a "throwaway" buffer or not
+    scratch_repl = false,
+
+    -- Automatically closes the repl window on process end
+    close_window_on_exit = true,
+
+    -- Whether iron should map the `<plug>(..)` mappings
+    should_map_plug = true,
+
+    -- Repl position. Check `iron.view` for more options,
+    -- currently there are four positions: left, right, bottom, top,
+    -- the param is the width/height of the float window
+    repl_open_cmd = require("iron.view").curry.right(40),
+    -- Alternatively, pass a function, which is evaluated when a repl is open.
+--     repl_open_cmd = require('iron.view').curry.right(function()
+--         return vim.o.columns / 3
+--     end),
+    -- iron.view.curry will open a float window for the REPL.
+    -- alternatively, pass a string of vimscript for opening a fixed window:
+--     repl_open_cmd = 'belowright 15 split',
+
+    -- If the repl buffer is listed
+    buflisted = true,
   },
-  clojure = {
-    lein_connect = {
-      command = {"lein", "repl", ":connect"}
-    }
+
+  -- All the keymaps are set individually
+  -- Below is a suggested default
+  keymaps = {
+    send_motion = "<space>sc",
+    visual_send = "<space>sc",
+    send_file = "<space>sf",
+    send_line = "<space>sl",
+    send_mark = "<space>sm",
+    mark_motion = "<space>mc",
+    mark_visual = "<space>mc",
+    remove_mark = "<space>md",
+    cr = "<space>s<cr>",
+    interrupt = "<space>s<space>",
+    exit = "<space>sq",
+    clear = "<space>cl",
+  },
+
+  -- If the highlight is on, you can change how it looks
+  -- For the available options, check nvim_set_hl
+  highlight = {
+    italic = true
   }
 }
-
-iron.core.set_config {
-  preferred = {
-    python = "ipython",
-    clojure = "lein"
-  }
-}
-
-local cmd = vim.cmd     				-- execute Vim commands
-
-
-cmd [[
-    nmap <leader>rt    <Plug>(iron-send-motion)
-    vmap <leader>rv    <Plug>(iron-visual-send)
-    nmap <leader>rr    <Plug>(iron-repeat-cmd)
-    nmap <leader>rl    <Plug>(iron-send-line)
-    nmap <leader>r<CR> <Plug>(iron-cr)
-    nmap <leader>ri    <plug>(iron-interrupt)
-    nmap <leader>rq    <Plug>(iron-exit)
-    nmap <leader>rc    <Plug>(iron-clear)
-    nmap <leader>rf    <Plug>(iron-focus)
-
-    nnoremap <Leader>rr :IronRepl<CR>
-
-    vmap <C-c><C-r> <Plug>(iron-visual-send)
-    nmap <C-c><C-j> <Plug>(iron-send-line)
-
-]]
 
