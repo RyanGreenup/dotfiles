@@ -450,3 +450,10 @@ command = "Execute"
 value = "maim --select | xclip -selection clipboard -target image/png"
 modifier = ["modkey", "Shift"]
 key = "s"
+
+[[keybind]]
+command = "Execute"
+# value = "dokuwiki_dmenu.sh"
+value = "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
+modifier = ["modkey"]
+key = "n"

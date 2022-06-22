@@ -608,6 +608,10 @@ bindsym $mod+Escape exec "i3-instant-layout --list 2>&1 | dmenu | i3-instant-lay
 bindsym $mod+Shift+Escape exec "bash ~/.config/i3/rofi_layout.sh"
 bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 
+# Open dokuwiki note
+bindsym $mod+n exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
+
+
 
 
 ## vim:fdm=expr:fdl=0
