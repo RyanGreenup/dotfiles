@@ -451,9 +451,17 @@ value = "maim --select | xclip -selection clipboard -target image/png"
 modifier = ["modkey", "Shift"]
 key = "s"
 
+# Open jupyter and dokuwiki
 [[keybind]]
 command = "Execute"
 # value = "dokuwiki_dmenu.sh"
 value = "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
 modifier = ["modkey"]
+key = "n"
+
+[[keybind]]
+command = "Execute"
+# value = "dokuwiki_dmenu.sh"
+value = "dash /home/ryan/.local/bin/jupyter_dmenu.sh"
+modifier = ["modkey", "Shift"]
 key = "n"
