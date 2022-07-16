@@ -125,7 +125,7 @@ endsnippet
 snippet ali "Align" bA
 \begin{align*}
 	${1:${VISUAL}}
-.\end{align*}
+\end{align*}
 endsnippet
 
 
@@ -583,8 +583,13 @@ _\text{$1} $0
 endsnippet
 
 context "math()"
-snippet tt "text" iA
+snippet tx "text" iA
 \text{$1}$0
+endsnippet
+
+context "math()"
+snippet tt "text" iA
+\mathtt{$1}$0
 endsnippet
 
 context "math()"
@@ -646,4 +651,17 @@ snippet DD "D" iA
 \mathbb{D}
 endsnippet
 
+
+context "math()"
+snippet bf "bold" iA
+\mathbf{$1}$0
+endsnippet
+
+context "math()"
+snippet lap "laplace transform" iA
+\mathcal{L}\left\\{ $1  \right\\}$0
+endsnippet
+
+
 # vim:ft=snippets
+
