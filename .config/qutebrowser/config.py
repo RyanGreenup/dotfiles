@@ -5,6 +5,7 @@ c.url.searchengines = {
         'aw': 'https://wiki.archlinux.org/?search={}',
         'dw': 'http://localhost:8923/doku.php?q={}&do=search',
         'mw': 'http://localhost:8924/mediawiki/index.php?search={}&title=Special%3ASearch&go=Go',
+        'wp': 'https://en.wikipedia.org/w/index.php?search={}',
         'DEFAULT': 'https://searx.tiekoetter.com/search?q={}'
         }
 c.tabs.position = 'left'
@@ -20,6 +21,7 @@ c.tabs.show = 'multiple'
 # c.editor.command = ["gvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
 # c.editor.command = ["emacsclient", "-f", "{file}"]
 c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
+
 
 
 
@@ -57,3 +59,4 @@ config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
 config.bind('tj', 'config-cycle content.javascript.enabled')
 config.bind('cc',  'hint code userscript code_select.py')
 config.bind('ed',  'spawn --userscript edit_dw.sh')
+
