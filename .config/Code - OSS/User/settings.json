@@ -67,5 +67,10 @@
     "terminal.integrated.sendKeybindingsToShell": true,
     "workbench.editor.wrapTabs": true,
     "security.workspace.trust.untrustedFiles": "open",
-    "files.autoSave": "onFocusChange"
+    "files.autoSave": "onFocusChange",
+    "terminal.integrated.commandsToSkipShell": [
+        "language-julia.interrupt"
+    ],
+    "julia.symbolCacheDownload": true,
+    "julia.enableTelemetry": true
 }

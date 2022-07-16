@@ -20,9 +20,6 @@ iron.setup{
     -- Automatically closes the repl window on process end
     close_window_on_exit = true,
 
-    -- Whether iron should map the `<plug>(..)` mappings
-    should_map_plug = true,
-
     -- Repl position. Check `iron.view` for more options,
     -- currently there are four positions: left, right, bottom, top,
     -- the param is the width/height of the float window
