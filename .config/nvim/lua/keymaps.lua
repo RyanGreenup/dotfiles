@@ -14,7 +14,7 @@ local default_opts = { noremap = true, silent = true }
 map('n', '<leader>c', ':nohl<CR>', default_opts)
 
 -- map Esc to kk
-map('i', 'kk', '<Esc>', { noremap = true })
+map('i', 'jk', '<Esc>', { noremap = true })
 
 -- don't use arrow keys
 map('', '<up>', '<nop>', { noremap = true })
@@ -108,7 +108,6 @@ vim.cmd [[
 ------------------------------------------------------------
 -- dokuwiki stuff
 ------------------------------------------------------------
-vim.notify = require("notify")
 function dokuwiki_heading(decrease)
   local pos = vim.api.nvim_win_get_cursor(0)[2]
   local line = vim.api.nvim_get_current_line()
@@ -128,8 +127,6 @@ function dokuwiki_heading(decrease)
   local _, c = line:gsub("=", "")
   local hnum = 7 - c / 2
 
-  -- Notify the user of the Heading Number
-  vim.notify(tostring(hnum))
   print("#: ", hnum)
 end
 
@@ -149,7 +146,6 @@ end
 
 function my_autosave()
   vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
-  vim.notify("Autosave Enabled")
 end
 map('n', '<leader>ta', ':lua my_autosave()<CR>', default_opts)
 
@@ -177,7 +173,7 @@ end
 
 
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
-vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>:lua vim.notify("decreased")<CR>  ]]
+vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> i=<End>=<Esc>0  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Left> :lua dokuwiki_heading(false)<CR>  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_heading(true)<CR>  ]]
