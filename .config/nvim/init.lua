@@ -1,6 +1,4 @@
 require('plugins/packer')
-require('settings')
-require('keymaps')
 require('lualine').setup { tabline = {} }
 
 -- LSP
@@ -15,3 +13,8 @@ require('plugins/iron')
 require('plugins/indent-blankline')
 require('plugins/org-mode')
 require('plugins/which-key')
+
+
+-- Load keymap last
+require('settings')
+require('keymaps')
