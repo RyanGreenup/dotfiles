@@ -22,7 +22,10 @@
   opt.mouse = 'a'                       -- enable mouse support
   opt.clipboard = 'unnamedplus'         -- copy/paste to system clipboard
   opt.swapfile = false                  -- don't use swapfile
-  cmd [[ imap jk <Esc> ]]               -- Get jk for Esc
+  cmd [[
+      imap jk <Esc>              " Get jk for Esc
+      let g:markdown_folding=1   " Default Markdown Folding
+      ]]               --
 
   -----------------------------------------------------------
   -- Neovim UI
@@ -77,7 +80,7 @@ opt.smartindent = true    -- autoindent new lines
 -- don't auto commenting new lines
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
--- remove line lenght marker for selected filetypes
+-- remove line length marker for selected filetypes
 cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
 
 -- 2 spaces for selected filetypes

@@ -106,7 +106,6 @@ return require('packer').startup(function(use)
 
   -- LaTeX
   use 'lervag/vimtex'
-  use 'plasticboy/vim-markdown'
 
   -- Snippets
      use 'SirVer/ultisnips'
@@ -129,6 +128,23 @@ return require('packer').startup(function(use)
 
   -- Lightspeed, like easy motion
   use 'ggandor/lightspeed.nvim'
+
+  -- Fold-Cycle
+  use {
+    'jghauser/fold-cycle.nvim',
+    config = function()
+      require('fold-cycle').setup()
+      vim.keymap.set('n', '<tab>',
+        function() return require('fold-cycle').open() end,
+        {silent = true, desc = 'Fold-cycle: open folds'})
+      vim.keymap.set('n', '<s-tab>',
+        function() return require('fold-cycle').close() end,
+        {silent = true, desc = 'Fold-cycle: close folds'})
+      vim.keymap.set('n', 'zC',
+        function() return require('fold-cycle').close_all() end,
+        {remap = true, silent = true, desc = 'Fold-cycle: close all folds'})
+    end
+  }
 
   -- Themes
   use {
