@@ -32,6 +32,14 @@ map('n', '<C-j>', '<C-w>j', default_opts)
 map('n', '<C-k>', '<C-w>k', default_opts)
 map('n', '<C-l>', '<C-w>l', default_opts)
 
+-- create splits
+map('n', '<leader>ws', '<C-w>s', default_opts)
+map('n', '<leader>wv', '<C-w>v', default_opts)
+map('n', '<leader>wh', '<C-w>h', default_opts)
+map('n', '<leader>wj', '<C-w>j', default_opts)
+map('n', '<leader>wk', '<C-w>k', default_opts)
+map('n', '<leader>wl', '<C-w>l', default_opts)
+
 -- close all windows and exit from neovim
 map('n', '<leader>q', ':qa!<CR>', default_opts)
 
