@@ -179,6 +179,15 @@ function dokuwiki_headings_list()
   -- vim.api.nvim_set_current_line(s)
 end
 
+function Toggle_dark()
+  if vim.g.colors_name == "dracula" then
+    vim.cmd.colorscheme("morning")
+  elseif vim.g.colors_name == "morning" then
+    vim.cmd.colorscheme("dracula")
+  else
+    vim.cmd.colorscheme("default")
+  end
+end
 
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  set filetype=dokuwiki ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> xA<Esc>x0<Esc>  ]]
@@ -192,3 +201,49 @@ vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :vnoremap <Space> zf<CR>  ]]
 vim.cmd [[ nmap <leader>qF ':set lines=90<CR>:set columns=60<CR>' ]]
 map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
+map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
