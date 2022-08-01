@@ -73,6 +73,13 @@ map('n', '<leader>fcd', '<cmd>:cd %:p:h<cr>', default_opts)
 -- Copy File path
 map('n', '<leader>fy', '<cmd>:let @+=expand("%:p")<cr>', default_opts) -- Copy File path
 map('n', '<leader>fY', '<cmd>:let @+=expand("%")<cr>', default_opts) -- Copy File path
+-- Ultisnips (More ergonomic
+vim.cmd [[
+  let g:UltiSnipsExpandTrigger = '<tab>'
+  let g:UltiSnipsJumpForwardTrigger = '<tab>'
+  let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+  let g:UltiSnipsEditSplit="vertical"
+]]
 
 -----------------------------------------------------------
 -- Applications & Plugins shortcuts:
