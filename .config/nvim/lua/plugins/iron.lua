@@ -23,7 +23,7 @@ iron.setup{
     -- Repl position. Check `iron.view` for more options,
     -- currently there are four positions: left, right, bottom, top,
     -- the param is the width/height of the float window
-    repl_open_cmd = require("iron.view").curry.right(40),
+    repl_open_cmd = 'belowright 15 split',
     -- Alternatively, pass a function, which is evaluated when a repl is open.
 --     repl_open_cmd = require('iron.view').curry.right(function()
 --         return vim.o.columns / 3
@@ -34,6 +34,32 @@ iron.setup{
 
     -- If the repl buffer is listed
     buflisted = true,
+    -- REPL definitions
+    repl_definition = {
+      sh = {
+        command = {"dash"}
+      },
+      ion = {
+        command = {"ion"}
+      },
+      fish = {
+        command = {"fish"}
+      },
+      go = {
+        command = {"yaegi"}
+      },
+      rust = {
+        command = {"evcxr"}
+      },
+      c = {
+        command = {"picoc", "-i"}
+      },
+      cpp = {
+        command = {"cling"}
+      },
+    },
+    -- how the REPL window will be opened, the default is opening
+    -- a float window of height 40 at the bottom.
   },
 
   -- All the keymaps are set individually
@@ -56,7 +82,10 @@ iron.setup{
   -- If the highlight is on, you can change how it looks
   -- For the available options, check nvim_set_hl
   highlight = {
-    italic = true
+    italic = false
   }
 }
 
+
+vim.cmd [[ nmap <A-return> <space>sc$ ]]
+vim.cmd [[ imap <A-return> <Esc><space>sc$i ]]
