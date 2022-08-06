@@ -56,7 +56,9 @@ c.hints.selectors["code"] = [
 
 ## Optional Dark mode
 config.bind('td', 'config-cycle colors.webpage.darkmode.enabled ;; restart')
+config.bind('tr', 'config-source')
 config.bind('tj', 'config-cycle content.javascript.enabled')
 config.bind('cc',  'hint code userscript code_select.py')
 config.bind('ed',  'spawn --userscript edit_dw.sh')
+config.bind('el',  'edit-url')
 
