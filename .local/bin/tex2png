@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # * Shell Settings
 set -o errexit  # abort on nonzero exitstatus
@@ -9,6 +9,7 @@ set -o nounset  # abort on unbound variable
 main() {
     check_dependencies gm "/Graphics Magick/"
     check_dependencies latex "LaTeX"
+    check_dependencies xclip "xclip"
     dir="$(mktemp -d)"
     cd "${dir}"
     filename="file"
