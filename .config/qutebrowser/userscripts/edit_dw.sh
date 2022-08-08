@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 # editor='emacsclient --create-frame'
-editor='gnvim'
+editor='alacritty -e nvim'
 
 # sd calls:
 #  1. remove #anchor-tags

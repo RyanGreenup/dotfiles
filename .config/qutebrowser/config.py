@@ -19,8 +19,10 @@ c.tabs.position = 'left'
 c.tabs.show = 'multiple'
 # colors.webpage.prefers_color_scheme_dark
 # c.editor.command = ["gvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
+c.editor.command = ["alacritty", "-e", "nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
 # c.editor.command = ["emacsclient", "-f", "{file}"]
-c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
+# c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
+# c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
 
 
 
