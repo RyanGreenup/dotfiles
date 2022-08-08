@@ -28,6 +28,7 @@ bspc rule -a plasmashell state=floating border=off layer=normal
 bspc rule -a krunner state=floating border=off
 
 
+bspc rule -a conky sticky=on layer=below state=floating
 bspc rule -a "Gimp-2.8" desktop=^2 follow=on
 #bspc rule -a Screenkey manage=off
 bspc rule -a Plasma state=floating manage=off layer=normal
@@ -43,21 +44,16 @@ bspc rule -a guake sticky=on layer=above state=floating
 for p in {single,borderless}_monocle; do bspc config "$p" true; done
 
 sxhkd -c ~/.config/sxhkd/sxhkdrc &
-#sleep 8
-#compton --config ~/.config/compton/compton.conf &
-compton & # Now called picom, see also the arch wiki page on picom and compton-conf
+picom &
 # nitrogen --restore
 
 
 # Start a bar at the top for no good reason.
 # $HOME/.config/polybar/launch.sh
-sleep 3 && plank -n dock1 & disown
-# plank -n dock2   & disown
-yakuake & disown
+yakuake
 
 # Start some Default Applications
-mattermost & disown
-signal-desktop & disown
+polybar &
 
 
 
