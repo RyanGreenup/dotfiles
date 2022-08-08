@@ -1,12 +1,8 @@
 [Unit]
 Description=Jupyter Server for Sync/DataSci Directory
 
-# ~/Notebooks/.jupyter/start_jupyter.sh
 [Service]
-ExecStart=%h/Notebooks/.jupyter/start_jupyter.sh
-# ExecStart=/usr/bin/bash %h/Notebooks/.jupyter/start_jupyter.sh
-# Jupyter notebook seems faster http://localhost:3837/tree?token=1234
-# jupyter notebook --NotebookApp.token=1234 --port 3837 & disown
+ExecStart=/usr/bin/bash %h/Notebooks/.jupyter/start_jupyter.sh
 
 [Install]
 WantedBy=default.target
