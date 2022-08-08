@@ -148,6 +148,9 @@ return require('packer').startup(function(use)
     end
   }
 
+  -- Debugging
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+
   -- Themes
   use {
     'morhetz/gruvbox',
