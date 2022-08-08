@@ -70,7 +70,8 @@ floating_modifier $mod
 
 # start a terminal
 	# remember alt is mod1
-bindsym $mod+Return exec kitty
+set $my_term alacritty
+bindsym $mod+Return exec $my_term
 bindsym Control+mod1+t exec i3-sensible-terminal
 
 # kill focused window
