@@ -104,6 +104,7 @@ map('n', '<C-m>', ':Vista!!<CR>', default_opts) -- open/close
 ------------------------------------------------------------
 vim.cmd [[ autocmd BufEnter *.md :map <f2> :! pandoc -s --katex "%" -o "%".html && chromium "%".html & disown <Enter> <Enter> ]]
 vim.cmd [[ autocmd BufEnter *.md :setlocal filetype=markdown ]]
+vim.cmd [[ autocmd BufEnter *.md :nmap <leader>v :MarkdownPreview<CR> ]]
 
 vim.cmd [[
     nmap <Leader>meelo :!pandoc -s --self-contained "%" --listings --toc  -H ~/Templates/LaTeX/ScreenStyle.sty --pdf-engine-opt=-shell-escape --citeproc --bibliography $HOME/Sync/Documents/ref.bib -o /tmp/note.pdf ; xdg-open /tmp/note.pdf & disown
