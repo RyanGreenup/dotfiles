@@ -33,6 +33,7 @@ cmd [[
 opt.number = true -- show line number
 opt.showmatch = true -- highlight matching parenthesis
 opt.foldmethod = 'indent' -- enable folding (default 'foldmarker')
+opt.foldlevelstart = 99   -- Open everything up at first
 opt.colorcolumn = '80' -- line lenght marker at 80 columns
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- horizontal split to the bottom
