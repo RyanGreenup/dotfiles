@@ -62,14 +62,35 @@ return require('packer').startup(function(use)
 
   use 'tjdevries/colorbuddy.vim'
 
+  -- Notifications
+  use { 'https://github.com/rcarriga/nvim-notify' }
+
+  -- Autosave
+  use({
+    "Pocco81/auto-save.nvim",
+    config = function()
+      require("auto-save").setup {
+        -- your config goes here
+        -- or just leave it empty :)
+      }
+    end,
+  })
+
   -- Themes
   use { 'dracula/vim', as = 'dracula' }
 
   -- Telescope
+  use { 'nvim-telescope/telescope-fzy-native.nvim' }
+  use { 'https://github.com/nvim-telescope/telescope-packer.nvim' }
   use {
-    'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/plenary.nvim' } }
+    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    requires = { {'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim'} },
+    config = function ()
+      require('telescope').load_extension('fzy_native') -- Requires fzy (not fzf)
+      require("telescope").load_extension "packer"
+    end
   }
+
   use { 'nvim-telescope/telescope-symbols.nvim' }
 
   -- file manager
@@ -149,8 +170,9 @@ return require('packer').startup(function(use)
   }
 
   -- Debugging
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
 
+  -- Auto resize windows
   -- Themes
   use {
     'morhetz/gruvbox',
