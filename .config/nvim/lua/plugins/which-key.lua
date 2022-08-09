@@ -46,6 +46,18 @@ wk.register({
       p = { "<cmd>bp<CR>", "Buffer Previous" },
       n = { "<cmd>bn<CR>", "Buffer Next" },
     },
+    d = {
+      name = "+debug",
+      t = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle Debug UI" },
+      b = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+      s = { "<cmd>lua require'dap'.continue()<CR>", "Start or Continue" },
+      o = { "<cmd>lua require'dap'.step_over()<CR>", "Step over" },
+      i = { "<cmd>lua require'dap'.step_in()<CR>", "Step in" },
+      r = { "<cmd>lua require'dap'.repl.open()<CR>", "REPL" },
+
+
+
+    },
     f = {
       name = "+file",
       f = { "<cmd>Telescope find_files theme=dropdown<cr>", "Find File" },
@@ -104,7 +116,6 @@ wk.register({
       name = "Toggle",
       a = { "<cmd>ASToggle<CR>:lua require('notify')('Toggled Autosave')<CR>", "Autosave" },
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
-      g = { "<cmd>GoldenRatioToggle<CR>", "Golden Ratio" }
     },
     i = {
       name = "insert",
@@ -123,7 +134,7 @@ wk.register({
       q = { "<cmd>:q<CR>", "quit" },
       ["="] = { "<C-w>=", "Resize" },
     },
-    q = { ":qa!", "Quit all!" },
+    q = { ":qa!<CR>", "Quit all!" },
     ["<Left>"] = { "<cmd>vertical resize +15<CR>", "Resize ⬅" },
     ["<Right>"] = { "<cmd>vertical resize -15<CR>", "Resize ➡" },
     ["<Up>"] = { "<cmd>         resize +15<CR>", "Resize ⬇" },
