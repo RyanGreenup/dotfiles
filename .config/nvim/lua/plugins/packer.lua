@@ -182,6 +182,15 @@ return require('packer').startup(function(use)
       require("dapui").setup()
     end
   }
+  use { 'https://github.com/Pocco81/dap-buddy.nvim' }
+  use { 'theHamsta/nvim-dap-virtual-text' }
+  use { 'https://github.com/nvim-neotest/neotest' }
+-- Plugins for language specifics
+  use {
+    'leoluz/nvim-dap-go',
+  config = function ()
+    require('dap-go').setup()
+  end}
   use { 'https://github.com/mfussenegger/nvim-dap-python' }
 
   -- Auto resize windows

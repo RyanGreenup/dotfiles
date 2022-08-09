@@ -24,7 +24,7 @@ wk.register({
       o = { "<cmd>lua require'dap'.step_over()<CR>", "Step over" },
       i = { "<cmd>lua require'dap'.step_in()<CR>", "Step in" },
       r = { "<cmd>lua require'dap'.repl.open()<CR>", "REPL" },
-
+      ["?"] = { "<cmd>lua dap_usage()<CR>", "Key Bindings" },
 
 
     },
@@ -109,8 +109,7 @@ wk.register({
       j = { "<C-w>j", "Move Down" },
       k = { "<C-w>k", "Move Up" },
       l = { "<C-w>l", "Move Right" },
-      d = { "<cmd>q<CR>", "quit" },
-      q = { "<cmd>:q<CR>", "quit" },
+      d = { "<cmd>:q<CR>", "quit" },
       t = {
         name = "+tab",
         e = { "<cmd>tabedit<CR>", "Edit" },
@@ -164,3 +163,83 @@ function iron_keybindings()
   local n = require('notify')
   n(message)
 end
+
+function dap_usage()
+  local message = [[
+  Debugging
+  ___________
+    First set a break point with <F9>, then
+    open  up  the  UI  with  <F4> and start
+    debugging with <F5>.
+
+    Use <F10> and  <F11> to go over and in
+    functions and <S-F11> if needed to get
+    out.
+
+  _________________________________________
+    Toggle Breakpoint...<F9>......SPC d b t
+    Toggle UI...........<F4>......SPC d t
+    ---------------------------------------
+    Start Debugging.....<F5>......SPC d s c
+    Step Over...........<F10>.....SPC d s v
+    Step Into...........<F11>.....SPC d s c
+    Step Out............<S-F11>...SPC d s c
+  _________________________________________
+
+  If the dap isn't installed run:
+    `:DBInstall <Tab>`
+
+  ]]
+  local n = require('notify')
+  n(message)
+end
+
+
+
+
+wk.register({
+    d = {
+        name = "Debug",
+        n = { "<cmd>lua require('dap').step_into()<CR>", "Step In"   },
+        o = { "<cmd>lua require('dap').step_over()<CR>", "Step Over" },
+        O = { "<cmd>lua require('dap').step_out()<CR>",  "Step Out"  },
+        d = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
+  ["<Space>"] = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Continue" },
+        s = {
+            name = "Step",
+            c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
+            v = { "<cmd>lua require('dap').step_over()<CR>", "Step Over" },
+            i = { "<cmd>lua require('dap').step_into()<CR>", "Step Into" },
+            o = { "<cmd>lua require('dap').step_out()<CR>", "Step Out" },
+        },
+        h = {
+            name = "Hover",
+            h = { "<cmd>lua require('dap.ui.variables').hover()<CR>", "Hover" },
+            v = { "<cmd>lua require('dap.ui.variables').visual_hover()<CR>", "Visual Hover" },
+        },
+        u = {
+            name = "UI",
+            h = { "<cmd>lua require('dap.ui.widgets').hover()<CR>", "Hover" },
+            f = { "local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>", "Float" },
+        },
+        r = {
+            name = "Repl",
+            o = { "<cmd>lua require('dap').repl.open()<CR>", "Open" },
+            l = { "<cmd>lua require('dap').repl.run_last()<CR>", "Run Last" },
+        },
+        b = {
+            name = "Breakpoints",
+            c = {
+                "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+                "Breakpoint Condition",
+            },
+            m = {
+                "<cmd>lua require('dap').set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>",
+                "Log Point Message",
+            },
+            t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Create" },
+        },
+        c = { "<cmd>lua require('dap').scopes()<CR>", "Scopes" },
+        i = { "<cmd>lua require('dap').toggle()<CR>", "Toggle" },
+    },
+}, { prefix = "<leader>" })
