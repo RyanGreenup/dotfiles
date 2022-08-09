@@ -38,27 +38,13 @@ map('n', '<C-l>', '<C-w>l', default_opts)
 
 
 -- Fuzzy Find stuff
-map('n', '<leader>bp', ':bp<CR>', default_opts)
-map('n', '<leader>bn', ':bn<CR>', default_opts)
-map('n', '<leader>fp', ':e ~/.config/nvim/init.lua<cr>:cd %:p:h<cr> :cd lua<CR>', default_opts)
-map('n', '<leader>ss', '<cmd>Telescope current_buffer_fuzzy_find<cr>', default_opts)
 map('n', '<C-p>', '<cmd>Telescope find_files<cr>', default_opts)
 -- map('n'	, '<leader><leader>', '<cmd>Telescope commands<cr>'   , default_opts)
 map('n', '<M-x>', '<cmd>Telescope commands<cr>', default_opts)
-map('n', '<leader>bb', '<cmd>Telescope buffers<cr>', default_opts)
 map('n', '<C-x><C-b>', '<cmd>Telescope buffers<cr>', default_opts)
-map('n', '<leader>\'', '<cmd>Telescope resume<cr>', default_opts)
 map('n', '<C-x>b', '<cmd>Telescope buffers<cr>', default_opts)
-map('n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', default_opts)
-map('n', '<leader>fg', '<cmd>Telescope<CR>', default_opts)
-map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', default_opts)
-map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', default_opts)
-map('n', '<leader>e', '<cmd>Telescope quickfix<cr>', default_opts)
 -- Change Directory to File
-map('n', '<leader>fcd', '<cmd>:cd %:p:h<cr>', default_opts)
 -- Copy File path
-map('n', '<leader>fy', '<cmd>:let @+=expand("%:p")<cr>', default_opts) -- Copy File path
-map('n', '<leader>fY', '<cmd>:let @+=expand("%")<cr>', default_opts) -- Copy File path
 -- Ultisnips (More ergonomic
 vim.cmd [[
   let g:UltiSnipsExpandTrigger = '<tab>'
@@ -74,7 +60,6 @@ vim.cmd [[
 map('n', '<C-t>', ':Term<CR>', { noremap = true })
 -- open help for lsp
 map('n', '<leader>hk', ':e +/#mappings ~/.config/nvim/lua/plugins/lsp+cmp.lua<CR>', { noremap = true })
-
 
 -- nvim-tree
 map('n', '<C-n>', ':NvimTreeToggle<CR>', default_opts) -- open/close
@@ -192,7 +177,6 @@ vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nmap <M-Right> :lua dokuwiki_headi
 -- https://vim.fandom.com/wiki/Folding
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nnoremap <silent> <Tab> @=(foldlevel('.')?'za':"\<Space>")<CR>  ]]
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :vnoremap <Space> zf<CR>  ]]
-vim.cmd [[ nmap <leader>qF ':set lines=90<CR>:set columns=60<CR>' ]]
 map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
 map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)

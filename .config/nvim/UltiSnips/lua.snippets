@@ -104,4 +104,10 @@ snippet local "local x = 1"
 local ${1:x} = ${0:1}
 endsnippet
 
+
+snippet cm "cmd"
+$1 = { "<cmd>$2<CR>", "$3" },
+$0
+endsnippet
 # vim:ft=snippets:
+

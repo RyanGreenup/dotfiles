@@ -12,13 +12,14 @@
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
+  local opts = { noremap = true, silent = true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -37,7 +38,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format {async = true }<CR>', opts)
 
 end
 
@@ -55,7 +56,8 @@ local servers = {
   'dotls', 'gopls', 'sumneko_lua', 'java_language_server', 'jsonls', 'julials',
   'kotlin_language_server', 'nimls', 'pyright', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
-  'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls' }
+  'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls'
+}
 
 local nvim_lsp = require('lspconfig')
 for _, lsp in ipairs(servers) do
@@ -66,7 +68,3 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
-
-
-
-

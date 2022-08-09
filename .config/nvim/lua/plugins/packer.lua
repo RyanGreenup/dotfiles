@@ -80,6 +80,9 @@ return require('packer').startup(function(use)
   use { 'dracula/vim', as = 'dracula' }
 
   -- Telescope
+  use { 'https://github.com/fhill2/telescope-ultisnips.nvim' }
+  use { 'https://github.com/camgraff/telescope-tmux.nvim' }
+  use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'nvim-telescope/telescope-dap.nvim' }
   use { 'nvim-telescope/telescope-fzy-native.nvim' }
   use { 'https://github.com/nvim-telescope/telescope-packer.nvim' }
@@ -87,6 +90,7 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
     requires = { { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim' } },
     config = function()
+      require('telescope').load_extension('ultisnips')
       require('telescope').load_extension('fzy_native') -- Requires fzy (not fzf)
       require("telescope").load_extension "packer"
       require('telescope').load_extension('dap')

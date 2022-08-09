@@ -1,48 +1,51 @@
 local wk = require('which-key')
 
 vim.cmd [[ set timeoutlen=10 ]]
+local n = require('notify')
 
-wk.register({
-  o = {
-    name = "Org", -- optional group name
-    a = { "Agenda" },
-    A = { "Archive" },
-    c = { "Capture" },
-    t = { "Set Tag" },
-    r = { "Refile" },
-    o = { "Open at Point" },
-    k = { "Cancel Edit Source" },
-    w = { "Save Edit Source" },
-    K = { "Move Subtree Up" },
-    J = { "Move Subtree Down" },
-    e = { "Export" },
-    i = {
-      name = "Insert",
-      d = { "Deadline" },
-      h = { "Heading" },
-      T = { "Mark TODO" },
-      t = { "Toggle Below" },
-      s = { "Schedule" }
-    },
-    x = {
-      name = "Clock",
-      o = { "Clock Out" },
-      i = { "Clock In" },
-      q = { "Cancel Clock" },
-      j = { "Jump to Clock" },
-      e = { "Set Effort" },
-    }
-  },
-}, { prefix = "<leader>" })
-
+-- wk.register({
+--   o = {
+--     name = "Org", -- optional group name
+--     a = { "Agenda" },
+--     A = { "Archive" },
+--     c = { "Capture" },
+--     t = { "Set Tag" },
+--     r = { "Refile" },
+--     o = { "Open at Point" },
+--     k = { "Cancel Edit Source" },
+--     w = { "Save Edit Source" },
+--     K = { "Move Subtree Up" },
+--     J = { "Move Subtree Down" },
+--     e = { "Export" },
+--     i = {
+--       name = "Insert",
+--       d = { "Deadline" },
+--       h = { "Heading" },
+--       T = { "Mark TODO" },
+--       t = { "Toggle Below" },
+--       s = { "Schedule" }
+--     },
+--     x = {
+--       name = "Clock",
+--       o = { "Clock Out" },
+--       i = { "Clock In" },
+--       q = { "Cancel Clock" },
+--       j = { "Jump to Clock" },
+--       e = { "Set Effort" },
+--     }
+--   },
+-- }, { prefix = "<leader>" })
 
 
 wk.register({
   ["<leader>"] = {
     ["<leader>"] = { "<cmd>Telescope<CR>", "Telescope" },
+    ["'"] = { "<cmd>Telescope resume<CR>", "Telescope Resume" },
 
     b = {
       name = "+buffers",
+      b = { "<cmd>Telescope buffers<CR>", "Buffers" },
+
       p = { "<cmd>bp<CR>", "Buffer Previous" },
       n = { "<cmd>bn<CR>", "Buffer Next" },
     },
@@ -64,9 +67,21 @@ wk.register({
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       n = { "<cmd>enew<cr>", "New File" },
       p = { "<cmd>e ~/.config/nvim/init.lua<CR>:cd %:p:h<CR>:cd lua<CR>", "Edit Config" },
+      g = { "<cmd>:cd %:p:h<cr>", "Go to file (cd)" },
+      y = { '<cmd>:let @+=expand("%:p")<cr>', "Copy File Path" },
+      Y = { '<cmd>:let @+=expand("%")<cr>"%:p")<cr>', "Copy File Path" },
+
+    },
+    g = {
+      name = "+go",
+      d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Definition" },
+      D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "LSP: Definition" },
+      i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "LSP: Implementation" },
+      r = { "<cmd>lua vim.lsp.buf.references()<CR>", "LSP: References" },
     },
     h = {
       name = "help",
+      h = { "<cmd>Telescope help_tags<CR>", "Help" },
       r = { "<cmd>source $MYVIMRC<cr>", "source $MYVIMRC" },
       t = { "<cmd>Telescope colorscheme theme=dropdown<cr>", "Choose Theme" },
       u = { "<cmd>:PackerSync<CR>", "Packer Sync" },
@@ -79,7 +94,8 @@ wk.register({
       -- d = { "<cmd>Telescope lsp_document_symbols<CR>",      "LSP document" },
       d = { "<cmd>Vista finder<CR>", "LSP document" },
       D = { "<cmd>Vista finder!<CR>", "LSP workspace" },
-
+      i = { "<cmd>Telescope ultisnips<CR>", "Ultisnips" },
+      e = { "<cmd>Telescope quickfix<CR>", "Errors" },
 
     },
     o = {
@@ -112,17 +128,43 @@ wk.register({
         e = { "Set Effort" },
       }
     },
+    r = {
+      name = "Iron",
+      c = { "<cmd>:IronSend<CR>", "line" },
+      ["?"] = { "<cmd>lua iron_keybindings()<CR>", "Key Bindings" },
+    },
+    l = {
+      name = "LSP",
+      g = {
+        name = "+go",
+        d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+        D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Definition" },
+        i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
+        r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+      },
+      k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover (S-k)" },
+      h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+      w = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Workspace Folder" },
+      W = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
+      x = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List folders" },
+      t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
+      r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
+      a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
+      f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format" },
+    },
     t = {
       name = "Toggle",
       a = { "<cmd>ASToggle<CR>:lua require('notify')('Toggled Autosave')<CR>", "Autosave" },
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
+      x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
+
     },
     i = {
       name = "insert",
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
     },
     w = {
-      name = "Window",
+      name = "+window",
       -- Splits
       v = { "<cmd>:vsplit<CR>", "vsplit" },
       s = { "<cmd>:split<CR>", "hsplit" },
@@ -132,6 +174,22 @@ wk.register({
       l = { "<C-w>l", "Move Right" },
       d = { "<cmd>q<CR>", "quit" },
       q = { "<cmd>:q<CR>", "quit" },
+      t = {
+        name = "+tab",
+        e = { "<cmd>tabedit<CR>", "Edit" },
+        x = { "<cmd>tabclose<CR>", "Close" },
+        p = { "<cmd>tabprevious<CR>", "Previous" },
+        n = { "<cmd>tabnext<CR>", "Next" },
+        o = { "<cmd>tabsplit<CR>", "Open Tab" },
+
+
+      },
+      T = { "<C-w> t", "New Tab" },
+      o = { "<C-w>|<C-w>_", "maximize" },
+      O = { "<cmd>only<CR>", "Max (:only)" },
+      m = { "<C-w>s<C-w>v<C-w>w<C-w>s", "Many splits" },
+      ["_"] = { "<C-w>_", "Flatten" },
+      ["|"] = { "<C-w>|", "Width" },
       ["="] = { "<C-w>=", "Resize" },
     },
     q = { ":qa!<CR>", "Quit all!" },
@@ -142,3 +200,30 @@ wk.register({
     ["/"] = { "<cmd>Telescope live_grep<CR>", "Resize" },
   },
 })
+
+
+function iron_keybindings()
+  local message = [[
+  ~/.config/nvim/lua/plugins/iron.lua
+  ______________________________________
+
+    send_motion....SPC s c
+    visual_send....SPC s c
+    send_file......SPC s f
+    send_line......SPC s l
+    send_mark......SPC s m
+    mark_motion....SPC m c
+    mark_visual....SPC m c
+    remove_mark....SPC m d
+    cr.............SPC s Ret
+    interrupt......SPC s SPC
+    exit...........SPC s q
+    clear..........SPC c l
+
+  ______________________________________
+
+  These are set separetly, hence this overlay
+  ]]
+  local n = require('notify')
+  n(message)
+end
