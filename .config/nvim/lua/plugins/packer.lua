@@ -111,6 +111,22 @@ return require('packer').startup(function(use)
   -- LSP
   use 'neovim/nvim-lspconfig'
 
+  -- Automatically get LSP
+  use {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+  }
+  use { 'williamboman/mason-lspconfig.nvim',
+      config = function ()
+        require("mason").setup()
+        require("mason-lspconfig").setup()
+        -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
+        require("mason-lspconfig").setup({
+            ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqlls", "gopls", "clangd", "bashls", "zls", "html" }
+        })
+      end
+  }
+
   -- Vista (Jump to LSP issues)
   use 'liuchengxu/vista.vim'
 
