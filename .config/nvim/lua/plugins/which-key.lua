@@ -87,7 +87,8 @@ wk.register({
       t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
       r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
       a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-      f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format" },
+    f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format (Async)" }, -- NOTE unsupported on OBSD
+    F = { "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", "Format" },
     },
     t = {
       name = "Toggle",

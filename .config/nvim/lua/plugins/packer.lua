@@ -122,7 +122,7 @@ return require('packer').startup(function(use)
         require("mason-lspconfig").setup()
         -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
         require("mason-lspconfig").setup({
-            ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqlls", "gopls", "clangd", "bashls", "zls", "html" }
+            ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqls", "gopls", "clangd", "bashls", "zls", "html" }
         })
       end
   }
