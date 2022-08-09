@@ -144,7 +144,8 @@ end
 # ** Finding ......................................................................
 ## I could have used `note_taking fzf` but skim and bat is prettier
 function _private_finding
-    fd '\.org$|\.md$|\.txt$' $argv |
+   # use ls -t to sort by time (default is modification time)
+    ls -t (fd -t f '\.org$|\.md$|\.txt$' $argv) |
         sk --ansi -m -c 'rg -l -t markdown -t org -t txt --ignore-case "{}"' \
             --preview "bat --style snip {} 2> /dev/null --color=always" \
             --bind 'ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down'
