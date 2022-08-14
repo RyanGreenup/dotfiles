@@ -17,6 +17,61 @@ alias gd='git --work-tree $HOME --git-dir $dotfiles_dir $argv'
 gd config --local status.showUntrackedFiles no
 ```
 
+## Dependencies
+
+Requires Nerdfonts:
+
+| Distro | Source |
+| ---    | ---    |
+| FreeBSD | [x11-fonts/nerd-fonts](https://www.freshports.org/x11-fonts/nerd-fonts/)|
+| Arch | [nerd-fonts-complete (AUR)](https://aur.archlinux.org/packages/nerd-fonts-complete)
+| MacOS | [brew](https://github.com/Homebrew/homebrew-cask-fonts) |
+| Windows | [choco ???](https://community.chocolatey.org/packages/nerdfont-hack)|
+| OpenBSD | ↓ |
+
+### OpenBSD
+Something like this might work:
+
+<details>
+```make
+COMMENT =	Iconic font aggregator, collection, & patcher
+
+# version numbers listed in README.md
+DISTNAME =	chivo-1.007
+REVISION =	0
+
+CATEGORIES =	fonts
+
+GH_ACCOUNT =	ryanoasis
+GH_PROJECT =	nerd-fonts
+GH_TAGNAME =    v2.1.0
+
+HOMEPAGE =	https://www.nerdfonts.com/
+MAINTAINER =	Ryan G <>
+
+# SIL OFL 1.1
+PERMIT_PACKAGE =	Yes
+
+PKG_ARCH =	*
+
+NO_BUILD =	Yes
+
+NO_TEST =	Yes
+
+FONTDIR =	${PREFIX}/share/fonts/${GH_PROJECT}
+DOCDIR =	${PREFIX}/share/doc/${GH_PROJECT}
+
+do-install:
+	${INSTALL_DATA_DIR} ${FONTDIR} ${DOCDIR}
+	${INSTALL_DATA} ${WRKDIST}/nerd-fonts/patched-fonts/*/complete/*.ttf ${FONTDIR}
+	${INSTALL_DATA} ${WRKDIST}/nerd-fonts/patched-fonts/*/complete/*.otf ${FONTDIR}
+
+.include <bsd.port.mk>
+```
+
+</details>
+
+
 ## Seperate
 
 To use only some files, consider creating seperate branches or implementing
