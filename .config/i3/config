@@ -524,8 +524,11 @@ bindsym $mod+Ctrl+less move workspace to output left
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+Right workspace next_on_output
 bindsym $mod+Down workspace next_on_output
+
 bindsym $mod+Left workspace prev_on_output
 bindsym $mod+Up workspace prev_on_output
+bindsym $mod+p workspace prev_on_output
+bindsym $mod+n workspace next_on_output
 
 
 
@@ -610,7 +613,7 @@ bindsym $mod+Shift+Escape exec "bash ~/.config/i3/rofi_layout.sh"
 bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 
 # Open dokuwiki note
-bindsym $mod+n exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
+bindsym $mod+BackSpace exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
 
 
 
