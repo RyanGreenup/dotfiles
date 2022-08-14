@@ -12,6 +12,9 @@ dot_dir="$HOME/.local/share/dotfiles"
 git clone --separate-git-dir="${dot_dir}" "${git_repo}" "${tmp_dot_dir}"
 rsync --recursive --verbose --exclude '.git' "${tmp_dot_dir}"/ $HOME/
 gitui -w $HOME -d "${dot_dir}"
+
+alias gd='git --work-tree $HOME --git-dir $dotfiles_dir $argv'
+gd config --local status.showUntrackedFiles no
 ```
 
 ## Seperate
