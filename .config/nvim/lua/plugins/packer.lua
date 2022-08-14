@@ -84,14 +84,16 @@ return require('packer').startup(function(use)
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'nvim-telescope/telescope-dap.nvim' }
-  use { 'nvim-telescope/telescope-fzy-native.nvim' }
+  -- Use cmake for fzf because the Makefile is GNUisms.
+  use {'nvim-telescope/telescope-fzf-native.nvim',
+       run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   use { 'https://github.com/nvim-telescope/telescope-packer.nvim' }
   use {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
-    requires = { { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim' } },
+    requires = { { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' } },
     config = function()
       require('telescope').load_extension('ultisnips')
-      require('telescope').load_extension('fzy_native') -- Requires fzy (not fzf)
+      require('telescope').load_extension('fzf') -- Use fzf for BSD compatability
       require("telescope").load_extension "packer"
       require('telescope').load_extension('dap')
     end
