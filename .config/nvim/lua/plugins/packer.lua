@@ -208,6 +208,8 @@ return require('packer').startup(function(use)
     require('dap-go').setup()
   end}
   use { 'https://github.com/mfussenegger/nvim-dap-python' }
+  -- task juggler
+  use { 'https://github.com/kalafut/vim-taskjuggler' }
 
   -- Auto resize windows
   -- Themes
