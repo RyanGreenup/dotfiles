@@ -80,6 +80,7 @@ return require('packer').startup(function(use)
   use { 'dracula/vim', as = 'dracula' }
 
   -- Telescope
+  use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'https://github.com/fhill2/telescope-ultisnips.nvim' }
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
