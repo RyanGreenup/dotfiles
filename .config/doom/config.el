@@ -360,3 +360,12 @@
 
 
 
+(defun my/open-current-file-in-vim ()
+  (interactive)
+  (async-shell-command
+   (format "alacritty -e nvim +%d %s"
+           (+ (if (bolp) 1 0) (count-lines 1 (point)))
+           (shell-quote-argument buffer-file-name))))
+
+(map!
+     "C-c v"    #'my/open-current-file-in-vim)
