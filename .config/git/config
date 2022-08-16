@@ -12,5 +12,3 @@
 	procReceiveRefs = refs/for
 [gc]
 	writeCommitGraph = true
-[commit]
-	template = /home/ryan/Templates/git_commit_message.txt
