@@ -1,6 +1,6 @@
 local iron = require("iron.core")
 
-iron.setup{
+iron.setup {
   config = {
     -- Highlights the last sent block with bold
     highlight_last = "IronLastSent",
@@ -25,37 +25,40 @@ iron.setup{
     -- the param is the width/height of the float window
     repl_open_cmd = 'belowright 15 split',
     -- Alternatively, pass a function, which is evaluated when a repl is open.
---     repl_open_cmd = require('iron.view').curry.right(function()
---         return vim.o.columns / 3
---     end),
+    --     repl_open_cmd = require('iron.view').curry.right(function()
+    --         return vim.o.columns / 3
+    --     end),
     -- iron.view.curry will open a float window for the REPL.
     -- alternatively, pass a string of vimscript for opening a fixed window:
---     repl_open_cmd = 'belowright 15 split',
+    --     repl_open_cmd = 'belowright 15 split',
 
     -- If the repl buffer is listed
     buflisted = true,
     -- REPL definitions
     repl_definition = {
       sh = {
-        command = {"dash"}
+        command = { "dash" }
       },
       ion = {
-        command = {"ion"}
+        command = { "ion" }
       },
       fish = {
-        command = {"fish"}
+        command = { "fish" }
       },
       go = {
-        command = {"yaegi"}
+        command = { "yaegi" }
       },
       rust = {
-        command = {"evcxr"}
+        command = { "evcxr" }
       },
       c = {
-        command = {"picoc", "-i"}
+        command = { "picoc", "-i" }
       },
       cpp = {
-        command = {"cling"}
+        command = { "cling" }
+      },
+      ruby = {
+        command = { "irb" }
       },
     },
     -- how the REPL window will be opened, the default is opening
@@ -87,5 +90,10 @@ iron.setup{
 }
 
 
-vim.cmd [[ nmap <A-return> <space>sc$ ]]
-vim.cmd [[ imap <A-return> <Esc><space>sc$i ]]
+vim.cmd [[
+ nmap <A-return> <space>sc$
+ imap <A-return> <Esc><space>sc$i
+
+ nmap <M-CR> <space>sl
+ nmap <C-CR> <space>slj
+]]
