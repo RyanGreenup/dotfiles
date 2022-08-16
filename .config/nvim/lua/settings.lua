@@ -144,6 +144,26 @@ opt.shortmess:append "sI"
 
 
 -----------------------------------------------------------
+-- Neoray GUI
+-----------------------------------------------------------
+
+
+vim.cmd [[
+if exists('g:neoray')
+  NeoraySet CursorAnimTime 0.05
+  NeoraySet Transparency 0.95
+  NeoraySet ContextButton Say\ Hello :echo "Hello World!"
+  NeoraySet ContextButton Open\ in\ Dir :!pcmanfm "%:p:h<CR>"
+  NeoraySet BoxDrawing TRUE
+  NeoraySet KeyFullscreen <F11>
+  NeoraySet KeyZoomIn     <C-=>
+  NeoraySet KeyZoomOut    <C-->
+  set guifont=:12
+endif
+]]
+
+
+-----------------------------------------------------------
 -- Autocommands
 -----------------------------------------------------------
 
