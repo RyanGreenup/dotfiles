@@ -85,12 +85,12 @@ bindsym Control+mod1+t exec i3-sensible-terminal
 # start program launcher
 #bindsym $mod+d exec --no-startup-id dmenu_recency
 # bindsym $mod+d exec --no-startup-id rofi -show drun -lines 10 -eh 2 -width 30 -padding 800 -font "Cantarell 36" -mathing fuzzy -show-icons
- bindsym $mod+d exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme Pop-Dark -padding 1600
- bindsym $mod+space exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme Pop-Dark -padding 1600
+ bindsym $mod+d exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme paper-float -padding 1600
+ bindsym $mod+space exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme paper-float -padding 1600
  # bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons -theme-str 'element-icon \{ size: 4ch;\}'
- bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons  -theme Pop-Dark
+ bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons  -theme paper-float
 
- bindsym $mod+c  exec rofi -show calc -modi calc -no-show-match -no-sort -theme Pop-Dark
+ bindsym $mod+c  exec rofi -show calc -modi calc -no-show-match -no-sort -theme paper-float
 
 
 
