@@ -111,9 +111,6 @@ return require('packer').startup(function(use)
     config = function() require 'nvim-tree'.setup {} end
   }
 
-  -- LSP
-  use 'neovim/nvim-lspconfig'
-
   -- Automatically get LSP
   use {
       "williamboman/mason.nvim",
