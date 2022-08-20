@@ -48,8 +48,11 @@ return require('packer').startup(function(use)
   }
 
   -- Markdown
-  use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
-  use 'instant-markdown/vim-instant-markdown'
+  --   use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
   use { 'nblock/vim-dokuwiki' }
 
   -- Appearance
@@ -83,11 +86,10 @@ return require('packer').startup(function(use)
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'https://github.com/fhill2/telescope-ultisnips.nvim' }
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
-  use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'nvim-telescope/telescope-dap.nvim' }
   -- Use cmake for fzf because the Makefile is GNUisms.
-  use {'nvim-telescope/telescope-fzf-native.nvim',
-       run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+  use { 'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   use { 'https://github.com/nvim-telescope/telescope-packer.nvim' }
   use {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
@@ -113,18 +115,19 @@ return require('packer').startup(function(use)
 
   -- Automatically get LSP
   use {
-      "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
+    "neovim/nvim-lspconfig",
   }
   use { 'williamboman/mason-lspconfig.nvim',
-      config = function ()
-        require("mason").setup()
-        require("mason-lspconfig").setup()
-        -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
-        require("mason-lspconfig").setup({
-            ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqls", "gopls", "clangd", "bashls", "zls", "html" }
-        })
-      end
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup()
+      -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
+      require("mason-lspconfig").setup({
+        ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqls", "gopls", "clangd",
+          "bashls", "zls", "html" }
+      })
+    end
   }
 
   -- Vista (Jump to LSP issues)
@@ -201,12 +204,13 @@ return require('packer').startup(function(use)
   use { 'https://github.com/Pocco81/dap-buddy.nvim' }
   use { 'theHamsta/nvim-dap-virtual-text' }
   use { 'https://github.com/nvim-neotest/neotest' }
--- Plugins for language specifics
+  -- Plugins for language specifics
   use {
     'leoluz/nvim-dap-go',
-  config = function ()
-    require('dap-go').setup()
-  end}
+    config = function()
+      require('dap-go').setup()
+    end
+  }
   use { 'https://github.com/mfussenegger/nvim-dap-python' }
   -- task juggler
   use { 'https://github.com/kalafut/vim-taskjuggler' }
