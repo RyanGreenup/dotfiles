@@ -2,7 +2,7 @@
 Description=Gollum Git Wiki
 
 [Service]
-ExecStart=/home/ryan/.gem/ruby/2.7.0/bin/gollum --mathjax -h 0.0.0.0 -p 4567 %h/Notes/ --css 
+ExecStart=/usr/bin/gollum --mathjax --css --allow-uploads --emoji %h/Notes/gollum
 
 [Install]
 WantedBy=default.target

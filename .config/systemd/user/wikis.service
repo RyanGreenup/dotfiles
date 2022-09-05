@@ -2,7 +2,6 @@
 Description=Start a php-fpm server and use caddies for wikis under ~/Notes
 
 [Service]
-# ExecStart=/usr/bin/bash %h/Notes/.caddy/start.sh
 ExecStart=/usr/bin/bash %h/Applications/wikis/.caddy/start.sh
 
 [Install]
