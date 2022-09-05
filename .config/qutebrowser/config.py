@@ -4,6 +4,7 @@ c.url.searchengines = {
         'dg': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',
         'dw': 'http://localhost:8923/doku.php?q={}&do=search',
+        'gl': 'http://localhost:4567/gollum/search?q={}',
         'mw': 'http://localhost:8924/mediawiki/index.php?search={}&title=Special%3ASearch&go=Go',
         'wp': 'https://en.wikipedia.org/w/index.php?search={}',
         'DEFAULT': 'https://searx.tiekoetter.com/search?q={}'
@@ -62,5 +63,6 @@ config.bind('tr', 'config-source')
 config.bind('tj', 'config-cycle content.javascript.enabled')
 config.bind('cc',  'hint code userscript code_select.py')
 config.bind('ed',  'spawn --userscript edit_dw.sh')
+config.bind('eg',  'spawn --userscript edit_gm.sh')
 config.bind('el',  'edit-url')
 
