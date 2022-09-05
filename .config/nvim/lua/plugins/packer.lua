@@ -172,7 +172,14 @@ return require('packer').startup(function(use)
   }
 
   -- Which Key
-  use 'folke/which-key.nvim'
+  --[[
+  Due to a bug, pin to this commit
+  https://github.com/folke/which-key.nvim/issues/330
+  --]]
+  use({
+       "folke/which-key.nvim",
+       commit = "9c190ea91939eba8c2d45660127e0403a5300b5a~1" 
+       })
 
   -- Lightspeed, like easy motion
   use 'ggandor/lightspeed.nvim'
