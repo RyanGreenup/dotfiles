@@ -123,7 +123,7 @@ local servers = {
   'dotls', 'gopls', 'java_language_server', 'jsonls', 'julials',
   'kotlin_language_server', 'nimls', 'pyright', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
-  'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls'
+  'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols'
 }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
