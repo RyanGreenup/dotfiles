@@ -7,6 +7,8 @@ c.url.searchengines = {
         'gl': 'http://localhost:4567/gollum/search?q={}',
         'mw': 'http://localhost:8924/mediawiki/index.php?search={}&title=Special%3ASearch&go=Go',
         'wp': 'https://en.wikipedia.org/w/index.php?search={}',
+        'g': 'https://www.google.com/search?q={}',
+
         'DEFAULT': 'https://searx.tiekoetter.com/search?q={}'
         }
 c.tabs.position = 'left'
