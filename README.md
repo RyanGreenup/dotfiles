@@ -76,3 +76,32 @@ do-install:
 
 To use only some files, consider creating seperate branches or implementing
 a tool like [GNU](https://www.gnu.org/software/stow/).
+
+
+## Neovim Dependencies
+
+### Alpine
+#### fzf-telescope
+On alpine fzf-telescope native depends on:
+
+
+```bash
+apk add                     \
+  cmake                     \
+   gcc                      \
+  clang                     \
+  gcc-arm-none-eabi         \
+  gcc-arm-none-eabi-stage1  \
+  gcc-riscv-none-elf        \
+  gcc-riscv-none-elf-stage1 \
+  musl-dev                  \
+  pcc-libs-dev              \
+  rust
+```
+#### Org Mode
+
+```bash
+apk add                     \
+  man-pages                 \
+  g++
+```
