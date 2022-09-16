@@ -285,7 +285,11 @@
   (interactive)
   ;; make relative path
   ;; then replace '/' with ':'
-  (setq page (shell-command-to-string "cd ~/Notes/dokuwiki/data/pages; fd -H txt  |  dmenu -i -f -l 30 | sed 's#\.txt$##' | tr -d '\./' | tr -d '\n'"))
+  ;; for dokuwiki
+  ;; (setq page (shell-command-to-string "cd ~/Notes/dokuwiki/data/pages; fd -H txt  |  dmenu -i -f -l 30 | sed 's#\.txt$##' | tr -d '\./' | tr -d '\n'"))
+
+  ;; for gollum
+  (setq page (shell-command-to-string "cd ~/Notes/slipbox; fd -H  |  dmenu -i -f -l 30 | sed 's#\.txt$##' |  tr -d '\n'"))
   (insert (format "[[:%s]]" page)))
 
 
