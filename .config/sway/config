@@ -71,12 +71,12 @@ bindsym Control+mod1+t exec i3-sensible-terminal
 # start program launcher
 #bindsym $mod+d exec --no-startup-id dmenu_recency
 # bindsym $mod+d exec --no-startup-id rofi -show drun -lines 10 -eh 2 -width 30 -padding 800 -font "Cantarell 36" -mathing fuzzy -show-icons
- bindsym $mod+d exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme Pop-Dark -padding 1600
- bindsym $mod+space exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -theme Pop-Dark -padding 1600
+ bindsym $mod+d exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons  -padding 1600
+ bindsym $mod+space exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -padding 1600
  # bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons -theme-str 'element-icon \{ size: 4ch;\}'
- bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons  -theme Pop-Dark
+ bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons
 
- bindsym $mod+c  exec rofi -show calc -modi calc -no-show-match -no-sort -theme Pop-Dark
+ bindsym $mod+c  exec rofi -show calc -modi calc -no-show-match -no-sort
 
 
 
@@ -566,7 +566,7 @@ bindsym $mod+Print exec grim -t jpeg -g "$(slurp)" ~/screenshots/$(date +%Y-%m-%
 
 # # Take Screenshot
 # bindsym $mod+Print maim --select | xclip -selection clipboard -target image/png
-# 
+#
 
 
 ## Transperancy ............................................
@@ -579,17 +579,17 @@ for_window [app_id="guake"] floating enable; border none; opacity 0.5
 for_window [class="code-oss"] opacity 1
 
 # To get the window classes:
-# swaymsg -t get_tree 
+# swaymsg -t get_tree
 
 ## Popup terminal..........................................
 # Set your preferred terminal emulator# Give it a title
 set $title dropdown
-set $term alacritty -t $title  
-# Execute your preferred terminal emulator in scratchpad  
-exec $term  
+set $term alacritty -t $title
+# Execute your preferred terminal emulator in scratchpad
+exec $term
 for_window [title="$title"] move container to scratchpad; border none; floating enable; opacity 0.5
-# Bind your preferred shortcut to show / hide the terminal  
-bindsym F12 scratchpad show  
+# Bind your preferred shortcut to show / hide the terminal
+bindsym F12 scratchpad show
 
 
 
