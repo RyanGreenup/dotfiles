@@ -123,10 +123,7 @@ return require('packer').startup(function(use)
       require("mason").setup()
       require("mason-lspconfig").setup()
       -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
-      require("mason-lspconfig").setup({
-        ensure_installed = { "julials", "pyright", "r_language_server", "rust_analyzer", "sqls", "gopls", "clangd",
-          "bashls", "zls", "html" }
-      })
+      require("mason-lspconfig").setup()
     end
   }
 
@@ -160,7 +157,9 @@ return require('packer').startup(function(use)
   use 'SirVer/ultisnips'
 
   -- Search Matching
-  use 'kevinhwang91/nvim-hlslens'
+  use {
+    'kevinhwang91/nvim-hlslens',
+    }
 
   -- Programming
   use 'ray-x/go.nvim'
@@ -178,7 +177,7 @@ return require('packer').startup(function(use)
   --]]
   use({
        "folke/which-key.nvim",
-       commit = "9c190ea91939eba8c2d45660127e0403a5300b5a~1" 
+       commit = "9c190ea91939eba8c2d45660127e0403a5300b5a~1"
        })
 
   -- Lightspeed, like easy motion
