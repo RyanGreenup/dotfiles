@@ -39,7 +39,7 @@ set $mod Mod4
 #font pango:monospace 19
 
 # This does the window tops
-font pango:Fira Code       Semibold 15px
+font pango:FiraCode Nerd Font 15px
 ## exec xrandr --dpi 184 ## Yeah but that that happens on laptop, probably just do ~/.xresrouces?
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
