@@ -13,8 +13,9 @@ date_formatted=$(date "+%a %F %H:%M")
 linux_version=$(uname -r | cut -d '-' -f1)
 
 # Returns the battery status: "Full", "Discharging", or "Charging".
-battery_status=$(cat /sys/class/power_supply/BAT0/status)
+battery_status=$(cat /sys/class/power_supply/BAT?/capacity)
 
+# TODO an if test for battery
 # Emojis and characters for the status bar
-# 💎 💻 💡 🔌 ⚡ 📁 \|
-echo $uptime_formatted ↑ $linux_version 🐧 $battery_status 🔋 $date_formatted
+echo [↑ $uptime_formatted ]  [🐧 $linux_version ] [⚡  $battery_status %] [$date_formatted]
+
