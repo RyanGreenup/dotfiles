@@ -9,8 +9,18 @@ bar {
         # Background of status bar
         background #323232
     }
-    font pango:DejaVu Sans Mono 10
+    font pango:FiraCode Nerd Font 10
 }
+
+input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
+    dwt enabled
+    tap enabled
+    middle_emulation enabled
+    natural_scroll enabled
+    click_method clickfinger
+}
+
+output eDP-1 scale 1.0
 
 exec autotiling -w 1 2
 
@@ -59,7 +69,7 @@ floating_modifier $mod
 
 # start a terminal
 	# remember alt is mod1
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 bindsym Control+mod1+t exec i3-sensible-terminal
 
 # kill focused window
@@ -74,7 +84,7 @@ bindsym Control+mod1+t exec i3-sensible-terminal
  bindsym $mod+d exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons  -padding 1600
  bindsym $mod+space exec rofi -show drun lines 10 -eh 2 -mathing fuzzy -show-icons -padding 1600
  # bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons -theme-str 'element-icon \{ size: 4ch;\}'
- bindsym $mod+slash exec rofi -show window lines 10 -eh 2 -mathing fuzzy -show-icons
+ bindsym $mod+slash exec ~/.local/bin/sway_window_switch.sh
 
  bindsym $mod+c  exec rofi -show calc -modi calc -no-show-match -no-sort
 
@@ -570,7 +580,7 @@ bindsym $mod+Print exec grim -t jpeg -g "$(slurp)" ~/screenshots/$(date +%Y-%m-%
 
 
 ## Transperancy ............................................
-set $opacity 0.9
+set $opacity 1.0
 for_window [class=".*"] opacity $opacity
 # for_window [app_id=".*"] opacity $opacity
 for_window [app_id="kitty"] opacity 0.95
