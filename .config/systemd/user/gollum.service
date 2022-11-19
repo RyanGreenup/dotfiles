@@ -2,7 +2,7 @@
 Description=Gollum Git Wiki
 
 [Service]
-ExecStart=/usr/bin/gollum --mathjax --css --allow-uploads --emoji %h/Notes/gollum
+ExecStart=/usr/bin/gollum --mathjax --css --allow-uploads --emoji %h/Notes/slipbox
 
 [Install]
 WantedBy=default.target
