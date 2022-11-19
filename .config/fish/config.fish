@@ -247,3 +247,11 @@ function open_dokuwiki_clipboard
           sed 's#^#~/Notes/dokuwiki/data/pages/#')
     emacsclient -c $file
 end
+
+
+# Toggle Alacritty theme
+function tt
+    # If the colors: line is found, use sed to change it to dark or light
+    grep  'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
+    grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
+end
