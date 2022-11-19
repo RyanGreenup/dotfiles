@@ -4,7 +4,7 @@ set PATH /home/ryan/.cargo/bin $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
 set PATH $HOME/go/bin $PATH
 set PATH $PATH /home/ryan/.local/share/gem/ruby/3.0.0/bin
-set PATH $PATH $HOME/.nix-profile/bin/
+#set PATH $PATH $HOME/.nix-profile/bin/
 
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
@@ -219,8 +219,8 @@ end
 # ............................................................
 # Niceties
 # ............................................................
-function kill_discord
-    ps ax | grep discord | cut  -d ' ' -f 1 | xargs kill
+function k!
+    ps -aux | grep $argv[1] | awk '{print $2}' | xargs kill
 end
 
 # ## Make sure to reflink btrfs
