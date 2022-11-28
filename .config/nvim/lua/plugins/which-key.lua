@@ -93,6 +93,7 @@ wk.register({
     t = {
       name = "Toggle",
       a = { "<cmd>ASToggle<CR>:lua require('notify')('Toggled Autosave')<CR>", "Autosave" },
+      A = { "<cmd>autocmd TextChanged,TextChangedI <buffer> silent write<CR>:lua require('notify')('Enabled save autocmd')<CR>", "Autosave" },
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
 
