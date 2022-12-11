@@ -148,6 +148,22 @@ opt.shortmess:append "sI"
 require('hlslens').setup()
 
 -----------------------------------------------------------
+-- Language Translation
+-----------------------------------------------------------
+
+function Line_to_esperanto()
+  -- Read the current line as a string
+  local cl = vim.api.nvim_get_current_line()
+  -- Combine into a shell command
+  local command = "argos-translate -f en -t eo '"..cl.."'"
+  -- Run the shell command and read the output as a string
+  local out = io.popen(command):read()
+  -- Replace the line with the translation
+  vim.api.nvim_set_current_line(out)
+end
+map('n', '<M-r>', ':lua Line_to_esperanto() <CR>', { noremap = true })
+
+-----------------------------------------------------------
 -- Neoray GUI
 -----------------------------------------------------------
 
