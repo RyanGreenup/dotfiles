@@ -234,7 +234,7 @@ function gd
     git --work-tree $HOME --git-dir $dotfiles_dir $argv
 end
 function gdui
-    gitui -w $HOME -d $dotfiles_dir
+    gitui --polling -w $HOME -d $dotfiles_dir
 end
 
 function open_dokuwiki_clipboard
