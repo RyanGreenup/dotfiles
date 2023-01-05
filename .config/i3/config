@@ -15,7 +15,7 @@ exec --no-startup-id ~/.fehbg
 ## Default Stuff
   # Title Bar Menus
   	# Way more realestate without this but turn on when you need it
-#default_border pixel 5
+default_border pixel 5
 ### Intial Config
 
 
@@ -283,10 +283,10 @@ smart_gaps on
 smart_gaps inverse_outer
 
 # Activate smart borders (always)
-smart_borders on
+# smart_borders on
 
 # Activate smart borders (only when there are effectively no gaps)
-smart_borders no_gaps
+# smart_borders no_gaps
 
 # Bar Heiight
 
@@ -527,8 +527,8 @@ bindsym $mod+Down workspace next_on_output
 
 bindsym $mod+Left workspace prev_on_output
 bindsym $mod+Up workspace prev_on_output
-bindsym $mod+p workspace prev_on_output
-bindsym $mod+n workspace next_on_output
+bindsym $mod+n workspace prev_on_output
+bindsym $mod+p workspace next_on_output
 
 
 
