@@ -163,6 +163,14 @@ function Line_to_esperanto()
 end
 map('n', '<M-r>', ':lua Line_to_esperanto() <CR>', { noremap = true })
 
+
+-----------------------------------------------------------
+-- Task Management Stuff
+-----------------------------------------------------------
+vim.cmd [[
+:command InsertTaskTags :r ! cd ~/Agenda/Agenda_Maybe && cat (fd -t f) | rg "^:([\w\s/]+):" -r '$1' -o | sort -u<CR>
+]]
+
 -----------------------------------------------------------
 -- Neoray GUI
 -----------------------------------------------------------

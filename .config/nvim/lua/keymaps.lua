@@ -58,6 +58,8 @@ vim.cmd [[
 -----------------------------------------------------------
 -- open terminal
 map('n', '<C-t>', ':Term<CR>', { noremap = true })
+map('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
+
 -- open help for lsp
 map('n', '<leader>hk', ':e +/#mappings ~/.config/nvim/lua/plugins/lsp+cmp.lua<CR>', { noremap = true })
 
