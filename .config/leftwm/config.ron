@@ -70,6 +70,17 @@ window_rules: [
         // Check config with:
         //    $ `leftwm check ~/.config/leftwm/config.ron`
 
+        (command: Execute,                 modifier: ["modkey"],                 key: "d",
+         value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
+        (command: Execute,                 modifier: ["modkey"],                 key: "space",
+         value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
+        (command: Execute,                 modifier: ["modkey"],                 key: "c",
+         value: "rofi -show calc -modi calc -no-show-match -no-sort -theme DarkBlue"                                                                                     ),
+        (command: Execute,                 modifier: ["modkey"],                 key: "slash",
+         value: "rofi -location 2 -show window lines 10 -eh 2 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 6ch; }\' -theme DarkBlue"  ),
+        (command: Execute,                 modifier: ["modkey", "Shift"],        key: "t",
+         value: "zellij list-sessions | grep agenda && alacritty -e zellij attach agenda || alacritty -e zellij --session agenda --layout ~/Agenda/Agenda_Maybe/tool/agenda.kdl"                                        ),
+
         (command: ToggleFullScreen,        modifier: ["modkey"],                 key: "m",        value: ""                                                                                                                                                       ),
         (command: ToggleFloating,          modifier: ["modkey", "Shift"],        key: "space"                                                                                                                                                                     ),
         (command: MoveWindowToNextTag,     modifier: ["modkey", "Shift"],        key: "p"                                                                                                                                                                         ),
