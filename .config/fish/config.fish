@@ -196,13 +196,27 @@ end
 # ..............................................................................
 
 # Packages in Repository
-function pz --description 'Fuzzy Find to preview and install with pacman'
-    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv
+set os (cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g')
+
+function void_query_packages
+    xbps-query -Rs '' |\
+        rg -o '[\w-]+-'  |\
+        sed 's!-$!!'     |\
+        fzf --multi --preview \
+            'xbps-query -S {} || echo No Info Available'
 end
 
-function pzv --description 'void fuzzy find install'
-doas xbps-install \
-    (xbps-query -Rs '' | rg -o '[\w-]+-' | sed 's!-$!!' | fzf -m)
+function pz --description 'Fuzzy Find to preview and install packages'
+    if test $os="void"
+        if set packages (void_query_packages)
+            doas xbps-install $packages
+        end
+
+    else if test $os="arch"
+        pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv
+    else
+        echo "Add the operating system $os into ~/.config/fish/config.fish"
+    end
 end
 
 # All Available Packages
