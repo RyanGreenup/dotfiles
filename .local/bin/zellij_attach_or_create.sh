@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-# Taken from <https://zellij.dev/documentation/integration.html>
+# Adapted from <https://zellij.dev/documentation/integration.html>
+
+if [ "$#" -ge 1 ]; then
+    zellij attach "${1}" || zellij --session "${1}"
+    exit 0
+fi
+
 
 ZJ_SESSIONS=$(zellij list-sessions)
 NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
