@@ -235,4 +235,8 @@ return require('packer').startup(function(use)
     'kyoz/purify'
   }
 
+  --syntax
+use { 'https://github.com/ron-rs/ron.vim' }
+use { 'https://github.com/imsnif/kdl.vim' }
+
 end)
