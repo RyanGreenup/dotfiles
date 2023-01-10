@@ -1,6 +1,11 @@
 ------------------------------------------------------------
 -- Bootstrap Packer
 ------------------------------------------------------------
+
+vim.cmd [[
+  let ayucolor="light"  " for light version of theme
+]]
+
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -232,7 +237,8 @@ return require('packer').startup(function(use)
     'jacoborus/tender.vim',
     'rakr/vim-one',
     'ayu-theme/ayu-vim',
-    'kyoz/purify'
+    'kyoz/purify',
+    'protesilaos/tempus-themes-vim'
   }
 
   --syntax
@@ -240,3 +246,4 @@ use { 'https://github.com/ron-rs/ron.vim' }
 use { 'https://github.com/imsnif/kdl.vim' }
 
 end)
+
