@@ -13,10 +13,10 @@ font:
 
   # The italic font face
   italic:
-    family: monofur
+    family: Monofur Nerd Font
     # Style can be specified to pick a specific face.
     style: Italic
-  size: 18.0
+  size: 8.0
 
 
 
@@ -75,7 +75,7 @@ schemes:
       magenta: '#ff92d0'
       cyan:    '#9aedfe'
       white:   '#e6e6e6'
-  spacemacs_light: &light
+  spacemacs_light: &lcl
     primary:
       foreground: '#64526F'
       background: '#FAF7EE'
@@ -102,5 +102,98 @@ schemes:
       magenta:    '#2C9473'
       cyan:       '#6B3062'
       white:      '#64526F'
+  tempus_night: &hcd
+    name: 'Tempus Night'
+    author: 'Protesilaos Stavrou (https://protesilaos.com)'
+    description: 'High contrast dark theme with bright colours (WCAG AAA compliant)'
+    primary:
+      foreground: '#e0e0e0'
+      background: '#1a1a1a'
+    cursor:
+      text: '#1a1a1a'
+      cursor: '#e0e0e0'
+    selection:
+      text: '#1a1a1a'
+      background: '#e0e0e0'
+    normal:
+      black: '#1a1a1a'
+      red: '#ff929f'
+      green: '#5fc940'
+      yellow: '#c5b300'
+      blue: '#5fb8ff'
+      magenta: '#ef91df'
+      cyan: '#1dc5c3'
+      white: '#c4bdaf'
+    bright:
+      black: '#242536'
+      red: '#f69d6a'
+      green: '#88c400'
+      yellow: '#d7ae00'
+      blue: '#8cb4f0'
+      magenta: '#de99f0'
+      cyan: '#00ca9a'
+      white: '#e0e0e0'
+  tempus_future: &hcdb
+    name: 'Tempus Future'
+    author: 'Protesilaos Stavrou (https://protesilaos.com)'
+    description: 'Dark theme with colours inspired by concept art of outer space (WCAG AAA compliant)'
+    primary:
+      foreground: '#b4abac'
+      background: '#090a18'
+    cursor:
+      text: '#090a18'
+      cursor: '#b4abac'
+    selection:
+      text: '#090a18'
+      background: '#b4abac'
+    normal:
+      black: '#090a18'
+      red: '#ff7e8f'
+      green: '#6aba39'
+      yellow: '#bfa51a'
+      blue: '#4ab2d7'
+      magenta: '#e58f84'
+      cyan: '#2ab7bb'
+      white: '#a7a2c4'
+    bright:
+      black: '#2b1329'
+      red: '#f78e2f'
+      green: '#60ba80'
+      yellow: '#de9b1d'
+      blue: '#8ba7ea'
+      magenta: '#e08bd6'
+      cyan: '#2cbab6'
+  tempus_totus: &light
+    name: 'Tempus Totus'
+    author: 'Protesilaos Stavrou (https://protesilaos.com)'
+    description: 'Light theme for prose or for coding in an open space (WCAG AAA compliant)'
+    primary:
+      foreground: '#4a484d'
+      background: '#ffffff'
+    cursor:
+      text: '#ffffff'
+      cursor: '#4a484d'
+    selection:
+      text: '#ffffff'
+      background: '#4a484d'
+    normal:
+      black: '#4a484d'
+      red: '#a50000'
+      green: '#005d26'
+      yellow: '#714700'
+      blue: '#1d3ccf'
+      magenta: '#88267a'
+      cyan: '#185570'
+      white: '#efefef'
+    bright:
+      black: '#5e4b4f'
+      red: '#992030'
+      green: '#4a5500'
+      yellow: '#8a3600'
+      blue: '#2d45b0'
+      magenta: '#700dc9'
+      cyan: '#005289'
+      white: '#ffffff'
 
-colors: *dark
+
+colors: *light
