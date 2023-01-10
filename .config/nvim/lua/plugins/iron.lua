@@ -42,6 +42,9 @@ iron.setup {
       ion = {
         command = { "ion" }
       },
+      elvish = {
+        command = { "elvish" }
+      },
       fish = {
         command = { "fish" }
       },
