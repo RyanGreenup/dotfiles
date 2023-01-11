@@ -309,25 +309,26 @@ end
 
 # Create keybindings
 
+# Below z has been used instead of cd, that way it works with zoxide
 bind \ct '
     set x (fd | fzf -m --preview \'cat {} || ls {}\') && \
     commandline --insert $x'
 bind \ec '
     set dir (
         fd -t d | fzf --preview "exa --tree {}") && \
-        cd $dir                                  && \
+        z $dir                                  && \
         commandline -f repaint'
 bind \en '
     set tmp (mktemp)       && \
     lf -last-dir-path=$tmp && \
-    cd (cat $tmp)
+    z (cat $tmp)
     rm $tmp
     commandline -f repaint'
 
 bind \cb '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
-    cd (
+    z (
         sed "s/^cd //g" < $tmp | sed "s/\"//g")
     rm $tmp
     commandline -f repaint'
