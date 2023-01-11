@@ -312,11 +312,12 @@ end
 # Below z has been used instead of cd, that way it works with zoxide
 bind \ct '
     set x (fd | fzf -m --preview \'cat {} || ls {}\') && \
+    set x (echo $x | sed "s/^/\"/" | sed "s/\$/\"/")     && \
     commandline --insert $x'
 bind \ec '
     set dir (
         fd -t d | fzf --preview "exa --tree {}") && \
-        z $dir                                  && \
+        z $dir
         commandline -f repaint'
 bind \en '
     set tmp (mktemp)       && \
