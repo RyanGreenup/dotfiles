@@ -302,9 +302,29 @@ end
         end
     end
 
-bind \ct 'set x (fd | fzf -m --preview \'cat {} || ls {}\') && commandline --insert $x'
-bind \ec 'set dir (fd -t d | fzf --preview "exa --tree {}") && cd $dir && pwd; commandline -f repaint'
-bind \en 'set tmp (mktemp) && lf -last-dir-path=$tmp && cd (cat $tmp); rm $tmp'
-bind \cb 'set tmp (mktemp) && broot --outcmd $tmp && cd (sed "s/^cd //g" < $tmp | sed "s/\"//g"); cat $tmp; commandline -f repaint'
+# Create keybindings
+
+bind \ct '
+    set x (fd | fzf -m --preview \'cat {} || ls {}\') && \
+    commandline --insert $x'
+bind \ec '
+    set dir (
+        fd -t d | fzf --preview "exa --tree {}") && \
+        cd $dir                                  && \
+        commandline -f repaint'
+bind \en '
+    set tmp (mktemp)       && \
+    lf -last-dir-path=$tmp && \
+    cd (cat $tmp)
+    rm $tmp
+    commandline -f repaint'
+
+bind \cb '
+    set tmp (mktemp)    && \
+    broot --outcmd $tmp && \
+    cd (
+        sed "s/^cd //g" < $tmp | sed "s/\"//g")
+    rm $tmp
+    commandline -f repaint'
 
 # starship init fish | source
