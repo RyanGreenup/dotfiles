@@ -8,8 +8,13 @@ set PATH $PATH /home/ryan/.local/share/gem/ruby/3.0.0/bin
 
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
-set VISUAL nvim
-set EDITOR nvim
+export VISUAL=nvim
+export EDITOR=nvim
+
+function v --wraps=nvim --description 'alias v=nvim'
+  nvim $argv;
+end
+
 # set EDITOR emacsclient -nw  # This isn't bad, still a little slower than nvim though
 
 # ..............................................................................
