@@ -274,3 +274,38 @@ function tt
     grep  'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
     grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
 end
+# Make the Shell Nice..........................................................
+
+    if status is-interactive
+        set commands                                \
+                "zoxide init fish"                  \
+                "atuin  init fish"                  \
+                "broot --print-shell-function fish"
+
+        for cmd in $commands
+            eval $cmd | source
+        end
+    end
+
+
+    function lfcd
+        set tmp (mktemp)
+        lf -last-dir-path=$tmp $argv
+        if test -f "$tmp"
+            set dir (cat $tmp)
+            rm -f $tmp
+            if test -d "$dir"
+                if test "$dir" != (pwd)
+                    cd $dir
+                end
+            end
+        end
+    end
+
+# bind \ct 'set x (fd | fzf -m --preview \'cat {} || ls {}\') && commandline --insert $x'
+# bind \ct 'br'
+bind \ec 'set dir (fd -t d | fzf --preview "exa --tree {}") && cd $dir && pwd'
+bind \en 'set tmp (mktemp) && lf -last-dir-path=$tmp && cd (cat $tmp); rm $tmp'
+bind \ct 'set tmp (mktemp) && broot --outcmd $tmp && cd (sed "s/^cd //g" < $tmp | sed "s/\"//g"); cat $tmp; commandline -f repaint'
+
+# starship init fish | source
