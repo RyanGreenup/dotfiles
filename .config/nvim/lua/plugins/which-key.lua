@@ -31,6 +31,7 @@ wk.register({
     f = {
       name = "+file",
       f = { "<cmd>Telescope find_files theme=dropdown<cr>", "Find File" },
+      t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       n = { "<cmd>enew<cr>", "New File" },
       p = { "<cmd>e ~/.config/nvim/init.lua<CR>:cd %:p:h<CR>:cd lua<CR>", "Edit Config" },
