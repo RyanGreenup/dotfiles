@@ -44,8 +44,23 @@ map <c-t> ${{
     fi
 }}
 
-map <c-s> ${{
+map <c-a> ${{
+    filename="${f}"
+    # Change Scheduled to .archived
+    new="$(echo "${filename}" | sed 's/Scheduled/\.archived/')"
 
+    # Create the directory if needed
+    new_dir="$(dirname "${new}")"
+    echo "${new}"
+    echo "${new_dir}"
+    mkdir -p "${new_dir}"
+
+    # Move the file
+    mv "${f}" "${new}"
+
+}}
+
+map <c-s> ${{
     $HOME/.local/bin/task_management_tool resched "${f}"
 }}
 
