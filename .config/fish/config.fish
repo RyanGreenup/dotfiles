@@ -201,7 +201,9 @@ end
 # ..............................................................................
 
 # Packages in Repository
-set os (cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g')
+function get_os
+    cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g'
+end
 
 function void_query_packages
     xbps-query -Rs '' |\
@@ -212,15 +214,15 @@ function void_query_packages
 end
 
 function pz --description 'Fuzzy Find to preview and install packages'
-    if [ $os = "void" ]
+    switch (get_os)
+    case 'void'
         if set packages (void_query_packages)
             doas xbps-install $packages
         end
-
-    else if test $os="arch"
+    case 'arch'
         pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv
-    else
-        echo "Add the operating system $os into ~/.config/fish/config.fish"
+    case "*"
+        echo "Operating System $os is not configured"
     end
 end
 
