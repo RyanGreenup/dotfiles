@@ -68,18 +68,12 @@ map <a-8> ${{
 
 map = ${{
     filename="${f##*/}"
-
-    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/rename/rename "${filename}" 30)" && \
-    mv "${filename}" "${new_filename}"
-
-    # lf -remote "send $id push :rename<space>$new_filename"
+    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time "${filename}" 30)"
 }}
 
 map - ${{
     filename="${f##*/}"
-    new_filename="$(/home/ryan/Agenda/Agenda_Maybe/tool/rename/rename "${filename}" -30)" && \
-    mv "${filename}" "${new_filename}"
-    # lf -remote "send $id push :rename<space>${new_filename}"
+    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time "${filename}" -30)"
 }}
 
 map <c-r> ${{
