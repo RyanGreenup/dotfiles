@@ -33,30 +33,12 @@ map n ${{
 ## Toggle Tasks
 map <c-t> ${{
     filename="${f##*/}"
-    if echo $filename | grep '^O'; then
-        new="$(echo $filename | sed 's/^O/X/')"
-        mv "${filename}" "${new}"
-    elif echo $filename | grep '^X'; then
-        new="$(echo $filename | sed 's/^X/O/')"
-        mv "${filename}" "${new}"
-    else
-      echo "This is not a file that starts with O or X"
-    fi
+    /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks toggle_todo "${filename}"
 }}
 
 map <c-a> ${{
     filename="${f}"
-    # Change Scheduled to .archived
-    new="$(echo "${filename}" | sed 's/Scheduled/\.archived/')"
-
-    # Create the directory if needed
-    new_dir="$(dirname "${new}")"
-    echo "${new}"
-    echo "${new_dir}"
-    mkdir -p "${new_dir}"
-
-    # Move the file
-    mv "${f}" "${new}"
+    /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks archive "${filename}"
 
 }}
 
