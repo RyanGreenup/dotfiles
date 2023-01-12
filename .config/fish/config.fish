@@ -212,7 +212,7 @@ function void_query_packages
 end
 
 function pz --description 'Fuzzy Find to preview and install packages'
-    if test $os="void"
+    if [ $os = "void" ]
         if set packages (void_query_packages)
             doas xbps-install $packages
         end
