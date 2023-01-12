@@ -1,0 +1,118 @@
+set previewer ~/.config/lf/pv.sh
+map i $~/.config/lf/pv.sh $f | less -R
+
+# testing eval
+map <f-8> ${{
+    filename="${f}"
+    /tmp/a "$filename"
+}}
+
+
+map <c-h> ${{
+    # lf -remote "send $id set ratios 1:3"
+    help="
+     Description  Shortcut
+     ---------------------
+     Alt +         Wide View
+     Alt -         Normal View
+     Alt 0         Narrow View
+     +             +30 m
+     -             -30 m       "
+    echo "${help}" |bat --paging=always --color=always
+
+}}
+
+map <c-s> ${{
+    $HOME/.local/bin/task_management_tool resched "${f}"
+}}
+
+
+map <a-=> ${{
+    lf -remote "send $id set ratios 1:1:1:1:3:5"
+}}
+map <a--> ${{
+    lf -remote "send $id set ratios 1:3"
+}}
+map <a-0> ${{
+    lf -remote "send $id set ratios 1:2:3"
+}}
+
+map <a-8> ${{
+    rm "${f}"
+}}
+
+
+map + ${{
+    filename="${f##*/}"
+
+    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/rename/rename "${filename}" 30)" && \
+    mv "${filename}" "${new_filename}"
+
+    # lf -remote "send $id push :rename<space>$new_filename"
+}}
+
+map - ${{
+    filename="${f##*/}"
+    new_filename="$(/home/ryan/Agenda/Agenda_Maybe/tool/rename/rename "${filename}" -30)" && \
+    mv "${filename}" "${new_filename}"
+    # lf -remote "send $id push :rename<space>${new_filename}"
+}}
+
+map <c-r> ${{
+    dirname='$(basename "${f}")'
+    brn
+}}
+
+
+set drawbox
+
+# Set Multiple Columns
+${{
+    w=$(tput cols)
+    if [ $w -le 80 ]; then
+        lf -remote "send $id set ratios 1:2"
+    elif [ $w -le 160 ]; then
+        lf -remote "send $id set ratios 1:2:3"
+    else
+        lf -remote "send $id set ratios 1:2:3:5"
+    fi
+}}
+
+# Jump back
+map <c-o> jump-prev
+
+# Dummy binding for debugging
+map a aaa
+cmd aaa ${{
+    date >> /tmp/a
+}}
+
+
+# https://github.com/gokcehan/lf/wiki/Integrations
+cmd fzf_jump ${{
+    res="$(fd | fzf --preview 'bat {} --color always' --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -d "$res" ] ; then
+        cmd="cd"
+    elif [ -f "$res" ] ; then
+        cmd="select"
+    else
+        exit 0
+    fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+map <c-f> :fzf_jump
+
+cmd fzf_search ${{
+    res="$( \
+        RG_PREFIX="rg --column --line-number --no-heading --color=always \
+            --smart-case "
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1
+    )"
+    [ ! -z "$res" ] && lf -remote "send $id select \"$res\""
+}}
+map gs :fzf_search
+
+
