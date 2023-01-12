@@ -35,7 +35,8 @@ Requires Nerdfonts:
 Something like this might work:
 
 <details>
-```make
+
+```
 COMMENT =	Iconic font aggregator, collection, & patcher
 
 # version numbers listed in README.md
