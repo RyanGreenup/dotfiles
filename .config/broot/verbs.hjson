@@ -47,7 +47,6 @@
             execution: "$EDITOR {directory}/{subpath}"
             leave_broot: false
         }
-
         {
             invocation: git_diff
             shortcut: gd
@@ -142,6 +141,40 @@
             auto_exec: false
             execution: ":preview_text"
         }
+
+        {
+            key: ctrl-h
+            execution: ":panel_left"
+        }
+        {
+            key: ctrl-l
+            execution: ":panel_right"
+        }
+        # Extra task management stuff
+        # TODO Fix this
+        {
+            invocation: "reschedule_task"
+            shortcut: sched
+            key: alt-s
+            leave_broot: false
+            execution: "task_management_tool resched {file}"
+            #execution: "cat {file}"
+        }
+        {
+            invocation: "bump_time"
+            shortcut: +
+            key: alt-=
+            leave_broot: false
+            execution: "/home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time {file} 30"
+        }
+        {
+            invocation: "lower_time"
+            shortcut: -
+            key: alt--
+            leave_broot: false
+            execution: "/home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time {file} -30"
+        }
+
 
     ]
 
