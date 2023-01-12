@@ -34,10 +34,6 @@ return require('packer').startup(function(use)
 
   }
 
-  -- TODO Autosave
-  -- The last autosave package was very unreliabel
-  -- Cursor moved around all the time for instance
-
   -- Misc
   use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
 
@@ -68,17 +64,6 @@ return require('packer').startup(function(use)
 
   -- Notifications
   use { 'https://github.com/rcarriga/nvim-notify' }
-
-  -- Autosave
-  use({
-    "Pocco81/auto-save.nvim",
-    config = function()
-      require("auto-save").setup {
-        -- your config goes here
-        -- or just leave it empty :)
-      }
-    end,
-  })
 
   -- Themes
   use { 'dracula/vim', as = 'dracula' }

@@ -80,6 +80,7 @@ wk.register({
         i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
         r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
       },
+      q = { "<cmd>LspStop<CR>", "Stop LSP"},
       k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover (S-k)" },
       h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
       w = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Workspace Folder" },
@@ -93,7 +94,6 @@ wk.register({
     },
     t = {
       name = "Toggle",
-      a = { "<cmd>ASToggle<CR>:lua require('notify')('Toggled Autosave')<CR>", "Autosave" },
       A = { "<cmd>autocmd TextChanged,TextChangedI <buffer> silent write<CR>:lua require('notify')('Enabled save autocmd')<CR>", "Autosave" },
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
