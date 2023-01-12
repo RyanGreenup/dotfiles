@@ -196,4 +196,4 @@ schemes:
       white: '#ffffff'
 
 
-colors: *light
+colors: *dark
