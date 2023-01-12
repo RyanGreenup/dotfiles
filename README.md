@@ -6,6 +6,8 @@ My dotfiles, now being managed with a [bare git repo](https://gitlab.com/RyanGre
 To use these dotfiles:
 
 ```bash
+# make sure to install rsync
+
 git_repo="https://gitlab.com/ryangreenup/dotfiles"
 tmp_dot_dir="$(mktemp -d)"
 dot_dir="$HOME/.local/share/dotfiles"
@@ -30,6 +32,36 @@ Requires Nerdfonts:
 | MacOS | [brew](https://github.com/Homebrew/homebrew-cask-fonts) |
 | Windows | [choco ???](https://community.chocolatey.org/packages/nerdfont-hack)|
 | OpenBSD | ↓ |
+
+
+## Neovim Dependencies
+
+### Alpine
+#### fzf-telescope
+On alpine fzf-telescope native depends on:
+
+
+```bash
+apk add                     \
+  cmake                     \
+   gcc                      \
+  clang                     \
+  gcc-arm-none-eabi         \
+  gcc-arm-none-eabi-stage1  \
+  gcc-riscv-none-elf        \
+  gcc-riscv-none-elf-stage1 \
+  musl-dev                  \
+  pcc-libs-dev              \
+  rust
+```
+#### Org Mode
+
+```bash
+apk add                     \
+  man-pages                 \
+  g++
+```
+
 
 ### OpenBSD
 Something like this might work:
@@ -81,30 +113,3 @@ To use only some files, consider creating seperate branches or implementing
 a tool like [GNU](https://www.gnu.org/software/stow/).
 
 
-## Neovim Dependencies
-
-### Alpine
-#### fzf-telescope
-On alpine fzf-telescope native depends on:
-
-
-```bash
-apk add                     \
-  cmake                     \
-   gcc                      \
-  clang                     \
-  gcc-arm-none-eabi         \
-  gcc-arm-none-eabi-stage1  \
-  gcc-riscv-none-elf        \
-  gcc-riscv-none-elf-stage1 \
-  musl-dev                  \
-  pcc-libs-dev              \
-  rust
-```
-#### Org Mode
-
-```bash
-apk add                     \
-  man-pages                 \
-  g++
-```
