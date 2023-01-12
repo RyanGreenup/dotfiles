@@ -33,6 +33,17 @@ Requires Nerdfonts:
 | Windows | [choco ???](https://community.chocolatey.org/packages/nerdfont-hack)|
 | OpenBSD | ↓ |
 
+## fish dependencies
+
+```fish
+set depends zoxide broot lf atuin
+
+function install
+    pacman -S $argv
+end
+
+install $depends
+```
 
 ## Neovim Dependencies
 
