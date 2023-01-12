@@ -18,7 +18,7 @@ map <a-h> ${{
 
 }}
 
-map p ${{
+map gp ${{
     git checkout HEAD~1
 }}
 
