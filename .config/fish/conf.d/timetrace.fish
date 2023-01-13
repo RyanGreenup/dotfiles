@@ -29,8 +29,8 @@ function tts
             timetrace create record        \
                 (__pick_project)           \
                 (__pick_when)              \
-                (__pick_time "Start time") \
-                (__pick_time "End time")
+                (__pick_time) \
+                (__pick_time)
         case "*"
         end
         timetrace create
@@ -50,15 +50,37 @@ function tts
         timetrace status
     case "p"
         timetrace stop
+    case "r"
+        echo "
+        Generate a Report
+
+        r all
+        p Project
+        d Dates"
+        switch (read -n 1)
+        case "r"
+            timetrace report
+        case "p"
+            timetrace report --project (__pick_project)
+        case "d"
+            echo "Enter Start date"
+            set s (__pick_date)
+            echo "Enter end date"
+            set e (__pick_date)
+            timetrace report \
+                --start  $s\
+                --end    $e
+        case "*"
+        end
         case "*"
             echo "Unrecognised command, Try again"
             tts
-        end
+    end
 end
 
+# TODO creating a new project with spaces leads to the creation of two projects
 function __pick_project
-    set projects (ls ~/.timetrace/projects/ | rev | sed 's/nosj.//' | rev)
-    echo $projects | tr ' ' '\n' | fzf || \
+    ls ~/.timetrace/projects/ | grep -v '.bak' | rev | sed 's/nosj.//' | rev | _fz || \
         read -P "Type a Project Name: "
 end
 
@@ -72,16 +94,27 @@ function _fz
 end
 
 function __pick_time
-    echo $argv
     set hour (seq 0 24 | _fz | xargs printf "%02d")
     set min (seq 0 60  | _fz | xargs printf "%02d")
     echo $hour:$min
+end
+
+function __pick_date
+    set n_d 90
+    set inc 86400 # (24 * 60 * 60)
+
+    set now (date "+%s") ## TODO n_d days ago
+    set now (math "$now - $n_d * $inc")
+    set end (math "($n_d * 2 * $inc) + $now")
+
+    for d in (seq  $now $inc $end)
+        echo (date -d "@"$d "+%Y-%m-%d")
+    end |  _fz --preview 'cal -w --color=always {}'
 end
 
 # switch (read -n 1)
 # case "a"
 # case "*"
 # end
-
 
 
