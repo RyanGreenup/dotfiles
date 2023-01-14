@@ -40,6 +40,7 @@ function t
         case "s"
             start
         case "b"
+            cd $Scheduled_Dir
             br
         case "f"
             lfcd
@@ -139,6 +140,7 @@ end
 
 # taks a list of files and returns the unique tags
 function get_tags
+    cd $Scheduled_Dir
     set files (fd -t f)
     cat $files | rg ':([\w^:]+):' -r '$1' -o | sort -u
 end
