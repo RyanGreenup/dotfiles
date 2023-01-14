@@ -221,3 +221,19 @@ function show_tags
     end
 end
 
+function add_tags
+    cd $TASKS_DIR
+    # Choose a file
+    set file (__choose_file) && \
+    # Choose some tags
+    set tags (get_tags | fzf -m)
+
+    # For each tag
+    for tag in $tags
+        # Put the colons around it
+        set tag ":"$tag":"
+        # Append only if the tag isn't in there
+        rg $tag $file >/dev/null || \
+            echo $tag >> $file
+    end
+end
