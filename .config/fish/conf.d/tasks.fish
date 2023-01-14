@@ -103,7 +103,7 @@ function add
     set todo "O" # "□"
     echo  "Enter Details (C-c to Skip any)" && read -p "" -n 1; clear
 
-    set date     (make_date)
+    set date     (task_manager makeDay $Scheduled_Dir 300)
     set time     (__get_time)
     set priority (__print_alphabet | fzf)
     set title    (read -P "Title: ")
@@ -112,7 +112,7 @@ function add
 
     if test (read -n 1 -P "Create $date/$name? (y/n) >") = "y"
         printf "# %s\n#+ID: %s" $title (__id) > "$date/$name"
-        nvim $name
+        nvim "$date/$name"
     end
 end
 
