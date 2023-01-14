@@ -130,6 +130,7 @@ function __get_time
 end
 
 function __choose_file
+    cd $Scheduled_Dir
     fd -t f | fzf --preview 'bat {} --color always'
 end
 
