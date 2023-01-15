@@ -53,7 +53,7 @@ function t
         case "a"
             add
         case "c"
-            clear
+            __clear_tasks
         case "m"
             task_manager makeDay $Scheduled_Dir 300
         case "r"
@@ -94,7 +94,7 @@ function __id
 end
 
 # This clears any directories that are empty [1]
-function clear
+function __clear_tasks
     find Scheduled -type d -empty -delete
 end
 
