@@ -126,7 +126,7 @@ map oa ${{
 
 map os ${{
     # Reschedule a Task to a different day
-    task_manager reschedule "${f}" $HOME/Agenda/Agenda_Maybe/ 30
+    task_manager reschedule date "${f}" $HOME/Agenda/Agenda_Maybe/Scheduled 30
 }}
 
 
@@ -164,12 +164,12 @@ map = ${{
     # Set 30 minutes Earlier
   # map oj ${{
     filename="${f##*/}"
-    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time "${filename}" 30)"
+    new_file=$(task_manager reschedule time "${filename}" 30)
 }}
 
 map - ${{
     # Set 30 minutes later
     # map ok ${{
     filename="${f##*/}"
-    new_filename="$( /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks change_time "${filename}" -30)"
+    new_file=$(task_manager reschedule time "${filename}" -- -30)
 }}

@@ -4,9 +4,9 @@ set TASKS_DIR        "$HOME/Agenda/Agenda_Maybe/"
 set Scheduled_Dir    $TASKS_DIR/Scheduled
 set Projects_Dir     $TASKS_DIR/Projects
 set ndays             300
-cd $Scheduled_Dir
 
 function t
+    cd $Scheduled_Dir
     set run_app true
 
     while $run_app
@@ -57,7 +57,7 @@ function t
         case "m"
             task_manager makeDay $Scheduled_Dir 300
         case "r"
-            task_manager reschedule (__choose_file) $Scheduled_Dir 300
+            task_manager reschedule date (__choose_file) $Scheduled_Dir 300
         case "p"
             echo "
             t    tag       Re-tag all the tasks under the Projects Dir
@@ -95,6 +95,7 @@ end
 
 # This clears any directories that are empty [1]
 function __clear_tasks
+    cd $TASKS_DIR
     find Scheduled -type d -empty -delete
 end
 
