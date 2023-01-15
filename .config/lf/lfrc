@@ -1,5 +1,7 @@
 # https://github.com/gokcehan/lf/blob/master/etc/lfrc.example
 set shell sh
+# TODO change to fish or elvish
+# TODO set a bunch of \t for task management
 
 set previewer ~/.config/lf/pv.sh
 map i $~/.config/lf/pv.sh $f | less -R
@@ -43,12 +45,13 @@ map <c-a> ${{
 }}
 
 map <c-s> ${{
-    $HOME/.local/bin/task_management_tool resched "${f}"
+    # $HOME/.local/bin/task_management_tool resched "${f}"
+    task_manager reschedule "${f}" $HOME/Agenda/Agenda_Maybe/ 30
 }}
 
-map <c-s> ${{
-    $HOME/.local/bin/task_management_tool resched "${f}"
-}}
+# map <c-s> ${{
+#     $HOME/.local/bin/task_management_tool resched "${f}"
+# }}
 
 
 map <a-=> ${{
@@ -59,6 +62,39 @@ map <a--> ${{
 }}
 map <a-0> ${{
     lf -remote "send $id set ratios 1:2:3"
+}}
+
+
+# Refile Project
+map \\r ${{
+    task_manager project refile "${f}" ~/Agenda/Agenda_Maybe/Projects
+}}
+
+# Add Tags to file
+map \\t ${{
+
+    choose_tag() {
+
+        fd -0  '\.md$' ~/Agenda/Agenda_Maybe/Scheduled/ | xargs -0 cat |\
+            rg '(\s|^):([\w\s/]+):(\s|$)'  -r '$2' -o |\
+            sort -u |\
+            fzf
+    }
+
+    choose_file() {
+        cd "$HOME/Agenda/Agenda_Maybe/Scheduled/"
+        fd  '\.md$' | fzf --preview 'bat {} --color=always --style=plain,header,rule'
+    }
+
+    # Only add the tag if it's not already there
+    t="$(choose_tag)"
+    grep "${t}" "${f}" || \
+        printf '\n:%s:\n' "${t}" >> "${f}"
+}}
+
+
+map <a-8> ${{
+    rm -r "${f}"
 }}
 
 map <a-8> ${{
