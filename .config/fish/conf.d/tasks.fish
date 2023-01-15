@@ -216,9 +216,18 @@ function multiple_tags
 end
 
 
-function show_tags
+function show_tags_old
     while true
         read -n 1 -P "[SPC]" && multiple_tags || break
+    end
+end
+
+function show_tags
+    switch (read -n 1 -P  "Q to exit, any key to query")
+    case "q"
+        set run_app false
+    case "*"
+        task_manager tags query $Scheduled_Dir
     end
 end
 
