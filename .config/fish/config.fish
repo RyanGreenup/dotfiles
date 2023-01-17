@@ -336,4 +336,9 @@ bind \cb '
     rm $tmp
     commandline -f repaint'
 
-# starship init fish | source
+starship init fish | source
+task_manager completion fish | source
+
+
+
+
