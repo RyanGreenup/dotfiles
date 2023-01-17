@@ -17,13 +17,12 @@ function t
     "
     set_color normal
     echo "
-    l tags          list available tags
+    g tags          Tag Options
     s Start         Start Zellij instance
     b broot         Start Zellij instance
     f files         Start lf
     y mdTree        Build a Markdown Tree
     e edit          Edit a task
-    u Query         Query Tags
     a Add           Add a task
     c clean         Clean up empty directories
     m MakeDay       Make a directory for a day
@@ -35,6 +34,29 @@ function t
         switch (read -n 1)
         case "q"
             set run_app false
+        case "g"
+            echo "
+            Tags
+            q    Quit
+            l    List Available Tags
+            u    Query Tags Interactively
+            U    Query Tags Interactively (Shell Script)
+            a   Add Tags
+            "
+            switch (read -n 1)
+                case "q"
+                    echo ""
+                case "u"
+                    show_tags
+                case "U"
+                    show_tags_old
+                case "l"
+                    get_tags
+                case "a"
+                    add_tags
+                case "*"
+                    echo "Unbound Key"
+            end
         case "l"
             get_tags
         case "s"
