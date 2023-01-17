@@ -114,13 +114,13 @@ map gs :fzf_search
 map od ${{
     # Toggle done status of task
     filename="${f##*/}"
-    /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks toggle_todo "${filename}"
+    task_manager toggle "${filename}"
 }}
 
 map oa ${{
     # Archive a task
     filename="${f}"
-    /home/ryan/Agenda/Agenda_Maybe/tool/go_tool/tasks archive "${filename}"
+    task_manager archive "${filename}"
 
 }}
 
