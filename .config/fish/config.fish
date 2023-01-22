@@ -286,12 +286,19 @@ end
     if status is-interactive
         set commands                                \
                 "zoxide init fish"                  \
-                "atuin  init fish"                  \
                 "broot --print-shell-function fish"
-
         for cmd in $commands
             eval $cmd | source
         end
+    end
+
+    if status is-interactive
+        set -gx ATUIN_NOBIND "true"
+        atuin init fish | source
+
+        # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
+        bind \cr _atuin_search
+        bind -M insert \cr _atuin_search
     end
 
 
