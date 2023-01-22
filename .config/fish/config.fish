@@ -3,7 +3,7 @@ set PATH $HOME/bin $PATH
 set PATH $HOME/.cargo/bin $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
 set PATH $HOME/go/bin $PATH
-set PATH $PATH /home/ryan/.local/share/gem/ruby/3.0.0/bin
+set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
 #set PATH $PATH $HOME/.nix-profile/bin/
 
 # Set Default Editor to Emacs
