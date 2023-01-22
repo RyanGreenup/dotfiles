@@ -335,7 +335,7 @@ bind \en '
     rm $tmp
     commandline -f repaint'
 
-bind \cb '
+bind \co '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
     z (
@@ -343,6 +343,7 @@ bind \cb '
     rm $tmp
     commandline -f repaint'
 
+# Add Completions
 starship init fish | source
 task_manager completion fish | source
 
