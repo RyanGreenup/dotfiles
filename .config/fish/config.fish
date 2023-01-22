@@ -317,17 +317,9 @@ end
     end
 
 # Create keybindings
-
-# Below z has been used instead of cd, that way it works with zoxide
-bind \ct '
-    set x (fd | fzf -m --preview \'cat {} || ls {}\') && \
-    set x (echo $x | sed "s/^/\"/" | sed "s/\$/\"/")     && \
-    commandline --insert $x'
-bind \ec '
-    set dir (
-        fd -t d | fzf --preview "exa --tree {}") && \
-        z $dir
-        commandline -f repaint'
+function fish_user_key_bindings
+	fzf_key_bindings
+end
 bind \en '
     set tmp (mktemp)       && \
     lf -last-dir-path=$tmp && \
