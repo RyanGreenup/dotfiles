@@ -190,6 +190,19 @@ if exists('g:neoray')
 endif
 ]]
 
+vim.cmd [[
+if exists('g:neovide')
+  let g:neovide_scale_factor=1.0
+  function! ChangeScaleFactor(delta)
+      let g:neovide_scale_factor = g:neovide_scale_factor * a:delta
+  endfunction
+
+  nnoremap <expr><C-=> ChangeScaleFactor(1.25)
+  nnoremap <expr><C--> ChangeScaleFactor(1/1.25)
+  let g:neovide_floating_blur_amount_x = 2.0
+  let g:neovide_floating_blur_amount_y = 2.0
+endif
+]]
 
 -----------------------------------------------------------
 -- Autocommands
