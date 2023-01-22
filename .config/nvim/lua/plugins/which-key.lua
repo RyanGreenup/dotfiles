@@ -30,7 +30,8 @@ wk.register({
     },
     f = {
       name = "+file",
-      f = { "<cmd>Telescope find_files theme=dropdown<cr>", "Find File" },
+      f = { "<cmd>Telescope file_browser theme=ivy<cr>", "Find File" },
+      z = { "<cmd>Telescope find_files theme=dropdown<cr>", "Find File" },
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       n = { "<cmd>enew<cr>", "New File" },

@@ -5,7 +5,6 @@ require('lualine').setup { tabline = {} }
 -- require('plugins/lsp+omnifunc') -- Only enable one of these
 require('plugins/lsp+cmp')
 
-require('plugins/nvim-tree')
 require('plugins/vimtex')
 require('plugins/markdown-preview')
 

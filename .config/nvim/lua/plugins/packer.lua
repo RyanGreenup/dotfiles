@@ -69,6 +69,8 @@ return require('packer').startup(function(use)
   use { 'dracula/vim', as = 'dracula' }
 
   -- Telescope
+
+  use { "nvim-telescope/telescope-file-browser.nvim" }
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'https://github.com/fhill2/telescope-ultisnips.nvim' }
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
@@ -82,6 +84,7 @@ return require('packer').startup(function(use)
     requires = { { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' } },
     config = function()
       require('telescope').load_extension('ultisnips')
+      require('telescope').load_extension('file_browser')
       require('telescope').load_extension('fzf') -- Use fzf for BSD compatability
       require("telescope").load_extension "packer"
       require('telescope').load_extension('dap')
@@ -91,12 +94,17 @@ return require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-symbols.nvim' }
 
   -- file manager
-  use {
-    'kyazdani42/nvim-tree.lua',
+use {
+  "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
     requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
     },
-    config = function() require 'nvim-tree'.setup {} end
+    config = function()
+      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+    end
   }
 
   -- Automatically get LSP
