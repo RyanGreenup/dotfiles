@@ -72,5 +72,9 @@
         "language-julia.interrupt"
     ],
     "julia.symbolCacheDownload": true,
-    "julia.enableTelemetry": true
+    "julia.enableTelemetry": true,
+    "r.bracketedPaste": true,
+    "r.rterm.linux": "/usr/bin/radian",
+    "editor.fontFamily": "'Fira Code', 'monofur', monospace",
+    "editor.fontLigatures": true 
 }
