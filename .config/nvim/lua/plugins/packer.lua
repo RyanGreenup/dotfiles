@@ -226,5 +226,7 @@ return require('packer').startup(function(use)
 use { 'https://github.com/ron-rs/ron.vim' }
 use { 'https://github.com/imsnif/kdl.vim' }
 
+use {"numToStr/FTerm.nvim"}
+
 end)
 

@@ -60,6 +60,9 @@ vim.cmd [[
 map('n', '<C-t>', ':Term<CR>', { noremap = true })
 map('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
 
+map('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
+map('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
+
 -- open help for lsp
 map('n', '<leader>hk', ':e +/#mappings ~/.config/nvim/lua/plugins/lsp+cmp.lua<CR>', { noremap = true })
 
