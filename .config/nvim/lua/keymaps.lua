@@ -33,6 +33,13 @@ map('n', '<C-k>', '<C-w>k', default_opts)
 map('n', '<C-l>', '<C-w>l', default_opts)
 
 -----------------------------------------------------------
+-- Tabs
+-----------------------------------------------------------
+map('n', '<M-Right>', '<cmd>tabnext<CR>', default_opts)
+map('n', '<M-Left>', '<cmd>tabprev<CR>', default_opts)
+map('n', '<M-Up>', '<cmd>tabnew<CR>', default_opts)
+
+-----------------------------------------------------------
 -- FZF / Telescope Stuff
 -----------------------------------------------------------
 
