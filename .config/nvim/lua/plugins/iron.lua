@@ -39,6 +39,11 @@ iron.setup {
       sh = {
         command = { "dash" }
       },
+      julia = {
+        command = function()
+          return { 'julia', '--threads=auto', '-J', os.getenv('HOME')..'/.julia/environments/Current/JuliaSysimage.so' }
+        end
+      },
       ion = {
         command = { "ion" }
       },
