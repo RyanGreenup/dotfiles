@@ -51,11 +51,15 @@ wk.register({
     h = {
       name = "help",
       h = { "<cmd>Telescope help_tags<CR>", "Help" },
-      r = { "<cmd>source $MYVIMRC<cr>", "source $MYVIMRC" },
+      r = { "<cmd>:PackerCompile<CR><cmd>source $MYVIMRC<cr>", "source $MYVIMRC" },
       t = { "<cmd>Telescope colorscheme theme=dropdown<cr>", "Choose Theme" },
       u = { "<cmd>:PackerSync<CR>", "Packer Sync" },
       p = { "<cmd>Telescope packer theme=dropdown<CR>", "Help Packages" },
 
+    },
+    o = {
+      name = "+open",
+      s = { "<cmd>cd .config/nvim/LuaSnip/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
     },
     s = {
       name = "+search",
@@ -102,6 +106,7 @@ wk.register({
     },
     i = {
       name = "insert",
+      s = { "<cmd>Telescope luasnip<CR>", "Snippet" },
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
     },
     w = {

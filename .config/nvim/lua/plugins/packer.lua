@@ -72,7 +72,7 @@ return require('packer').startup(function(use)
 
   use { "nvim-telescope/telescope-file-browser.nvim" }
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
-  use { 'https://github.com/fhill2/telescope-ultisnips.nvim' }
+  use { 'https://github.com/benfowler/telescope-luasnip.nvim' }
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
   use { 'nvim-telescope/telescope-dap.nvim' }
   -- Use cmake for fzf because the Makefile is GNUisms.
@@ -83,7 +83,7 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
     requires = { { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' } },
     config = function()
-      require('telescope').load_extension('ultisnips')
+      require('telescope').load_extension('luasnip')
       require('telescope').load_extension('file_browser')
       require('telescope').load_extension('fzf') -- Use fzf for BSD compatability
       require("telescope").load_extension "packer"
@@ -94,8 +94,8 @@ return require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-symbols.nvim' }
 
   -- file manager
-use {
-  "nvim-neo-tree/neo-tree.nvim",
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
@@ -133,7 +133,6 @@ use {
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
     'saadparwaiz1/cmp_luasnip',
-    'quangnguyen30192/cmp-nvim-ultisnips'
   }
 
   -- REPL
@@ -147,13 +146,26 @@ use {
   use 'lervag/vimtex'
 
   -- Snippets
-  use 'honza/vim-snippets'
-  use 'SirVer/ultisnips'
+  use 'rafamadriz/friendly-snippets'
+  use { 'L3MON4D3/LuaSnip', config = function()
+    require("luasnip.loaders.from_vscode").lazy_load()
+    require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip/" })
+    require("luasnip.loaders.from_lua").lazy_load({ paths = "/home/ryan/.config/nvim/LuaSnip/tex/" })
+    require("luasnip").config.set_config({ -- Setting LuaSnip config
+
+      -- Enable autotriggered snippets
+      enable_autosnippets = true,
+
+      -- Use Tab (or some other key if you prefer) to trigger visual selection
+      store_selection_keys = "<Tab>",
+    })
+  end
+  }
 
   -- Search Matching
   use {
     'kevinhwang91/nvim-hlslens',
-    }
+  }
 
   -- Programming
   use 'ray-x/go.nvim'
@@ -170,9 +182,9 @@ use {
   https://github.com/folke/which-key.nvim/issues/330
   --]]
   use({
-       "folke/which-key.nvim",
-       commit = "9c190ea91939eba8c2d45660127e0403a5300b5a~1"
-       })
+    "folke/which-key.nvim",
+    commit = "9c190ea91939eba8c2d45660127e0403a5300b5a~1"
+  })
 
   -- Lightspeed, like easy motion
   use 'ggandor/lightspeed.nvim'
@@ -231,10 +243,9 @@ use {
   }
 
   --syntax
-use { 'https://github.com/ron-rs/ron.vim' }
-use { 'https://github.com/imsnif/kdl.vim' }
+  use { 'https://github.com/ron-rs/ron.vim' }
+  use { 'https://github.com/imsnif/kdl.vim' }
 
-use {"numToStr/FTerm.nvim"}
+  use { "numToStr/FTerm.nvim" }
 
 end)
-
