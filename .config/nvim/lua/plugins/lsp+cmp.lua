@@ -121,7 +121,7 @@ require 'lspconfig'.sumneko_lua.setup {
 
 local servers = {
   'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
-  'dotls', 'gopls', 'java_language_server', 'jsonls', 'julials',
+  'dotls', 'gopls', 'java_language_server', 'jsonls',
   'kotlin_language_server', 'nimls', 'pyright', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'sqls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols'
@@ -130,15 +130,28 @@ for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    }
   }
 end
 
+-- For julia we have to use a custom setup for a sysimage
+-- See https://github.com/fredrikekre/.dotfiles/blob/master/.julia/environments/nvim-lspconfig/Makefile
+-- See ~/.julia/environments/nvim-lspconfig/Makefile
+-- This is adapted from <https://github.com/fredrikekre/.dotfiles/blob/master/.config/nvim/init.vim>
 
-
+require'lspconfig'.julials.setup({
+    on_new_config = function(new_config, _)
+        local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+        new_config.cmd[1] = julia
+    end,
+    -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
+    root_dir = function(fname)
+        local util = require'lspconfig.util'
+        return util.root_pattern 'Project.toml'(fname) or util.find_git_ancestor(fname) or
+               util.path.dirname(fname)
+    end,
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
 
 
 ------------------------------------------------------------
