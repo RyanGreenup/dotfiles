@@ -187,7 +187,11 @@ return require('packer').startup(function(use)
   })
 
   -- Lightspeed, like easy motion
-  use 'ggandor/lightspeed.nvim'
+  use { 'ggandor/leap.nvim', config = function()
+    require('leap').add_default_mappings()
+    --   require('leap').leap { target_windows = { vim.fn.win_getid() } }
+  end }
+
 
   -- Fold-Cycle
   use {
