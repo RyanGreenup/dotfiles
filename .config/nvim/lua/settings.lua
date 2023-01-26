@@ -243,3 +243,27 @@ autocmd FileType julia imap <buffer>  <F2> <esc>:w<CR>:exec '!julia' shellescape
 autocmd FileType zig map <buffer>  <F2> :w<CR>:exec      '!zig run' shellescape(@%, 1)<CR>
 autocmd FileType zig imap <buffer>  <F2> <esc>:w<CR>:exec '!zig run' shellescape(@%, 1)<CR>
 ]]
+
+
+
+------------------------------------------------------------
+-- Autosave ------------------------------------------------
+------------------------------------------------------------
+vim.cmd [[
+:set updatetime=300
+]]
+
+local auto_save = true
+
+function ToggleAutoSave()
+  if auto_save then
+    vim.cmd [[ :au! ]]
+    auto_save = false
+    vim.cmd("echo 'Auto-save is OFF'")
+  else
+    vim.cmd [[ :au CursorHold * :silent! wa ]]
+    auto_save = true
+    vim.cmd("echo 'Auto-save is ON'")
+  end
+end
+map('n', '<F5>', ':lua ToggleAutoSave()<CR>', { noremap = true, silent = true})
