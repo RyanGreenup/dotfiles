@@ -23,7 +23,6 @@ map('', '<left>', '<nop>', { noremap = true })
 map('', '<right>', '<nop>', { noremap = true })
 
 -- fast saving with <leader> and s
-map('n', '<C-s>', ':w<CR>', default_opts)
 map('i', '<C-x><C-s>', '<C-c>:w<CR>', default_opts)
 
 -- move around splits using Ctrl + {h,j,k,l}
@@ -149,11 +148,6 @@ function toggle_full(make_big)
   end
 end
 
-function my_autosave()
-  vim.cmd [[ :autocmd TextChanged,TextChangedI <buffer> silent write ]]
-end
-map('n', '<leader>ta', ':lua my_autosave()<CR>', default_opts)
-
 function dokuwiki_headings_list()
   local file = vim.api.nvim_buf_get_name(0)
   local regex = ' \'^=.*=$\' '
@@ -198,48 +192,5 @@ vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :vnoremap <Space> zf<CR>  ]]
 map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
 map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

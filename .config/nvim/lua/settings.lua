@@ -249,12 +249,15 @@ autocmd FileType zig imap <buffer>  <F2> <esc>:w<CR>:exec '!zig run' shellescape
 ------------------------------------------------------------
 -- Autosave ------------------------------------------------
 ------------------------------------------------------------
+
+-- Enable Autosave using CursorHold
 vim.cmd [[
-:set updatetime=300
+    :set updatetime=300
+    :au CursorHold * :silent! wa
 ]]
 
+-- Write a function to toggle it
 local auto_save = true
-
 function ToggleAutoSave()
   if auto_save then
     vim.cmd [[ :au! ]]
@@ -266,4 +269,4 @@ function ToggleAutoSave()
     vim.cmd("echo 'Auto-save is ON'")
   end
 end
-map('n', '<F5>', ':lua ToggleAutoSave()<CR>', { noremap = true, silent = true})
+map('n', '<C-s>', ':lua ToggleAutoSave()<CR>', { noremap = true, silent = true})
