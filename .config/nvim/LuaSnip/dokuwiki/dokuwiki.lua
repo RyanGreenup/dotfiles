@@ -1,15 +1,14 @@
--- Abbreviations
+-- * Abbreviations
 local ls = require("luasnip")
 local s = ls.snippet
 local i = ls.insert_node
 local t = ls.text_node
 local fmta = require("luasnip.extras.fmt").fmta
 
--- Create a table for snippets
-local snippets = {}
-
 -- {{{1 Snippets
--- {{{2 Headings
+-- {{{2 Create Empty Table
+local snippets = {}
+--{{{2 Headings
 local function headings()
   local headers = {
     { trig = "ff", text = "====== <> ======" },
@@ -25,9 +24,7 @@ local function headings()
     table.insert(snippets, s({ trig = header.trig }, fmta(header.text, { i(1) })))
   end
 end
--- }}}2
--- Other Snippets
--- {{{2 Folding Heading
+--{{{2 Others
 local function other_snippets()
   local other_snippets = {
 
@@ -49,13 +46,8 @@ local function other_snippets()
     table.insert(snippets, snippet)
   end
 end
--- }}}2
-
---}}}1
-
--- Call the functions for the snippets desired
+--{{{1 Call the functions for the snippets desired
 headings()
 other_snippets()
-
--- Returned snippets
+--{{{1 Returned snippets
 return snippets
