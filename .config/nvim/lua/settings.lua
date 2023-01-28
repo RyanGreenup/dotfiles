@@ -270,3 +270,8 @@ function ToggleAutoSave()
   end
 end
 map('n', '<C-s>', ':lua ToggleAutoSave()<CR>', { noremap = true, silent = true})
+
+
+vim.cmd [[
+set conceallevel=0
+]]

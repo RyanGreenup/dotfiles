@@ -193,4 +193,23 @@ map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
 map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
 
+-- Copilot
+vim.cmd [[
+imap <C-k> <Esc>:Copilot<CR><C-w>L:lua Make_floating()<CR>
+]]
+
+-- A function to take the current window and make it floating
+function Make_floating(t)
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_win_get_buf(win)
+
+  vim.api.nvim_open_win(buf, true,
+    {relative='editor', row=3, col=3, width=40, height=60, border='single', title=t})
+
+  vim.api.nvim_win_close(win, true)
+end
+-- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
+
+
+
 

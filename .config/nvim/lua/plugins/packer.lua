@@ -74,7 +74,7 @@ return require('packer').startup(function(use)
   use { 'https://github.com/kyazdani42/nvim-web-devicons' }
   use { 'https://github.com/benfowler/telescope-luasnip.nvim' }
   use { 'https://github.com/camgraff/telescope-tmux.nvim' }
-  use { 'nvim-telescope/telescope-dap.nvim' }
+  -- use { 'nvim-telescope/telescope-dap.nvim' }
   -- Use cmake for fzf because the Makefile is GNUisms.
   use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
@@ -87,7 +87,7 @@ return require('packer').startup(function(use)
       require('telescope').load_extension('file_browser')
       require('telescope').load_extension('fzf') -- Use fzf for BSD compatability
       require("telescope").load_extension "packer"
-      require('telescope').load_extension('dap')
+      -- require('telescope').load_extension('dap')
     end
   }
 
@@ -162,6 +162,19 @@ return require('packer').startup(function(use)
   end
   }
 
+  -- LateX Snippets (Castel Dev esque)
+  use {
+    "iurimateus/luasnip-latex-snippets.nvim",
+    -- replace "lervag/vimtex" with "nvim-treesitter/nvim-treesitter" if you're
+    -- using treesitter.
+    requires = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
+    config = function()
+      require 'luasnip-latex-snippets'.setup()
+      -- or setup({ use_treesitter = true })
+    end,
+    ft = "tex",
+  }
+
   -- Search Matching
   use {
     'kevinhwang91/nvim-hlslens',
@@ -211,6 +224,7 @@ return require('packer').startup(function(use)
   }
 
   -- Debugging
+  --[[
   use { "rcarriga/nvim-dap-ui",
     requires = { "mfussenegger/nvim-dap" },
     config = function()
@@ -219,7 +233,6 @@ return require('packer').startup(function(use)
   }
   use { 'https://github.com/Pocco81/dap-buddy.nvim' }
   use { 'theHamsta/nvim-dap-virtual-text' }
-  use { 'https://github.com/nvim-neotest/neotest' }
   -- Plugins for language specifics
   use {
     'leoluz/nvim-dap-go',
@@ -228,6 +241,8 @@ return require('packer').startup(function(use)
     end
   }
   use { 'https://github.com/mfussenegger/nvim-dap-python' }
+  --]]
+  use { 'https://github.com/nvim-neotest/neotest' }
   -- task juggler
   use { 'https://github.com/kalafut/vim-taskjuggler' }
 
@@ -251,5 +266,19 @@ return require('packer').startup(function(use)
   use { 'https://github.com/imsnif/kdl.vim' }
 
   use { "numToStr/FTerm.nvim" }
+
+
+  use {
+    "danymat/neogen",
+    config = function()
+      require('neogen').setup {}
+    end,
+    requires = "nvim-treesitter/nvim-treesitter",
+    -- Uncomment next line if you want to follow only stable versions
+    -- tag = "*"
+  }
+
+  -- Copilot
+  use { "https://github.com/github/copilot.vim" }
 
 end)
