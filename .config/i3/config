@@ -568,13 +568,13 @@ bindsym $mod+Shift+u exec --no-startup-id  firefox ~/Notes/calendar.html
 
 ## Popup terminal..........................................
 # Set your preferred terminal emulator# Give it a title
-set $title dropdown
-set $term alacritty -t $title
+set $title scratchpad
+set $scratch_term alacritty -t $title
 # Execute your preferred terminal emulator in scratchpad
-exec $term
+exec $scratch_term
 for_window [title="$title"] move container to scratchpad; border none; floating enable; opacity 0.5
 # Bind your preferred shortcut to show / hide the terminal
-bindsym F12 scratchpad show
+bindsym $mod+o scratchpad show
 
 
 
