@@ -19,6 +19,3 @@ require('plugins/which-key')
 require('settings')
 require('keymaps')
 
-
-
-
