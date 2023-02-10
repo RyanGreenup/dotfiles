@@ -338,3 +338,7 @@ bind \co '
 # Add Completions
 # starship init fish | source
 task_manager completion fish | source
+
+
+
+

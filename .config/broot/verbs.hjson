@@ -157,7 +157,7 @@
             shortcut: sched
             key: alt-s
             leave_broot: false
-            execution: "task_management_tool resched {file}"
+            execution: "task_manager reschedule date {file} /home/ryan/Agenda/Agenda_Maybe/Scheduled 300"
             #execution: "cat {file}"
         }
         {
