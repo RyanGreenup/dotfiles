@@ -336,9 +336,5 @@ bind \co '
     commandline -f repaint'
 
 # Add Completions
-starship init fish | source
+# starship init fish | source
 task_manager completion fish | source
-
-
-
-
