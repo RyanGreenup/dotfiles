@@ -9,7 +9,7 @@ require('plugins/vimtex')
 require('plugins/markdown-preview')
 
 require('plugins/iron')
-require('plugins/dap')
+-- require('plugins/dap')
 require('plugins/indent-blankline')
 require('plugins/org-mode')
 require('plugins/which-key')
