@@ -281,4 +281,27 @@ return require('packer').startup(function(use)
   -- Copilot
   use { "https://github.com/github/copilot.vim" }
 
+  -- Quarto
+use { 'quarto-dev/quarto-nvim',
+    requires = {
+      'jmbuhr/otter.nvim',
+      'neovim/nvim-lspconfig'
+    },
+    config = function()
+      require 'quarto'.setup {
+        lspFeatures = {
+          enabled = true,
+          languages = { 'r', 'python', 'julia' },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWrite" }
+          },
+          completion = {
+            enabled = true
+          }
+        }
+      }
+    end
+  }
+
 end)
