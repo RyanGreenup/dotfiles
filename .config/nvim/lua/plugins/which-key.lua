@@ -16,6 +16,10 @@ wk.register({
       p = { "<cmd>bp<CR>", "Buffer Previous" },
       n = { "<cmd>bn<CR>", "Buffer Next" },
     },
+    c = {
+      name = "+create",
+      f = {"<cmd>!touch <c-r><c-p><cr><cr>", "Create File"},
+    },
     d = {
       name = "+debug",
       t = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle Debug UI" },
@@ -125,7 +129,7 @@ wk.register({
         x = { "<cmd>tabclose<CR>", "Close" },
         p = { "<cmd>tabprevious<CR>", "Previous" },
         n = { "<cmd>tabnext<CR>", "Next" },
-        o = { "<cmd>tabsplit<CR>", "Open Tab" },
+        o = { "<cmd>tabedit<CR>", "Open Tab" },
 
 
       },

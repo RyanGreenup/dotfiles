@@ -31,6 +31,12 @@ map('n', '<C-j>', '<C-w>j', default_opts)
 map('n', '<C-k>', '<C-w>k', default_opts)
 map('n', '<C-l>', '<C-w>l', default_opts)
 
+-- Resize splits using Alt + {h,j,k,l}
+map('n', '<A-h>', '<cmd>:vertical resize -5<CR>', default_opts)
+map('n', '<A-l>', '<cmd>:vertical resize +5<CR>', default_opts)
+map('n', '<A-k>', '<cmd>:resize +5<CR>', default_opts)
+map('n', '<A-j>', '<cmd>:resize -5<CR>', default_opts)
+
 -----------------------------------------------------------
 -- Tabs
 -----------------------------------------------------------
