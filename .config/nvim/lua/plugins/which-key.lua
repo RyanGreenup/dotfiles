@@ -70,6 +70,7 @@ wk.register({
       s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Swoop" },
       -- d = { "<cmd>Telescope lsp_document_symbols<CR>",      "LSP document" },
       d = { "<cmd>Vista finder<CR>", "LSP document" },
+      j = { "<cmd>Telescope jumplist theme=ivy<CR>", "Jumplist" },
       D = { "<cmd>Vista finder!<CR>", "LSP workspace" },
       i = { "<cmd>Telescope ultisnips<CR>", "Ultisnips" },
       e = { "<cmd>Telescope quickfix<CR>", "Errors" },
