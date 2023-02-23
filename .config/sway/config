@@ -601,6 +601,11 @@ for_window [title="$title"] move container to scratchpad; border none; floating 
 # Bind your preferred shortcut to show / hide the terminal
 bindsym F12 scratchpad show
 
+# Adjust Input Rate
+input type:keyboard {
+    repeat_delay 200
+    repeat_rate 30
+}
 
 
 ## vim:fdm=expr:fdl=0
