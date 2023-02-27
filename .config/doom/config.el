@@ -30,7 +30,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 ;; (setq org-directory "~/Agenda/")
-(setq org-agenda-files (list "~/Agenda"))
+;; (setq org-agenda-files (list "~/Agenda"))
 
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -71,7 +71,8 @@
 
 ;;;; Agenda Files
 (setq org-directory my/tasks_dir)
-(setq org-agenda-files (list my/tasks_dir my/journal_dir))
+(setq org-agenda-files (list my/tasks_dir)) ; NOTE clocking in will open ALL org-agenda-files
+                                            ; ;; https://github.com/doomemacs/doomemacs/issues/5317
 ;;;; Functions
 ;; Journal
 (defun my/open_todays_journal ()
