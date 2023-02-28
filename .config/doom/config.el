@@ -148,15 +148,15 @@
 (map! :leader
       :desc "Open Logseq Contents" "l c" #'org-logseq-toggle-contents-sidebar)
 (after! org
-  (setq org-agenda-span 10
+  (setq org-agenda-span 7
         org-agenda-start-on-weekday nil
         org-agenda-start-day "-3d")
   (setq org-tags-column 80))
 
- (setq org-agenda-time-grid
-         '((daily today weekly require-timed)
-         (800 900 1000 1200 1300 1400  1500 1600 1700 1800 1900 2000)
-         "......" "----------------"))
+ ;; (setq org-agenda-time-grid
+ ;;         '((daily today weekly require-timed)
+ ;;         (800 900 1000 1200 1300 1400  1500 1600 1700 1800 1900 2000)
+ ;;         "......" "----------------"))
 ;; See also
 ;; (require 'calfw-org)
 
