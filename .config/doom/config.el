@@ -74,9 +74,9 @@
 ;;(setq org-agenda-files (list my/tasks_dir)) ; NOTE clocking in will open ALL org-agenda-files
                                             ; ;; https://github.com/doomemacs/doomemacs/issues/5317
 (setq org-agenda-files (list
-                        "~/Agenda/todo.org"
-                        "~/Agenda/habits.org"
-                        "~/Agenda/projects.org"
+                        "~/Agenda/current/todo.org"
+                        "~/Agenda/current/habits.org"
+                        "~/Agenda/current/projects.org"
                         ))
 ;;;; Functions
 ;; Journal
