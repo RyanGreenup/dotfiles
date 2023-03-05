@@ -1,5 +1,11 @@
 // Place your key bindings in this file to override the defaults
 [
+    {
+      "key": "ctrl+shift+alt+n",
+      "command": "workbench.action.files.openInExternalApplication",
+      "args": { "externalProgram": "neovide", "arguments": ["${file}"] },
+      "when": "editorTextFocus && !editorReadonly"
+    },
 	{
 		"key": "space",
 		"command": "vspacecode.space",
