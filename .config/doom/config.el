@@ -60,12 +60,12 @@
 ;;;; Variables
 (setq my/tasks_dir "~/Agenda/")
 (setq my/notes_dir "~/Notes/slipbox")
-(setq my/journal_dir (concat my/notes_dir "/journals/"))
+;; (setq my/journal_dir (concat my/notes_dir "/journals/"))
 (setq my/tasks_list (concat my/tasks_dir "todo.org"))
 ;; Todays journal will have the last name using rfc3339 ⊂ iso-8601
-(setq todays_journal
-      (format (concat my/journal_dir "%s")
-              (car (last (directory-files my/journal_dir)))))
+;; (setq todays_journal
+;;       (format (concat my/journal_dir "%s")
+;;               (car (last (directory-files my/journal_dir)))))
 ;; Set the initial buffer
 ;; (setq initial-buffer-choice todays_journal)
 
