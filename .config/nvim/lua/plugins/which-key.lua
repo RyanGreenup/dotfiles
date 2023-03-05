@@ -64,7 +64,7 @@ wk.register({
     o = {
       name = "+open",
       s = { "<cmd>cd .config/nvim/LuaSnip/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
-      n = { "<cmd>e ~/Dendron/notes/root.md<CR><cmd>cd ~/Dendron/notes/ <CR>", "Notes" },
+      n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
     },
     s = {
       name = "+search",
