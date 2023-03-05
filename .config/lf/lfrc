@@ -128,7 +128,7 @@ map oa ${{
 
 map os ${{
     # Reschedule a Task to a different day
-    task_manager reschedule date "${f}" $HOME/Agenda/Agenda_Maybe/Scheduled 30
+    task_manager reschedule date "${f}" $HOME/Agenda/Agenda_Maybe/Scheduled 300
 }}
 
 
