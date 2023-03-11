@@ -202,6 +202,11 @@ map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
 -- Copilot
 vim.cmd [[
 imap <C-k> <Esc>:Copilot<CR><C-w>L:lua Make_floating()<CR>
+"" A Keybinding to toggle Copilot
+nnoremap <leader>tc :Copilot enable<CR>
+
+"" Disable Copilot at startup
+let g:copilot_enabled = 0
 ]]
 
 -- A function to take the current window and make it floating
