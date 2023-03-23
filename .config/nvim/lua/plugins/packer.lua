@@ -148,9 +148,12 @@ return require('packer').startup(function(use)
       -- Snippets
       use 'rafamadriz/friendly-snippets'
       use { 'L3MON4D3/LuaSnip', config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
+        -- Without arguments it will load anything found under RTP (runtime path)
+        require("luasnip.loaders.from_snipmate").lazy_load()
+        -- With arguments it will look under that directory
         require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip/" })
         require("luasnip.loaders.from_lua").lazy_load({ paths = "/home/ryan/.config/nvim/LuaSnip/tex/" })
+        require("luasnip.loaders.from_vscode").lazy_load()
         require("luasnip").config.set_config({
         -- Setting LuaSnip config
 
