@@ -4,7 +4,12 @@ set PATH $HOME/.cargo/bin $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
 set PATH $HOME/go/bin $PATH
 set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
-#set PATH $PATH $HOME/.nix-profile/bin/
+
+set PATH $PATH $HOME/Applications/AppImages/bin/
+set PATH $PATH $HOME/.nix-profile/bin/
+
+set PATH $PATH /var/lib/flatpak/exports/bin/
+# set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
