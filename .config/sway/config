@@ -75,6 +75,7 @@ bindsym Control+mod1+t exec i3-sensible-terminal
 # kill focused window
  bindsym $mod+Shift+q kill
  bindsym $mod+q kill
+ bindsym $mod+Shift+BackSpace exec "echo mem | doas tee /sys/power/state"
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
