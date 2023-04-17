@@ -73,7 +73,7 @@ window_rules: [
         (command: Execute,                 modifier: ["modkey"],                 key: "d",
          value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
         (command: Execute,                 modifier: ["modkey"],                 key: "space",
-         value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
+         value: "rofi -show combi -combi-modi 'window,drun,run' -modi combi  lines 10 -eh 2 -mathing fuzzy -show-icons -theme DarkBlue -theme-str 'element-icon { size: 4ch;}'"     ),
         (command: Execute,                 modifier: ["modkey"],                 key: "c",
          value: "rofi -show calc -modi calc -no-show-match -no-sort -theme DarkBlue"                                                                                     ),
         (command: Execute,                 modifier: ["modkey"],                 key: "slash",
