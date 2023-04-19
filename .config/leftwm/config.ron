@@ -83,8 +83,8 @@ window_rules: [
 
         (command: ToggleFullScreen,        modifier: ["modkey"],                 key: "m",        value: ""                                                                                            ),
         (command: ToggleFloating,          modifier: ["modkey", "Shift"],        key: "space"                                                                                                          ),
-        (command: MoveWindowToNextTag,     modifier: ["modkey", "Shift"],        key: "p"                                                                                                              ),
-        (command: MoveWindowToPreviousTag, modifier: ["modkey", "Shift"],        key: "n"                                                                                                              ),
+        (command: MoveWindowToNextTag,     modifier: ["modkey", "Shift"],        key: "n"                                                                                                              ),
+        (command: MoveWindowToPreviousTag, modifier: ["modkey", "Shift"],        key: "p"                                                                                                              ),
         (command: ToggleSticky,            modifier: ["modkey"],                 key: "s"                                                                                                              ),
         // (command: Execute,              modifier: ["modkey"],                 key: "n",        value: "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"                                                ),
         // (command: Execute,              modifier: ["modkey", "Shift"],        key: "n",        value: "dash /home/ryan/.local/bin/jupyter_dmenu.sh"                                                 ),
