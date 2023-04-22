@@ -5,34 +5,26 @@ set PATH $HOME/.cargo/bin           $PATH
 set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
 set PATH $HOME/go/bin               $PATH
 set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
+
 # Add AppImages
 set PATH $PATH $HOME/Applications/AppImages/bin/
+
 # Add Flatpak
 set PATH $PATH /var/lib/flatpak/exports/bin/
 set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
-# TODO Seems Void adds this to share automatically 
-# Add Nix
-set PATH $PATH $HOME/.nix-profile/bin/
-for dir in (ls "/nix/var/nix/profiles/per-user/")
-    set XDG_DATA_DIRS $XDG_DATA_DIRS:/nix/var/nix/profiles/per-user/$dir/profile/share/
-end
-
 
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 export VISUAL=nvim
 export EDITOR=nvim
 
+export LIBTORCH=/opt/libtorch
+export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+
 function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;
 end
 
-# set EDITOR emacsclient -nw  # This isn't bad, still a little slower than nvim though
-
-# ..............................................................................
-# * Better Coreutils / Built-ins................................................
-# ..............................................................................
-# Defined in - @ line 1
 function f --wraps='cd ; exa -RGL 3' --description 'alias f=cd; exa -RGL 3'
     cd $argv
     exa -TL 2
@@ -50,7 +42,6 @@ end
 function ls! --wraps='ls -ultrah' --description 'alias ls!=ls -ultrah'
     ls -ultrah $argv
 end
-
 
 ## Easier Xclip
 function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
@@ -79,6 +70,63 @@ function wtr
     end
 end
 
+# Man pages
+function vman
+    man $argv[1] | nvim -MR +"set filetype=man" -
+end
+
+function k!
+    ps -aux | grep $argv[1] | awk '{print $2}' | xargs kill
+end
+
+function open_dokuwiki_clipboard
+   set file \
+       (xclip -sel clip -o |\
+          awk -F '/' '{print $NF}' |\
+          awk -F '=' '{print $NF}' |\
+          sed 's#:#/#' |\
+          sed 's#$#.txt#' |\
+          sed 's#^#~/Notes/dokuwiki/data/pages/#')
+    emacsclient -c $file
+end
+
+# Toggle Alacritty theme
+function tt
+    # If the colors: line is found, use sed to change it to dark or light
+    grep  'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
+    grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
+end
+
+if status is-interactive
+    broot --print-shell-function fish | source
+end
+
+if status is-interactive
+    zoxide init fish | source
+end
+
+if status is-interactive
+    set -gx ATUIN_NOBIND "true"
+    atuin init fish | source
+
+    # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
+    bind \cr _atuin_search
+    bind -M insert \cr _atuin_search
+end
+
+function lfcd
+    set tmp (mktemp)
+    lf -last-dir-path=$tmp $argv
+    if test -f "$tmp"
+        set dir (cat $tmp)
+        rm -f $tmp
+        if test -d "$dir"
+            if test "$dir" != (pwd)
+                cd $dir
+            end
+        end
+    end
+end
 
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
@@ -112,7 +160,6 @@ function _private_open
       $EDITOR $argv
   end
 end
-
 
 # ** Searching .................................................................
 function _private_search
@@ -156,9 +203,6 @@ end
 function nr
     note_taking reindex -d $__notes_dir
 end
-
-
-
 
 # ** Finding ......................................................................
 ## I could have used `note_taking fzf` but skim and bat is prettier
@@ -207,7 +251,6 @@ function nnm
     $EDITOR $file
 end
 
-
 # ..............................................................................
 # * Package Management Stuff....................................................
 # ..............................................................................
@@ -248,25 +291,6 @@ function wk --description 'Alias for work script' --wraps='workdispatch'
     emacsclient --create-frame ~/Agenda/todo.org ~/Agenda/projects.org & disown
 end
 
-# Man pages
-function vman
-    man $argv[1] | nvim -MR +"set filetype=man" -
-end
-
-
-# ............................................................
-# Niceties
-# ............................................................
-function k!
-    ps -aux | grep $argv[1] | awk '{print $2}' | xargs kill
-end
-
-# ## Make sure to reflink btrfs
-# function cp --description 'use reflink auto for deduped in btrfs' --wraps='cp'
-#   cp --reflink=auto $argv;
-# end
-
-
 set dotfiles_dir $HOME/.local/share/dotfiles
 function gd
     git --work-tree $HOME --git-dir $dotfiles_dir $argv
@@ -274,59 +298,6 @@ end
 function gdui
     gitui --polling -w $HOME -d $dotfiles_dir
 end
-
-function open_dokuwiki_clipboard
-   set file \
-       (xclip -sel clip -o |\
-          awk -F '/' '{print $NF}' |\
-          awk -F '=' '{print $NF}' |\
-          sed 's#:#/#' |\
-          sed 's#$#.txt#' |\
-          sed 's#^#~/Notes/dokuwiki/data/pages/#')
-    emacsclient -c $file
-end
-
-
-# Toggle Alacritty theme
-function tt
-    # If the colors: line is found, use sed to change it to dark or light
-    grep  'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
-    grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
-end
-# Make the Shell Nice..........................................................
-
-    if status is-interactive
-        set commands                                \
-                "zoxide init fish"                  \
-                "broot --print-shell-function fish"
-        for cmd in $commands
-            eval $cmd | source
-        end
-    end
-
-    if status is-interactive
-        set -gx ATUIN_NOBIND "true"
-        atuin init fish | source
-
-        # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
-        bind \cr _atuin_search
-        bind -M insert \cr _atuin_search
-    end
-
-
-    function lfcd
-        set tmp (mktemp)
-        lf -last-dir-path=$tmp $argv
-        if test -f "$tmp"
-            set dir (cat $tmp)
-            rm -f $tmp
-            if test -d "$dir"
-                if test "$dir" != (pwd)
-                    cd $dir
-                end
-            end
-        end
-    end
 
 # Create keybindings
 function fish_user_key_bindings
@@ -346,11 +317,3 @@ bind \co '
         sed "s/^cd //g" < $tmp | sed "s/\"//g")
     rm $tmp
     commandline -f repaint'
-
-# Add Completions
-# starship init fish | source
-task_manager completion fish | source
-
-
-
-

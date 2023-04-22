@@ -151,13 +151,13 @@ end
 ** Broot
 #+begin_src fish
 if status is-interactive
-    broot --print-shell-function fish
+    broot --print-shell-function fish | source
 end
 #+end_src
 ** Zoxide
 #+begin_src fish
 if status is-interactive
-    zoxide init fish
+    zoxide init fish | source
 end
 #+end_src
 ** Atuin
