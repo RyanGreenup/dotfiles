@@ -145,3 +145,5 @@ fn c {
 }
 
 eval (zoxide init elvish | slurp)
+
+eval (carapace _carapace|slurp)
