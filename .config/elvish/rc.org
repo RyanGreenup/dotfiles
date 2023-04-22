@@ -201,6 +201,8 @@ fn pz {
 }
 
 #+end_src
+** TODO Notetaking
+Add things like =ns= and =nf=
 * Environment variables
 
 Default options to =less=.
@@ -305,5 +307,4 @@ fn t {
 #+begin_src elvish
 eval (zoxide init elvish | slurp)
 #+end_src
-
 
