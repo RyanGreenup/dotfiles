@@ -83,6 +83,37 @@ fn gdui {
     gitui --polling -w ~ -d $dotfiles_dir
 }
 
+fn get-os {
+    cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g' | tr -d '\n'
+}
+
+fn is-os { |os|
+  str:compare (get-os) $os
+}
+
+fn void-package-query {
+    xbps-query -Rs '' |
+        rg -o '[\w-]+-'  |
+        sed 's!-$!!'     |
+        fzf --multi --preview 'xbps-query -S {} || echo No Info Available'
+}
+
+fn arch-package-query { |argv|
+    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $@argv
+}
+
+fn pz {
+    use str
+    if (is-os "void") {
+        echo "You are using void"
+        void-package-query
+    } elif (is-os "arch") {
+        echo TODO
+    } elif (is-os "endeavouros") {
+        echo TODO
+  }
+}
+
 set E:LESS = "-i -R"
 
 set E:EDITOR = "nvim"
