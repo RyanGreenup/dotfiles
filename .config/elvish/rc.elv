@@ -73,6 +73,16 @@ only-when-external exa {
   edit:add-var ls~ $exa-ls~
 }
 
+var dotfiles_dir = ~/.local/share/dotfiles
+
+fn gd {|@args|
+    git --work-tree ~ --git-dir $dotfiles_dir $@args
+}
+
+fn gdui {
+    gitui --polling -w ~ -d $dotfiles_dir
+}
+
 set E:LESS = "-i -R"
 
 set E:EDITOR = "nvim"
@@ -80,3 +90,25 @@ set E:EDITOR = "nvim"
 set E:LC_ALL = "en_US.UTF-8"
 
 set E:PKG_CONFIG_PATH = "/usr/local/opt/icu4c/lib/pkgconfig"
+
+# var exa-ls~ = { |@_args|
+ fn n { |@_args|
+        var tmp = (mktemp)
+        lf -last-dir-path=$tmp $@_args
+        if (test -f $tmp) {
+            var dir = (cat $tmp)
+            rm -f $tmp
+            if (test -d $dir) {
+                if (test $dir != (pwd)) {
+                    cd $dir
+                }
+            }
+        }
+    }
+
+var fzf_dirs = { fd -t d | fzf --height 50% }
+fn c {
+    if (var dir = ($fzf_dirs)) {
+        cd $dir
+    }
+}

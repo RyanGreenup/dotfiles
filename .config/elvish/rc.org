@@ -153,6 +153,19 @@ only-when-external exa {
   edit:add-var ls~ $exa-ls~
 }
 #+end_src
+** git dots
+
+#+begin_src elvish
+var dotfiles_dir = ~/.local/share/dotfiles
+
+fn gd {|@args|
+    git --work-tree ~ --git-dir $dotfiles_dir $@args
+}
+
+fn gdui {
+    gitui --polling -w ~ -d $dotfiles_dir
+}
+#+end_src
 
 * Environment variables
 
@@ -187,4 +200,67 @@ Need to add
 #+begin_src python
 set E:LIBTORCH = "/opt/libtorch"
 set E:LD_LIBRARY_PATH = "$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+#+end_src
+
+* Utlities etc.
+
+I use the following to change directories quickly in fish, I think I adapted this from [[https://github.com/gokcehan/lf/wiki/Tips][lf/wiki]]:
+
+#+begin_src fish :tangle no
+    function lfcd
+        set tmp (mktemp)
+        lf -last-dir-path=$tmp $argv
+        if test -f "$tmp"
+            set dir (cat $tmp)
+            rm -f $tmp
+            if test -d "$dir"
+                if test "$dir" != (pwd)
+                    cd $dir
+                end
+            end
+        end
+    end
+
+#+end_src
+
+
+#+begin_src elvish
+# var exa-ls~ = { |@_args|
+ fn n { |@_args|
+        var tmp = (mktemp)
+        lf -last-dir-path=$tmp $@_args
+        if (test -f $tmp) {
+            var dir = (cat $tmp)
+            rm -f $tmp
+            if (test -d $dir) {
+                if (test $dir != (pwd)) {
+                    cd $dir
+                }
+            }
+        }
+    }
+#+end_src
+
+** fzf key binidngs
+*** Change directories with =c=
+Something similar to fzf keybindings
+
+#+begin_src elvish
+var fzf_dirs = { fd -t d | fzf --height 50% }
+fn c {
+    if (var dir = ($fzf_dirs)) {
+        cd $dir
+    }
+}
+#+end_src
+
+*** TODO Set `$t` as file with =t=
+
+#+begin_src elvish :tangle no
+var fzf_files = { fd | fzf --height 50% }
+fn t {
+    if (set E:t = ($fzf_files)) {
+        printf 't: %s' $E:t
+    }
+}
 #+end_src
