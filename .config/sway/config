@@ -516,6 +516,11 @@ bindsym $mod+Down workspace next_on_output
 bindsym $mod+Left workspace prev_on_output
 bindsym $mod+Up workspace prev_on_output
 
+bindsym $mod+n  workspace prev_on_output
+bindsym $mod+p  workspace next_on_output
+
+
+
 
 
 
