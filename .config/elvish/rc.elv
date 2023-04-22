@@ -112,3 +112,5 @@ fn c {
         cd $dir
     }
 }
+
+eval (zoxide init elvish | slurp)

@@ -264,3 +264,10 @@ fn t {
     }
 }
 #+end_src
+
+
+
+** Niceness like zoxide
+#+begin_src elvish
+eval (zoxide init elvish | slurp)
+#+end_src
