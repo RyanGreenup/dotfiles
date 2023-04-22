@@ -1,0 +1,190 @@
+#+title: Rc
+:CONFIG:
+#+property: header-args:elvish :tangle (concat (file-name-sans-extension (buffer-file-name)) ".elv")
+#+property: header-args :mkdirp yes :comments no
+#+startup: indent
+:END:
+
+#+title: Elvish Config
+#+author: Ryan Greenup
+
+This is my config for Elvish shell.
+
+Written using org-mode and org-tangle, inspired by [[https://github.com/zzamboni/dot-elvish][zzamboni/dot-elvish]] (see also  [[https://gitlab.com/zzamboni/mac-setup/-/tree/master][The dots of Diego]]).
+
+* Module loading
+
+Load a number of commonly-used modules so that they are available in my interactive session.
+
+Load the bundled [[https://elv.sh/ref/re.html][re]] module to have access to regular expression functions.
+
+#+begin_src elvish
+use re
+#+end_src
+
+The bundled [[https://elv.sh/ref/readline-binding.html][readline-binding]] module associates some Emacs-like keybindings for manipulation of the command line.
+
+#+begin_src elvish
+use readline-binding
+#+end_src
+
+The bundled =path= module contains path manipulation functions.
+
+#+begin_src elvish
+use path
+#+end_src
+
+The bundled =str= and =math= modules for string manipulation and math operations.
+
+#+begin_src elvish
+use str
+use math
+#+end_src
+
+* Prompt
+* Paths
+
+Note that flatpak is here and in the environment paths below to acheive the fish equivalent of:
+
+#+begin_example
+set PATH $PATH /var/lib/flatpak/exports/bin/
+set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
+#+end_example
+
+
+#+begin_src elvish
+# Where all the Go stuff is
+var optpaths = [
+  ~/.config/emacs/bin
+  ~/.cargo/bin
+  ~/go/bin
+  /var/lib/flatpak/exports/bin/
+]
+var optpaths-filtered = [(each {|p|
+      if (path:is-dir $p) { put $p }
+} $optpaths)]
+
+set paths = [
+  ~/.local/bin
+  ~/Applications/AppImages/bin
+  $E:GOPATH/bin
+  $@optpaths-filtered
+  /usr/bin
+  /usr/sbin
+  /usr/sbin
+  /sbin
+  /usr/bin
+  /bin
+]
+#+end_src
+
+A test taken from Diego.
+
+#+begin_src elvish
+each {|p|
+  if (not (path:is-dir &follow-symlink $p)) {
+    echo (styled "Warning: directory "$p" in $paths no longer exists." red)
+  }
+} $paths
+#+end_src
+
+* Package installation
+
+The bundled [[https://elv.sh/ref/epm.html][epm]] module allows us to install and manage Elvish packages.
+
+#+begin_src elvish
+use epm
+#+end_src
+
+For now I use these packages:
+
+- [[https://github.com/zzamboni/elvish-modules][github.com/zzamboni/elvish-modules]] contains all my modules except completions and themes. Maybe these should be separated eventually, but for now this works fine.
+- [[https://github.com/zzamboni/elvish-themes][github.com/zzamboni/elvish-themes]] contains my prompt themes (only [[https://github.com/zzamboni/elvish-themes/blob/master/chain.org][chain]] for now).
+- [[https://github.com/zzamboni/elvish-completions][github.com/zzamboni/elvish-completions]] contains my completer definitions.
+- [[https://github.com/xiaq/edit.elv][github.com/xiaq/edit.elv]], which includes the =smart-matcher= module used below.
+- [[https://github.com/muesli/elvish-libs][github.com/muesli/elvish-libs]] for the git utilities module.
+- [[https://github.com/iwoloschin/elvish-packages][github.com/iwoloschin/elvish-packages]] for the update.elv package.
+
+#+begin_src elvish
+epm:install &silent-if-installed         ^
+github.com/zzamboni/elvish-modules     ^
+github.com/zzamboni/elvish-completions ^
+github.com/zzamboni/elvish-themes      ^
+github.com/xiaq/edit.elv               ^
+github.com/muesli/elvish-libs          ^
+github.com/iwoloschin/elvish-packages
+#+end_src
+
+The modules within each package get loaded individually below.
+* Prompt
+#+begin_src elvish
+#   eval (starship init elvish | sed 's/except/catch/')
+# Temporary fix for use of except in the output of the Starship init code
+eval (/usr/bin/starship init elvish --print-full-init | slurp)
+#+end_src
+
+* Alias
+From Diego:
+
+I use [[https://the.exa.website/][exa]] as a replacement for the =ls= command, so I alias =ls= to it. Unfortunately, =exa= does not understand the =-t= option to sort files by modification time, so I explicitly look for the =-lrt= and =-lrta= option combinations (which I use very often, and /always/ trip me off) and replace them with the correct options for =exa=. All other options are passed as-is.
+
+#+begin_src elvish
+fn have-external { |prog|
+  put ?(which $prog >/dev/null 2>&1)
+}
+
+fn only-when-external { |prog lambda|
+  if (have-external $prog) { $lambda }
+}
+#+end_src
+
+#+begin_src elvish
+only-when-external exa {
+  var exa-ls~ = { |@_args|
+    use github.com/zzamboni/elvish-modules/util
+    e:exa --color-scale --git --group-directories-first (each {|o|
+        util:cond [
+          { eq $o "-lrt" }  "-lsnew"
+          { eq $o "-lrta" } "-alsnew"
+          :else             $o
+        ]
+    } $_args)
+  }
+  edit:add-var ls~ $exa-ls~
+}
+#+end_src
+
+* Environment variables
+
+Default options to =less=.
+
+#+begin_src elvish
+set E:LESS = "-i -R"
+#+end_src
+
+Use vim as the editor from the command line (although I am an [[https://github.com/zzamboni/dot-emacs/blob/master/init.org][Emacs]] fan, I still sometimes use vim for quick editing).
+
+#+begin_src elvish
+set E:EDITOR = "nvim"
+#+end_src
+
+Locale setting.
+
+#+begin_src elvish
+set E:LC_ALL = "en_US.UTF-8"
+#+end_src
+
+=PKG_CONFIG= configuration.
+
+#+begin_src elvish
+set E:PKG_CONFIG_PATH = "/usr/local/opt/icu4c/lib/pkgconfig"
+#+end_src
+
+** TODO Add Flatpak
+
+** Libtorch
+Need to add
+#+begin_src python
+set E:LIBTORCH = "/opt/libtorch"
+set E:LD_LIBRARY_PATH = "$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+#+end_src
