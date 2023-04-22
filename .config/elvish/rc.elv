@@ -104,12 +104,12 @@ fn arch-package-query { |argv|
 
 fn pz {
     use str
-    if (is-os "void") {
+    if (== 0 (is-os "void")) {
         echo "You are using void"
         void-package-query
-    } elif (is-os "arch") {
+    } elif (== 0 (is-os "arch")) {
         echo TODO
-    } elif (is-os "endeavouros") {
+    } elif (== 0 (is-os "endeavouros")) {
         echo TODO
   }
 }
