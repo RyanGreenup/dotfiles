@@ -36,6 +36,15 @@ Nix has been removed:
   + Broke R, regardless of whether R wis installed through =nix= or =xbps=
     + xml2 and other packages would not install correctly
   + Broke the integrated terminal in VSCode and Neovim
+
+Nonetheless, this was the config I was using:
+
+#+begin_src fish :tangle no
+set PATH $PATH $HOME/.nix-profile/bin/
+for dir in (ls "/nix/var/nix/profiles/per-user/")
+    set XDG_DATA_DIRS $XDG_DATA_DIRS:/nix/var/nix/profiles/per-user/$dir/profile/share/
+end
+#+end_src
 * Environment variables
 #+begin_src fish
 # Set Default Editor to Emacs
