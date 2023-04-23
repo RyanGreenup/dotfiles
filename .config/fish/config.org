@@ -170,7 +170,11 @@ if status is-interactive
 end
 #+end_src
 ** Atuin
-#+begin_src fish
+Atuin is not used as it caused the shell to stutter and lag. Atuin is very slow
+to initialize and fish will auto-suggest history. The suspicion arises, that
+this history suggestion, with Atuin, induces stutter.
+
+#+begin_src fish :tangle no
 if status is-interactive
     set -gx ATUIN_NOBIND "true"
     atuin init fish | source
