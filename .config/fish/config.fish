@@ -19,8 +19,10 @@ set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 export VISUAL=nvim
 export EDITOR=nvim
 
-export LIBTORCH=/opt/libtorch
-export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+if test -d /opt/libtorch
+    export LIBTORCH=/opt/libtorch
+    export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+end
 
 function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;

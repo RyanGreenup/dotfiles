@@ -55,9 +55,16 @@ export EDITOR=nvim
 #+end_src
 ** Editor
 ** Torch
+If using =tch-rs= and CUDA it is necessary to download =libtorch= manually.
+
+If not using CUDA don't use this, it should only run if =/opt/libtorch= exists
+as a directory, if it inadvertently runs use =set -e LIBTORCH= to unset the
+variable before running a =tch= project.
 #+begin_src fish
-export LIBTORCH=/opt/libtorch
-export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+if test -d /opt/libtorch
+    export LIBTORCH=/opt/libtorch
+    export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+end
 #+end_src
 * Alias
 ** Vim
