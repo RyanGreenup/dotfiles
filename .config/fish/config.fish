@@ -1,4 +1,5 @@
 # Set PATH
+set PATH /usr/local/bin/            $PATH
 set PATH $HOME/.local/bin           $PATH
 set PATH $HOME/bin                  $PATH
 set PATH $HOME/.cargo/bin           $PATH
