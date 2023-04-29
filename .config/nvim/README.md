@@ -5,6 +5,10 @@ It's Lua Based
 
 ## Considerations
 
+### Julia
+
+See [[./julia_images.md]].
+
 ### Snippets
 
 I went with:
