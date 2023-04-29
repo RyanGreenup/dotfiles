@@ -7,7 +7,7 @@ It's Lua Based
 
 ### Julia
 
-See [[./julia_images.md]].
+See [Julia Sys Images](./julia_images.md).
 
 ### Snippets
 
