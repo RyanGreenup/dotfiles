@@ -262,6 +262,10 @@ function void_query_packages
             'xbps-query -S {} || echo No Info Available'
 end
 
+function arch_pz
+    pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv
+end
+
 function pz --description 'Fuzzy Find to preview and install packages'
     switch (get_os)
     case 'void'
@@ -269,7 +273,9 @@ function pz --description 'Fuzzy Find to preview and install packages'
             doas xbps-install $packages
         end
     case 'arch'
-        pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $argv
+        arch_pz
+    case 'endeavouros'
+        arch_pz
     case "*"
         echo "Operating System $os is not configured"
     end
