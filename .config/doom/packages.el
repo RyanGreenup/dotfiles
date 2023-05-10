@@ -63,6 +63,8 @@
 
 ;; Fish
 (package! fish-mode)
+(package! elvish-mode)
+(package! ob-elvish)
 ;; Tree Sitter
 ;; Implements Tree-Sitter
 (package! tree-sitter)
@@ -83,3 +85,8 @@
 (package! calfw)
 (package! calfw-cal)
 (package! calfw-org)
+
+;; Rust and DAP
+(package! dap-mode)
+;; This is seemingly needed
+(require 'dap-cpptools)

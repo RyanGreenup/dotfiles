@@ -86,7 +86,11 @@
        :tools
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
-       debugger          ; FIXME stepping through code, to help you add bugs
+       (debugger          ; FIXME stepping through code, to help you add bugs
+
+          ;; Add DAP for Rust
+          +lsp)
+
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
