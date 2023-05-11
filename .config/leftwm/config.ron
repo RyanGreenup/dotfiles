@@ -60,7 +60,7 @@ window_rules: [
   // windows whose WM_CLASS is "Element" will be spawn on tag 8 (by position, 1-indexed)
   ( window_class: "Element", spawn_on_tag: 8 ),
   // windows whose window title is "Pentablet" will be spawned floating on tag 9
-  ( window_title: "Pentablet", spawn_on_tag: 9, spawn_floating: true ),
+  // ( window_title: "Pentablet", spawn_on_tag: 9, spawn_floating: true ),
   // windows whose WM_CLASS matches "*.app_2.*" regular expression will be spawn on tag 2
   ( window_title: "*.py*", spawn_on_tag: 2 ),
 ],
