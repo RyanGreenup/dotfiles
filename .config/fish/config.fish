@@ -14,6 +14,8 @@ set PATH $PATH $HOME/Applications/AppImages/bin/
 set PATH $PATH /var/lib/flatpak/exports/bin/
 set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 
+set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
+
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 export VISUAL=nvim

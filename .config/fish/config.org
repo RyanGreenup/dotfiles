@@ -31,6 +31,16 @@ set PATH $PATH $HOME/Applications/AppImages/bin/
 set PATH $PATH /var/lib/flatpak/exports/bin/
 set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 #+end_src
+** Neovim
+I use [[https://github.com/williamboman/mason.nvim#setup][Mason]] with Neovim and so it's necessary to add that to the path:
+
+#+begin_src fish
+set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
+#+end_src
+
+Mason probably isn't needed for something like [[https://wiki.archlinux.org/][arch]] where utilities like [[https://archlinux.org/packages/community/any/pyright/][pyright]]
+and [[https://archlinux.org/packages/community/x86_64/tree-sitter/][treesitter-fish]] are packaged, but on something like [[https://voidlinux.org/][void]] it's pretty
+helpful.
 ** Nix
 Nix has been removed:
 
