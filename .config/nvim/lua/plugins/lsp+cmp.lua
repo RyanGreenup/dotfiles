@@ -125,7 +125,7 @@ require 'lspconfig'.lua_ls.setup {
 local servers = {
     'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
     'dotls', 'gopls', 'java_language_server', 'jsonls',
-    'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'quick_lint_js',
+    'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'quick_lint_js',
     'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
     'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols'
 }
