@@ -32,7 +32,6 @@ cmd [[
 -----------------------------------------------------------
 opt.number = true -- show line number
 opt.showmatch = true -- highlight matching parenthesis
-opt.foldmethod = 'indent' -- enable folding (default 'foldmarker')
 opt.foldlevelstart = 99   -- Open everything up at first
 opt.colorcolumn = '80' -- line lenght marker at 80 columns
 opt.splitright = true -- vertical split to the right
@@ -41,7 +40,13 @@ opt.ignorecase = true -- ignore case letters when search
 opt.smartcase = true -- ignore lowercase for the whole pattern
 opt.linebreak = true -- wrap on word boundary
 opt.autoread = true -- Automatically reload files
+opt.relativenumber = true -- Relative numbers
 cmd [[ set modelineexpr ]] -- See vim modeline vulnerability 2019
+
+-- Folding
+opt.foldmethod = "expr" -- fold based on Syntax
+opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use Treesitter for folding syntax
+opt.foldlevel = 99 -- Start with everything unfolded
 
 -- remove whitespace on save
 cmd [[au BufWritePre * :%s/\s\+$//e]]
