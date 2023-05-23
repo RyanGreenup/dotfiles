@@ -1,10 +1,10 @@
 #!/bin/bash
 # see  the working directory ~/Studies/programming/mediawiki/fzfTitle/sk_mediawiki.bash
 
-SERVER_DIR="/srv/http/"
-DB="${SERVER_DIR}/mediawiki/data/my_wiki.sqlite"
-IP="localhost"
-PORT="80"
+SERVER_DIR="/home/ryan/Applications/Docker/"
+DB="${SERVER_DIR}mediawiki/sqlite_db/my_wiki.sqlite"
+IP="vale"
+PORT="8076"
 
 # Query the user for a page name from wiki (and show preview with bat)
 page_name="$(
@@ -23,5 +23,5 @@ page_name="$(
            )"
 
 
-firefox "http://${IP}:${PORT}/mediawiki/index.php/${page_name}" & disown
+firefox "http://${IP}:${PORT}/index.php/${page_name}" & disown
 
