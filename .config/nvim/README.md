@@ -39,3 +39,15 @@ Again this isn't as clean as using:
 
 but the tex snippets are that good, difficult to reimplement and i'm familiar with the ultisnips package so
 I'll leave well enough alone there for the moment.
+
+### Treesitter and VimTex
+
+### Why Snippy
+
+### Problems with LuaSnip
+
+### Ultisnips and vimtex
+
+in theory could be done with snippy (or luasnip) and lua based config.
+
+using ultisnips means vim+nvim are fine and no need to rewrite config.
