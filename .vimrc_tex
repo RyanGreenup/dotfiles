@@ -1,0 +1,36 @@
+"""" Vim-Plug
+
+" Set up if not already installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+call plug#begin('~/.vim/plugged')
+Plug 'lervag/vimtex'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+
+" Autosave
+Plug '907th/vim-auto-save'
+call plug#end()
+
+let g:UltiSnipsJumpForwardTrigger="<A-l>"
+let g:UltiSnipsExpandTrigger="<A-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<A-h>"
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/UltiSnips']
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+map <Space> <Leader>
+let vimtex_view_method='zathura'
+
+" Compile latex
+autocmd BufEnter *.tex :map <leader>v  :VimtexCompile<CR>
+
