@@ -43,17 +43,19 @@
     */
     max_window_width:          None,
     layout_mode:               Tag,
-    insert_behavior:           Top,
+    insert_behavior:           Bottom,
     disable_current_tag_swap:  false,
     disable_tile_drag:         false,
     focus_behaviour:           Sloppy,
     focus_new_windows:         true,
     scratchpad: [
         ( name:  "Alacritty", // This is the name which is referenced when calling (case-sensitive)
-          value: "tmux list-sessions | grep scratchpad && alacritty -e tmux attach -t scratchpad || alacritty -e tmux new -t  scratchpad", // The command to load the application if it isn't started (first application to start)
+         value: "alacritty", spawn_floating: true,
+
+          // The command to load the application if it isn't started (first application to start)
           // x, y, width, height are in pixels when an integer is inputted or a percentage when a float is inputted.
           // These values are relative to the size of the workspace, and will be restricted depending on the workspace size.
-          x: 860, y: 390, height: 300, width: 200, spawn_floating: true
+          x: 50.0, y: 50.0, height: 600, width: 900,
         ),
     ],
 window_rules: [
