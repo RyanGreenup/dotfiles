@@ -1,0 +1,8 @@
+#!/bin/sh
+# Start php-fpm
+/bin/php-fpm -y "$HOME/Notes/.caddy/phpfpm.conf"
+
+rm log_stdout log_stderr
+# Start Caddy
+exec /bin/caddy run --config "$HOME/Notes/.caddy/Caddyfile" \
+    >> log_stdout 2>> log_stderr
