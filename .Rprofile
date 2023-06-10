@@ -27,6 +27,6 @@ setHook(
     packageEvent("grDevices", "onLoad"),
     function(...) grDevices::X11.options(type = "cairo")
 )
-options(device = "x11")
+# options(device = "x11") # NOTE may need to remove this for  Jupyter under Runit
 ## https://stackoverflow.com/a/22915279
 options(bitmapType="cairo")
