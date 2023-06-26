@@ -64,6 +64,10 @@ end
 export VISUAL=nvim
 export EDITOR=nvim
 #+end_src
+** Void Specific
+#+begin_src fish
+export SVDIR=$HOME/.local/service
+#+end_src
 ** Editor
 ** Torch
 If using =tch-rs= and CUDA it is necessary to download =libtorch= manually.

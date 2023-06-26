@@ -22,6 +22,8 @@ set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
 export VISUAL=nvim
 export EDITOR=nvim
 
+export SVDIR=$HOME/.local/service
+
 if test -d /opt/libtorch
     export LIBTORCH=/opt/libtorch
     export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
