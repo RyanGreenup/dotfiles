@@ -301,7 +301,7 @@ function gd
     git --work-tree $HOME --git-dir $dotfiles_dir $argv
 end
 function gdui
-    gitui --polling -w $HOME -d $dotfiles_dir
+    gitui -w $HOME -d $dotfiles_dir
 end
 
 # Create keybindings
