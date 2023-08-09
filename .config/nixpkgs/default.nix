@@ -17,6 +17,7 @@ in
         libxml2
         libxml2.dev
         libxslt
+        # I don't think I need the stringi one
         rPackages.stringi
       ];
 
@@ -44,13 +45,18 @@ in
           stringi
         ];
       };
-      R_with_my_packages = rWrapper.override {packages = with rPackages; [ggplot2 dplyr xts xml2 IRkernel ggplot2 tidyverse igraph rtweet rtoot languageserver quarto knitr rmarkdown reshape2 png reticulate];};
+      R_with_my_packages = rWrapper.override {packages = with rPackages; [ggplot2 dplyr xts xml2 IRkernel ggplot2 tidyverse igraph rtweet rtoot languageserver quarto knitr rmarkdown reshape2 png reticulate stringi];};
     in [
       # evcxr # [fn_evcxr_jup]
       rustup
+      shellcheck
       # [fn_python]
+      pipenv
       (python3.withPackages (ps: [
         # Jupyter
+        ps.isort
+        ps.pytest
+        ps.nose # nosetests
         ps.jupyter
         ps.jupyterlab
         ps.pip
@@ -68,6 +74,9 @@ in
       # alacritty # Doesn't work because nvidia
       zellij
       broot
+      starship
+      du-dust
+      diskonaut
       tealdeer
       fd
       firefox
@@ -119,9 +128,15 @@ in
           ];
       })
       */
+      marktext
+      qbittorrent
+      zettlr
       keepassxc
       bukubrow
       element-desktop
+      discord
+      teams
+      ferdium
       # rocketchat-desktop # No matrix support to be found
       thunderbird
       # fluffychat # doesn't work
@@ -152,6 +167,9 @@ in
       quarto
       fira-code
       fira
+      zathura
+      texstudio
+      lyx
       # [fn_yet_to_test]
       # mathematica
       # octave
@@ -162,6 +180,25 @@ in
 
       dwmblocks
       lxsession
+
+      i3-rounded
+      i3lock-blur
+      i3blocks
+      i3-auto-layout
+      picom
+
+      libstdcxx5
+
+      go
+      gopls
+      gore
+      gotests
+      gotools
+      gomodifytags
+
+      dmenu
+      rofi
+      rofi-calc
 
       # leftwm # Broken window maximise on old version, newest version is available through cargo
 
@@ -265,4 +302,15 @@ in
 # Installing extensions is fine
 
 
+## Notes on Virtual environments
 
+## When there are multiple python versions installed, the virtual environment
+## will call the python that it was created with NOT the python that is in the
+## path. If a library error occures (e.g. missing libstdc++.so.6) that is likely
+## a nix issue, so make a different virtual environment for the gentoo python, e.g.:
+##
+##
+## ```
+## /usr/bin/python -m venv /home/ryan/.local/share/virtualenvs/default_gentoo
+## $HOME/.nix-profile/bin/python -m venv /home/ryan/.local/share/virtualenvs/default_nix
+## ```
