@@ -106,6 +106,7 @@ in
       emacs29
       neovim
       neovide
+      marksman
       vscode # Free to install extensions through interface
       # Switching preserves previously installed packages
       # vscode-with-extensions # Must manage extensions through nix exclusively
@@ -168,6 +169,7 @@ in
       fira-code
       fira
       zathura
+      calibre
       texstudio
       lyx
       # [fn_yet_to_test]
@@ -199,6 +201,9 @@ in
       dmenu
       rofi
       rofi-calc
+
+      arandr
+
 
       # leftwm # Broken window maximise on old version, newest version is available through cargo
 
