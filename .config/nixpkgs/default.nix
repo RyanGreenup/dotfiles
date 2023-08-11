@@ -65,7 +65,7 @@ in
         ps.async-lru
         # Essentials
         ps.numpy
-        ps.polars
+        # ps.polars # Often fails, slow to compile, just use pip in venv
         ps.pandas
         ps.matplotlib
         ps.seaborn
