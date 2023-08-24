@@ -56,6 +56,10 @@ function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
     xclip -selection clipboard $argv
 end
 
+function bn
+    python bulk_rename.py
+end
+
 ## Easy weather
 function wtr
     # TODO put a test of age in here

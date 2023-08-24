@@ -118,6 +118,14 @@ function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
 end
 
 #+end_src
+** File Rename
+An simple way to bulk-rename files without relying on =vimv=, =brn= or =ranger=:
+
+#+begin_src fish
+function bn
+    python bulk_rename.py
+end
+#+end_src
 ** Weather
 #+begin_src fish
 ## Easy weather
