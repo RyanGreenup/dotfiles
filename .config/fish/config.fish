@@ -17,6 +17,9 @@ set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 
 set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
 
+export QT_XCB_GL_INTEGRATION=none
+# <https://github.com/NixOS/nixpkgs/issues/169630>
+
 # Set Default Editor to Emacs
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 export VISUAL=nvim
@@ -57,7 +60,7 @@ function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
 end
 
 function bn
-    python bulk_rename.py
+    bulk_rename.py
 end
 
 ## Easy weather
