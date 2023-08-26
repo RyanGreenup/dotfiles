@@ -27,6 +27,8 @@ export EDITOR=nvim
 
 export SVDIR=$HOME/.local/service
 
+export PKG_CONFIG_PATH="/usr/lib64/pkgconfig/"
+
 if test -d /opt/libtorch
     export LIBTORCH=/opt/libtorch
     export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
@@ -235,9 +237,9 @@ function nfm
   ~/.local/bin/mediawikisearch.bash
 end
 
-function nn
-    note_taking new -d "$__notes_dir"
-end
+# function nn
+#     note_taking new -d "$__notes_dir"
+# end
 
 function nno
     echo "Enter note Title:"
@@ -255,6 +257,29 @@ function nnm
     set file (readlink -f "$__notes_dir/pages/$title.md") # use readlink to clean path
     echo "# $title" >> $file
     $EDITOR $file
+end
+
+function nn
+    # note_taking new -d "$__notes_dir"
+
+    # TODO wrap this into the go program
+    # The difference is the use of directories rather than namespaces
+    set file (mktemp)
+    echo "Type the title of the Note:"
+    cd ~/Notes/slipbox
+    set dir (fd -t d | fzf || echo ".")
+    nvim $file
+    set title (tr -d '\n' < $file)
+    set title (echo $title | tr -d '/' )
+    set filename (echo $title | tr '[:upper:]' '[:lower:]' | sed -e 's#\.#-#g'  -e 's# #-#g' -e 's#$#.md#')
+    set filename (echo $dir/$filename)
+    if test -f $filename
+        nvim $filename
+    else
+        echo $title | sed 's!^!# !' >> $HOME/Notes/slipbox/$filename
+    end
+    nvim $filename
+    rm $file
 end
 
 # ..............................................................................
