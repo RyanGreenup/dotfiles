@@ -119,6 +119,14 @@
   (evil-window-vsplit nil nil)
   (evil-window-vsplit nil nil)
   (evil-goto-first-line nil)
+;;;; Agenda Custom Commands
+;; https://stackoverflow.com/questions/17003338/emacs-org-mode-how-to-find-all-todos-that-dont-have-a-deadline-specified
+ (setq org-agenda-custom-commands
+       `(;; match those tagged with :inbox:, are not scheduled, are not DONE.
+         ("is" "Unscheduled tasks" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
+         ("id" "No Deadline" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
+         )
+       )
   ;; (org-agenda-toggle-time-grid)
   (require 'follow)
   (follow-redraw))
@@ -383,3 +391,8 @@
 
 (map!
      "C-c v"    #'my/open-current-file-in-vim)
+
+
+
+
+
