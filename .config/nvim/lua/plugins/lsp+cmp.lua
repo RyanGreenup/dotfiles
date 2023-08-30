@@ -124,11 +124,23 @@ require 'lspconfig'.lua_ls.setup {
 
 local servers = {
     'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
-    'dotls', 'gopls', 'java_language_server', 'jsonls',
-    'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'quick_lint_js',
+    'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
+    'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
     'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
     'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols'
 }
+
+local python_servers = {
+  'pylsp',        -- This is the main one, formatting requires it
+  'pyright',      -- This performs type checking and static analysis
+  'ruff_lsp'      -- This is like pyright but with less Microsoft
+}
+
+for _, s in pairs(python_servers) do
+  table.insert(servers, s)
+end
+
+
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
       on_attach = on_attach,
