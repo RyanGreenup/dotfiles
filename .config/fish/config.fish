@@ -114,6 +114,14 @@ function tt
     grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
 end
 
+function ws
+    ~/.local/bin/mediawiki_firefox_search.sh $argv
+end
+
+function nsw
+    ~/.local/bin/mediawikisearch.bash
+end
+
 if status is-interactive
     broot --print-shell-function fish | source
 end
