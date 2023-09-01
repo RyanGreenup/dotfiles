@@ -127,7 +127,8 @@ local servers = {
     'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
     'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
     'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
-    'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols'
+    'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
+    'spectral', 'rome', 'jsonls', 'html'
 }
 
 local python_servers = {
