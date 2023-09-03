@@ -57,21 +57,6 @@ map('n', '<C-x><C-b>', '<cmd>Telescope buffers<cr>', default_opts)
 map('n', '<C-x>b', '<cmd>Telescope buffers<cr>', default_opts)
 -- Change Directory to File
 -- Copy File path
--- Ultisnips (More ergonomic
-vim.cmd [[
-  " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-  " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-  " -1 for jumping backwards.
-  inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-
-  snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-  snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-
-  " For changing choices in choiceNodes (not strictly necessary for a basic setup).
-  imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-  smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-]]
 
 -----------------------------------------------------------
 -- Applications & Plugins shortcuts:
@@ -221,6 +206,11 @@ function Make_floating(t)
 end
 -- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
 
-
-
-
+-- Keybindings for Snippy
+vim.cmd [[
+imap <expr> <Tab> snippy#can_expand_or_advance() ? '<Plug>(snippy-expand-or-advance)' : '<Tab>'
+imap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
+smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>'
+smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
+xmap <Tab> <Plug>(snippy-cut-text)
+]]

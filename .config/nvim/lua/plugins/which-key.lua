@@ -63,7 +63,7 @@ wk.register({
         },
         o = {
             name = "+open",
-            s = { "<cmd>cd ~/.config/nvim/LuaSnip/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
+            s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
             n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
         },
         s = {
@@ -112,7 +112,6 @@ wk.register({
         },
         i = {
             name = "insert",
-            s = { "<cmd>Telescope luasnip<CR>", "Snippet" },
             u = { "<cmd>Telescope symbols<CR>", "Symbols" },
         },
         w = {
