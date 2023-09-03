@@ -13,7 +13,17 @@ in
     paths = with pkgs; let
       # igraph is slow!
       # [fn_r_xml2]
+      nativeBuildInputs = [
+        fontconfig
+      ];
       buildInputs = [
+        fontconfig # Required for rust plotters package
+        openssl
+        openssl.dev
+        libpng
+        libpng.dev
+        curl
+        curl.dev
         libxml2
         libxml2.dev
         libxslt
@@ -22,36 +32,50 @@ in
       ];
 
       # [fn_rstudio]
-      rstudioEnv = rstudioWrapper.override {
-        packages = with rPackages; [
-          ggplot2
-          dplyr
-          xts
-          xml2
-          IRkernel
-          ggplot2
-          tidyverse
-          igraph
-          rtweet
-          rtoot
-          languageserver
-          languageserversetup
-          quarto
-          knitr
-          rmarkdown
-          reshape2
-          png
-          reticulate
-          stringi
-        ];
-      };
-      R_with_my_packages = rWrapper.override {packages = with rPackages; [ggplot2 dplyr xts xml2 IRkernel ggplot2 tidyverse igraph rtweet rtoot languageserver quarto knitr rmarkdown reshape2 png reticulate stringi];};
+# I had to comment it all out because it was incompatible with the forecast package
+
+     #  rstudioEnv = rstudioWrapper.override {
+     #    packages = with rPackages; [
+     #      curl
+     #      forecast # [fn_forecast]
+     #      xts
+     #      ggplot2
+     #      dplyr
+     #      xts
+     #      xml2
+     #      IRkernel
+     #      ggplot2
+     #      tidyverse
+     #      igraph
+     #      rtweet
+     #      rtoot
+     #      languageserver
+     #      languageserversetup
+     #      quarto
+     #      knitr
+     #      rmarkdown
+     #      reshape2
+     #      png
+     #      reticulate
+     #      stringi
+     #      DBI
+     #      RSQLite
+     #    ];
+     #  };
+     #  R_with_my_packages = rWrapper.override {packages = with rPackages; [curl forecast ggplot2 dplyr xts xml2 IRkernel ggplot2 tidyverse igraph rtweet rtoot languageserver quarto knitr rmarkdown reshape2 png reticulate stringi xts];};
     in [
       # evcxr # [fn_evcxr_jup]
-      rustup
+      # rustup # not-compatible with plotters because of fontconfig dep
+             # not compatible with monolith because of openssl dep
+      # pkg-config # needed for plotters
+      # fontconfig
+      # freetype
       shellcheck
       # [fn_python]
       pipenv
+      # Python with nix prevented pycharm from using virtual environments
+      # [fn_pycharm]
+      /*
       (python3.withPackages (ps: [
         # Jupyter
         ps.isort
@@ -70,17 +94,24 @@ in
         ps.matplotlib
         ps.seaborn
       ]))
+      */
       # jupyter
       # alacritty # Doesn't work because nvidia
       zellij
       broot
+      sd
+      bottom
+      htop
       starship
       du-dust
       diskonaut
       tealdeer
       fd
       firefox
+      qutebrowser
+      socat
       # librewolf-unwrapped # bukubrow requires native messaging, won't work through nix, likely keepass also
+      vlc
       brave
       tmux
       syncthing
@@ -90,22 +121,30 @@ in
       openssl.dev
       pandoc
       # R # [fn_R_packages]
-      R_with_my_packages # [fn_R] [fn_knitr]
+      # R_with_my_packages # [fn_R] [fn_knitr]
       texlive.combined.scheme-full # SLOW
       pandoc
+
+      ## Office Software
+      libreoffice
+      gnumeric
+      # calligra
+      # sqlitebrowser
+      # sqlman
 
       xml2
       libxml2
       pkg-config
       lz4
-      jetbrains.pycharm-professional
-      jetbrains-toolbox
+      # jetbrains.pycharm-professional # Virtual Environments will not activate if either this or python installed via nix, unsure why
+      # [fn_pycharm]
+      # jetbrains-toolbox # This also doesn't work
       jetbrains.clion
 
 
       emacs29
-      neovim
-      neovide
+      # neovim # Some issues with libstc++ for org-mode. Just use .appImage or repo
+      # lua
       marksman
       vscode # Free to install extensions through interface
       # Switching preserves previously installed packages
@@ -164,12 +203,14 @@ in
       alejandra
 
       # rstudio
-      rstudioEnv
+      # rstudioEnv
       quarto
       fira-code
       fira
       zathura
+      rclone
       calibre
+      zotero
       texstudio
       lyx
       # [fn_yet_to_test]
@@ -178,11 +219,11 @@ in
       # cantor
       julia-bin
       geogebra
-      lua
 
       dwmblocks
       lxsession
 
+      polybar
       i3-rounded
       i3lock-blur
       i3blocks
@@ -203,6 +244,11 @@ in
       rofi-calc
 
       arandr
+      wmctrl
+      xdotool
+
+      # php # doesn't work with composer
+      caddy
 
 
       # leftwm # Broken window maximise on old version, newest version is available through cargo
@@ -275,7 +321,20 @@ in
 # [fn_knitr]
 # > To knit a .Rmd file to a pdf (or .Rnw), you need to have included in your envronment pkgs.texlive.combined.scheme-fullas well as pandoc or it will fail to knit. None of the other texlive packages contain the proper "frame" package.
 # > there are likely other workarounds but this requires the least effort.
+#
 
+/*
+[fn_pycharm]
+
+I would load pycharm, load a virtual environment and it would non-stop complain
+about missing packages. Trying to install thosepackages would result in pycharm
+trying to install them under /nix which is not supposed to happen. It would simply
+bypass the virtualenvironment.
+This behaviour persisted even when trying to use an external jupyter server that was running under a virtual
+environment that had been established using /usr/bin/python (a concurrent native python).
+Installing dataspell under /opt/ or ~/Downloads worked fine if and only if python
+was not installed via nix.
+*/
 
 ################################################################################
 ## README ######################################################################
@@ -319,3 +378,25 @@ in
 ## /usr/bin/python -m venv /home/ryan/.local/share/virtualenvs/default_gentoo
 ## $HOME/.nix-profile/bin/python -m venv /home/ryan/.local/share/virtualenvs/default_nix
 ## ```
+
+## [fn_forecast]
+## If using a local package library, I found this didn't work installed via
+## nix, just note you may need to istall curl through R manually which requires
+## the libraries for curl to be installed
+##
+## ```
+## Configuration failed because libcurl was not found. Try installing:
+##  * deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)
+##  * rpm: libcurl-devel (Fedora, CentOS, RHEL)
+## If libcurl is already installed, check that 'pkg-config' is in your
+## PATH and PKG_CONFIG_PATH contains a libcurl.pc file. If pkg-config
+## is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
+## R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
+## -------------------------- [ERROR MESSAGE] ---------------------------
+## <stdin>:1:10: fatal error: curl/curl.h: No such file or directory
+## compilation terminated.
+## ```
+##
+##
+## equery b libcurl.so.4
+## doas emerge net-misc/curl-8.2.1
