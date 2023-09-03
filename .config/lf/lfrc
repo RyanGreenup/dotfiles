@@ -111,6 +111,19 @@ map gs :fzf_search
 cmd yank-path $printf '%s' "$fx" | xclip -i -selection clipboard
 map Y :yank-path
 
+cmd make-directory ${{
+    echo "\n Making a new dir. \n"
+    read -p "Enter directory name: " x
+    mkdir "${x}"
+}}
+cmd make-file ${{
+    echo "\n Making a new file. \n"
+    read -p "Enter file name: " x
+    touch "${x}"
+}}
+map \.md :make-directory
+map \.mf :make-file
+
 # Task Management stuff
 ## Toggle Tasks
 map od ${{
