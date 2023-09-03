@@ -3,3 +3,4 @@ private_dot_config/fish/conf.d/omf.fish
 .config/qutebrowser/styles/dracula/__pycache__/__init__.cpython-310.pyc
 .config/qutebrowser/styles/dracula/__pycache__/draw.cpython-310.pyc
 .config/qutebrowser/styles/dracula/__pycache__/draw.cpython-310.pyc
+.config/nvim/plugin/packer_compiled.lua
