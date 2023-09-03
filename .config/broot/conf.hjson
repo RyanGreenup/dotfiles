@@ -186,7 +186,7 @@
         # This skin is imported when your terminal is light
 		{
 			luma: light
-			file: white-skin.hjson
+			file: ./skins/white.hjson
 		}
 	]
 }
