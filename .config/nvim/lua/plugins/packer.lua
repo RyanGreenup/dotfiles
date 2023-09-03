@@ -22,10 +22,8 @@ return require('packer').startup(function(use)
         highlight = {
           enable = true,
 
-          disable = { 'latex', 'tex' }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-          -- Vimtex highlighting is needed for mathematics with ultisnips though,
-          -- otherwise the math environment won't be detected by the math() function
-          -- Hence ignore latex environments so it still works.
+          -- [fn_math_highlighting]
+          -- disable = { 'latex', 'tex' }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
           additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
         ensure_installed = { 'org' },                    -- Or run :TSUpdate org
@@ -152,14 +150,14 @@ return require('packer').startup(function(use)
       -- The Tab Mapping seems not to stick, I set the keybindings in
       -- ~/.config/nvim/lua/keymaps.lua | 209
       -- [fn_vimtex]
-      expand_options = {
-        m = function()
-          return vim.fn["vimtex#syntax#in_mathzone"]() == 1
-        end,
-        c = function()
-          return vim.fn["vimtex#syntax#in_comment"]() == 1
-        end,
-      }
+      -- expand_options = {
+      --   m = function()
+      --     return vim.fn["vimtex#syntax#in_mathzone"]() == 1
+      --   end,
+      --   c = function()
+      --     return vim.fn["vimtex#syntax#in_comment"]() == 1
+      --   end,
+      -- }
     })
   end }
   -- Search Matching
@@ -293,7 +291,7 @@ end)
 
 
 --[[
-[fn_vimtex]
+[fn_vimtex] ...................................................................
 
 These expand options allow snippy to detect mathsones from the vimtex
 extension [^l180]. This requires the use of vimtex, rather than treesitter though (see [^41757]
@@ -301,4 +299,17 @@ extension [^l180]. This requires the use of vimtex, rather than treesitter thoug
 [^l180]: https://github.com/dcampos/nvim-snippy/blob/master/doc/snippy.txt#L179C5-L186C6
 [^41757]: https://vi.stackexchange.com/questions/41749/vimtexsyntaxin-mathzone-with-tree-sitter-and-texlab/41757#41757
 
+I had to disable this because of some crazy performance issues with texlab
+
+[fn_math_highlighting] ........................................................
+Vimtex highlighting is needed for mathematics with ultisnips,
+otherwise the math environment won't be detected by the math() function
+Hence ignore latex environments so it still works.
+
+Snippy with the Auto and math mode check is way too slow, there's clearly a bug
+LuaSnip is way too complex to configure and maintain
+UltiSnips is too slow generally and a PITA when moving between Virtual Environments
+
+In the interests of simplicity, I'm going to abandan mathzone snippets and just
+configure a set of auto-snippets that are non-ambiguous, it's simpler.
 --]]
