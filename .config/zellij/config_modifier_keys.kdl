@@ -1,0 +1,29 @@
+// If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
+keybinds {
+    // https://zellij.dev/documentation/keybindings-binding
+    unbind "Ctrl p"
+    unbind "Ctrl g"
+
+    normal {
+        // uncomment this and adjust key if using copy_on_select=false
+        // bind "Alt c" { Copy; }
+        bind "Ctrl q" { SwitchToMode "locked"; }
+        unbind "Ctrl p"
+        bind "Ctrl a" { SwitchToMode "pane"; }
+        bind "F8" { ToggleFloatingPanes; }
+        bind "f" { ToggleFloatingPanes; }
+    }
+    locked {
+        bind "Delete" { SwitchToMode "Normal"; }
+        bind "Ctrl q" { SwitchToMode "normal"; }
+    }
+    shared_except "locked" {
+        bind "Delete" { SwitchToMode "Locked"; }
+    }
+    shared_except "locked" {
+        bind "Delete" { SwitchToMode "Locked"; }
+    }
+    tmux {
+        bind "x" { CloseFocus; SwitchToMode "Normal"; }
+    }
+}

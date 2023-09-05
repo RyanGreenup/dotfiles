@@ -1,0 +1,51 @@
+// If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
+keybinds {
+    // https://zellij.dev/documentation/keybindings-binding
+    unbind "Ctrl p"
+    unbind "Ctrl g"
+
+    normal {
+        bind "f" { ToggleFloatingPanes; }
+        bind "h" { MoveFocus "Left"; }
+        bind "j" { MoveFocus "Down"; }
+        bind "l" { MoveFocus "Right"; }
+        bind "k" { MoveFocus "Up"; }
+
+
+        bind "H" { MovePane "Left"; }
+        bind "J" { MovePane "Down"; }
+        bind "K" { MovePane "Up"; }
+        bind "L" { MovePane "Right"; }
+
+        bind "t" { NewTab "Right"; }
+        bind "y" { NextSwapLayout; }
+
+        bind "p" { GoToNextTab; }
+        bind "n" { GoToPreviousTab; }
+
+        bind "d" { Detach; }
+        bind "x" { CloseFocus; }
+
+        bind "a" { NewPane "Right"; }
+
+        bind "Up"    { NewPane "Down"; }
+        bind "Down"  { NewPane "Up"; }
+        bind "Left"  { NewPane "Left"; }
+        bind "Right" { NewPane "Right"; }
+
+    bind "e" { EditScrollback; }
+    }
+    locked {
+        bind "Delete" { SwitchToMode "Normal"; }
+        bind "Ctrl q" { SwitchToMode "normal"; }
+        bind "Backspace" { SwitchToMode "normal"; }
+    }
+    shared_except "locked" {
+        bind "Delete" { SwitchToMode "Locked"; }
+        bind "Backspace" { SwitchToMode "Locked"; }
+        bind "Ctrl q" { SwitchToMode "Locked"; }
+    }
+    tmux {
+        bind "x" { CloseFocus; SwitchToMode "Normal"; }
+    }
+}
