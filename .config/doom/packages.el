@@ -86,7 +86,13 @@
 (package! calfw-cal)
 (package! calfw-org)
 
-;; Rust and DAP
-(package! dap-mode)
-;; This is seemingly needed
-(require 'dap-cpptools)
+
+
+;; Anki
+(package! anki-editor)
+
+
+;; ;; Rust and DAP
+;; (package! dap-mode)
+;; ;; This is seemingly needed
+;; (require 'dap-cpptools)
