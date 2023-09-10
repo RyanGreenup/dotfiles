@@ -1,0 +1,9 @@
+#!/bin/sh
+
+dir="$HOME/Sync/"
+cd "${dir}"
+
+rm log_stdout log_stderr
+
+
+exec  rclone serve webdav -L ./ --addr 0.0.0.0:7777 --user ryan --pass h0Dqk5rIDUYOxeksdf8AWaVnNNe0bLJUKzLn >> log_stdout 2>> log_stderr

@@ -1,0 +1,5 @@
+#!/bin/sh
+rm log_stdout log_stderr
+
+exec $HOME/.yarn/bin/markserv $HOME/dendron/notes \
+    >> log_stdout 2> log_stderr
