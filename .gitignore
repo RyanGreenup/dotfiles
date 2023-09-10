@@ -4,3 +4,7 @@ private_dot_config/fish/conf.d/omf.fish
 .config/qutebrowser/styles/dracula/__pycache__/draw.cpython-310.pyc
 .config/qutebrowser/styles/dracula/__pycache__/draw.cpython-310.pyc
 .config/nvim/plugin/packer_compiled.lua
+.config/runit/sv/**/supervise
+**/log_stdout
+**/log_stderr
+**/sv/supervice
