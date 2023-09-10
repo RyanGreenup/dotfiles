@@ -1,3 +1,0 @@
-#!/bin/sh
-rm log_stdout log_stderr
-exec syncthing >> log_stdout 2>> log_stderr
