@@ -23,6 +23,29 @@ gitui -w $HOME -d "${dot_dir}"
 
 ## Dependencies
 
+```bash
+# Make Depends for native fzf
+xbps-install cmake gcc clang
+
+# Fonts
+fonts=""
+# Noto
+fonts="${fonts} nerd-fonts"
+# Noto
+fonts="${fonts} noto-fonts-cjk"
+fonts="${fonts} noto-fonts-emoji"
+fonts="${fonts} noto-fonts-ttf"
+fonts="${fonts} noto-fonts-ttf-extra"
+
+# Awesome
+fonts="${fonts} font-awesome"
+fonts="${fonts} font-awesome5"
+fonts="${fonts} font-awesome6"
+
+
+xbps-install "${fonts}"
+```
+
 Requires Nerdfonts:
 
 | Distro | Source |
