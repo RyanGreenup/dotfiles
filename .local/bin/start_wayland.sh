@@ -20,8 +20,8 @@ main() {
 
 # help function
 usage() {
-    echo "Usage: $0 <arg1> <arg2> ... <argN>"
-    echo "Your meaningful description goes here."
+    echo "Usage: $0 [Hyprland | hikari | sway]"
+    echo "Start a wayland server with all the env vars set and dbus running"
     exit 1
 }
 
