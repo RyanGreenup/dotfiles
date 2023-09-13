@@ -142,7 +142,7 @@ in
       jetbrains.clion
 
 
-      emacs29
+      emacs29-pgtk
       # neovim # Some issues with libstc++ for org-mode. Just use .appImage or repo
       # lua
       marksman
