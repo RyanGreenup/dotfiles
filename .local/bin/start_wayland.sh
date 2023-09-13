@@ -26,20 +26,20 @@ usage() {
 }
 
 nvidia() {
+    #[fn_nvida]
+
+    #[fn_nvidia_reddit]
     # Fix cursors
     export WLR_NO_HARDWARE_CURSORS=1
 
-    # Fix other shit
-    # https://www.reddit.com/r/wayland/comments/13g1b7b/wayland_intel_nvidia/jk1nlcj/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+    # More from [fn_nvidia_reddit]
     ## export VGL_GLLIB=/usr/lib64/nvidia/libGL.so.1
     ## export __NV_PRIME_RENDER_OFFLOAD=1
     ## export __VK_LAYER_NV_optimus=NVIDIA_only
     ## export __GLX_VENDOR_LIBRARY_NAME=nvidia
 
 
-    # These seem to slow down sway and Hikari, unsure about Hyprland
-    # More fix other shit
-    # http://wiki.hyprland.org/Configuring/Environment-variables/#nvidia-specific
+    #[fn_nvidia_hyprland]
     # export LIBVA_DRIVER_NAME=nvidia
     # export GBM_BACKEND=nvidia-drm
     # export __GLX_VENDOR_LIBRARY_NAME=nvidia
@@ -49,11 +49,16 @@ nvidia() {
 }
 
 user_dir() {
-    # Set up XDG_USERS_DIR (assuming no elogind [i.e. using seat])
-    uid=$(id -u)
-    export XDG_USERS_DIR=/tmp/"${uid}"
-    mkdir "$XDG_USERS_DIR"
-    chmod 0700 "$XDG_USERS_DIR"
+    #[fn_usage]
+
+    if test -z "${XDG_RUNTIME_DIR}"; then
+      uid="$(id -u)"
+      export XDG_RUNTIME_DIR=/tmp/"${uid}"-runtime-dir
+        if ! test -d "${XDG_RUNTIME_DIR}"; then
+            mkdir "${XDG_RUNTIME_DIR}"
+            chmod 0700 "${XDG_RUNTIME_DIR}"
+        fi
+    fi
 }
 
 
@@ -67,8 +72,12 @@ keyring() {
     gnome-keyring-daemon -d
 
     # Unlock the keyring
-    # TODO
-    "$HOME"/.local/bin/unlock_keyring.sh
+    if [ -f "$HOME/.local/bin/unlock_keyring.sh" ]; then
+        "$HOME"/.local/bin/unlock_keyring.sh
+    else
+        echo "Error: unlock_keyring.sh does not exist"
+        exit 1
+    fi
 }
 
 notifications() {
@@ -79,4 +88,17 @@ notifications() {
 
 main "@"
 
+#[fn_usage]
+    # Set up XDG_USERS_DIR (assuming no elogind [i.e. using seat])
+    # This isn't needed if on SystemD
+    # Don't put this on zfs (https://docs.freebsd.org/en/books/handbook/wayland/)
+    # Adapted from https://wiki.gentoo.org/wiki/Sway
 
+#[fn_nvidia]
+    # Toggle these arbitrarily :shrug:
+#[fn_nvidia_reddit]
+    # https://www.reddit.com/r/wayland/comments/13g1b7b/wayland_intel_nvidia/jk1nlcj/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+#[fn_nvidia_hyprland]
+    # These seem to slow down sway and Hikari, unsure about Hyprland
+    # More fix other shit
+    # http://wiki.hyprland.org/Configuring/Environment-variables/#nvidia-specific
