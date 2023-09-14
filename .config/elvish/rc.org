@@ -169,6 +169,7 @@ fn gdui {
 #+end_src
 
 ** Packages
+This would be better in a map, however, when I last tried to implement it, optional variables did not work correctly and I spent way too long on it.
 #+begin_src elvish
 fn get-os {
     str:trim-space (cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g')
