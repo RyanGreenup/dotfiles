@@ -138,13 +138,6 @@ set E:PKG_CONFIG_PATH = "/usr/local/opt/icu4c/lib/pkgconfig"
         }
     }
 
-var fzf_dirs = { fd -t d | fzf --height 50% }
-fn c {
-    if (var dir = ($fzf_dirs)) {
-        cd $dir
-    }
-}
-
 eval (zoxide init elvish | slurp)
 
 eval (carapace _carapace|slurp)

@@ -278,39 +278,10 @@ I use the following to change directories quickly in fish, I think I adapted thi
     }
 #+end_src
 
-** fzf key binidngs
-*** Change directories with =c=
-Something similar to fzf keybindings
-
-#+begin_src elvish
-var fzf_dirs = { fd -t d | fzf --height 50% }
-fn c {
-    if (var dir = ($fzf_dirs)) {
-        cd $dir
-    }
-}
-#+end_src
-
-*** TODO Set `$t` as file with =t=
-
-#+begin_src elvish :tangle no
-var fzf_files = { fd | fzf --height 50% }
-fn t {
-    if (set E:t = ($fzf_files)) {
-        printf 't: %s' $E:t
-    }
-}
-#+end_src
-
-
-
 ** Niceness like zoxide
 #+begin_src elvish
 eval (zoxide init elvish | slurp)
 #+end_src
-
-
-
 ** Completions                                                                 :fish:
 I miss the fish completions, this helps:
 
@@ -328,36 +299,6 @@ I also miss the grey auto suggestion but I can't figure mouch out about the edit
   + [[https://github.com/elves/elvish/issues/1053][elves/elvish#1053 Make edit:command-history easier, and faster, to use with t...]]
   + [[https://github.com/elves/elvish/issues/322][elves/elvish#322 fish-like autosuggestion]]
 
-*** TODO Better History
-This was adapted from:
-
-
-  + [[https://github.com/elves/elvish/issues/1053][elves/elvish#1053 Make edit:command-history easier, and faster, to use with t...]]
-  + [[https://github.com/elves/elvish/issues/322][elves/elvish#322 fish-like autosuggestion]]
-
-but I couldn't get it working.
-
-#+begin_src elvish :tangle no
-# Filter the command history through the fzf program. This is normally bound
-# to Ctrl-R.
-fn history {
-  var new-cmd = (
-    edit:command-history &dedup &newest-first &cmd-only |
-    to-terminated "\x00" |
-    try {
-      fzf --no-sort --read0 --layout=reverse --info=hidden --exact ^
-        --query=$edit:current-command
-    } catch {
-      # If the user presses [Escape] to cancel the fzf operation it will exit
-      # with a non-zero status. Ignore that we ran this function in that case.
-      return
-    }
-  )
-  edit:current-command = $new-cmd
-}
-
-edit:insert:binding[Ctrl-R] = []{ history >/dev/tty 2>&1 }
-#+end_src
 * History
 From [[https://github.com/elves/elvish/issues/1053]]
 ** Enter for History
@@ -405,7 +346,7 @@ fn fzf_history {||
 }
 set edit:insert:binding[Ctrl-R] = {|| fzf_history >/dev/tty 2>&1 }
 #+end_src
-* TODO fzf keybindings
+* fzf keybindings
 ** File
 #+begin_src elvish
 fn fzf_files {||
