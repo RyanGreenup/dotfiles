@@ -85,12 +85,14 @@ fn gdui {
 }
 
 fn get-os {
-    cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g' | tr -d '\n'
+    str:trim-space (cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g')
 }
 
 fn is-os { |os|
   str:compare (get-os) $os
 }
+
+
 
 fn void-package-query {
     xbps-query -Rs '' |
