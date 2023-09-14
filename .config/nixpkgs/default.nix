@@ -185,6 +185,7 @@ in
       broot
       lf
       zoxide
+      carapace
       ranger
       sqlitebrowser
       elvish
