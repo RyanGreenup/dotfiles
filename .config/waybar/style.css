@@ -67,6 +67,10 @@ button:hover {
     background-color: #eb4d4b;
 }
 
+#workspaces button.active {
+    background-color: #9468f2;
+}
+
 #mode {
     background-color: #64727D;
     border-bottom: 3px solid #ffffff;
@@ -108,7 +112,7 @@ button:hover {
 }
 
 #clock {
-    background-color: #64727D;
+  font-size: 40px
 }
 
 #battery {
@@ -143,12 +147,9 @@ label:focus {
 }
 
 #cpu {
-    background-color: #2ecc71;
-    color: #000000;
 }
 
 #memory {
-    background-color: #9b59b6;
 }
 
 #disk {
@@ -160,7 +161,6 @@ label:focus {
 }
 
 #network {
-    background-color: #2980b9;
 }
 
 #network.disconnected {
@@ -168,8 +168,6 @@ label:focus {
 }
 
 #pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
 }
 
 #pulseaudio.muted {
@@ -201,7 +199,6 @@ label:focus {
 }
 
 #temperature {
-    background-color: #f0932b;
 }
 
 #temperature.critical {
@@ -222,7 +219,6 @@ label:focus {
 }
 
 #idle_inhibitor {
-    background-color: #2d3436;
 }
 
 #idle_inhibitor.activated {
@@ -285,6 +281,8 @@ label:focus {
     border-radius: 20px;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 11px;
+    font-family: FiraCode Nerd Font
 }
 
 window#waybar.Alacritty {
@@ -292,7 +290,3 @@ window#waybar.Alacritty {
     color: #ffffff;
 }
 
-window#waybar.firefox {
-    background-color: #eeeeee;
-    color: #000000;
-}

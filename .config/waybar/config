@@ -12,12 +12,12 @@
         "custom/media"
     ],
     "modules-center": [
+        "clock",
         "hyprland/window",
         "hyprland/submap"
     ],
     "modules-right": [
         "mpd",
-        "idle_inhibitor",
         "pulseaudio",
         "network",
         "cpu",
@@ -25,16 +25,15 @@
         "temperature",
         "backlight",
         "keyboard-state",
-        "hyprland/language",
         "battery",
         "battery#bat2",
-        "clock",
         "tray"
     ],
     // Modules configuration
     "hyprland/workspaces": {
         "disable-scroll": false,
-        "all-outputs": true,
+        "all-outputs": false,
+        "on-click": "activate",
         "warp-on-scroll": true,
         "format": "{name}: {icon}",
         "format-icons": {
