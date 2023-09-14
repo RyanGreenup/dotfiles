@@ -78,5 +78,6 @@
     "editor.fontLigatures": true,
     "quarto.mathjax.theme": "dark",
     "redhat.telemetry.enabled": false,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "window.zoomLevel": 4
 }

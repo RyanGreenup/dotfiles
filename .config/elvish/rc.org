@@ -205,7 +205,7 @@ var package-query-map = [
         var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
         doas emerge --ask --verbose $@packages
     } else {
-        var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
+        var packages = [(eix -c | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
         doas emerge --ask --verbose $@packages
     }
   }
