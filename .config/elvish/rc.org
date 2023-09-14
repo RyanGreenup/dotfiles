@@ -164,7 +164,7 @@ fn gd {|@args|
 }
 
 fn gdui {
-    gitui --polling -w ~ -d $dotfiles_dir
+    gitui  -w ~ -d $dotfiles_dir
 }
 #+end_src
 
@@ -189,6 +189,16 @@ fn arch-package-query { |argv|
     pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S $@argv
 }
 
+fn gentoo-package-query { |&external_repos=false|
+    if $external_repos {
+        var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
+        doas emerge --ask --verbose $@packages
+    } else {
+        var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
+        doas emerge --ask --verbose $@packages
+    }
+}
+
 fn pz {
     use str
     if (== 0 (is-os "void")) {
@@ -197,7 +207,22 @@ fn pz {
     } elif (== 0 (is-os "arch")) {
         echo TODO
     } elif (== 0 (is-os "endeavouros")) {
-        echo TODO
+        arch-package-query
+    } elif (== 0 (is-os "gentoo")) {
+        gentoo-package-query
+  }
+}
+
+fn pZ {
+    use str
+    if (== 0 (is-os "void")) {
+        echo "TODO"
+    } elif (== 0 (is-os "arch")) {
+        echo "TODO"
+    } elif (== 0 (is-os "endeavouros")) {
+        echo "TODO"
+    } elif (== 0 (is-os "gentoo")) {
+        gentoo-package-query &external_repos=true
   }
 }
 
