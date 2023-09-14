@@ -86,7 +86,7 @@ notifications() {
 }
 
 
-main "@"
+main "${@}"
 
 #[fn_usage]
     # Set up XDG_USERS_DIR (assuming no elogind [i.e. using seat])
