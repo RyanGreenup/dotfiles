@@ -11,6 +11,7 @@ use math
 var optpaths = [
   ~/.config/emacs/bin
   ~/.cargo/bin
+  ~/.nix-profile/bin/
   ~/go/bin
   /var/lib/flatpak/exports/bin/
 ]
@@ -147,3 +148,85 @@ fn c {
 eval (zoxide init elvish | slurp)
 
 eval (carapace _carapace|slurp)
+
+fn is_readline_empty {
+  # Readline buffer contains only whitespace.
+  re:match '^\s*$' $edit:current-command
+}
+
+set edit:insert:binding[Enter] = {
+  if (is_readline_empty) {
+    # If I hit Enter with an empty readline, it launches fzf with command history
+    set edit:current-command = ' edit:histlist:start'
+    edit:smart-enter
+    # But you can do other things, e.g. ignore the keypress, or delete the unneeded whitespace from readline buffer
+  } else {
+    # If readline buffer contains non-whitespace character, accept the command.
+    edit:smart-enter
+  }
+}
+
+fn fzf_history {||
+  if ( not (has-external "fzf") ) {
+    edit:history:start
+    return
+  }
+  var new-cmd = (
+    edit:command-history &dedup &newest-first &cmd-only |
+    to-terminated "\x00" |
+    try {
+      fzf --no-multi --height=30% --no-sort --read0 --info=hidden --exact --query=$edit:current-command | slurp
+    } catch {
+      edit:redraw &full=$true
+      return
+    }
+  )
+  edit:redraw &full=$true
+  # make sure to trim whitespace so there isn't a new line <https://github.com/elves/elvish/issues/1053#issuecomment-1019418826>
+  set edit:current-command = (str:trim-space $new-cmd)
+}
+set edit:insert:binding[Ctrl-R] = {|| fzf_history >/dev/tty 2>&1 }
+
+fn fzf_files {||
+  if ( not (has-external "fzf") ) {
+    echo "Install fzf"
+    return
+  }
+  var new-cmd = (
+    fd |
+    to-terminated "\x00" |
+    try {
+      fzf --no-multi --height=30% --no-sort --read0 --info=hidden --exact --query=$edit:current-command | slurp
+    } catch {
+      edit:redraw &full=$true
+      return
+    }
+  )
+  edit:redraw &full=$true
+  # make sure to trim whitespace so there isn't a new line <https://github.com/elves/elvish/issues/1053#issuecomment-1019418826>
+  set edit:current-command = (str:trim-space $new-cmd)}
+
+set edit:insert:binding[Ctrl-t] = {|| fzf_files >/dev/tty 2>&1 }
+
+fn fzf_dirs {||
+  if ( not (has-external "fzf") ) {
+    echo "Install fzf"
+    return
+  }
+  var new-cmd = (
+    fd -t d |
+    to-terminated "\x00" |
+    try {
+      fzf --no-multi --height=30% --no-sort --read0 --info=hidden --exact --query=$edit:current-command | slurp
+    } catch {
+      edit:redraw &full=$true
+      return
+    }
+  )
+  cd (str:trim-space $new-cmd)
+  edit:redraw &full=$true
+  # make sure to trim whitespace so there isn't a new line <https://github.com/elves/elvish/issues/1053#issuecomment-1019418826>
+  # set edit:current-command = (str:trim-space $new-cmd)
+}
+
+set edit:insert:binding[Alt-c] = {|| fzf_dirs >/dev/tty 2>&1 }
