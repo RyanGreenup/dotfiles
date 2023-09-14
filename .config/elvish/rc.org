@@ -179,6 +179,37 @@ fn is-os { |os|
 }
 
 
+var package-query-map = [
+
+  &arch={|&external_repos=false|
+   if $external_repos {
+    var packages = [(pacman -Slq | fzf --multi --preview 'pacman -Si {1}' )]
+    doas pacman -S $@packages
+   } else {
+    var packages = [(yay -Slq | fzf --multi --preview 'pacman -Si {1}' )]
+    doas pacman -S $@packages
+   }
+  }
+
+  &void={
+    var packages = [(
+    xbps-query -Rs '' |
+        rg -o '[\w-]+-'  |
+        sed 's!-$!!'     |
+        fzf --multi --preview 'xbps-query -S {} || echo No Info Available')]
+    doas xbps-install $@packages
+  }
+
+  &gentoo={ |&external_repos=false|
+    if $external_repos {
+        var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
+        doas emerge --ask --verbose $@packages
+    } else {
+        var packages = [(eix -Rc | awk '{print $2}' | fzf --multi --preview 'eix --verbose {1}' )]
+        doas emerge --ask --verbose $@packages
+    }
+  }
+]
 
 fn void-package-query {
     xbps-query -Rs '' |
