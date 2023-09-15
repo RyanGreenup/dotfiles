@@ -15,6 +15,9 @@ set PATH $PATH $HOME/Applications/AppImages/bin/
 set PATH $PATH /var/lib/flatpak/exports/bin/
 set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 
+# Add Flatpak
+set PATH $PATH $HOME/.nix-profile/bin/
+
 set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
 
 export QT_XCB_GL_INTEGRATION=none

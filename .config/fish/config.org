@@ -32,6 +32,12 @@ set PATH $PATH $HOME/Applications/AppImages/bin/
 set PATH $PATH /var/lib/flatpak/exports/bin/
 set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
 #+end_src
+** Nix
+This is nix as a non-root user. It's needed here for ssh
+#+begin_src fish
+# Add Flatpak
+set PATH $PATH $HOME/.nix-profile/bin/
+#+end_src
 ** Neovim
 I use [[https://github.com/williamboman/mason.nvim#setup][Mason]] with Neovim and so it's necessary to add that to the path:
 
