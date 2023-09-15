@@ -1,5 +1,5 @@
 #!/bin/sh
-jupyter="$HOME/.local/bin/jupyter"
+jupyter="$HOME/.local/share/virtualenvs/default/bin/jupyter"
 notebooks="$HOME/Notes/Notebooks"
 
 rm log_stdout log_stderr
