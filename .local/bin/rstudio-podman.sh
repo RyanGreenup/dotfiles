@@ -7,15 +7,35 @@ then
   podman run  -it localhost/rstudio /bin/bash
 fi
 
-podman run -dt --rm \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-    --userns keep-id \
-    -v /run:/run \
-    -v /etc/localtime:/etc/localtime:ro \
-    -v /usr/share/fonts:/usr/share/fonts:ro \
-    -v /home/ryan:/home/ryan \
-    -v /proc:/proc \
-    -v /dev/shm:/dev/shm \
-    -v /tmp:/tmp \
-    --security-opt label=type:container_runtime_t \
-    -e "DISPLAY"  rstudio
+
+bwrap \
+    --bind /tank/chroots/fedora/fedora / \
+    --bind /tmp /tmp \
+    --bind /usr/share/fonts /usr/share/fonts \
+    --bind $HOME $HOME \
+    --bind-try /proc /proc \
+    --bind-try /sys /sys \
+    --bind-try /run /run \
+    --dev-bind /dev /dev \
+    --dev-bind /dev/shm /dev/shm \
+    --setenv DISPLAY :0 \
+    --unshare-all \
+    --share-net \
+    --hostname sandbox \
+    --setenv DISPLAY $DISPLAY \
+    rstudio --no-sandbox
+    # code --no-sandbox
+     # "${1}"
+
+## podman run -dt --rm \
+##     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+##     --userns keep-id \
+##     -v /run:/run \
+##     -v /etc/localtime:/etc/localtime:ro \
+##     -v /usr/share/fonts:/usr/share/fonts:ro \
+##     -v /home/ryan:/home/ryan \
+##     -v /proc:/proc \
+##     -v /dev/shm:/dev/shm \
+##     -v /tmp:/tmp \
+##     --security-opt label=type:container_runtime_t \
+##     -e "DISPLAY"  rstudio
