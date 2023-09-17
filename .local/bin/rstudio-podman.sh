@@ -4,14 +4,10 @@
 if [ "$#" -eq 1 ]
 then
   # If an argument was provided, we want interactive
-  opt="-i"
-else
-  opt="-d"
+  podman run  -it localhost/rstudio /bin/bash
 fi
-opt="${opt}t"
 
-
-podman run "${opt}" --rm \
+podman run -dt --rm \
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     --userns keep-id \
     -v /run:/run \
