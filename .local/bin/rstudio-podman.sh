@@ -13,7 +13,6 @@ podman run -dt --rm \
     -v /run:/run \
     -v /etc/localtime:/etc/localtime:ro \
     -v /usr/share/fonts:/usr/share/fonts:ro \
-    -v /sys:/sys \
     -v /home/ryan:/home/ryan \
     -v /proc:/proc \
     -v /dev/shm:/dev/shm \
