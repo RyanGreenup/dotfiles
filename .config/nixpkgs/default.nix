@@ -97,8 +97,12 @@ in
       */
       # jupyter
       # alacritty # Doesn't work because nvidia
+      seafile-client
+      seafile-shared
       zellij
       broot
+      procs
+      tokei
       sd
       bottom
       htop
@@ -108,7 +112,8 @@ in
       tealdeer
       fd
       firefox
-      qutebrowser
+      # I'm using flatpak for this at the moment, because fighting PyQt5 vs PyQt6 is a pain
+      # qutebrowser
       socat
       # librewolf-unwrapped # bukubrow requires native messaging, won't work through nix, likely keepass also
       vlc
@@ -126,6 +131,8 @@ in
       pandoc
 
       ## Office Software
+      graphicsmagick
+      guake
       libreoffice
       gnumeric
       # calligra
@@ -142,7 +149,9 @@ in
       jetbrains.clion
 
 
-      emacs29-pgtk
+      emacs-gtk
+      gimp
+      # emacs29-pgtk # Use this for wayland
       # neovim # Some issues with libstc++ for org-mode. Just use .appImage or repo
       # lua
       marksman
