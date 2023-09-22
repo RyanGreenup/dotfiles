@@ -36,9 +36,6 @@ shade8 = #90CAF9
 ashade8 = #2C2C2C
 
 [bar/topbar]
-
-locale = en_US.UTF-8
-
 enable-ipc = true
 
 width = 100%
