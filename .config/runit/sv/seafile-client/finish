@@ -1,0 +1,4 @@
+#!/bin/sh
+
+seaf-cli stop \
+    >> log_stdout 2>> log_stderr

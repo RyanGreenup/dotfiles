@@ -1,0 +1,21 @@
+#!/bin/sh
+rm log_stdout log_stderr
+# exec 2>&1
+set -e
+seaf-cli start -c /home/ryan/.ccnet \
+      >> log_stdout 2>> log_stderr
+
+
+
+
+# seaf-cli start \
+# The applet automatically deals with passwords etc.
+# It's easier so just use that
+
+# This is needed for QT applications installed via nix
+# QT_XCB_GL_INTEGRATION=none \
+# seafile-applet \
+#     >> log_stdout 2>> log_stderr
+
+# Pause it because it's a one-shot
+exec chpst -b seafile-client pause
