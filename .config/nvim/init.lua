@@ -1,4 +1,7 @@
 require('plugins/packer')
+
+require('autocommands') -- Put these before lsp
+
 require('lualine').setup { tabline = {} }
 
 -- LSP
@@ -19,6 +22,5 @@ require('plugins/which-key')
 require('settings')
 require('keymaps')
 
-require('autocommands')
 
 

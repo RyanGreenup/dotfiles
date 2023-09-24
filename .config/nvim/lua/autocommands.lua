@@ -38,10 +38,20 @@ vim.cmd [[
 ]]
 
 -- Configure Ansible
-vim.cmd [[
-  autocmd BufNewFile,BufRead *.yaml.ansible set filetype=yaml
-  autocmd BufNewFile,BufRead *.yaml.ansible LspStart ansiblels
+local exts = {"*yaml.ansible", "*ansible.yaml", "*playbook.yaml"}
+local commands = {
+  "set filetype=yaml",
+  "LspStart ansiblels",
+  [[ nmap <F2> :w<CR>:!ansible-playbook "%"<CR> ]],
+  [[ nmap <F3> :!neofetch ]],
+  "set foldmethod=indent",
+}
 
-  autocmd BufNewFile,BufRead *.yaml.ansible nmap <F2> :w<CR>:!ansible-playbook "%"<CR>
-  autocmd BufNewFile,BufRead *.yaml.ansible set foldmethod=indent
-]]
+for _, ext in ipairs(exts) do
+  for _, c in ipairs(commands) do
+    local s = "autocmd BufNewFile,BufRead " .. ext .. " " .. c
+    vim.cmd(s)
+  end
+end
+
+
