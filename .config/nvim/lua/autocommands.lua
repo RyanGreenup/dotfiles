@@ -41,4 +41,6 @@ vim.cmd [[
 vim.cmd [[
   autocmd BufNewFile,BufRead *.yaml.ansible set filetype=yaml
   autocmd BufNewFile,BufRead *.yaml.ansible LspStart ansiblels
+
+  autocmd BufNewFile,BufRead *.yaml.ansible nmap <F2> :w<CR>:!ansible-playbook "%"<CR>
 ]]
