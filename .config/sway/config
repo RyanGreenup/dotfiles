@@ -69,7 +69,7 @@ floating_modifier $mod
 
 # start a terminal
 	# remember alt is mod1
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec alacritty -e elvish
 bindsym Control+mod1+t exec i3-sensible-terminal
 
 # kill focused window
@@ -614,8 +614,12 @@ input type:keyboard {
 }
 
 
+# https://github.com/swaywm/sway/blob/c32a507303e38c7bf0b8054108bec45ff67e92c2/sway/sway.5.scd?plain=1#L490
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+
+
+
 ## vim:fdm=expr:fdl=0
 ## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='
-
-
 
