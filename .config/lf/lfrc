@@ -121,8 +121,33 @@ cmd make-file ${{
     read -p "Enter file name: " x
     touch "${x}"
 }}
+cmd fzf-move-file ${{
+    dir="$(fd -t d | sk)"
+    mv "${f}" "${dir}/"
+    echo "Moved ${f} into ${dir}/"
+}}
+
+cmd zoxide-move-dir ${{
+    dir="$(zoxide query --interactive)"
+    cmd="cd"
+    lf -remote "send $id $cmd \"$dir\""
+}}
+
+cmd move-file ${{
+    time="$(date +%s)"
+    temp_file="/tmp/${time}-temp-rename-lf"
+    echo "${f}" > "${temp_file}"
+    nvim "${temp_file}"
+    name="$(cat ${temp_file})"
+    mv "${f}" "${name}"
+    rm "${temp_file}"
+    }}
+
 map \.md :make-directory
 map \.mf :make-file
+map \.fm :fzf-move-file
+map \.fr :move-file # Rename
+map \.zi :zoxide-move-dir
 
 # Task Management stuff
 ## Toggle Tasks
