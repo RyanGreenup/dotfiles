@@ -112,6 +112,7 @@ in
       tealdeer
       fd
       firefox
+      thunderbird
       # I'm using flatpak for this at the moment, because fighting PyQt5 vs PyQt6 is a pain
       # qutebrowser
       socat
@@ -121,6 +122,7 @@ in
       tmux
       syncthing
       unison
+      iperf
 
       libxml2.dev
       openssl.dev
@@ -149,7 +151,8 @@ in
       jetbrains.clion
 
 
-      emacs-gtk
+      universal-ctags
+      emacs
       gimp
       # emacs29-pgtk # Use this for wayland
       # neovim # Some issues with libstc++ for org-mode. Just use .appImage or repo
@@ -191,7 +194,12 @@ in
       # fluffychat # doesn't work
       fzf
       skim
+      loc
+      obs-studio
+      peek
+      guake
       broot
+      dasel
       lf
       zoxide
       carapace
