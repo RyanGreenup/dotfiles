@@ -32,13 +32,6 @@ source ~/.config/zr.zsh
 # Atuin
 eval "$(atuin init zsh)"
 
-# PATH
-# Nix
-# added by Nix installer
-if [ -e /home/ryan/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /home/ryan/.nix-profile/etc/profile.d/nix.sh
-fi
-export QT_XCB_GL_INTEGRATION=none # Needed for nix QT apps (breaks anki)
 
 # Toolbox
 # Added by Toolbox App
@@ -48,27 +41,49 @@ if [ -d "${__jetpack_toolbox_directory}" ]; then
     export PATH="$PATH:${__jetpack_toolbox_directory}"
 fi
 
+append_path() {
+    for i in $@; do
+        PATH="${PATH}:${i}"
+    done
+}
 
-PATH="${PATH}:/usr/local/bin/"
-PATH="${PATH}:$HOME/.local/bin"
-PATH="${PATH}:$HOME/bin"
-PATH="${PATH}:$HOME/.cargo/bin"
-PATH="${PATH}:$HOME/.gem/ruby/2.7.0/bin/"
-PATH="${PATH}:$HOME/.local/share/gem/ruby/3.2.0/bin"
-PATH="${PATH}:$HOME/go/bin"
-PATH="${PATH}:$HOME/.local/share/gem/ruby/3.0.0/bin"
-PATH="${PATH}:/usr/lib/rstudio"
+append_home() {
+    for i in $@; do
+        PATH="${PATH}:${HOME}/${i}"
+    done
+}
 
-PATH="${PATH}:$HOME/.local/share/nvim/mason/bin/"
+append_path \
+    /usr/local/bin \
+    /usr/lib/rstudio \
+    /var/lib/flatpak/exports/bin \
 
-# Add AppImages
-PATH="${PATH}:$HOME/Applications/AppImages/bin/"
+append_home \
+$HOME/.local/bin \
+$HOME/bin \
+$HOME/.cargo/bin \
+$HOME/.gem/ruby/2.7.0/bin/ \
+$HOME/.local/share/gem/ruby/3.2.0/bin \
+$HOME/go/bin \
+$HOME/.local/share/gem/ruby/3.0.0/bin \
+$HOME/.local/share/nvim/mason/bin/ \
+$HOME/Applications/AppImages/bin/ \
 
-# Add Flatpak
-PATH="${PATH}:/var/lib/flatpak/exports/bin/"
-XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share/"
-
-# Add Flatpak
-PATH="${PATH}:$HOME/.nix-profile/bin/"
 
 
+# PATH
+# Nix
+# added by Nix installer
+if [ -e /home/ryan/.nix-profile/etc/profile.d/nix.sh ]; then
+    . /home/ryan/.nix-profile/etc/profile.d/nix.sh
+fi
+export QT_XCB_GL_INTEGRATION=none # Needed for nix QT apps (breaks anki)
+
+# Get usr bin at the front
+# NOTE where the fuck is nix getting added???
+PATH="/usr/bin:${PATH}"
+
+
+# Use fish in place of bash/zsh
+# keep this line at the bottom of ~/.bashrc / ~/.zshrc
+[ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
