@@ -54,8 +54,8 @@
 ;;     :custom (org-logseq-dir "~/logseq"))
 
 
-(package! org-logseq
- :recipe (:host github :repo "llcc/org-logseq"
+(package! org-cv
+ :recipe (:host gitlab :repo "Titan-C/org-cv"
           :files ("*")))
 
 (package! outshine)
