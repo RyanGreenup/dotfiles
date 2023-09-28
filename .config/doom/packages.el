@@ -81,12 +81,6 @@
 (package! org-super-agenda)
 (package! dokuwiki-mode)
 (package! outline-magic)
-;; calfw
-(package! calfw)
-(package! calfw-cal)
-(package! calfw-org)
-
-
 
 ;; Anki
 (package! anki-editor)
