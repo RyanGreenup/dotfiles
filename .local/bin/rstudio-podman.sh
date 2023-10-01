@@ -9,7 +9,7 @@ fi
 
 
 bwrap \
-    --bind /tank/chroots/fedora/fedora / \
+    --bind /var/chroots/fedora/  / \
     --bind /tmp /tmp \
     --bind /usr/share/fonts /usr/share/fonts \
     --bind $HOME $HOME \
@@ -25,7 +25,8 @@ bwrap \
     --setenv DISPLAY $DISPLAY \
     rstudio --no-sandbox
     # code --no-sandbox
-     # "${1}"
+     # "${1}" ||
+     echo "Error! did you run \`xhost +\`?"
 
 ## podman run -dt --rm \
 ##     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
