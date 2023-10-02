@@ -5,5 +5,9 @@
 rm log_stdout log_stderr
 # Start Caddy
 cd $HOME/Notes/.caddy/
-exec /bin/caddy run --config "$HOME/Notes/.caddy/Caddyfile" \
-    >> log_stdout 2>> log_stderr
+exec /bin/caddy run --config "$HOME/Notes/.caddy/Caddyfile"
+
+# Logging under a directory with syncthing lead (obviously) to each machine
+# fighting each other and constant sync-conflicts.
+# Implement logging in a different way
+#    >> log_stdout 2>> log_stderr
