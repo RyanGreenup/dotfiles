@@ -10,6 +10,7 @@ application/x-extension-shtml=userapp-Firefox-KLC881.desktop;
 application/xhtml+xml=userapp-Firefox-KLC881.desktop;
 application/x-extension-xhtml=userapp-Firefox-KLC881.desktop;
 application/x-extension-xht=userapp-Firefox-KLC881.desktop;
+video/x-matroska=vlc.desktop;
 
 [Default Applications]
 application/ogg=vlc
