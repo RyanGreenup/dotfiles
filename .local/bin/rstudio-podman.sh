@@ -1,21 +1,31 @@
 #!/bin/sh
 
-# Check if an argument was provided
-if [ "$#" -eq 1 ]
-then
-  # If an argument was provided, we want interactive
-  podman run  -it localhost/rstudio /bin/bash
-fi
 
+# rstudio --no-sandbox
+# code --no-sandbox
+# "${1}" ||
+# command="/lib/rstudio"
+# /var/chroots/fedora/lib/rstudio/bin/
+# Check if an argument was provided
+# if [ "$#" -eq 1 ]
+# then
+#   # If an argument was provided, use it.
+#   command="${1}"
+# fi
+
+#    --bind /proc /proc \
+#    --bind /dev  /dev  \
+#    --bind /proc /proc \
 
 bwrap \
     --bind /var/chroots/fedora/  / \
     --bind /tmp /tmp \
     --bind /usr/share/fonts /usr/share/fonts \
     --bind $HOME $HOME \
-    --bind-try /proc /proc \
+    --ro-bind $(mktemp -d) $HOME/R \
     --bind-try /sys /sys \
     --bind-try /run /run \
+    --proc /proc \
     --dev-bind /dev /dev \
     --dev-bind /dev/shm /dev/shm \
     --setenv DISPLAY :0 \
@@ -23,9 +33,7 @@ bwrap \
     --share-net \
     --hostname sandbox \
     --setenv DISPLAY $DISPLAY \
-    rstudio --no-sandbox
-    # code --no-sandbox
-     # "${1}" ||
+    ${1} || \
      echo "Error! did you run \`xhost +\`?"
 
 ## podman run -dt --rm \
