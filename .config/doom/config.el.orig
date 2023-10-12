@@ -210,6 +210,8 @@
     (python      . t)
     (plantuml    . t)
     (dot         . t)
+    (go          . t)
+    (rust        . t)
     (gnuplot     . t)
     (asymptote   . t)
     (java        . t)
