@@ -217,7 +217,7 @@ function nsw
     ~/.local/bin/mediawikisearch.bash
 end
 #+end_src
-** Zellij
+** COMMENT Zellij
 Open zellij to a session, create it or look through open ones
 #+begin_src fish
 # Check if the length of argv is 0
@@ -227,6 +227,13 @@ function zj
     else
         zellij -s $argv[1] || zellij a $argv[1]
     end
+end
+#+end_src
+
+** Zellij
+#+begin_src fish
+function zj
+    zellij a main || zellij --session main
 end
 #+end_src
 * Shell Utilities

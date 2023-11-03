@@ -63,6 +63,8 @@
 (load! "./personal_config/org-agenda/aesthetics.el")
 (load! "./personal_config/dokuwiki.el")
 (load! "./personal_config/keybindings.el")
+(load! "./lisp/init-org-ref.el")
+(load! "./lisp/init-org-super-agenda.el")
 
 
 ;; TODO Do I need this?

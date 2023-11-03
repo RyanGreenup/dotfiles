@@ -126,13 +126,8 @@ function nsw
     ~/.local/bin/mediawikisearch.bash
 end
 
-# Check if the length of argv is 0
 function zj
-    if test (count $argv) -eq 0
-        set ses (zellij list-sessions | fzf) && zellij a $ses
-    else
-        zellij -s $argv[1] || zellij a $argv[1]
-    end
+    zellij a main || zellij --session main
 end
 
 if status is-interactive
