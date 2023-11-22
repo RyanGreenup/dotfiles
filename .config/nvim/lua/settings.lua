@@ -253,3 +253,10 @@ map('n', '<C-s>', ':lua ToggleAutoSave()<CR>', { noremap = true, silent = true})
 vim.cmd [[
 set conceallevel=0
 ]]
+
+
+------------------------------------------------------------
+-- File Extensions -----------------------------------------
+------------------------------------------------------------
+vim.filetype.add({ extension = { txt = 'dokuwiki' } })
+vim.filetype.add({ extension = { elv = 'elvish' } })
