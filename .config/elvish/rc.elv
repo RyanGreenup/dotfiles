@@ -200,23 +200,6 @@ eval (zoxide init elvish | slurp)
 
 eval (carapace _carapace|slurp)
 
-fn is_readline_empty {
-  # Readline buffer contains only whitespace.
-  re:match '^\s*$' $edit:current-command
-}
-
-set edit:insert:binding[Enter] = {
-  if (is_readline_empty) {
-    # If I hit Enter with an empty readline, it launches fzf with command history
-    set edit:current-command = ' edit:histlist:start'
-    edit:smart-enter
-    # But you can do other things, e.g. ignore the keypress, or delete the unneeded whitespace from readline buffer
-  } else {
-    # If readline buffer contains non-whitespace character, accept the command.
-    edit:smart-enter
-  }
-}
-
 fn fzf_history {||
   if ( not (has-external "fzf") ) {
     edit:history:start
@@ -281,3 +264,25 @@ fn fzf_dirs {||
 }
 
 set edit:insert:binding[Alt-c] = {|| fzf_dirs >/dev/tty 2>&1 }
+
+set E:EDITOR = (which nvim)
+
+fn external-edit-command {
+  var temp-file = (path:temp-file '*.elv')
+  echo $edit:current-command > $temp-file
+  try {
+    # This assumes $E:EDITOR is an absolute path. If you prefer to use
+    # just the bare command and have it resolved when this is run use
+    # (external $E:EDITOR)
+    $E:EDITOR $temp-file[name] </dev/tty >/dev/tty 2>&1
+    set edit:current-command = (str:trim-right (slurp < $temp-file[name]) " \n")
+  } finally {
+    file:close $temp-file
+    rm $temp-file[name]
+  }
+}
+
+# Arrange for Alt-e and Alt-v to edit the current command buffer using my
+# prefered external editor.
+set edit:insert:binding[Alt-e] = $external-edit-command~
+set edit:insert:binding[Alt-v] = $external-edit-command~

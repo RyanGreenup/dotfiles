@@ -360,7 +360,7 @@ I also miss the grey auto suggestion but I can't figure mouch out about the edit
 
 * History
 From [[https://github.com/elves/elvish/issues/1053]]
-** Enter for History
+** COMMENT Enter for History
 Press enter to start history
 #+begin_src elvish
 fn is_readline_empty {
@@ -454,4 +454,35 @@ fn fzf_dirs {||
 }
 
 set edit:insert:binding[Alt-c] = {|| fzf_dirs >/dev/tty 2>&1 }
+#+end_src
+* Edit Current Line in EDITOR
+** Set the EDITOR
+#+begin_src elvish
+set E:EDITOR = (which nvim)
+#+end_src
+** Function to Edit current command
+#+begin_src elvish
+fn external-edit-command {
+  var temp-file = (path:temp-file '*.elv')
+  echo $edit:current-command > $temp-file
+  try {
+    # This assumes $E:EDITOR is an absolute path. If you prefer to use
+    # just the bare command and have it resolved when this is run use
+    # (external $E:EDITOR)
+    $E:EDITOR $temp-file[name] </dev/tty >/dev/tty 2>&1
+    set edit:current-command = (str:trim-right (slurp < $temp-file[name]) " \n")
+  } finally {
+    file:close $temp-file
+    rm $temp-file[name]
+  }
+}
+
+#+end_src
+
+** Set Keybinding
+#+begin_src elvish
+# Arrange for Alt-e and Alt-v to edit the current command buffer using my
+# prefered external editor.
+set edit:insert:binding[Alt-e] = $external-edit-command~
+set edit:insert:binding[Alt-v] = $external-edit-command~
 #+end_src
