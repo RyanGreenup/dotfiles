@@ -86,4 +86,5 @@ PATH="/usr/bin:${PATH}"
 
 # Use fish in place of bash/zsh
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
-[ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
+# [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
+[ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
