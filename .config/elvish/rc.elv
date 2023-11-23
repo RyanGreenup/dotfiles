@@ -173,6 +173,30 @@ fn pZ {
   }
 }
 
+fn get-firefox-profiles {
+  ls /home/ryan/.mozilla/firefox/ |^
+    each {|s|
+      if (str:contains $s .) {
+        echo $s
+      }
+    } |^
+      rev | each {|d|
+        echo (
+          re:replace '(.*)\..*' "${1}" $d)
+      } | rev | uniq
+}
+
+fn fx {
+  # var l = [arkenfox webapp]
+  var @l = (get-firefox-profiles)
+ echo &sep="\n" $@l |^
+  fzf |^
+  each {|p|
+    var cmd = (search-external firefox)" -p "$p" &"
+    echo $cmd
+    eval $cmd }
+}
+
 set E:LESS = "-i -R"
 
 set E:EDITOR = "nvim"
