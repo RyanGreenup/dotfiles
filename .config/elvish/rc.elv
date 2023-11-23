@@ -174,7 +174,7 @@ fn pZ {
 }
 
 fn get-firefox-profiles {
-  ls /home/ryan/.mozilla/firefox/ |^
+  ls $E:HOME/.mozilla/firefox/ |^
     each {|s|
       if (str:contains $s .) {
         echo $s

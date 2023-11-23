@@ -266,7 +266,7 @@ Add things like =ns= and =nf=
 ** Open Browser
 #+begin_src elvish
 fn get-firefox-profiles {
-  ls /home/ryan/.mozilla/firefox/ |^
+  ls $E:HOME/.mozilla/firefox/ |^
     each {|s|
       if (str:contains $s .) {
         echo $s
