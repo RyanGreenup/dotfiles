@@ -68,6 +68,7 @@ $HOME/go/bin \
 $HOME/.local/share/gem/ruby/3.0.0/bin \
 $HOME/.local/share/nvim/mason/bin/ \
 $HOME/Applications/AppImages/bin/ \
+/opt/bin/
 
 
 os_name=$(grep -oP '(?<=^NAME=).*(?=)' /etc/os-release)
