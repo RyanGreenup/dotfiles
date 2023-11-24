@@ -70,6 +70,11 @@ $HOME/.local/share/nvim/mason/bin/ \
 $HOME/Applications/AppImages/bin/ \
 
 
+os_name=$(grep -oP '(?<=^NAME=).*(?=)' /etc/os-release)
+if [ "$os_name" = "Gentoo" ] || [ "$os_name" = "Funtoo" ]; then
+  export PKG_CONFIG_PATH="/usr/lib64/pkgconfig/"
+fi
+
 
 # PATH
 # Nix
