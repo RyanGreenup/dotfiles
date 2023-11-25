@@ -60,5 +60,5 @@ inode/mount-point=thunar.desktop;
 x-scheme-handler/obsidian=obsidian.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-usercreated-1.desktop;
 application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-usercreated-2.desktop;
-application/pdf=zathura-usercreated-2.desktop;
 application/epub+zip=zathura-usercreated-1.desktop;
+application/pdf=zathura-usercreated-1.desktop;
