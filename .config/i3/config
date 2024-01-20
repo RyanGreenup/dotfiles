@@ -73,8 +73,8 @@ floating_modifier $mod
 # start a terminal
 	# remember alt is mod1
 set $my_term alacritty
-bindsym $mod+Return exec $my_term
-bindsym Control+mod1+t exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty -e distrobox enter base -- fish
+bindsym Control+mod1+t exec "$my_term"
 
 # kill focused window
  bindsym $mod+Shift+q kill
@@ -619,7 +619,7 @@ bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 bindsym $mod+BackSpace exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
 
 # Enter a distrobox
-bindsym $mod+b exec "unset c; c=$(distrobox list | awk -F '|' '{print $2}' | grep -iv name | dmenu | tr -d ' ') && if ! [ -z $c ]; then alacritty -e distrobox enter $c; fi"
+bindsym $mod+b exec "unset c; c=$(distrobox list | awk -F '|' '{print $2}' | grep -iv name | dmenu | tr -d ' ') && if ! [ -z $c ]; then $my_term -e distrobox enter $c; fi"
 
 
 ## vim:fdm=expr:fdl=0
