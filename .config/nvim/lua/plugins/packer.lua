@@ -98,7 +98,7 @@ return require('packer').startup(function(use)
   -- file manager
   use {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    -- branch = "v3.x",
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -117,7 +117,9 @@ return require('packer').startup(function(use)
   use { 'williamboman/mason-lspconfig.nvim',
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup {
+          ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral" },
+      }
       -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
       require("mason-lspconfig").setup()
     end
