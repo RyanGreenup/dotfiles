@@ -118,7 +118,7 @@ return require('packer').startup(function(use)
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup {
-          ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral" },
+        ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral", "marksman" },
       }
       -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
       require("mason-lspconfig").setup()
