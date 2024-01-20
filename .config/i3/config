@@ -87,7 +87,8 @@ bindsym Control+mod1+t exec i3-sensible-terminal
 # start program launcher
 #bindsym $mod+d exec --no-startup-id dmenu_recency
 # bindsym $mod+d exec --no-startup-id rofi -show drun -lines 10 -eh 2 -width 30 -padding 800 -font "Cantarell 36" -mathing fuzzy -show-icons
-bindsym --release $mod+d exec $dmenu_run_cmd &
+# bindsym --release $mod+d exec $dmenu_run_cmd &
+bindsym --release $mod+d exec rofi -show drun
 bindsym $mod+space exec rofi -combi -show combi drun run -matching fuzzy -show-icons -theme paper-float -padding 1600
 # Note that slash can show both window and apps if desired
 bindsym $mod+slash exec rofi -combi -show combi window   -matching fuzzy -show-icons -theme paper-float -padding 1600
@@ -617,7 +618,8 @@ bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 # Open dokuwiki note
 bindsym $mod+BackSpace exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
 
-
+# Enter a distrobox
+bindsym $mod+b exec "unset c; c=$(distrobox list | awk -F '|' '{print $2}' | grep -iv name | dmenu | tr -d ' ') && if ! [ -z $c ]; then alacritty -e distrobox enter $c; fi"
 
 
 ## vim:fdm=expr:fdl=0
