@@ -155,48 +155,73 @@ end
 -- This is adapted from <https://github.com/fredrikekre/.dotfiles/blob/master/.config/nvim/init.vim>
 
 require 'lspconfig'.julials.setup({
-    on_new_config = function(new_config, _)
-      local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-      new_config.cmd[1] = julia
-    end,
-    -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
-    root_dir = function(fname)
-      local util = require 'lspconfig.util'
-      return util.root_pattern 'Project.toml'(fname) or util.find_git_ancestor(fname) or
-          util.path.dirname(fname)
-    end,
-    on_attach = on_attach,
-    capabilities = capabilities,
+  on_new_config = function(new_config, _)
+    local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+    new_config.cmd[1] = julia
+  end,
+  -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
+  root_dir = function(fname)
+    local util = require 'lspconfig.util'
+    return util.root_pattern 'Project.toml' (fname) or util.find_git_ancestor(fname) or
+        util.path.dirname(fname)
+  end,
+  on_attach = on_attach,
+  capabilities = capabilities,
 })
 
 
 ------------------------------------------------------------
 -- Some LSP styling [^1]
 ------------------------------------------------------------
+
+-- Fix the hover in Pyright to remove HTML [^fn_tx40m2]
+local clean_hover = function(_, result, ctx, config)
+  if not (result and result.contents) then
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  end
+  if type(result.contents) == "string" then
+    local s = string.gsub(result.contents or "", "&nbsp;", " ")
+    s = string.gsub(s, [[\\\n]], [[\n]])
+    s = string.gsub(s, [[\\\_]], [[_]])
+    s = string.gsub(s, [[\\*]], [[]])
+    result.contents = s
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  else
+    local s = string.gsub((result.contents or {}).value or "", "&nbsp;", " ")
+    s = string.gsub(s, "\\\n", "\n")
+    s = string.gsub(s, "\\_", "_")
+    s = string.gsub(s, [[\\*]], [[]])
+    result.contents.value = s
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  end
+end
+
 local lsp = vim.lsp
 local max_width = math.max(math.floor(vim.o.columns * 0.7), 100)
 local max_height = math.max(math.floor(vim.o.lines * 0.3), 30)
 -- NOTE: the hover handler returns the bufnr,winnr so can be used for mappings
 lsp.handlers['textDocument/hover'] = lsp.with(
-        lsp.handlers.hover,
-        { border = 'rounded', max_width = max_width, max_height = max_height }
-    )
+-- Default hover function has &nbsp rubbish, see clean_hover func
+-- lsp.handlers.hover,
+  clean_hover,
+  { border = 'rounded', max_width = max_width, max_height = max_height }
+)
 
 lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help, {
-        border = 'rounded',
-        max_width = max_width,
-        max_height = max_height,
-    })
+  border = 'rounded',
+  max_width = max_width,
+  max_height = max_height,
+})
 
 
 vim.diagnostic.config({
-    virtual_text = {
-        prefix = '●', -- Could be '●', '▎', 'x'
-        source = "always", -- Or "if_many"
-    },
-    float = {
-        source = "always", -- Or "if_many"
-    },
+  virtual_text = {
+    prefix = '●', -- Could be '●', '▎', 'x'
+    source = "always", -- Or "if_many"
+  },
+  float = {
+    source = "always", -- Or "if_many"
+  },
 })
 vim.cmd [[
   highlight! DiagnosticLineNrError guibg=#51202A guifg=#FF0000 gui=bold
@@ -261,5 +286,6 @@ Footnotes -----------------------------------------------
 [^1] https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
 [^1] https://teddit.net/r/neovim/comments/r5kwg7/rounded_corners_for_popup_menus/
 [^1] https://github.com/akinsho/dotfiles/blob/41f327dd47d91af42d1ed050745b85f422b87365/.config/nvim/plugin/lsp.lua#L184-L194
+[^fn_tx40m2]: https://www.reddit.com/r/neovim/comments/tx40m2/is_it_possible_to_improve_lsp_hover_look/
 
 --]]
