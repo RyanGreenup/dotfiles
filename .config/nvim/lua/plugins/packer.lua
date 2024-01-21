@@ -26,7 +26,7 @@ return require('packer').startup(function(use)
           -- disable = { 'latex', 'tex' }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
           additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
-        ensure_installed = { 'org' },                    -- Or run :TSUpdate org
+        ensure_installed = { 'org', 'markdown', 'sql', 'python', 'rust' },                    -- Or run :TSUpdate org
       }
     end
 
@@ -118,7 +118,7 @@ return require('packer').startup(function(use)
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral", "marksman" },
+        ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral", "marksman", "dockerls" },
       }
       -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
       require("mason-lspconfig").setup()
