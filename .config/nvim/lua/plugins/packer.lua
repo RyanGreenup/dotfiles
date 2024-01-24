@@ -24,9 +24,9 @@ return require('packer').startup(function(use)
 
           -- [fn_math_highlighting]
           -- disable = { 'latex', 'tex' }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-          additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
+          additional_vim_regex_highlighting = { 'org' },                   -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
-        ensure_installed = { 'org', 'markdown', 'sql', 'python', 'rust' },                    -- Or run :TSUpdate org
+        ensure_installed = { 'org', 'markdown', 'sql', 'python', 'rust' }, -- Or run :TSUpdate org
       }
     end
 
