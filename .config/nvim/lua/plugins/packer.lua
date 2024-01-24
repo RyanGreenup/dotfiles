@@ -267,8 +267,60 @@ return require('packer').startup(function(use)
     -- tag = "*"
   }
 
+
+  -- Docs View
+  use {
+    "amrbashir/nvim-docs-view",
+    opt = true,
+    cmd = { "DocsViewToggle" },
+    config = function()
+      require("docs-view").setup {
+        position = "left",
+        height = 60,
+      }
+    end
+  }
+
   -- Copilot
   use { "https://github.com/github/copilot.vim" }
+
+  -- GPT stuff
+  use({
+    "robitx/gp.nvim",
+    config = function()
+      -- or setup with your own config (see Install > Configuration in Readme)
+      -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
+
+
+      -- TODO integrate this with which key?
+      --      or create a separate config file?
+      -- for now use the default suggested keybindings
+    end,
+  })
+
+  --[[
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup()
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
+
+  use({
+    "dpayne/CodeGPT.nvim",
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+    end
+  })
+  --]]
 
   -- Quarto
   use { 'quarto-dev/quarto-nvim',

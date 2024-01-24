@@ -37,6 +37,9 @@ map('n', '<A-l>', '<cmd>:vertical resize +5<CR>', default_opts)
 map('n', '<A-k>', '<cmd>:resize +5<CR>', default_opts)
 map('n', '<A-j>', '<cmd>:resize -5<CR>', default_opts)
 
+-- Docview Plugin
+map('n', '<F3>', ':DocsViewToggle<CR>', default_opts)
+
 -----------------------------------------------------------
 -- Tabs
 -----------------------------------------------------------
