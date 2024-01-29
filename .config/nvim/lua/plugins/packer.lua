@@ -284,17 +284,16 @@ return require('packer').startup(function(use)
   -- Copilot
   use { "https://github.com/github/copilot.vim" }
 
-  -- GPT stuff
+  -- packer.nvim
   use({
     "robitx/gp.nvim",
     config = function()
+      require("gp").setup()
+
       -- or setup with your own config (see Install > Configuration in Readme)
+      -- require("gp").setup(config)
+
       -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
-
-
-      -- TODO integrate this with which key?
-      --      or create a separate config file?
-      -- for now use the default suggested keybindings
     end,
   })
 
