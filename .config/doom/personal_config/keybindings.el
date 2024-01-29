@@ -4,8 +4,17 @@
 ;;;; Agenda
 (map!
  "C-c a" 'org-agenda)
+
+;; Remap schedule to a single key
+;; https://github.com/doomemacs/doomemacs/issues/2192
+(map! :after evil-org-agenda
+      :map evil-org-agenda-mode-map
+      :m "s" #'org-agenda-schedule)
 (map!
  :map org-agenda-mode-map
+ ;; Easier reschedule
+ "C-i"         #'org-agenda-schedule
+ "s"           #'org-agenda-schedule
  ;; Reschedule Day
  "M-<right>"    #'org-agenda-do-date-later
  "M-<left>"     #'org-agenda-do-date-earlier
