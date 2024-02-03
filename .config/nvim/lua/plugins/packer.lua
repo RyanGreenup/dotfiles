@@ -118,12 +118,15 @@ return require('packer').startup(function(use)
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "r_language_server", "spectral", "marksman", "dockerls" },
+        ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "spectral", "marksman", "dockerls" },
       }
       -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
       require("mason-lspconfig").setup()
     end
   }
+
+  -- LSP only for the init.lua
+  use { 'folke/neodev.nvim' }
 
   -- Vista (Jump to LSP issues)
   use 'liuchengxu/vista.vim'

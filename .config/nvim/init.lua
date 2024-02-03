@@ -5,6 +5,8 @@ require('autocommands') -- Put these before lsp
 require('lualine').setup { tabline = {} }
 
 -- LSP
+
+require('plugins/neodev')          -- Must precede lsp setup
 -- require('plugins/lsp+omnifunc') -- Only enable one of these
 require('plugins/lsp+cmp')
 
