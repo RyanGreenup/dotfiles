@@ -14,6 +14,8 @@ require('plugins/vimtex')
 require('plugins/markdown-preview')
 
 require('plugins/iron')
+require('plugins/slime')
+
 -- require('plugins/dap')
 require('plugins/org-mode')
 require('plugins/which-key')

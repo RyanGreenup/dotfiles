@@ -144,6 +144,7 @@ return require('packer').startup(function(use)
 
   -- REPL
   use 'hkupty/iron.nvim'
+  use 'jpalardy/vim-slime'
 
 
   -- Scroll Bar

@@ -16,6 +16,4 @@
 g.vimtex_view_method = 'zathura'
 -- g.vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 
-cmd [[ syntax enable ]]
-
 cmd [[autocmd BufEnter *.tex :map <leader>v  :VimtexCompile<CR> ]]
