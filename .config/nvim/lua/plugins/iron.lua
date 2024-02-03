@@ -36,6 +36,12 @@ iron.setup {
     buflisted = true,
     -- REPL definitions
     repl_definition = {
+      -- I needed the bracketed paste thing, and then I didn't and the
+      -- problem went away, if the issue going to the repl comes back re-enable it
+      -- py = {
+      --   command = { "ipython" },
+      --   format = require("iron.fts.common").bracketed_paste,
+      -- },
       sh = {
         command = { "dash" }
       },
