@@ -13,8 +13,8 @@ wk.register({
       name = "+buffers",
       b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 
-      p = { "<cmd>bp<CR>", "Buffer Previous" },
-      n = { "<cmd>bn<CR>", "Buffer Next" },
+      n = { "<cmd>bp<CR>", "Buffer Previous" },
+      p = { "<cmd>bn<CR>", "Buffer Next" },
     },
     c = {
       name = "+create",
