@@ -233,6 +233,7 @@ use { 'https://github.com/camgraff/telescope-tmux.nvim' }
 -- use { 'nvim-telescope/telescope-dap.nvim' }
 -- Use cmake for fzf because the Makefile is GNUisms.
 local native_fzf_build_command = [[
+  sh -c '
   set -e
   if command -v cmake &> /dev/null; then
     cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
@@ -240,9 +241,10 @@ local native_fzf_build_command = [[
     cmake --install build --prefix build
   else
     echo "You need to install cmake to build the fzf native extension"
-    echo 'Install cmake and then run `:Lazy build fzf-native-extension`'
+    echo "Install cmake and then run :Lazy build fzf-native-extension"
     exit 1
   fi
+  '
   ]]
 use {
   'nvim-telescope/telescope.nvim',
