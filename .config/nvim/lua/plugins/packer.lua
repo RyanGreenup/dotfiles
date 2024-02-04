@@ -70,6 +70,13 @@ return require('packer').startup(function(use)
 
   -- Themes
   use { 'dracula/vim', as = 'dracula' }
+  use { 'catppuccin/nvim' }
+  use { 'shaunsingh/moonlight.nvim' }
+  use { 'rafamadriz/neon' }
+  use { 'Domeee/mosel.nvim' }
+
+  use { 'folke/tokyonight.nvim' }
+
 
   -- Telescope
 
