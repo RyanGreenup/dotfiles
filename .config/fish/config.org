@@ -240,13 +240,17 @@ end
 ** Broot
 #+begin_src fish
 if status is-interactive
-    broot --print-shell-function fish | source
+   if command -v broot
+        broot --print-shell-function fish | source
+    end
 end
 #+end_src
 ** Zoxide
 #+begin_src fish
 if status is-interactive
-    zoxide init fish | source
+   if command -v zoxide
+        zoxide init fish | source
+    end
 end
 #+end_src
 ** Atuin
@@ -257,7 +261,9 @@ this history suggestion, with Atuin, induces stutter.
 #+begin_src fish :tangle no
 if status is-interactive
     set -gx ATUIN_NOBIND "true"
-    atuin init fish | source
+    if command -v atuin
+        atuin init fish | source
+    end
 
     # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
     bind \cr _atuin_search

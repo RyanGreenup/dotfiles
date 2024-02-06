@@ -131,11 +131,15 @@ function zj
 end
 
 if status is-interactive
-    broot --print-shell-function fish | source
+   if command -v broot
+        broot --print-shell-function fish | source
+    end
 end
 
 if status is-interactive
-    zoxide init fish | source
+   if command -v zoxide
+        zoxide init fish | source
+    end
 end
 
 function lfcd
