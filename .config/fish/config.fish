@@ -131,13 +131,13 @@ function zj
 end
 
 if status is-interactive
-   if test (command -v broot 2&1 >/dev/null)
+   if command -v broot 1> /dev/null 2>&1
         broot --print-shell-function fish | source
     end
 end
 
 if status is-interactive
-   if command -v zoxide 2&1 > /dev/null
+   if command -v zoxide 1> /dev/null 2>&1
         zoxide init fish | source
     end
 end
@@ -358,7 +358,7 @@ end
 
 function start_podman_containers
     if status is-interactive
-        if command -v podman-compose 2&1 >/dev/null
+        if command -v podman-compose > /dev/null 2>&1
                 for yaml in (ls ~/Applications/Containers/user/vidar/**/docker-compose.yml)
                         # get the container name
                         set name (basename (dirname $yaml))
@@ -380,7 +380,7 @@ function start_podman_containers
 end
 
 if status is-interactive
-    if command -v starship 2&1 > /dev/null
+    if command -v starship > /dev/null 2>&1
         starship init fish --print-full-init | source
     end
 end

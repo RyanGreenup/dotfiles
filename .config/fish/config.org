@@ -240,7 +240,7 @@ end
 ** Broot
 #+begin_src fish
 if status is-interactive
-   if test (command -v broot 2&1 >/dev/null)
+   if command -v broot 1> /dev/null 2>&1
         broot --print-shell-function fish | source
     end
 end
@@ -248,7 +248,7 @@ end
 ** Zoxide
 #+begin_src fish
 if status is-interactive
-   if command -v zoxide 2&1 > /dev/null
+   if command -v zoxide 1> /dev/null 2>&1
         zoxide init fish | source
     end
 end
@@ -261,7 +261,7 @@ this history suggestion, with Atuin, induces stutter.
 #+begin_src fish :tangle no
 if status is-interactive
     set -gx ATUIN_NOBIND "true"
-    if command -v atuin 2&1 > /dev/null
+    if command -f atuin 1> /dev/null 2>&1
         atuin init fish | source
     end
 
@@ -526,7 +526,7 @@ end
 #+begin_src fish
 function start_podman_containers
     if status is-interactive
-        if command -v podman-compose 2&1 >/dev/null
+        if command -v podman-compose > /dev/null 2>&1
                 for yaml in (ls ~/Applications/Containers/user/vidar/**/docker-compose.yml)
                         # get the container name
                         set name (basename (dirname $yaml))
@@ -551,7 +551,7 @@ end
 * Status Line
 #+begin_src fish
 if status is-interactive
-    if command -v starship 2&1 > /dev/null
+    if command -v starship > /dev/null 2>&1
         starship init fish --print-full-init | source
     end
 end
