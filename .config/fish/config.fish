@@ -356,6 +356,19 @@ function gdui
     gitui -w $HOME -d $dotfiles_dir
 end
 
+function start_podman_containers
+        for yaml in (ls ~/Applications/Containers/user/vidar/**/docker-compose.yml)
+                # get the container name
+                set name (basename (dirname $yaml))
+                # Not necessary but this means I can use the same snippet to restart
+                podman-compose -f $yaml down
+                # Start the containers
+                podman-compose -f $yaml up -d \
+                        && printf '\n\n SUCCESS -- %s \n\n'  $name \
+                        || printf '\n\n FAILURE  -- %s \n\n' $name
+        end
+end
+
 # Create keybindings
 function fish_user_key_bindings
 	fzf_key_bindings
