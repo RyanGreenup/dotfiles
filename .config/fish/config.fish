@@ -131,7 +131,7 @@ function zj
 end
 
 if status is-interactive
-   if command -v broot 2&1 >/dev/null
+   if test (command -v broot 2&1 >/dev/null)
         broot --print-shell-function fish | source
     end
 end
