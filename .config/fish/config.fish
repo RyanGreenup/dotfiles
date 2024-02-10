@@ -131,13 +131,13 @@ function zj
 end
 
 if status is-interactive
-   if command -v broot
+   if command -v broot 2&1 >/dev/null
         broot --print-shell-function fish | source
     end
 end
 
 if status is-interactive
-   if command -v zoxide
+   if command -v zoxide 2&1 > /dev/null
         zoxide init fish | source
     end
 end
@@ -357,16 +357,32 @@ function gdui
 end
 
 function start_podman_containers
-        for yaml in (ls ~/Applications/Containers/user/vidar/**/docker-compose.yml)
-                # get the container name
-                set name (basename (dirname $yaml))
-                # Not necessary but this means I can use the same snippet to restart
-                podman-compose -f $yaml down
-                # Start the containers
-                podman-compose -f $yaml up -d \
-                        && printf '\n\n SUCCESS -- %s \n\n'  $name \
-                        || printf '\n\n FAILURE  -- %s \n\n' $name
+    if status is-interactive
+        if command -v podman-compose 2&1 >/dev/null
+                for yaml in (ls ~/Applications/Containers/user/vidar/**/docker-compose.yml)
+                        # get the container name
+                        set name (basename (dirname $yaml))
+                        # Not necessary but this means I can use the same snippet to restart
+                        podman-compose -f $yaml down
+                        # Start the containers
+                        podman-compose -f $yaml up -d \
+                                && printf '\n\n SUCCESS -- %s \n\n'  $name \
+                                || printf '\n\n FAILURE  -- %s \n\n' $name
+                end
+        else
+                echo "podman-compose is missing, try:"
+                echo ""
+                echo "    ```"
+                echo "    pipx install podman-compose"
+                echo "    ```"
         end
+     end
+end
+
+if status is-interactive
+    if command -v starship 2&1 > /dev/null
+        starship init fish --print-full-init | source
+    end
 end
 
 # Create keybindings
