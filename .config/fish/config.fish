@@ -396,6 +396,10 @@ bind \en '
     rm $tmp
     commandline -f repaint'
 
+bind \ex '
+    echo dash
+    dashboard'
+
 bind \co '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
