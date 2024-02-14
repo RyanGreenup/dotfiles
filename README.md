@@ -141,7 +141,7 @@ do-install:
 </details>
 
 
-## Seperate
+## Separate
 
 To use only some files, consider creating seperate branches or implementing
 a tool like [GNU](https://www.gnu.org/software/stow/).
