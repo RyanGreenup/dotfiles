@@ -294,7 +294,26 @@ use {
 }
 
 -- Vista (Jump to LSP issues)
-use 'liuchengxu/vista.vim'
+use { 'liuchengxu/vista.vim',
+  config = function()
+    -- local map = vim.api.nvim_set_keymap
+    -- local default_opts = { noremap = true, silent = true }
+    -- map('n', '<C-m>', ':Vista!!<CR>', default_opts)
+  end
+}
+-- Outline is Basically Vista with better LSP
+use {
+  "hedyhli/outline.nvim",
+  config = function()
+    -- Example mapping to toggle outline
+    vim.keymap.set("n", "<C-m>", "<cmd>Outline<CR>",
+      { desc = "Toggle Outline" })
+
+    require("outline").setup {
+      -- Your setup opts here (leave empty to use defaults)
+    }
+  end,
+}
 
 -- Quarto ######################################################################
 
@@ -376,6 +395,9 @@ use 'https://github.com/bluz71/vim-nightfly-colors'
 -- use { 'tomasr/molokai' }
 -- use 'https://github.com/projekt0n/github-nvim-theme'
 -- use { 'protesilaos/tempus-themes-vim' }
+
+-- Additional Syntax ...........................................................
+use { 'https://github.com/meatballs/vim-xonsh' }
 
 
 
