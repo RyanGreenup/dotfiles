@@ -52,6 +52,25 @@ use({
   }
 })
 
+-- Snippets
+use 'honza/vim-snippets'
+use { 'dcampos/nvim-snippy', config = function()
+  require('snippy').setup({
+    enable_auto = true,
+    -- The Tab Mapping seems not to stick, I set the keybindings in
+    -- ~/.config/nvim/lua/keymaps.lua | 209
+    -- [fn_vimtex]
+    -- expand_options = {
+    --   m = function()
+    --     return vim.fn["vimtex#syntax#in_mathzone"]() == 1
+    --   end,
+    --   c = function()
+    --     return vim.fn["vimtex#syntax#in_comment"]() == 1
+    --   end,
+    -- }
+  })
+end }
+
 
 use({
   "nvim-neo-tree/neo-tree.nvim",
