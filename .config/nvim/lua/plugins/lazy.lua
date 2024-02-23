@@ -94,7 +94,7 @@ use({
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   config = function()
-    require 'nvim-treesitter.configs'.setup {
+    require 'nvim-treesitter.configs'.setup({
       -- A list of parser names, or "all" (the five listed parsers should always be installed)
       ensure_installed = { 'org', 'markdown', 'sql', 'python', 'rust' },
 
@@ -107,30 +107,33 @@ use({
         -- Instead of true it can also be a list of languages
         -- additional_vim_regex_highlighting = { 'markdown' }
       },
-    }
+    })
   end
 })
 
 
 -- Debugging / DAP
---[[
+
+use { 'mfussenegger/nvim-dap-python',
+  dependencies = { "mfussenegger/nvim-dap" },
+  config = function()
+    require('dap-python').setup()
+  end
+}
+
 use { "rcarriga/nvim-dap-ui",
-  requires = { "mfussenegger/nvim-dap" },
+  dependencies = { "mfussenegger/nvim-dap" },
   config = function()
     require("dapui").setup()
   end
 }
-use { 'https://github.com/Pocco81/dap-buddy.nvim' }
-use { 'theHamsta/nvim-dap-virtual-text' }
--- Plugins for language specifics
-use {
-  'leoluz/nvim-dap-go',
+use { 'theHamsta/nvim-dap-virtual-text',
+  dependencies = { "mfussenegger/nvim-dap", "nvim-treesitter/nvim-treesitter" },
   config = function()
-    require('dap-go').setup()
+    require("nvim-dap-virtual-text").setup()
   end
+
 }
-use { 'https://github.com/mfussenegger/nvim-dap-python' }
---]]
 
 -- Mason to mange LSP servers
 use({
@@ -314,6 +317,7 @@ use {
       require('telescope').load_extension('fzf')
     end
 
+
     if pcall(require, 'telescope._extensions.lazy') then
       require("telescope").load_extension "lazy"
     end
@@ -381,7 +385,7 @@ use { 'quarto-dev/quarto-nvim',
 -- Aesthetics ..................................................................
 use {
   'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', lazy = false }, config = function()
+  dependencies = { 'kyazdani42/nvim-web-devicons', lazy = false }, config = function()
   require("lualine").setup({
     sections = {
       lualine_x = {

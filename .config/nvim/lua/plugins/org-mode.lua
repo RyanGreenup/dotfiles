@@ -16,4 +16,11 @@ require('orgmode').setup_ts_grammar()
 require('orgmode').setup({
   org_agenda_files = {'~/Agenda/todo.org', '~/Agenda/**/*'},
   org_default_notes_file = '~/Notes/Org/index.org',
+mappings = {
+        org = {
+          org_timestamp_up = '+',
+          org_timestamp_down = '-'
+        }
+      }
 })
+

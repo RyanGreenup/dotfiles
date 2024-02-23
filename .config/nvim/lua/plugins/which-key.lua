@@ -107,6 +107,7 @@ wk.register({
       name = "Toggle",
       a = { ":lua ToggleAutoSave()<CR>", "Autosave" },
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
+      f = { "<cmd>Telescope filetypes<CR>", "Filetype" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
 
     },
@@ -152,7 +153,9 @@ wk.register({
 })
 
 
-function iron_keybindings()
+-- TODO configure this through which key instead
+--      Disable in iron and enable in which key
+local function iron_keybindings()
   local message = [[
   ~/.config/nvim/lua/plugins/iron.lua
   ______________________________________
@@ -207,6 +210,9 @@ function dap_usage()
   local n = require('notify')
   n(message)
 end
+
+wk.register()
+
 
 wk.register({
   d = {
