@@ -1,0 +1,8 @@
+neovim 
+emacs
+fish
+codium
+codium-insiders
+wget
+podman
+distrobox

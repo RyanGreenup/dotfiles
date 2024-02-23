@@ -1,0 +1,13 @@
+# TODO this is a work in progress, ideally I would run jupyter as a docker image
+#      that fires at boot with everything self-contained
+#
+# Can I run Jupyterlab as a podman instance from here?
+
+version: "3.7"
+
+services:
+  jupyter:
+    image: localhost/r
+    restart: unless-stopped
+    volumes:
+      - /home/ryan:/home/ryan
