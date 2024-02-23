@@ -5,15 +5,12 @@ RUN dnf install -y go golang-x-tools-gopls golang-x-tools-guru                  
                    python3-nose python3-pytest ansible                                               \
                    shellcheck shfmt                                                                  \
                    rustup fd-find git neovim texlive latexmk texlive-xetex texlive-wrapfig texstudio \
-                   texlive-scheme-full python3-pygments zathura zathura-devel zathura-djvu zathura-pdf-mupdf zathura-ps
+                   texlive-scheme-full python3-pygments meld                                         \
+                   zathura zathura-devel zathura-djvu zathura-pdf-mupdf zathura-ps
 RUN go install github.com/x-motemen/gore/cmd/gore@latest
 
 # Add fonts and meld
 RUN dnf install -y fontawesome-fonts-all mozilla-fira-fonts-common mozilla-fira-mono-fonts mozilla-fira-sans-fonts dejavu-fonts-all
-
-# Add meld to merge git sync Bullshit
-RUN dnf install meld
-
 
 # RUN git clone https://github.com/domtronn/all-the-icons.el /tmp/all-the-icons && cp /tmp/all-the-icons/**/*.ttf ~/.local/share/fonts/ && fc-cache -f -v
 
