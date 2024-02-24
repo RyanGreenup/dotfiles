@@ -4,6 +4,7 @@
 # https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh
 
 
+unset QT_XCB_GL_INTEGRATION
 _url="$1"
 _qb_version='1.0.4'
 _proto_version=1
