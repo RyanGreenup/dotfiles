@@ -1,6 +1,36 @@
 # Created by newuser for 5.9
 
 
+# Path
+append_path() {
+    for i in $@; do
+        PATH="${PATH}:${i}"
+    done
+}
+
+append_home() {
+    for i in $@; do
+        PATH="${PATH}:${HOME}/${i}"
+    done
+}
+
+append_path \
+    /usr/local/bin \
+    /usr/lib/rstudio \
+    /var/lib/flatpak/exports/bin \
+
+append_home \
+.local/bin \
+bin \
+.cargo/bin \
+.gem/ruby/2.7.0/bin/ \
+.local/share/gem/ruby/3.2.0/bin \
+go/bin \
+.local/share/gem/ruby/3.0.0/bin \
+.local/share/nvim/mason/bin/ \
+Applications/AppImages/bin/
+
+
 
 
 # Plugins
@@ -30,7 +60,9 @@ source ~/.config/zr.zsh
 
 
 # Atuin
-eval "$(atuin init zsh)"
+if [ $(command -v atuin) ]; then
+    eval "$(atuin init zsh)"
+fi
 
 
 # Toolbox
@@ -40,35 +72,6 @@ __jetpack_toolbox_directory="/home/ryan/.local/share/JetBrains/Toolbox/scripts"
 if [ -d "${__jetpack_toolbox_directory}" ]; then
     export PATH="$PATH:${__jetpack_toolbox_directory}"
 fi
-
-append_path() {
-    for i in $@; do
-        PATH="${PATH}:${i}"
-    done
-}
-
-append_home() {
-    for i in $@; do
-        PATH="${PATH}:${HOME}/${i}"
-    done
-}
-
-append_path \
-    /usr/local/bin \
-    /usr/lib/rstudio \
-    /var/lib/flatpak/exports/bin \
-
-append_home \
-$HOME/.local/bin \
-$HOME/bin \
-$HOME/.cargo/bin \
-$HOME/.gem/ruby/2.7.0/bin/ \
-$HOME/.local/share/gem/ruby/3.2.0/bin \
-$HOME/go/bin \
-$HOME/.local/share/gem/ruby/3.0.0/bin \
-$HOME/.local/share/nvim/mason/bin/ \
-$HOME/Applications/AppImages/bin/ \
-/opt/bin/
 
 
 os_name=$(grep -oP '(?<=^NAME=).*(?=)' /etc/os-release)
@@ -89,8 +92,14 @@ export QT_XCB_GL_INTEGRATION=none # Needed for nix QT apps (breaks anki)
 # NOTE where the fuck is nix getting added???
 PATH="/usr/bin:${PATH}"
 
+key_file=$HOME/.local/openai.key
+if [ -f "${key_file}" ]; then
+    read -r OPENAI_API_KEY < "${key_file}"
+    export OPENAI_API_KEY
+fi
+
 
 # Use fish in place of bash/zsh
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
-# [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
-[ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
+  [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
+# [ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
