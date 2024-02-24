@@ -8,3 +8,4 @@ private_dot_config/fish/conf.d/omf.fish
 **/log_stdout
 **/log_stderr
 **/sv/supervice
+.config/zr.zsh
