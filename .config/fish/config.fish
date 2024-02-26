@@ -111,6 +111,10 @@ function open_dokuwiki_clipboard
     emacsclient -c $file
 end
 
+function dokuwiki_nvim
+    $HOME/.local/bin/dokuwiki/edit_dokuwiki_files_in_nvim.py
+end
+
 # Toggle Alacritty theme
 function tt
     # If the colors: line is found, use sed to change it to dark or light
