@@ -1,0 +1,1440 @@
+---
+version: 1.4.3
+commands:
+  - name: process_file_count
+    command: "lsof |  awk '{print $2}' | sort | uniq -c | sort -nr"
+    description: Counts the number of files open for each process and displays in a table format.
+    tags:
+      - linux
+      - processes
+      - files
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158053459
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158053550
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158053619
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: current_time
+    command: date
+    description: Displays current time and date.
+    tags:
+      - linux
+      - time
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158057997
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158058044
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158058096
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: open_editor
+    command: "nano '#file-name!'"
+    description: Opens a file using the nano editor.
+    tags:
+      - linux
+      - editor
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158059240
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158059287
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158059332
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: list_running_processes
+    command: ps -aux
+    description: Displays currently running processes.
+    tags:
+      - linux
+      - system
+      - processes
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158060577
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158060622
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158060667
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: change_file_permissions
+    command: "chmod #permission! '#file-name!'"
+    description: Changes the permissions of a file according to the permission code provided.
+    tags:
+      - linux
+      - permission
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158061654
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158061697
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158061743
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: download_file
+    command: "wget '#url!'"
+    description: Downloads a file from a given URL.
+    tags:
+      - linux
+      - network
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158063254
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158063298
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158063341
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: install_package
+    command: "sudo apt install #package-name!"
+    description: Installs a package using the apt package manager.
+    tags:
+      - linux
+      - system
+      - packages
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158064415
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158064459
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158064502
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: remove_package
+    command: "sudo apt remove #package-name!"
+    description: Uninstalls a package using the apt package manager.
+    tags:
+      - linux
+      - system
+      - packages
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158065489
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158065533
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158065578
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: check_disk_partitions
+    command: fdisk -l
+    description: Lists disk partitions.
+    tags:
+      - linux
+      - system
+      - disk
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158066605
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158066650
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158066692
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: check_network_connections
+    command: netstat
+    description: Shows network connections.
+    tags:
+      - linux
+      - system
+      - network
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158068207
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158068251
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158068296
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: zip_files
+    command: "zip -r #archive-name! '#directory-or-file!'"
+    description: Compresses files and directories into a .zip file.
+    tags:
+      - linux
+      - files
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158069202
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158069246
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158069290
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: process_file_count
+    command: "lsof |  awk '{print $2}' | sort | uniq -c | sort -nr"
+    description: Counts the number of files open for each process and displays in a table format.
+    tags:
+      - linux
+      - processes
+      - files
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158070452
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158070496
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158070542
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: create_pyenv
+    command: "python3 -m venv #venv-dir-name!"
+    description: Creates a python virtual environment
+    tags:
+      - linux
+      - python
+      - virtualenv
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158071769
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158071814
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158071857
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: list-files
+    command: "ls #directory!"
+    description: List files underneath a directory
+    tags:
+      - core
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158072747
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158072792
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158072834
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: default
+  - name: cpu_usage
+    command: top -b -n 1 | head -n 5
+    description: "Displays information about the system's top CPU consuming processes."
+    tags:
+      - linux
+      - system
+      - processes
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158073792
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158073837
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158073880
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: list_ips
+    command: "hostname -I | awk '{print $1}'"
+    description: Lists the IP addresses of the system.
+    tags:
+      - networking
+      - system
+      - addresses
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158074853
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158074898
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158074942
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: disk_space
+    command: df -h
+    description: Displays the amount of disk space used and available on the system.
+    tags:
+      - linux
+      - storage
+      - disk
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158075803
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158075848
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158075892
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: memory_usage
+    command: free -m
+    description: Shows the total amount of free and used physical and swap memory in the system.
+    tags:
+      - linux
+      - memory
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158077698
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158077743
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158077787
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: network_ping
+    command: "ping -c 4 '#hostname!'"
+    description: Sends a network request to a specified hostname or IP address.
+    tags:
+      - networking
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158078708
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158078752
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158078796
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: view_logs
+    command: "tail -n 100 /var/log/'#log-file!'"
+    description: Displays the last 100 lines of a specified log file.
+    tags:
+      - linux
+      - logs
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158079619
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158079664
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158079709
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: system_uptime
+    command: uptime
+    description: "Shows the current time, how long the system has been running, how many users are currently logged on, and the system load averages for the past 1, 5, and 15 minutes."
+    tags:
+      - linux
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158080582
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158080628
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158080673
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: find_file
+    command: "find / -iname '#file-name!'"
+    description: Finds a specific file in the entire filesystem.
+    tags:
+      - linux
+      - files
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158081489
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158081533
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158081580
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: check_process
+    command: "ps -ef | grep '#process-name!'"
+    description: Checks if a process is running on the system.
+    tags:
+      - linux
+      - system
+      - processes
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158082519
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158082564
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158082609
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: check_port
+    command: "netstat -tuln | grep ':#port!'"
+    description: Checks if a specific port is open.
+    tags:
+      - networking
+      - linux
+      - port
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158083668
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158083712
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158083756
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: disk_io_stats
+    command: iostat -xz
+    description: Displays statistics of input/output device utilization.
+    tags:
+      - linux
+      - storage
+      - disk
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158084780
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158084824
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158084868
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: list_users
+    command: "cut -d: -f1 /etc/passwd"
+    description: Lists all users in the system.
+    tags:
+      - linux
+      - system
+      - users
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158086041
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158086086
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158086131
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: network_traffic
+    command: iftop -n -P
+    description: Displays bandwidth usage information on network interface.
+    tags:
+      - networking
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158087003
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158087047
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158087090
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: kill_process
+    command: "killall '#process-name!'"
+    description: "Sends a signal to a process, usually to terminate the process."
+    tags:
+      - linux
+      - system
+      - processes
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158088141
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158088183
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158088229
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: reboot_system
+    command: sudo shutdown -r now
+    description: Reboots the system immediately.
+    tags:
+      - linux
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158089049
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158089092
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158089136
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: list_installed_packages
+    command: dpkg --get-selections
+    description: Lists all installed packages in the system.
+    tags:
+      - linux
+      - packages
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158089993
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158090036
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158090081
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: system_info
+    command: uname -a
+    description: "Displays system information such as kernel version, system release and more."
+    tags:
+      - linux
+      - system
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158090980
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158091022
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158091066
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: update_system
+    command: sudo apt-get update && sudo apt-get upgrade -y
+    description: Updates the package lists for upgrades for packages that need upgrading.
+    tags:
+      - linux
+      - system
+      - update
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158092035
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158092079
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158092123
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: user_info
+    command: "id '#username!'"
+    description: Prints real and effective user and group IDs.
+    tags:
+      - linux
+      - system
+      - users
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158093001
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158093046
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158093089
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: change_directory
+    command: "cd '#directory-path!'"
+    description: Changes the current working directory.
+    tags:
+      - linux
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158094303
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158094348
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158094391
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: delete_directory
+    command: "rm -r '#directory-path!'"
+    description: Deletes the specified directory and its contents.
+    tags:
+      - linux
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158095208
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158095252
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158095296
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: create_directory
+    command: "mkdir '#directory-name!'"
+    description: Creates a new directory.
+    tags:
+      - linux
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158096078
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158096122
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158096166
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: gpt
+  - name: git_status
+    command: git status
+    description: "List the files you've changed and those you still need to add or commit"
+    tags:
+      - git
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158097031
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158097073
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158097118
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_connect_remote
+    command: "git remote add origin #"
+    description: "If you haven't connected your local repository to a remote server, add the server to be able to push to it"
+    tags:
+      - git
+      - remote
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158098478
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158098523
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158098603
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_list_remotes
+    command: git remote -v
+    description: List all currently configured remote repositories
+    tags:
+      - git
+      - remote
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158099456
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158099499
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158099546
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_new_branch
+    command: "git checkout -b #"
+    description: Create a new branch and switch to it
+    tags:
+      - git
+      - branch
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158100381
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158100423
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158100468
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_delete_branch
+    command: "git branch -d #"
+    description: Delete the feature branch
+    tags:
+      - git
+      - branch
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158101295
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158101341
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158101385
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_reset
+    command: git reset --hard origin/master
+    description: Fetch latest history form the server and point your local master branch at it
+    tags:
+      - git
+      - reset
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158102188
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158102233
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158102277
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_status
+    command: git status
+    description: "List the files you've changed and those you still need to add or commit"
+    tags:
+      - git
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158103024
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158103068
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158103112
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_connect_remote
+    command: "git remote add origin #"
+    description: "If you haven't connected your local repository to a remote server, add the server to be able to push to it"
+    tags:
+      - git
+      - remote
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158103965
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158104007
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158104053
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_list_remotes
+    command: git remote -v
+    description: List all currently configured remote repositories
+    tags:
+      - git
+      - remote
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158104860
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158104906
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158104950
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_new_branch
+    command: "git checkout -b #"
+    description: Create a new branch and switch to it
+    tags:
+      - git
+      - branch
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158105758
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158105801
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158105846
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_delete_branch
+    command: "git branch -d #"
+    description: Delete the feature branch
+    tags:
+      - git
+      - branch
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158106659
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158106704
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158106748
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_reset
+    command: git reset --hard origin/master
+    description: Fetch latest history form the server and point your local master branch at it
+    tags:
+      - git
+      - reset
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158107553
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158107597
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158107641
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_revert
+    command: "git revert #"
+    description: Revert the changes of a specific commit
+    tags:
+      - git
+      - revert
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158108469
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158108511
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158108556
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_stash
+    command: git stash save
+    description: "Temporarily saves changes that are not committed, allowing you to switch branches"
+    tags:
+      - git
+      - stash
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158109365
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158109411
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158109455
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_commit
+    command: "git commit -m'#'"
+    description: Commit changes in your local repository with a message
+    tags:
+      - git
+      - commit
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158110243
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158110286
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158110331
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_pull
+    command: git pull origin master
+    description: To pull latest changes from the master branch of the remote repository
+    tags:
+      - git
+      - pull
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158111190
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158111236
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158111279
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_rebase
+    command: git rebase
+    description: Apply any commit of current branch ahead of specified one
+    tags:
+      - git
+      - rebase
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158112119
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158112165
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158112209
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_merge
+    command: "git merge #"
+    description: Merge a different branch into your active branch
+    tags:
+      - git
+      - merge
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113007
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113050
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113095
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_clone
+    command: "git clone #"
+    description: Clone a repository into a newly created directory
+    tags:
+      - git
+      - clone
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113885
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113930
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158113975
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_diff
+    command: git diff
+    description: "Show changes between commits, commit and working tree, etc"
+    tags:
+      - git
+      - diff
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158114847
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158114890
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158114935
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_log
+    command: git log
+    description: Show commit logs in reverse chronological order
+    tags:
+      - git
+      - log
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158115820
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158115866
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158115909
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_show
+    command: "git show #"
+    description: Show various types of objects
+    tags:
+      - git
+      - show
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158116699
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158116744
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158116787
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_blame
+    command: "git blame #"
+    description: Show what revision and author last modified each line of a file
+    tags:
+      - git
+      - blame
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158117608
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158117652
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158117697
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_fetch
+    command: git fetch origin
+    description: Download objects and refs from another repository
+    tags:
+      - git
+      - fetch
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158118506
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158118551
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158118596
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_push
+    command: "git push origin #"
+    description: Update remote refs along with associated objects
+    tags:
+      - git
+      - push
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158119406
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158119451
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158119493
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_stash_pop
+    command: git stash pop
+    description: Apply stashed changes and remove them from stash list
+    tags:
+      - git
+      - stash
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158120321
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158120365
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158120410
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_checkout
+    command: "git checkout #"
+    description: Switch branches or restore working tree files
+    tags:
+      - git
+      - checkout
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158121257
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158121301
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158121345
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_cherry_pick
+    command: "git cherry-pick #"
+    description: Apply changes introduced by some existing commits
+    tags:
+      - git
+      - cherry-pick
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158122180
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158122226
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158122269
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_rebase_interactive
+    command: "git rebase -i #"
+    description: Interactively determine which commits get included
+    tags:
+      - git
+      - rebase
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158123077
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158123121
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158123165
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_reset_soft
+    command: "git reset --soft #"
+    description: "Reset current HEAD to the specified state, changes are kept"
+    tags:
+      - git
+      - reset
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158135625
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158135667
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158135713
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_ls_files
+    command: git ls-files
+    description: Show information about files in the index and the working tree
+    tags:
+      - git
+      - files
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158136510
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158136555
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158136599
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: git_tag
+    command: "git tag #"
+    description: To tag the current commit with a release or version number.
+    tags:
+      - git
+      - tag
+    created:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158137496
+    modified:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158137540
+    last_used:
+      secs_since_epoch: 1708892443
+      nanos_since_epoch: 158137584
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: git
+  - name: firefox
+    command: "~/Sync-Current-rsync/Applications/Containers/user/share/firefox/run.py run -d  --profile  ~/Sync-Current-rsync/Applications/Containers/user/share/firefox/data/profiles/#profile!"
+    description: Start Firefox through a container
+    tags:
+      - container
+    created:
+      secs_since_epoch: 1708892481
+      nanos_since_epoch: 486540002
+    modified:
+      secs_since_epoch: 1708892481
+      nanos_since_epoch: 486540157
+    last_used:
+      secs_since_epoch: 1708892481
+      nanos_since_epoch: 486540225
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: containers
+  - name: distrobox-fzf
+    command: "distrobox enter (distrobox list | awk '{print $3}' | fzf)"
+    description: Enter a distrobox container using fzf selector
+    tags:
+      - container
+    created:
+      secs_since_epoch: 1708904616
+      nanos_since_epoch: 672251236
+    modified:
+      secs_since_epoch: 1708904616
+      nanos_since_epoch: 672251392
+    last_used:
+      secs_since_epoch: 1708904616
+      nanos_since_epoch: 672251456
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: custoim
+  - name: ssh-forward-port
+    command: "ssh -L 9898:localhost:8384 #host!"
+    description: Forward a port from one machine onto another via an ssh connection
+    tags:
+      - ssh
+    created:
+      secs_since_epoch: 1708984583
+      nanos_since_epoch: 81741054
+    modified:
+      secs_since_epoch: 1708984583
+      nanos_since_epoch: 81741216
+    last_used:
+      secs_since_epoch: 1708984583
+      nanos_since_epoch: 81741329
+    usage_count: 0
+    is_favorite: false
+    is_hidden: false
+    is_deleted: false
+    namespace: net
+namespaces:
+  - net
+  - gpt
+  - git
+  - containers
+  - custoim
+  - default
