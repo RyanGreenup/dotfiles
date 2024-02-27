@@ -100,7 +100,7 @@ wk.register({
       t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
       r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
       a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-      f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format (Async)" },       -- NOTE unsupported on OBSD
+      f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format (Async)" }, -- NOTE unsupported on OBSD
       F = { "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", "Format" },
     },
     t = {
@@ -109,6 +109,12 @@ wk.register({
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
       f = { "<cmd>Telescope filetypes<CR>", "Filetype" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
+      s = {
+        name = "Snippets",
+        {
+          l = { "<cmd> lua Snippy_Toggle_Auto()<CR>", "Toggle Auto LaTeX Snippets" }
+        }
+      }
 
     },
     i = {
@@ -308,7 +314,7 @@ wk.register({
   },
   -- ...
 }, {
-  mode = "v",   -- VISUAL mode
+  mode = "v", -- VISUAL mode
   prefix = "",
   buffer = nil,
   silent = true,
@@ -360,7 +366,7 @@ require("which-key").register({
   },
   -- ...
 }, {
-  mode = "n",   -- NORMAL mode
+  mode = "n", -- NORMAL mode
   prefix = "",
   buffer = nil,
   silent = true,
@@ -412,7 +418,7 @@ require("which-key").register({
   },
   -- ...
 }, {
-  mode = "i",   -- INSERT mode
+  mode = "i", -- INSERT mode
   prefix = "",
   buffer = nil,
   silent = true,
