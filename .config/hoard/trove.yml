@@ -1375,7 +1375,7 @@ commands:
     is_deleted: false
     namespace: git
   - name: firefox
-    command: "~/Sync-Current-rsync/Applications/Containers/user/share/firefox/run.py run -d  --profile  ~/Sync-Current-rsync/Applications/Containers/user/share/firefox/data/profiles/#profile!"
+    command: "~/Sync-Current-rsync/Applications/Containers/user/share/firefox/run.py run -d --profile ~/Sync-Current-rsync/Applications/Containers/user/share/firefox/data/profiles/#profile!"
     description: Start Firefox through a container
     tags:
       - container
@@ -1432,9 +1432,9 @@ commands:
     is_deleted: false
     namespace: net
 namespaces:
-  - net
-  - gpt
   - git
   - containers
-  - custoim
+  - gpt
   - default
+  - custoim
+  - net
