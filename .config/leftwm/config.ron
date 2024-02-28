@@ -11,16 +11,21 @@
     modkey: "Mod4",
     mousekey: "Mod4",
     tags: [
-        "1.Browser ♖",
-        "2.Term ♗",
-        "3.Shell ♔",
-        "4.Code ♕",
-        "5",
-        "6.Notes 📝",
-        "7",
+        "1.Agenda",
+        "2.Browser",
+        "3.Workspace",
+        "4.Workspace",
+        "5.Projects",
+        "6.Notes",
+        "7.Misc",
         "8.Messaging",
-        "9",
-        "10",
+        "9.Shell",
+        "10.",
+    ],
+    layouts: [
+        "Fibonacci",
+        "MainAndVertStack",
+        "MainAndDeck",
     ],
     /*
        This is commented out to enable all layouts
@@ -73,7 +78,8 @@ window_rules: [
         //    $ `leftwm check ~/.config/leftwm/config.ron`
 
         (command: Execute,                 modifier: ["modkey"],                 key: "d",
-         value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
+         // value: "rofi -location 2 -show drun lines 10 -eh 1 -mathing fuzzy -show-icons -window-thumbnail  -theme-str \'element-icon { size: 3ch;}\' -theme DarkBlue"     ),
+         value: "rofi -show drun -mathing fuzzy -show-icons -window-thumbnail"     ),
         (command: Execute,                 modifier: ["modkey"],                 key: "space",
          value: "rofi -show combi -combi-modi 'window,drun,run' -modi combi  lines 10 -eh 2 -mathing fuzzy -show-icons -theme DarkBlue -theme-str 'element-icon { size: 4ch;}'"     ),
         (command: Execute,                 modifier: ["modkey"],                 key: "c",
