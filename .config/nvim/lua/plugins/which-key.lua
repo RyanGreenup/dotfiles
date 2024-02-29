@@ -51,6 +51,10 @@ wk.register({
       D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "LSP: Definition" },
       i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "LSP: Implementation" },
       r = { "<cmd>lua vim.lsp.buf.references()<CR>", "LSP: References" },
+      n = {
+        name = "+notes",
+        d = { "<cmd>:cd ~/Notes/dokuwiki/config/dokuwiki/data/pages/<CR><cmd>Telescope find_files<CR>", "Dokuwiki" }
+      }
     },
     h = {
       name = "help",
@@ -69,12 +73,12 @@ wk.register({
     s = {
       name = "+search",
       s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Swoop" },
-      -- d = { "<cmd>Telescope lsp_document_symbols<CR>",      "LSP document" },
-      d = { "<cmd>Telescope lsp_document_symbols<CR>", "LSP document" },
+      d = { "<cmd>Telescope lsp_document_symbols<CR>", "LSP Document 🔣" },
       j = { "<cmd>Telescope jumplist theme=ivy<CR>", "Jumplist" },
       D = { "<cmd>Telescope lsp_workspace<CR>", "LSP workspace" },
       i = { "<cmd>Telescope ultisnips<CR>", "Ultisnips" },
       e = { "<cmd>Telescope quickfix<CR>", "Errors" },
+      r = { "<cmd>Telescope lsp_references<CR>", "LSP References" },
 
     },
     r = {
