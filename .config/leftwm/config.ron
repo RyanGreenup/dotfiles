@@ -62,6 +62,10 @@
           // These values are relative to the size of the workspace, and will be restricted depending on the workspace size.
           x: 50.0, y: 50.0, height: 600, width: 900,
         ),
+        ( name: "Agenda",
+          value: "emacs --eval \'(org-agenda nil \"a\")\' --eval \"(load-theme 'doom-badger t)\"", spawn_floating: true,
+          x: 50.0, y: 50.0, height: 600, width: 900,
+        ),
     ],
 window_rules: [
   // windows whose WM_CLASS is "Element" will be spawn on tag 8 (by position, 1-indexed)
@@ -103,6 +107,7 @@ window_rules: [
         // (command: FloatingToTile,       modifier: ["modkey", "Shift"],        key: "t",        value: ""                                                                                            ),
         // (command: Execute,              modifier: ["modkey"],                 key: "a",        value: "leftwm_change_theme.sh"                                                                      ),
         (command: ToggleScratchPad,        modifier: ["modkey"],                 key: "grave",    value: "Alacritty" /* Name set for the scratchpad */                                                 ),
+        (command: ToggleScratchPad,        modifier: ["modkey"],                 key: "a",        value: "Agenda"                                                                                      ),
         (command: ReturnToLastTag,         modifier: ["modkey"],                 key: "Tab",      value: ""                                                                                            ),
         (command: Execute,                 modifier: ["modkey", "Shift"],        key: "BackSpace", value: "printf mem | doas tee /sys/power/state"                                                     ),
         (command: IncreaseMainWidth,       modifier: ["modkey"],                 key: "l",        value: "5"                                                                                           ),
