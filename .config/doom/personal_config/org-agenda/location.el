@@ -21,5 +21,6 @@
                         "~/Agenda/todo.org"
                         "~/Agenda/habits.org"
                         "~/Agenda/projects.org"
-                        "~/Notes/rs_wiki/calendar.org"
+                        "~/Notes/rs_wiki/Agenda/calendar.org"
+                        "~/Notes/rs_wiki/Agenda/rs_shopping.org"
                         ))
