@@ -19,8 +19,7 @@
                                         ; ;; https://github.com/doomemacs/doomemacs/issues/5317
 (setq org-agenda-files (list
                         "~/Agenda/todo.org"
-                        "~/Agenda/habits.org"
-                        "~/Agenda/projects.org"
+                        "~/Agenda/inbox.org"
                         "~/Notes/rs_wiki/Agenda/rs_cal.org"
                         "~/Notes/rs_wiki/Agenda/rs_shopping.org"
                         ))
