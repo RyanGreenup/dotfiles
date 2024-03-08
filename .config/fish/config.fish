@@ -61,9 +61,22 @@ function ls! --wraps='ls -ultrah' --description 'alias ls!=ls -ultrah'
 end
 
 ## Easier Xclip
-function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
-    xclip -selection clipboard $argv
+function xp
+    if test -z $WAYLAND_DISPLAY
+        xclip -selection clipboard -out
+    else
+        wl-paste
+    end
 end
+
+function x
+    if test -z $WAYLAND_DISPLAY
+        xclip -selection clipboard
+    else
+        wl-copy
+    end
+end
+
 
 function bn
     bulk_rename.py
