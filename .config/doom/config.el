@@ -67,7 +67,22 @@
 (load! "./lisp/init-org-super-agenda.el")
 
 
+(load! "./personal_config/org-agenda/ryan-merge.el")
+
 ;; TODO Do I need this?
 ;;; Set up a load path
 (setq doom-config-directory "~/.config/doom")
 (add-to-list 'load-path (expand-file-name "lisp" doom-config-directory))
+
+;; TODO Delete this when I'm not scheduling Ryan's agenda
+;; /home/shai/ryan_new_Agenda
+
+;; NOTE can't do this, because it's only local. org-agenda-forward etc. doesn't work
+;; (defun ryan_agenda()
+;;   "launch org-agenda for ryan_new_Agenda."
+;;   (interactive)
+;;   (let ((org-agenda-files '("~/ryan_new_Agenda/monash.org"
+;;                             "~/ryan_new_Agenda/dsa.org"
+;;                             "~/ryan_new_Agenda/todo.org"))) (org-agenda))
+;;   )
+;; (global-set-key (kbd "C-c s") 'ryan_agenda)
