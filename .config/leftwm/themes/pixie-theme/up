@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+export $(dbus-launch)
+
+export SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+if [ -f "/tmp/leftwm-theme-down" ]; then
+    /tmp/leftwm-theme-down
+    rm /tmp/leftwm-theme-down
+fi
+ln -s $SCRIPTPATH/down /tmp/leftwm-theme-down
+
+if [ command -v dunst ]; then
+    dunst
+fi
+
+if [ -x "$(command -v picom)" ]; then
+    picom --config $HOME/.config/leftwm/themes/current/picom.conf &> /dev/null &
+fi
+
+if [ -x "$(command -v feh)" ]; then
+    feh --bg-fill "$SCRIPTPATH/wallpaper.jpg"
+fi
+
+leftwm-command "LoadTheme $SCRIPTPATH/theme.ron"
+
+if [ -x "$(command -v polybar)" ]; then
+    pkill polybar
+    monitors="$(polybar -m | sed s/:.*// | tac)"
+    while read -r display; do
+        MONITOR=$display polybar -c "$SCRIPTPATH/polybar.ini" mainbar &> /dev/null &
+    done <<< "$monitors"
+    exit 0
+fi
