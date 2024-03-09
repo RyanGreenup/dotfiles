@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+leftwm command "UnloadTheme"
+
+pkill polybar
+pkill dunst
+pkill feh
+pkill compton
+
+# Restore old dunst config
+if [ -e $HOME/.config/dunstrc.bak ]; then
+    rm $HOME/.config/dunst/dunstrc
+    mv $HOME/.config/dunst/dunstrc.bak $HOME/.config/dunst/dunstrc
+fi
+
+pkill polybar
