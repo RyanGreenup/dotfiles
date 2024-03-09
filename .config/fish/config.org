@@ -348,6 +348,10 @@ function ns
     _private_open (_private_search $__notes_dir)
 end
 
+function nl
+    $HOME/.config/fish/note_aliases.py --nl --notes_dir $__notes_dir
+end
+
 # *** Search ALL notes
 # I symlinked ~/Notes under ~/Sync/Notes to catch it in this (excludes dokuwiki though)
 function nso
