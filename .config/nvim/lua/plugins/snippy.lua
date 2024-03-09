@@ -12,9 +12,15 @@ local function get_home_path(path)
   return vimfn.expand("$HOME") .. path
 end
 
-local snippet_paths = {
+local tex_snippet_paths = {
   base = get_home_path("/.config/nvim/snippets/tex.snippets"),
   normal = get_home_path("/.config/nvim/snippets/tex_normal"),
+  auto = get_home_path("/.config/nvim/snippets/tex_auto"),
+}
+
+local md_snippet_paths = {
+  base = get_home_path("/.config/nvim/snippets/markdown.snippets"),
+  normal = get_home_path("/.config/nvim/snippets/markdown_normal"),
   auto = get_home_path("/.config/nvim/snippets/tex_auto"),
 }
 
@@ -71,17 +77,19 @@ function rename_markdown_auto_snippets()
     os.rename(auto_file_name_enabled, auto_file_name_disabled)
     print("Moved " .. auto_file_name_enabled .. " to " .. auto_file_name_disabled)
   else
-  -- If not rename it back
+    -- If not rename it back
     os.rename(auto_file_name_disabled, auto_file_name_enabled)
     print("Moved " .. auto_file_name_disabled .. " to " .. auto_file_name_enabled)
   end
 end
 
 function Snippy_Toggle_Auto()
-  local symlink_target = get_symlink_target(snippet_paths.base)
-  if is_known_symlink_target(symlink_target, { snippet_paths.normal, snippet_paths.auto }) then
-    swap_symlink(snippet_paths.base, symlink_target, { snippet_paths.normal, snippet_paths.auto })
+  for _, snippet_paths in ipairs({ md_snippet_paths, tex_snippet_paths }) do
+    local symlink_target = get_symlink_target(snippet_paths.base)
+    if is_known_symlink_target(symlink_target, { snippet_paths.normal, snippet_paths.auto }) then
+      swap_symlink(snippet_paths.base, symlink_target, { snippet_paths.normal, snippet_paths.auto })
+    end
+    rename_markdown_auto_snippets()
   end
-  rename_markdown_auto_snippets()
   vim.cmd [[ :SnippyReload ]]
 end
