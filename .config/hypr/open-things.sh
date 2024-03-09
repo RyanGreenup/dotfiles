@@ -10,6 +10,11 @@ agenda() {
     # --eval '(org-agenda nil "a")'
 }
 
+messages() {
+    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Signal/signal-desktop   --no-sandbox & disown
+    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Element/element-desktop              & disown
+}
+
 options() {
     cat "${0}" | grep ')$' | tr -d ')' | tr -d '"' | tr -d '*'
 }
@@ -20,6 +25,9 @@ case "$1" in
         ;;
     "agenda")
         agenda
+        ;;
+    "messages")
+        messages
         ;;
     *)
         echo "Invalid choice. Please enter either:"
