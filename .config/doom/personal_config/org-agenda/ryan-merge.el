@@ -6,7 +6,8 @@
   (setq org-agenda-files '("~/ryan_new_Agenda/monash.org"
                            "~/ryan_new_Agenda/dsa.org"
                            "~/ryan_new_Agenda/todo.org"
-                           "~/Notes/rs_wiki/Agenda/rs_cal.org"))
+                           "~/Notes/rs_wiki/Agenda/rs_cal.org"
+                           "~/ryan_new_Agenda/ryan_Agenda/todo.org"))
   (org-agenda nil "a"))
 (global-set-key (kbd "C-c r") 'ryan_agenda)
 
