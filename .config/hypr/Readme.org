@@ -1,15 +1,93 @@
 #+title: Hyprland Config
 
-* Structure
+* Introduction
 
-+ ./hyprland.conf
+  This is the configuration for my personal setup, it is a work in progress and is constantly changing.
+
+  It's designed to be similar to LeftWM / DWM in terms of keybindings but with more scratchpads. Holding ALT makes it behave more like i3.
+
+  ** Features
+
+  + Scratchpads
+  + Wofi Window Switcher
+  + Waybar
+  + Resizing
+    + Modal
+    + Dynamic
+  + Nvidia Configuration
+  + Window Rules
+
+* Keybindings
+
+| Keybinding                         | Action                                                                                   | Context      |
+|------------------------------------+------------------------------------------------------------------------------------------+--------------|
+| =SUPER SHIFT Backspace=            | Executes a command to echo mem into /sys/power/state                                     | Main         |
+| =SUPER SHIFT r=                    | Forces a renderer reload                                                                 | Main         |
+| =SUPER SHIFT o=                    | Toggles opaque display                                                                   | Main         |
+| =SUPER b=                          | Executes a command that either kills waybar or starts it, depending on its current state | Main         |
+| =SUPER SHIFT Return=               | Executes the terminal ($term)                                                            | Applications |
+| =SUPER t=                          | Executes a command to open terminal with shell_dashboard.py                              | Applications |
+| =SUPER ALT b=                      | Executes two commands ($fx_ark & $fx_web) concurrently                                   | Applications |
+| =SUPER Space=                      | Executes command to show wofi drun                                                       | Applications |
+| =SUPER d=                          | Executes command to show wofi run                                                        | Applications |
+| =SUPER E=                          | Executes Neovide.AppImage                                                                | Editors      |
+| =SUPER CTRL E=                     | Executes emacs command ($emacs_cmd)                                                      | Editors      |
+| =SUPER SHIFT S=                    | Executes command to take a screenshot                                                    | Screenshot   |
+| =SUPER s=                          | Pins a window                                                                            | Windows      |
+| =SUPER Q=                          | Kills an active window                                                                   | Windows      |
+| =SUPER SHIFT Q=                    | Executes command to kill the window associated with the current pid                      | Windows      |
+| =SUPER SHIFT SPACE=                | Toggles floating windows                                                                 | Windows      |
+| =SUPER ALT SHIFT h=                | Moves window left                                                                        | Move Windows |
+| =SUPER ALT SHIFT l=                | Moves window right                                                                       | Move Windows |
+| =SUPER ALT SHIFT k=                | Moves window up                                                                          | Move Windows |
+| =SUPER ALT SHIFT j=                | Moves window down                                                                        | Move Windows |
+| =SUPER SHIFT Tab=                  | Focuses urgent or last item                                                              | Workspaces   |
+| =SUPER Tab=                        | Switches to the previous workspace                                                       | Workspaces   |
+| =SUPER 0-9=                        | Switches to respective workspace number                                                  | Workspaces   |
+| =SUPER SHIFT 0-9=                  | Moves active window to respective workspace number                                       | Workspaces   |
+| =SUPER mouse_down/mouse_up=        | Scroll to next or previous Workspace                                                     | Workspaces   |
+| =ALT T=                            | Toggles group                                                                            | Scratchpads  |
+| =ALT p/n=                          | Changes active group backward or forward                                                 | Scratchpads  |
+| =XF86AudioRaiseVolume/LowerVolume= | Raises or lowers the volume                                                              | Laptops      |
+| =XF86AudioMute=                    | Toggles audio mute                                                                       | Laptops      |
+
+* Structure
+** Config
++ [[./hyprland.conf]]
   + Main Config
 + [[conf/hyprland_keyboard.conf]]
   + All Keybindings are contained by this file
     + The exception being scratchpads
 + [[./conf/hyprland_scratchpads.conf]]
   + Configuration for scratchpads
-    + =s-C-m=
+    + =s-C-m= -- Messages
       + Contains [[https://github.com/element-hq/element-desktop][element]] and [[https://github.com/signalapp][signal]]
         + These run inside [[https://github.com/89luca89/distrobox][distrobox]] using [[https://github.com/containers/podman][podman]]
-        +:e The images are build with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/applications/signal-desktop/Dockerfile]]
+        + The images are build with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/applications/signal-desktop/Dockerfile]]
+    + =s-a= -- Agenda
+      + Contains Emacs
+        + This runs inside [[https://github.com/89luca89/distrobox][distrobox]] using [[https://github.com/containers/podman][podman]]
+        + Built with with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/base/text_editors/Dockerfile]]
+    + =s-`= -- Terminal
+      + Contains Alacritty
++ [[./conf/hyprland_nvidia.conf]]
+  + Configuration for nvidia to help it work somewhat better
+    + May need a kernel parameter at /etc/modprobe.d/nvidia.conf, see [[https://wiki.hyprland.org/Nvidia/][wiki.hyprland/Nvidia]]
++  [[./conf/hyprland_resize_mode.conf]]
+  + Logic for a resize mode
+
++ [[./conf/hyprland_window_rules.conf]]
+  + Configuration for window rules
+    + Basically moves Firefox to the web tag
+      + See [[../waybar/config]]
+
+** Scripts
+
+   + ./window_switcher.sh
+     + A script to print the `hyprctl` output and parse it with `wofi`
+     + TODO implement pulling window to current tag
+   + ./open-things.sh
+     + A shell script with functions to move logic out of the keybindings
+   + ./take-screenshot.sh
+     + A script to take a screenshot, save it to `/tmp/` and copy it to the clipboard
+       + Requires `slurp` and `grim`
