@@ -1,7 +1,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Fira Sans, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 24px;
+    font-size: 15px;
 }
 
 window#waybar {
@@ -112,7 +112,7 @@ button:hover {
 }
 
 #clock {
-  font-size: 40px
+  font-size: 15px
 }
 
 #battery {
