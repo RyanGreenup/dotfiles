@@ -1,0 +1,9 @@
+#+title: Hyprland Config
+
+* Structure
+
++ ./hyprland.conf
+  + Main Config
++ [[file:conf/hyprland_keyboard.conf]]
+  + Keyboard configuration
++ [[conf/hyprland_keyboard.conf]]
