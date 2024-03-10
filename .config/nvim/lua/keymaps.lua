@@ -128,7 +128,6 @@ function dokuwiki_heading(decrease)
   print("#: ", hnum)
 end
 
-
 IS_SMALL = true
 function toggle_full(make_big)
   if make_big then
@@ -155,7 +154,9 @@ function dokuwiki_headings_list()
   local h3 = [[sd '(\d):===='   '$1:..###'   | ]]
   local h4 = [[sd '(\d):==='    '$1:...####'  | ]]
   local h5 = [[sd '(\d):=='     '$1:....#####' | ]]
-  local cmd = rg_cmd .. awk_align .. rm_trailing .. h1 .. h2 .. h3 .. h4 .. h5 .. " dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
+  local cmd = rg_cmd ..
+      awk_align ..
+      rm_trailing .. h1 .. h2 .. h3 .. h4 .. h5 .. " dmenu -if -l 80 -b --font=monofur | cut -d ':' -f 1 | tr -d '\n'"
 
   local f = assert(io.popen(cmd, 'r'))
   local s = tonumber(f:read('*a'))
@@ -188,25 +189,31 @@ map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
 map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
 
 -- Copilot
-vim.cmd [[
-imap <C-k> <Esc>:Copilot<CR><C-w>L:lua Make_floating()<CR>
-"" A Keybinding to toggle Copilot
-nnoremap <leader>tc :Copilot enable<CR>
+local copilot_enabled = false
+function Copilot_toggle()
+  copilot_enabled = not copilot_enabled
+  if copilot_enabled then
+    vim.cmd([[:Copilot enable]])
+    print("Copilot Enabled")
+  else
+    vim.cmd([[:Copilot disable]])
+    print("Copilot Disabled")
+  end
+end
 
-"" Disable Copilot at startup
-let g:copilot_enabled = 0
-]]
-
+map('n', '<leader>tc', ':lua copilot_toggle()<CR>', default_opts)
+map('i', '<C-k>', '<Esc>:Copilot<CR><C-w>L:lua Make_floating()<CR>', default_opts)
 -- A function to take the current window and make it floating
 function Make_floating(t)
   local win = vim.api.nvim_get_current_win()
   local buf = vim.api.nvim_win_get_buf(win)
 
   vim.api.nvim_open_win(buf, true,
-    {relative='editor', row=3, col=3, width=40, height=60, border='single', title=t})
+    { relative = 'editor', row = 3, col = 3, width = 40, height = 60, border = 'single', title = t })
 
   vim.api.nvim_win_close(win, true)
 end
+
 -- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
 
 -- Keybindings for Snippy
