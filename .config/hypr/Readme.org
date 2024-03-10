@@ -4,6 +4,12 @@
 
 + ./hyprland.conf
   + Main Config
-+ [[file:conf/hyprland_keyboard.conf]]
-  + Keyboard configuration
 + [[conf/hyprland_keyboard.conf]]
+  + All Keybindings are contained by this file
+    + The exception being scratchpads
++ [[./conf/hyprland_scratchpads.conf]]
+  + Configuration for scratchpads
+    + =s-C-m=
+      + Contains [[https://github.com/element-hq/element-desktop][element]] and [[https://github.com/signalapp][signal]]
+        + These run inside [[https://github.com/89luca89/distrobox][distrobox]] using [[https://github.com/containers/podman][podman]]
+        +:e The images are build with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/applications/signal-desktop/Dockerfile]]
