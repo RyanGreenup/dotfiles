@@ -19,38 +19,149 @@
 
 * Keybindings
 
-| Keybinding                         | Action                                                                                   | Context      |
-|------------------------------------+------------------------------------------------------------------------------------------+--------------|
-| =SUPER SHIFT Backspace=            | Executes a command to echo mem into /sys/power/state                                     | Main         |
-| =SUPER SHIFT r=                    | Forces a renderer reload                                                                 | Main         |
-| =SUPER SHIFT o=                    | Toggles opaque display                                                                   | Main         |
-| =SUPER b=                          | Executes a command that either kills waybar or starts it, depending on its current state | Main         |
-| =SUPER SHIFT Return=               | Executes the terminal ($term)                                                            | Applications |
-| =SUPER t=                          | Executes a command to open terminal with shell_dashboard.py                              | Applications |
-| =SUPER ALT b=                      | Executes two commands ($fx_ark & $fx_web) concurrently                                   | Applications |
-| =SUPER Space=                      | Executes command to show wofi drun                                                       | Applications |
-| =SUPER d=                          | Executes command to show wofi run                                                        | Applications |
-| =SUPER E=                          | Executes Neovide.AppImage                                                                | Editors      |
-| =SUPER CTRL E=                     | Executes emacs command ($emacs_cmd)                                                      | Editors      |
-| =SUPER SHIFT S=                    | Executes command to take a screenshot                                                    | Screenshot   |
-| =SUPER s=                          | Pins a window                                                                            | Windows      |
-| =SUPER Q=                          | Kills an active window                                                                   | Windows      |
-| =SUPER SHIFT Q=                    | Executes command to kill the window associated with the current pid                      | Windows      |
-| =SUPER SHIFT SPACE=                | Toggles floating windows                                                                 | Windows      |
-| =SUPER ALT SHIFT h=                | Moves window left                                                                        | Move Windows |
-| =SUPER ALT SHIFT l=                | Moves window right                                                                       | Move Windows |
-| =SUPER ALT SHIFT k=                | Moves window up                                                                          | Move Windows |
-| =SUPER ALT SHIFT j=                | Moves window down                                                                        | Move Windows |
-| =SUPER SHIFT Tab=                  | Focuses urgent or last item                                                              | Workspaces   |
-| =SUPER Tab=                        | Switches to the previous workspace                                                       | Workspaces   |
-| =SUPER 0-9=                        | Switches to respective workspace number                                                  | Workspaces   |
-| =SUPER SHIFT 0-9=                  | Moves active window to respective workspace number                                       | Workspaces   |
-| =SUPER mouse_down/mouse_up=        | Scroll to next or previous Workspace                                                     | Workspaces   |
-| =ALT T=                            | Toggles group                                                                            | Scratchpads  |
-| =ALT p/n=                          | Changes active group backward or forward                                                 | Scratchpads  |
-| =XF86AudioRaiseVolume/LowerVolume= | Raises or lowers the volume                                                              | Laptops      |
-| =XF86AudioMute=                    | Toggles audio mute                                                                       | Laptops      |
+** Applications
+:PROPERTIES:
+:CUSTOM_ID: applications
+:END:
+*** System
+:PROPERTIES:
+:CUSTOM_ID: system
+:END:
+- Terminal
+  - =SUPER + SHIFT + Return= - Opens the terminal
+- Terminal Dashboard
+  - =SUPER + t= - Opens the Terminal Dashboard script
+- File Explorer and Web Browser
+  - =SUPER + ALT + b= - Opens File Explorer and Web Browser
+- Application Launcher
+  - =SUPER + Space= - Opens the Application Launcher (Desktop Run)
+  - =SUPER + d= - Opens the Application Launcher (Run Binary)
+- Window Switcher
+  - =SUPER + slash= - Opens the Window Switcher
 
+*** Editors
+:PROPERTIES:
+:CUSTOM_ID: editors
+:END:
+- Neovide
+  - =SUPER + E= - Opens the Neovide Editor
+- Emacs
+  - =SUPER + CTRL + E= - Opens Emacs
+- VSCode
+  - =SUPER + ALT + E= - Opens VSCode Insiders
+
+** Windows
+:PROPERTIES:
+:CUSTOM_ID: windows
+:END:
+*** Management
+:PROPERTIES:
+:CUSTOM_ID: management
+:END:
+- Pin Window
+  - =SUPER + s= - Pins the Active Window
+- Kill Window
+  - =SUPER + Q= - Kills the Active Window
+- Kill Application
+  - =SUPER + SHIFT + Q= - Kills the Active Application
+- Adjust Layout
+  - =SUPER + w= - Adds a Master to the Layout
+- Fullscreen
+  - =SUPER + M= - Toggles FullScreen for the Active Window
+- Floating Window
+  - =SUPER + SHIFT + Space= - Toggles Floating for the Active Window
+- Center Window
+  - =SUPER + c= - Centers the Active Window
+
+*** Movement
+:PROPERTIES:
+:CUSTOM_ID: movement
+:END:
+- Move Focus
+  - =SUPER + ALT + h= - Moves Focus Left
+  - =SUPER + ALT + l= - Moves Focus Right
+  - =SUPER + ALT + k= - Moves Focus Up
+  - =SUPER + ALT + j= - Moves Focus Down
+- Move Window
+  - =SUPER + ALT + SHIFT + h= - Moves Window Left
+  - =SUPER + ALT + SHIFT + l= - Moves Window Right
+  - =SUPER + ALT + SHIFT + k= - Moves Window Up
+  - =SUPER + ALT + SHIFT + j= - Moves Window Down
+
+** Workspaces
+:PROPERTIES:
+:CUSTOM_ID: workspaces
+:END:
+*** Switching
+:PROPERTIES:
+:CUSTOM_ID: switching
+:END:
+- Cycle Through
+  - =SUPER + Tab= - Cycles through Workspaces
+  - =ALT + Tab= - Cycles through Active Windows
+- Direct Selection
+  - =SUPER + 1= to =SUPER + 0= - Switches Directly to Workspace 1
+    through 10
+
+*** Movement
+:PROPERTIES:
+:CUSTOM_ID: movement-1
+:END:
+- Active Window
+  - =SUPER + SHIFT + 1= to =SUPER + SHIFT + 0= - Moves Active Window to
+    Workspace 1 through 10
+- Mouse Scrolling
+  - =SUPER + mouse_down= - Moves to Next Workspace
+  - =SUPER + mouse_up= - Moves to Previous Workspace
+- Cycle Between Workspace
+  - =SUPER + p= - Moves to Next Workspace
+  - =SUPER + n= - Moves to Previous Workspace
+- Move Active Window to Workspace
+  - =SUPER + SHIFT + p= - Moves Active window to Next Workspace
+  - =SUPER + SHIFT + n= - Moves Active window to Previous Workspace
+
+** Scratchpads
+:PROPERTIES:
+:CUSTOM_ID: scratchpads
+:END:
+- Toggle Group
+  - =ALT + T= - Toggles active group
+- Change Group Active
+  - =ALT + p= - Change to active group backwards
+  - =ALT + n= - Change to active group forward
+
+** Laptops
+:PROPERTIES:
+:CUSTOM_ID: laptops
+:END:
+*** Audio
+:PROPERTIES:
+:CUSTOM_ID: audio
+:END:
+- Volume Control
+  - =XF86AudioRaiseVolume= - Raises Volume
+  - =XF86AudioLowerVolume= - Lowers Volume
+  - =XF86AudioMute= - Toggles Audio Mute
+
+*** Power Management
+:PROPERTIES:
+:CUSTOM_ID: power-management
+:END:
+- Pause System
+  - =SUPER + SHIFT + Backspace= - Puts System into Pause mode
+
+** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+- Take Screenshot
+  - =SUPER + SHIFT + S= - Executes screenshot shell script
+
+** Exit System
+:PROPERTIES:
+:CUSTOM_ID: exit-system
+:END:
+- =SUPER + SHIFT + E= - Exits the system
 * Structure
 ** Config
 + [[./hyprland.conf]]
