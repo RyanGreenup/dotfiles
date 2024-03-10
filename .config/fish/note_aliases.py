@@ -30,19 +30,17 @@ def note_taking_link(notes_dir: str):
 
     # Use the note_taking script to get the new note link
     cmd = ["note_taking", "-d", notes_dir, "link"]
-    new_link = subprocess.run(cmd, capture_output=True,
-                              check=True,
-                              text=True).stdout.strip()
-
-    print("what am I missing?")
+    new_link_from_notes_dir = subprocess.run(cmd, capture_output=True,
+                                             check=True,
+                                             text=True).stdout.strip()
+    new_link = f"{notes_dir}/{new_link_from_notes_dir}"
     new_link = os.path.abspath(new_link)
-    rel_link = os.path.relpath(new_link, filename)
+    rel_link = os.path.relpath(new_link, os.path.dirname(filename))
 
     # Clean it up with a display title
     froms = ["-", "_", " "]
     strips = ["../", "./"]
     ext = "." + filename.split(".")[-1]
-    print(f"The extension here was {ext}")
 
     display_title = rel_link
     if ext != "":
@@ -56,7 +54,9 @@ def note_taking_link(notes_dir: str):
     display_title = display_title.title()
 
     # Now print it
-    print(f"[{display_title}]({rel_link})")
+    link = f"[{display_title}]({rel_link})"
+    pyperclip.copy(link)
+    print(link)
 
 
 def main(args):
