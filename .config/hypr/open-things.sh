@@ -1,9 +1,10 @@
 #!/bin/sh
 
 notes() {
-    firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/linux/too-many-open-files & disown
+    firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/ & disown
     ## $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
-    flatpak run md.obsidian.Obsidian & disown
+    ## flatpak run md.obsidian.Obsidian & disown
+    Obsidian.AppImage & disown
 }
 
 agenda() {
@@ -13,10 +14,11 @@ agenda() {
 }
 
 messages() {
-    flatpak run org.signal.Signal & disown
-    flatpan run im.riot.Riot & disown
-    ## /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Signal/signal-desktop   --no-sandbox & disown
-    ## /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Element/element-desktop              & disown
+    ## flatpak run org.signal.Signal & disown
+    ## flatpak run im.riot.Riot & disown
+    ## element-desktop & disown
+    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Signal/signal-desktop   --no-sandbox & disown
+    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Element/element-desktop              & disown
 }
 
 options() {
