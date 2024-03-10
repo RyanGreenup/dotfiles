@@ -6,7 +6,8 @@ notes() {
 }
 
 agenda() {
-    /usr/bin/distrobox-enter  -n text_editors -- /bin/sh -l -c  emacs  & disown
+    emacs --eval '(org-agenda nil "a")' --eval "(load-theme 'doom-badger t)"
+    # /usr/bin/distrobox-enter  -n text_editors -- /bin/sh -l -c  emacs  & disown
     # --eval '(org-agenda nil "a")'
 }
 
