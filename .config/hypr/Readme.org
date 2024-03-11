@@ -1,0 +1,204 @@
+#+title: Hyprland Config
+
+* Introduction
+
+  This is the configuration for my personal setup, it is a work in progress and is constantly changing.
+
+  It's designed to be similar to LeftWM / DWM in terms of keybindings but with more scratchpads. Holding ALT makes it behave more like i3.
+
+  ** Features
+
+  + Scratchpads
+  + Wofi Window Switcher
+  + Waybar
+  + Resizing
+    + Modal
+    + Dynamic
+  + Nvidia Configuration
+  + Window Rules
+
+* Keybindings
+
+** Applications
+:PROPERTIES:
+:CUSTOM_ID: applications
+:END:
+*** System
+:PROPERTIES:
+:CUSTOM_ID: system
+:END:
+- Terminal
+  - =SUPER + SHIFT + Return= - Opens the terminal
+- Terminal Dashboard
+  - =SUPER + t= - Opens the Terminal Dashboard script
+- File Explorer and Web Browser
+  - =SUPER + ALT + b= - Opens File Explorer and Web Browser
+- Application Launcher
+  - =SUPER + Space= - Opens the Application Launcher (Desktop Run)
+  - =SUPER + d= - Opens the Application Launcher (Run Binary)
+- Window Switcher
+  - =SUPER + slash= - Opens the Window Switcher
+
+*** Editors
+:PROPERTIES:
+:CUSTOM_ID: editors
+:END:
+- Neovide
+  - =SUPER + E= - Opens the Neovide Editor
+- Emacs
+  - =SUPER + CTRL + E= - Opens Emacs
+- VSCode
+  - =SUPER + ALT + E= - Opens VSCode Insiders
+
+** Windows
+:PROPERTIES:
+:CUSTOM_ID: windows
+:END:
+*** Management
+:PROPERTIES:
+:CUSTOM_ID: management
+:END:
+- Pin Window
+  - =SUPER + s= - Pins the Active Window
+- Kill Window
+  - =SUPER + Q= - Kills the Active Window
+- Kill Application
+  - =SUPER + SHIFT + Q= - Kills the Active Application
+- Adjust Layout
+  - =SUPER + w= - Adds a Master to the Layout
+- Fullscreen
+  - =SUPER + M= - Toggles FullScreen for the Active Window
+- Floating Window
+  - =SUPER + SHIFT + Space= - Toggles Floating for the Active Window
+- Center Window
+  - =SUPER + c= - Centers the Active Window
+
+*** Movement
+:PROPERTIES:
+:CUSTOM_ID: movement
+:END:
+- Move Focus
+  - =SUPER + ALT + h= - Moves Focus Left
+  - =SUPER + ALT + l= - Moves Focus Right
+  - =SUPER + ALT + k= - Moves Focus Up
+  - =SUPER + ALT + j= - Moves Focus Down
+- Move Window
+  - =SUPER + ALT + SHIFT + h= - Moves Window Left
+  - =SUPER + ALT + SHIFT + l= - Moves Window Right
+  - =SUPER + ALT + SHIFT + k= - Moves Window Up
+  - =SUPER + ALT + SHIFT + j= - Moves Window Down
+
+** Workspaces
+:PROPERTIES:
+:CUSTOM_ID: workspaces
+:END:
+*** Switching
+:PROPERTIES:
+:CUSTOM_ID: switching
+:END:
+- Cycle Through
+  - =SUPER + Tab= - Cycles through Workspaces
+  - =ALT + Tab= - Cycles through Active Windows
+- Direct Selection
+  - =SUPER + 1= to =SUPER + 0= - Switches Directly to Workspace 1
+    through 10
+
+*** Movement
+:PROPERTIES:
+:CUSTOM_ID: movement-1
+:END:
+- Active Window
+  - =SUPER + SHIFT + 1= to =SUPER + SHIFT + 0= - Moves Active Window to
+    Workspace 1 through 10
+- Mouse Scrolling
+  - =SUPER + mouse_down= - Moves to Next Workspace
+  - =SUPER + mouse_up= - Moves to Previous Workspace
+- Cycle Between Workspace
+  - =SUPER + p= - Moves to Next Workspace
+  - =SUPER + n= - Moves to Previous Workspace
+- Move Active Window to Workspace
+  - =SUPER + SHIFT + p= - Moves Active window to Next Workspace
+  - =SUPER + SHIFT + n= - Moves Active window to Previous Workspace
+
+** Scratchpads
+:PROPERTIES:
+:CUSTOM_ID: scratchpads
+:END:
+- Toggle Group
+  - =ALT + T= - Toggles active group
+- Change Group Active
+  - =ALT + p= - Change to active group backwards
+  - =ALT + n= - Change to active group forward
+
+** Laptops
+:PROPERTIES:
+:CUSTOM_ID: laptops
+:END:
+*** Audio
+:PROPERTIES:
+:CUSTOM_ID: audio
+:END:
+- Volume Control
+  - =XF86AudioRaiseVolume= - Raises Volume
+  - =XF86AudioLowerVolume= - Lowers Volume
+  - =XF86AudioMute= - Toggles Audio Mute
+
+*** Power Management
+:PROPERTIES:
+:CUSTOM_ID: power-management
+:END:
+- Pause System
+  - =SUPER + SHIFT + Backspace= - Puts System into Pause mode
+
+** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+- Take Screenshot
+  - =SUPER + SHIFT + S= - Executes screenshot shell script
+
+** Exit System
+:PROPERTIES:
+:CUSTOM_ID: exit-system
+:END:
+- =SUPER + SHIFT + E= - Exits the system
+* Structure
+** Config
++ [[./hyprland.conf]]
+  + Main Config
++ [[conf/hyprland_keyboard.conf]]
+  + All Keybindings are contained by this file
+    + The exception being scratchpads
++ [[./conf/hyprland_scratchpads.conf]]
+  + Configuration for scratchpads
+    + =s-C-m= -- Messages
+      + Contains [[https://github.com/element-hq/element-desktop][element]] and [[https://github.com/signalapp][signal]]
+        + These run inside [[https://github.com/89luca89/distrobox][distrobox]] using [[https://github.com/containers/podman][podman]]
+        + The images are build with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/applications/signal-desktop/Dockerfile]]
+    + =s-a= -- Agenda
+      + Contains Emacs
+        + This runs inside [[https://github.com/89luca89/distrobox][distrobox]] using [[https://github.com/containers/podman][podman]]
+        + Built with with [[../../.local/share/dockerfiles/applications/signal-desktop/Dockerfile][~/.local/share/dockerfiles/base/text_editors/Dockerfile]]
+    + =s-`= -- Terminal
+      + Contains Alacritty
++ [[./conf/hyprland_nvidia.conf]]
+  + Configuration for nvidia to help it work somewhat better
+    + May need a kernel parameter at /etc/modprobe.d/nvidia.conf, see [[https://wiki.hyprland.org/Nvidia/][wiki.hyprland/Nvidia]]
++  [[./conf/hyprland_resize_mode.conf]]
+  + Logic for a resize mode
+
++ [[./conf/hyprland_window_rules.conf]]
+  + Configuration for window rules
+    + Basically moves Firefox to the web tag
+      + See [[../waybar/config]]
+
+** Scripts
+
+   + ./window_switcher.sh
+     + A script to print the `hyprctl` output and parse it with `wofi`
+     + TODO implement pulling window to current tag
+   + ./open-things.sh
+     + A shell script with functions to move logic out of the keybindings
+   + ./take-screenshot.sh
+     + A script to take a screenshot, save it to `/tmp/` and copy it to the clipboard
+       + Requires `slurp` and `grim`

@@ -1,6 +1,13 @@
-vim.g.slime_target = "zellij"
+-- TODO figure out how to use a different tmux name
+--      right now it's gotta be "default"
+vim.g.slime_target = "tmux"
+vim.g.slime_bracketed_paste = 1
+vim.g.slime_preserve_curpos = 0
 
-vim.cmd([[
+-- This is the Zellij config, I had some performance issues and
+-- It didn't resize which was annoying
+
+local zellij_config = [[
 let g:slime_default_config = {"session_id": "current", "relative_pane": "right"}
 
 " I needed this to fix ipython (ptpython loses a \n though)
@@ -27,4 +34,8 @@ let g:slime_preserve_curpos = 0
 " xmap <M-e> <Plug>SlimeRegionSend
 " nmap <M-e> <Plug>SlimeParagraphSend
 " nmap <c-c>v     <Plug>SlimeConfig
-]])
+]]
+
+
+-- vim.cmd(zellij_config)
+

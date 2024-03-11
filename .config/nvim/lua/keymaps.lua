@@ -201,7 +201,7 @@ function Copilot_toggle()
   end
 end
 
-map('n', '<leader>tc', ':lua copilot_toggle()<CR>', default_opts)
+map('n', '<leader>tc', ':lua Copilot_toggle()<CR>', default_opts)
 map('i', '<C-k>', '<Esc>:Copilot<CR><C-w>L:lua Make_floating()<CR>', default_opts)
 -- A function to take the current window and make it floating
 function Make_floating(t)
