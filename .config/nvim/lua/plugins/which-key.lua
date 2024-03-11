@@ -3,18 +3,26 @@ local wk = require('which-key')
 vim.cmd [[ set timeoutlen=10 ]]
 local n = require('notify')
 
+local theme = "ivy" -- Allowed: dropdown, ivy, ...
+function telescope_command(s, s2)
+  local command = "<cmd>" .. s .. " theme=" .. theme .. "<cr>"
+  return { command, s2 }
+end
 
 wk.register({
   ["<leader>"] = {
-    ["<leader>"] = { "<cmd>Telescope<CR>", "Telescope" },
-    ["'"] = { "<cmd>Telescope resume<CR>", "Telescope Resume" },
+    -- ["<leader>"] = { "<cmd>Telescope<CR>", "Telescope" },
+    -- ["<leader>"] = { "<cmd>Telescope find_files theme=ivy<cr>", "Find File" },
+    -- ["'"] = { "<cmd>Telescope resume<CR>", "Telescope Resume" },
+    ["<leader>"] = telescope_command("Telescope find_files", "Find File"),
+    ["'"] = telescope_command("Telescope resume", "Telescope Resume"),
 
     b = {
       name = "+buffers",
       b = { "<cmd>Telescope buffers<CR>", "Buffers" },
 
-      n = { "<cmd>bp<CR>", "Buffer Previous" },
-      p = { "<cmd>bn<CR>", "Buffer Next" },
+      n = { "<cmd>bn<CR>", "Buffer Previous" },
+      p = { "<cmd>bp<CR>", "Buffer Next" },
     },
     c = {
       name = "+create",
@@ -34,8 +42,8 @@ wk.register({
     },
     f = {
       name = "+file",
-      f = { "<cmd>Telescope file_browser theme=ivy<cr>", "Find File" },
-      z = { "<cmd>Telescope find_files theme=dropdown<cr>", "Find File" },
+      f = telescope_command("Telescope file_browser", "Find File"),
+      z = telescope_command("Telescope find_files", "Fzf File"),
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       n = { "<cmd>enew<cr>", "New File" },
@@ -72,13 +80,15 @@ wk.register({
     },
     s = {
       name = "+search",
-      s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Swoop" },
+      -- s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Swoop" },
+      s = telescope_command("Telescope current_buffer_fuzzy_find", "Swoop"),
       d = { "<cmd>Telescope lsp_document_symbols<CR>", "LSP Document 🔣" },
       j = { "<cmd>Telescope jumplist theme=ivy<CR>", "Jumplist" },
       D = { "<cmd>Telescope lsp_workspace<CR>", "LSP workspace" },
       i = { "<cmd>Telescope ultisnips<CR>", "Ultisnips" },
       e = { "<cmd>Telescope quickfix<CR>", "Errors" },
       r = { "<cmd>Telescope lsp_references<CR>", "LSP References" },
+      m = telescope_command("Telescope marks", "Marks"),
 
     },
     r = {
