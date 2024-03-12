@@ -77,6 +77,7 @@ wk.register({
       name = "+open",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
+      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium-insiders/codium-insiders --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
     },
     s = {
       name = "+search",
