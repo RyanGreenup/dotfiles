@@ -1,7 +1,10 @@
+#!/usr/bin/env python3
+
 import argparse
 import calendar
 import datetime
 import typer
+import pyperclip
 
 
 app = typer.Typer()
@@ -17,7 +20,9 @@ def generate_calendar(year: int, month: int, relpath: str = ".", verbose: bool =
         if len(calendar_month[0]) == 1 and calendar_month[0][0] > 1:
             week_number = week_number - 1
     for week in calendar_month:
-        markdown_table += "| Wk" + str("%02d" % week_number) + " "
+        # markdown_table += "| Wk" + str("%02d" % week_number) + " "
+        wk_num = str("%02d" % week_number)
+        markdown_table += f"| [Wk{wk_num}]({year}.wk_{wk_num}.md) "
         for day in week:
             if day == 0:
                 markdown_table += "|     "
@@ -38,6 +43,7 @@ def generate_calendar(year: int, month: int, relpath: str = ".", verbose: bool =
         week_number += 1
     if verbose:
         print(markdown_table)
+    pyperclip.copy(markdown_table)
     return markdown_table
 
 
