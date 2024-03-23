@@ -229,6 +229,4 @@ xmap <Tab> <Plug>(snippy-cut-text)
 
 -- Trailing C-i fix
 -- https://github.com/neovim/neovim/issues/20126
-vim.cmd [[
-nnoremap <C-i> <C-i>
-]]
+map('n', '<C-i>', '<C-i>', { noremap = true })
