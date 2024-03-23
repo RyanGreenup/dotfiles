@@ -5,6 +5,9 @@ snippet dm "Display Math" A
 	$$
 	$0
 
+snippet mk "inline Math" A
+	$$1$ $0
+
 # Math Zone Snippets............................................................
 snippet 8// "Fraction" A
 	\frac{$1}{$2} $3
@@ -41,3 +44,61 @@ snippet mmi "Minus" A
 snippet ppm "Plus or Minus" A
 	\pm $0
 
+
+snippet bf "Bold Font" A
+	\mathbf{$1}$0
+
+snippet uun "Underscore" Aw
+	_{$1}$0
+
+snippet rm "Roman" Aw
+	\mathrm{$1}$0
+
+snippet lrp "Parenthesis" Aw
+	\left($1\right)$0
+
+snippet lr{ "Brace" Aw
+	\left\{$1\right\\}$0
+
+
+snippet lr[ "Parenthesis" Aw
+	\left[$1\right]$0
+
+snippet ee "Equals" A
+	= $0
+
+snippet ^^ "Exponent" Aw
+	^{$1}$0
+
+snippet mcl "Mathcal" A
+	\mathcal{$1}$0
+
+snippet `s "sigma" A
+	\sigma$0
+
+snippet `O "Omega" A
+	\Omega$0
+
+
+snippet uu "subtext" Ai
+	_{$1}$0
+
+
+snippet ... "ldots" Aw
+	\ldots$0
+
+snippet bb "Blackboard" Ai
+	\mathbb{$1}$0
+
+snippet int "Integral" Aw
+	\int $1 {\rm d}$2 $0
+
+snippet dint "Integral" Aw
+	\int^{$1}_{$2} $3 \, {\rm d}$4 $0
+
+
+snippet imp "Implies" Aw
+	\implies $0
+
+snippet ddx "Derivative" A
+	\frac{\mathrm{d}}{\mathrm{d}x} \left( $1 \right) $0
