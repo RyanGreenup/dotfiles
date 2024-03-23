@@ -47,10 +47,16 @@ wk.register({
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       n = { "<cmd>enew<cr>", "New File" },
+      o = {
+        name = "+open",
+        c = { "<cmd>lua Open_file_in_clipboard()<cr>", "Open Clipboard" },
+      },
       p = { "<cmd>e ~/.config/nvim/init.lua<CR>:cd %:p:h<CR>:cd lua<CR>", "Edit Config" },
       g = { "<cmd>:cd %:p:h<cr>", "Go to file (cd)" },
       y = { '<cmd>:let @+=expand("%:p")<cr>', "Copy File Path" },
       Y = { '<cmd>:let @+=expand("%")<cr>"%:p")<cr>', "Copy File Path" },
+      s = { '<cmd>:w!<cr>', "Save" },
+      e = { '<cmd>:e!<cr>', "Revert" },
 
     },
     g = {
@@ -77,7 +83,7 @@ wk.register({
       name = "+open",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
-      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium-insiders/codium-insiders --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
+      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium-insiders/codium-insiders --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
     },
     s = {
       name = "+search",
@@ -124,6 +130,7 @@ wk.register({
       n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
       f = { "<cmd>Telescope filetypes<CR>", "Filetype" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
+      h = { "<cmd>lua Conceal_toggle()<CR>", "Conceal" },
       s = {
         name = "Snippets",
         {
@@ -440,3 +447,36 @@ require("which-key").register({
   noremap = true,
   nowait = true,
 })
+
+
+
+local conceal_level = 0
+local ever_fired = false
+function Conceal_toggle()
+  local new_level = 0
+  if ever_fired == false then
+    new_level = 0
+    ever_fired = true
+  else
+    new_level = (conceal_level + 1) % 3
+  end
+  local message = "Conceal level: " .. conceal_level .. " --> " .. new_level
+  local cmd = "set conceallevel=" .. new_level
+  require('notify')(message)
+  vim.cmd(cmd)
+  conceal_level = new_level
+end
+
+
+
+function Open_file_in_clipboard()
+  local path = vim.fn.getreg("+")
+  -- check if the file exists
+  local file = io.open(path, "r")
+  if file == nil then
+    print("File does not exist: " .. path)
+    return
+  end
+  file:close()
+  vim.cmd(":e " .. path)
+end
