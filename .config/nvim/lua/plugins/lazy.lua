@@ -388,13 +388,8 @@ use {
   dependencies = { 'kyazdani42/nvim-web-devicons', lazy = false }, config = function()
   require("lualine").setup({
     sections = {
-      lualine_x = {
-        {
-          require("lazy.status").updates,
-          cond = require("lazy.status").has_updates,
-          color = { fg = "#ff9e64" },
-        },
-      },
+      lualine_x = { { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = { fg = "#ff9e64" }, }, },
+      lualine_c = { { 'filename', path = 1, } }
     },
   })
 end
