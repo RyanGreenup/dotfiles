@@ -224,3 +224,9 @@ smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>'
 smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
 xmap <Tab> <Plug>(snippy-cut-text)
 ]]
+
+
+
+-- Trailing C-i fix
+-- https://github.com/neovim/neovim/issues/20126
+map('n', '<C-i>', '<C-i>', { noremap = true })
