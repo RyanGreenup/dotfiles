@@ -85,7 +85,7 @@ wk.register({
     o = {
       name = "+open / org",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
-      n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
+      n = { "<cmd>e ~/Notes/slipbox/index.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
       -- May sometimes need --disable-gpu
       v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
