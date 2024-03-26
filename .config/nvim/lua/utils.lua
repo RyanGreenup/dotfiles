@@ -82,8 +82,34 @@ local function add_time_stamp(s)
 end
 
 
-function Change_dayplanner_line(delta_min, delay)
+function Sort_paragraph()
+  -- Get the current buffer and cursor position
+  local buf = vim.api.nvim_get_current_buf()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+
+  -- Get the line number of the end of the paragraph
+  local end_line = vim.fn.search('^$', 'Wn') - 1
+
+  -- If 'end' is less than 'start', set it to the last line of the current buffer
+  if end_line < cursor[1] - 1 then
+    end_line = vim.api.nvim_buf_line_count(buf) - 1
+  end
+
+  -- Get all lines from the cursor to the end of the paragraph
+  local lines = vim.api.nvim_buf_get_lines(buf, cursor[1] - 1, end_line, false)
+
+  -- Sort the lines
+  table.sort(lines)
+
+  -- Replace the original lines with the sorted ones
+  vim.api.nvim_buf_set_lines(buf, cursor[1] - 1, end_line, false, lines)
+end
+-- Export as a command
+vim.cmd("command! SortParagraph lua Sort_paragraph()")
+
+function Change_dayplanner_line(delta_min, delay, sort)
   delay = delay or false
+  sort = sort or false
   -- get line
   local line = vim.api.nvim_get_current_line()
   line = add_time_stamp(line)
@@ -91,8 +117,13 @@ function Change_dayplanner_line(delta_min, delay)
   line = string.gsub(line, "\n$", "")
   -- change time
   local new_line = change_dayplanner_time(line, delta_min, delay)
-  -- -- set line
+  -- set line
   vim.api.nvim_set_current_line(new_line)
+
+  -- Finally Sort the paragraph
+  if sort then
+    Sort_paragraph()
+  end
 
   if delta_min > 0 then
     print("+ " .. delta_min .. "m")
@@ -191,16 +222,32 @@ local commands = {
     [Direction.Right] = function() Change_dayplanner_line(30, true) end,
   },
   [ModalLayer.Split] = {
-    [Direction.Up] = function() vim.cmd("split"); vim.cmd("wincmd k"); vim.cmd("bp") end,
-    [Direction.Down] = function() vim.cmd("split"); vim.cmd("wincmd j"); vim.cmd("bp") end,
-    [Direction.Left] = function() vim.cmd("vsplit"); vim.cmd("wincmd h"); vim.cmd("bp") end,
-    [Direction.Right] = function() vim.cmd("vsplit"); vim.cmd("wincmd l"); vim.cmd("bp") end,
+    [Direction.Up] = function()
+      vim.cmd("split"); vim.cmd("wincmd k"); vim.cmd("bp")
+    end,
+    [Direction.Down] = function()
+      vim.cmd("split"); vim.cmd("wincmd j"); vim.cmd("bp")
+    end,
+    [Direction.Left] = function()
+      vim.cmd("vsplit"); vim.cmd("wincmd h"); vim.cmd("bp")
+    end,
+    [Direction.Right] = function()
+      vim.cmd("vsplit"); vim.cmd("wincmd l"); vim.cmd("bp")
+    end,
   },
   [ModalLayer.Move] = {
-    [Direction.Up] = function() vim.cmd("wincmd k") end,
-    [Direction.Down] = function() vim.cmd("wincmd j") end,
-    [Direction.Left] = function() vim.cmd("wincmd h") end,
-    [Direction.Right] = function() vim.cmd("wincmd l") end,
+    [Direction.Up] = function()
+      vim.cmd("wincmd k"); Resize_windows_Golden()
+    end,
+    [Direction.Down] = function()
+      vim.cmd("wincmd j"); Resize_windows_Golden()
+    end,
+    [Direction.Left] = function()
+      vim.cmd("wincmd h"); Resize_windows_Golden()
+    end,
+    [Direction.Right] = function()
+      vim.cmd("wincmd l"); Resize_windows_Golden()
+    end,
   },
   [ModalLayer.Resize] = {
     [Direction.Right] = function() vim.cmd("vertical resize -5") end,
@@ -238,8 +285,6 @@ end
 function Right()
   commands[Mode][Direction.Right]()
 end
-
-
 
 function ChangeMode(mode)
   Mode = mode
