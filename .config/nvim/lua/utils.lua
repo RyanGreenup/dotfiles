@@ -1,5 +1,3 @@
-
-
 --------------------------------------------------------------------------------
 -- Markdown Stuff --------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -16,8 +14,8 @@ Changes a timestamp in a given line from a day planner file by adding the specif
   change_dayplanner_time("- [ ] 10:00 - 11:00 mdbook", 30) -> "- [ ] 10:30 - 11:30 mdbook"
   change_dayplanner_time("- [ ] 10:00 - 11:00 mdbook", 30, true) -> "- [ ] 10:00 - 11:30 mdbook"
 ]]
-   --
-function change_dayplanner_time(line, minutes, delay)
+--
+local function change_dayplanner_time(line, minutes, delay)
   delay = delay or false
   local start_time, end_time = string.match(line, "(%d%d:%d%d) %- (%d%d:%d%d)")
 
@@ -43,32 +41,19 @@ function change_dayplanner_time(line, minutes, delay)
     new_start_time = inc_time(start_time, minutes)
   end
 
+  -- Can't have end time before start time
+  if new_end_time < new_start_time then
+    new_end_time = new_start_time
+    print("End time cannot be before start time")
+  end
+
   -- Replace the times in the line
   local new_line = string.gsub(line, start_time .. " %- " .. end_time, new_start_time .. " - " .. new_end_time)
 
   return new_line
 end
 
-function Change_dayplanner_line(delta_min, delay)
-  delay = delay or false
-  -- get line
-  local line = vim.api.nvim_get_current_line()
-  local line = add_time_stamp(line)
-  -- strip new lines
-  line = string.gsub(line, "\n$", "")
-  -- change time
-  local new_line = change_dayplanner_time(line, delta_min, delay)
-  -- -- set line
-  vim.api.nvim_set_current_line(new_line)
-
-  if delta_min > 0 then
-    print("+ " .. delta_min .. "m")
-  else
-    print("- " .. -1 * delta_min .. "m")
-  end
-end
-
-function add_time_stamp(s)
+local function add_time_stamp(s)
   local checkbox = '- [ ]'
   local timestamp = ""
   -- Check if the line has a "^- [ ] "
@@ -97,47 +82,75 @@ function add_time_stamp(s)
 end
 
 
+function Change_dayplanner_line(delta_min, delay)
+  delay = delay or false
+  -- get line
+  local line = vim.api.nvim_get_current_line()
+  line = add_time_stamp(line)
+  -- strip new lines
+  line = string.gsub(line, "\n$", "")
+  -- change time
+  local new_line = change_dayplanner_time(line, delta_min, delay)
+  -- -- set line
+  vim.api.nvim_set_current_line(new_line)
+
+  if delta_min > 0 then
+    print("+ " .. delta_min .. "m")
+  else
+    print("- " .. -1 * delta_min .. "m")
+  end
+end
+
 --------------------------------------------------------------------------------
 -- Directories and Projects-----------------------------------------------------
 --------------------------------------------------------------------------------
 
-  -- Better Directory change
-  function shell(cmd)
-    local handle = io.popen(cmd)
-    if handle == nil then
-      print("unable to open process for cmd: " .. cmd)
-      return
-    end
-    local result = handle:read("*a")
-    handle:close()
-    return result
+-- Better Directory change
+local function shell(cmd)
+  local handle = io.popen(cmd)
+  if handle == nil then
+    print("unable to open process for cmd: " .. cmd)
+    return
   end
+  local result = handle:read("*a")
+  handle:close()
+  return result
+end
 
-  function choose_dir_fd()
-    local home = os.getenv("HOME")
-    -- Using Find
-    --[[
+local function choose_dir_fd()
+  local home = os.getenv("HOME")
+  -- Using Find
+  --[[
   local cmd = "cd " .. home
   cmd = cmd .. " && " .. "fd -t d .    | rofi -dmenu"
   local output = shell(cmd)
   return home .. "/" .. output
   --]]
+end
+
+local function choose_dir()
+  -- Using Zoxide
+  local cmd = "zoxide query -l | wofi -dmenu"
+  local output = shell(cmd)
+
+  if output == nil then
+    print("No directory selected")
+    return
   end
 
-  function choose_dir()
-    -- Using Zoxide
-    local cmd = "zoxide query -l | wofi -dmenu"
-    local output = shell(cmd)
+  -- Strip all training newline
+  return string.gsub(output, "\n$", "")
+end
 
-    -- Strip all training newline
-    return string.gsub(output, "\n$", "")
+local function change_dir_interactive()
+  local dir = choose_dir()
+  if dir == nil then
+    print("No directory selected")
+    return
   end
+  vim.api.nvim_set_current_dir(dir)
+end
 
-  function change_dir_interactive()
-    local dir = choose_dir()
-    vim.api.nvim_set_current_dir(dir)
-  end
-
-  function CD()
-    change_dir_interactive()
-  end
+function CD()
+  change_dir_interactive()
+end
