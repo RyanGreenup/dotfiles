@@ -209,8 +209,8 @@ local commands = {
     [Direction.Up] = function() vim.cmd("resize +5") end,
   },
   [ModalLayer.Buffer] = {
-    [Direction.Up] = function() vim.cmd("bnext") end,
-    [Direction.Down] = function() vim.cmd("bprev") end,
+    [Direction.Up] = function() vim.cmd("bn") end,
+    [Direction.Down] = function() vim.cmd("bp") end,
     [Direction.Left] = function() vim.cmd("bfirst") end,
     [Direction.Right] = function() vim.cmd("blast") end,
   },
