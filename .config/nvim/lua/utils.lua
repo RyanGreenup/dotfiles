@@ -141,4 +141,3 @@ end
   function CD()
     change_dir_interactive()
   end
-end

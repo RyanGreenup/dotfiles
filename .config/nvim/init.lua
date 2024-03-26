@@ -33,9 +33,5 @@ else
   -- -- Load keymap last
   require('settings')
   require('keymaps')
-
-
-  vim.cmd [[
-au FileType markdown set conceallevel=2 concealcursor=nv
-]]
+end
 
