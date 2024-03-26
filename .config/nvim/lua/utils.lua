@@ -210,79 +210,19 @@ local commands = {
 
 
 function Up()
-  -- match behavour based on the mode
-  if Mode == ModalLayer.Organize then
-    commands.organize.up()
-  elseif Mode == ModalLayer.Window then
-    commands.window.up()
-  elseif Mode == ModalLayer.Move then
-    commands.move.up()
-  elseif Mode == ModalLayer.Buffer then
-    commands.buffer.up()
-  elseif Mode == ModalLayer.Git then
-    commands.git.up()
-  elseif Mode == ModalLayer.Search then
-    commands.search.up()
-  else
-    vim.cmd("normal! k")
-  end
+  commands[Mode]['up']()
 end
-
-
 
 function Down()
   commands[Mode]['down']()
---   if Mode == ModalLayer.Organize then
---     commands.organize.down()
---   elseif Mode == ModalLayer.Window then
---     commands.window.down()
---   elseif Mode == ModalLayer.Move then
---     commands.move.down()
---   elseif Mode == ModalLayer.Buffer then
---     commands.buffer.down()
---   elseif Mode == ModalLayer.Git then
---     commands.git.down()
---   elseif Mode == ModalLayer.Search then
---     commands.search.down()
---   else
---     vim.cmd("normal! j")
---   end
 end
 
 function Left()
-  if Mode == ModalLayer.Organize then
-    commands.organize.left()
-  elseif Mode == ModalLayer.Window then
-    commands.window.left()
-  elseif Mode == ModalLayer.Move then
-    commands.move.left()
-  elseif Mode == ModalLayer.Buffer then
-    commands.buffer.left()
-  elseif Mode == ModalLayer.Git then
-    commands.git.left()
-  elseif Mode == ModalLayer.Search then
-    commands.search.left()
-  else
-    vim.cmd("normal! h")
-  end
+  commands[Mode]['left']()
 end
 
 function Right()
-  if Mode == ModalLayer.Organize then
-    commands.organize.right()
-  elseif Mode == ModalLayer.Window then
-    commands.window.right()
-  elseif Mode == ModalLayer.Move then
-    commands.move.right()
-  elseif Mode == ModalLayer.Buffer then
-    commands.buffer.right()
-  elseif Mode == ModalLayer.Git then
-    commands.git.right()
-  elseif Mode == ModalLayer.Search then
-    commands.search.right()
-  else
-    vim.cmd("normal! l")
-  end
+  commands[Mode]['right']()
 end
 
 Mode = ModalLayer.Window
