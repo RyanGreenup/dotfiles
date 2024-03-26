@@ -90,7 +90,8 @@ wk.register({
       v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
       l = { ":lua Change_dayplanner_line(30)<CR>", "Increase Dayplanner Time" },
-      k = { ":lua Change_dayplanner_line(30, true)<CR>", "Increase Dayplanner Time" }
+      k = { ":lua Change_dayplanner_line(30, true)<CR>", "Increase Dayplanner Time" },
+      j = { ":lua Change_dayplanner_line(-30, true)<CR>", "Increase Dayplanner Time" }
     },
     s = {
       name = "+search",
@@ -138,6 +139,17 @@ wk.register({
       f = { "<cmd>Telescope filetypes<CR>", "Filetype" },
       x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
       h = { "<cmd>lua Conceal_toggle()<CR>", "Conceal" },
+      m = {
+        name = "mode+",
+        o = { "<cmd>lua ChangeMode(ModalLayer.Organize)<CR>", "Organize" },
+        r = { "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>", "Resize" },
+        m = { "<cmd>lua ChangeMode(ModalLayer.Move)<CR>", "Move" },
+        b = { "<cmd>lua ChangeMode(ModalLayer.buffer)<CR>", "Buffer" },
+        g = { "<cmd>lua ChangeMode(ModalLayer.git)<CR>", "Git" },
+        s = { "<cmd>lua ChangeMode(ModalLayer.search)<CR>", "Search" },
+        n = { "<cmd>lua ChangeMode(ModalLayer.None)<CR>", "None" },
+        v = { "<cmd>lua ChangeMode(ModalLayer.Split)<CR>", "Split" },
+      },
       s = {
         name = "Snippets",
         {
