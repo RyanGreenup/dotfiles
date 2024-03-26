@@ -167,7 +167,8 @@ end
 
 ModalLayer = {
   Organize = "Organize", -- Dayplanner adjustments on tasks
-  Window = "Window",     -- Window Resizing
+  Resize = "Resize",     -- Window Resizing
+  Split = "Split",       -- Splitting windows
   Move = "Move",         -- Normal movement
   Buffer = "Buffer",
   Git = "Git",
@@ -175,59 +176,73 @@ ModalLayer = {
   None = "None",
 }
 
+Direction = {
+  Up = "Up",
+  Down = "Down",
+  Left = "Left",
+  Right = "Right",
+}
+
 local commands = {
   [ModalLayer.Organize] = {
-    ['up'] = function() Change_dayplanner_line(30) end,
-    ['down'] = function() Change_dayplanner_line(-30) end,
-    ['left'] = function() Change_dayplanner_line(-30, true) end,
-    ['right'] = function() Change_dayplanner_line(30, true) end,
+    [Direction.Up] = function() Change_dayplanner_line(30) end,
+    [Direction.Down] = function() Change_dayplanner_line(-30) end,
+    [Direction.Left] = function() Change_dayplanner_line(-30, true) end,
+    [Direction.Right] = function() Change_dayplanner_line(30, true) end,
+  },
+  [ModalLayer.Split] = {
+    [Direction.Up] = function() vim.cmd("split"); vim.cmd("wincmd k"); vim.cmd("bp") end,
+    [Direction.Down] = function() vim.cmd("split"); vim.cmd("wincmd j"); vim.cmd("bp") end,
+    [Direction.Left] = function() vim.cmd("vsplit"); vim.cmd("wincmd h"); vim.cmd("bp") end,
+    [Direction.Right] = function() vim.cmd("vsplit"); vim.cmd("wincmd l"); vim.cmd("bp") end,
   },
   [ModalLayer.Move] = {
-    ['up'] = function() vim.cmd("wincmd k") end,
-    ['down'] = function() vim.cmd("wincmd j") end,
-    ['left'] = function() vim.cmd("wincmd h") end,
-    ['right'] = function() vim.cmd("wincmd l") end,
+    [Direction.Up] = function() vim.cmd("wincmd k") end,
+    [Direction.Down] = function() vim.cmd("wincmd j") end,
+    [Direction.Left] = function() vim.cmd("wincmd h") end,
+    [Direction.Right] = function() vim.cmd("wincmd l") end,
   },
-  [ModalLayer.Window] = {
-    ['right'] = function() vim.cmd("vertical resize -5") end,
-    ['left'] = function() vim.cmd("vertical resize +5") end,
-    ['down'] = function() vim.cmd("resize -5") end,
-    ['up'] = function() vim.cmd("resize +5") end,
+  [ModalLayer.Resize] = {
+    [Direction.Right] = function() vim.cmd("vertical resize -5") end,
+    [Direction.Left] = function() vim.cmd("vertical resize +5") end,
+    [Direction.Down] = function() vim.cmd("resize -5") end,
+    [Direction.Up] = function() vim.cmd("resize +5") end,
   },
   [ModalLayer.Buffer] = {
-    ['up'] = function() vim.cmd("bnext") end,
-    ['down'] = function() vim.cmd("bprev") end,
-    ['left'] = function() vim.cmd("bfirst") end,
-    ['right'] = function() vim.cmd("blast") end,
+    [Direction.Up] = function() vim.cmd("bnext") end,
+    [Direction.Down] = function() vim.cmd("bprev") end,
+    [Direction.Left] = function() vim.cmd("bfirst") end,
+    [Direction.Right] = function() vim.cmd("blast") end,
   },
   [ModalLayer.Git] = {
-    ['up'] = function() print("TODO git up") end,
-    ['down'] = function() print("TODO git down") end,
-    ['left'] = function() print("TODO git left") end,
-    ['right'] = function() print("TODO git right") end,
+    [Direction.Up] = function() print("TODO git up") end,
+    [Direction.Down] = function() print("TODO git down") end,
+    [Direction.Left] = function() print("TODO git left") end,
+    [Direction.Right] = function() print("TODO git right") end,
   },
 }
 
 
 function Up()
-  commands[Mode]['up']()
+  commands[Mode][Direction.Up]()
 end
 
 function Down()
-  commands[Mode]['down']()
+  commands[Mode][Direction.Down]()
 end
 
 function Left()
-  commands[Mode]['left']()
+  commands[Mode][Direction.Left]()
 end
 
 function Right()
-  commands[Mode]['right']()
+  commands[Mode][Direction.Right]()
 end
 
-Mode = ModalLayer.Window
 
 
 function ChangeMode(mode)
   Mode = mode
 end
+
+Mode = ModalLayer.Organize
