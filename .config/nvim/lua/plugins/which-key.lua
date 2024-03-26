@@ -17,6 +17,9 @@ wk.register({
     ["<leader>"] = telescope_command("Telescope find_files", "Find File"),
     ["'"] = telescope_command("Telescope resume", "Telescope Resume"),
 
+    -- a = {"<cmd>Tabularize /\\s\\+<CR>", "Align"},
+    a = { "<cmd>Tabularize /|<CR>", "Align" },
+
     b = {
       name = "+buffers",
       b = { "<cmd>Telescope buffers<CR>", "Buffers" },
@@ -80,10 +83,14 @@ wk.register({
 
     },
     o = {
-      name = "+open",
+      name = "+open / org",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
-      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium-insiders/codium-insiders --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
+      -- May sometimes need --disable-gpu
+      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
+      h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
+      l = { ":lua Change_dayplanner_line(30)<CR>", "Increase Dayplanner Time" },
+      k = { ":lua Change_dayplanner_line(30, true)<CR>", "Increase Dayplanner Time" }
     },
     s = {
       name = "+search",
@@ -466,8 +473,6 @@ function Conceal_toggle()
   vim.cmd(cmd)
   conceal_level = new_level
 end
-
-
 
 function Open_file_in_clipboard()
   local path = vim.fn.getreg("+")

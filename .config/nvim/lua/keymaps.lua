@@ -84,6 +84,9 @@ map('n', '<C-m>', ':Vista!!<CR>', default_opts) -- open/close
 ------------------------------------------------------------
 -- Markdown stuff
 ------------------------------------------------------------
+map('n', '<C-PageDown>', '<cmd>lua Change_dayplanner_line(-30)<CR>', default_opts)
+map('n', '<C-PageUp>', '<cmd>lua Change_dayplanner_line(30)<CR>', default_opts)
+
 vim.cmd [[ autocmd BufEnter *.md :map <f2> :! pandoc -s --katex "%" -o "%".html && chromium "%".html & disown <Enter> <Enter> ]]
 vim.cmd [[ autocmd BufEnter *.md :setlocal filetype=markdown ]]
 vim.cmd [[ autocmd BufEnter *.md :nmap <leader>v :MarkdownPreview<CR> ]]
