@@ -154,3 +154,140 @@ end
 function CD()
   change_dir_interactive()
 end
+
+--------------------------------------------------------------------------------
+-- Modal Layer Keybindings -----------------------------------------------------------
+--------------------------------------------------------------------------------
+
+-- Here we define some functions to map to the arrow keys
+-- These functions change depending on whether or not a "mode" has been
+-- entered.
+-- A mode is entered if the Mode variable is set to something
+-- Which key has settings for this.
+
+ModalLayer = {
+  Organize = "Organize", -- Dayplanner adjustments on tasks
+  Window = "Window",     -- Window Resizing
+  Move = "Move",         -- Normal movement
+  Buffer = "Buffer",
+  Git = "Git",
+  Search = "Search",
+  None = "None",
+}
+
+local commands = {
+  [ModalLayer.Organize] = {
+    ['up'] = function() Change_dayplanner_line(30) end,
+    ['down'] = function() Change_dayplanner_line(-30) end,
+    ['left'] = function() Change_dayplanner_line(-30, true) end,
+    ['right'] = function() Change_dayplanner_line(30, true) end,
+  },
+  [ModalLayer.Move] = {
+    ['up'] = function() vim.cmd("wincmd k") end,
+    ['down'] = function() vim.cmd("wincmd j") end,
+    ['left'] = function() vim.cmd("wincmd h") end,
+    ['right'] = function() vim.cmd("wincmd l") end,
+  },
+  [ModalLayer.Window] = {
+    ['right'] = function() vim.cmd("vertical resize -5") end,
+    ['left'] = function() vim.cmd("vertical resize +5") end,
+    ['down'] = function() vim.cmd("resize -5") end,
+    ['up'] = function() vim.cmd("resize +5") end,
+  },
+  [ModalLayer.Buffer] = {
+    ['up'] = function() vim.cmd("bnext") end,
+    ['down'] = function() vim.cmd("bprev") end,
+    ['left'] = function() vim.cmd("bfirst") end,
+    ['right'] = function() vim.cmd("blast") end,
+  },
+  [ModalLayer.Git] = {
+    ['up'] = function() print("TODO git up") end,
+    ['down'] = function() print("TODO git down") end,
+    ['left'] = function() print("TODO git left") end,
+    ['right'] = function() print("TODO git right") end,
+  },
+}
+
+
+function Up()
+  -- match behavour based on the mode
+  if Mode == ModalLayer.Organize then
+    commands.organize.up()
+  elseif Mode == ModalLayer.Window then
+    commands.window.up()
+  elseif Mode == ModalLayer.Move then
+    commands.move.up()
+  elseif Mode == ModalLayer.Buffer then
+    commands.buffer.up()
+  elseif Mode == ModalLayer.Git then
+    commands.git.up()
+  elseif Mode == ModalLayer.Search then
+    commands.search.up()
+  else
+    vim.cmd("normal! k")
+  end
+end
+
+
+
+function Down()
+  commands[Mode]['down']()
+--   if Mode == ModalLayer.Organize then
+--     commands.organize.down()
+--   elseif Mode == ModalLayer.Window then
+--     commands.window.down()
+--   elseif Mode == ModalLayer.Move then
+--     commands.move.down()
+--   elseif Mode == ModalLayer.Buffer then
+--     commands.buffer.down()
+--   elseif Mode == ModalLayer.Git then
+--     commands.git.down()
+--   elseif Mode == ModalLayer.Search then
+--     commands.search.down()
+--   else
+--     vim.cmd("normal! j")
+--   end
+end
+
+function Left()
+  if Mode == ModalLayer.Organize then
+    commands.organize.left()
+  elseif Mode == ModalLayer.Window then
+    commands.window.left()
+  elseif Mode == ModalLayer.Move then
+    commands.move.left()
+  elseif Mode == ModalLayer.Buffer then
+    commands.buffer.left()
+  elseif Mode == ModalLayer.Git then
+    commands.git.left()
+  elseif Mode == ModalLayer.Search then
+    commands.search.left()
+  else
+    vim.cmd("normal! h")
+  end
+end
+
+function Right()
+  if Mode == ModalLayer.Organize then
+    commands.organize.right()
+  elseif Mode == ModalLayer.Window then
+    commands.window.right()
+  elseif Mode == ModalLayer.Move then
+    commands.move.right()
+  elseif Mode == ModalLayer.Buffer then
+    commands.buffer.right()
+  elseif Mode == ModalLayer.Git then
+    commands.git.right()
+  elseif Mode == ModalLayer.Search then
+    commands.search.right()
+  else
+    vim.cmd("normal! l")
+  end
+end
+
+Mode = ModalLayer.Window
+
+
+function ChangeMode(mode)
+  Mode = mode
+end
