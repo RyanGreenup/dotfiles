@@ -3,12 +3,12 @@
 # -*- coding: utf-8 -*-
 
 
-import re
 from datetime import datetime
 import numpy as np
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
+from utils import check_valid_task, extract_times
 import pyperclip
 import os
 
@@ -20,7 +20,8 @@ def main():
     HOME = os.getenv("HOME")
     assert HOME is not None, "HOME is not set"
     filepath = f"{HOME}/Notes/slipbox/journals/assets/{today}.schedule.png"
-    fig = plot_schedule(pyperclip.paste(), title_date=today_title, return_fig=True)
+    fig = plot_schedule(pyperclip.paste(),
+                        title_date=today_title, return_fig=True)
     fig.savefig(filepath, dpi=300, bbox_inches="tight")
     print(f"Saved to {filepath}")
     print("")
@@ -30,17 +31,27 @@ def main():
 # Import necessary standard Python libraries
 
 
-def plot_schedule(schedule_list, return_fig=False, title_date: str = None):
-    # Split the activities into start time, end time and activity
-    activities = [extract_times(i) for i in schedule_list.split("\n") if i]
-
+def tasks_to_df(schedule_list: str):
+    # Split the tasks into lines
+    activities = [t for t in schedule_list.split("\n") if t]
+    # Check they'r valid
+    activities = [t for t in activities if check_valid_task(t)]
+    # Get the start end and description
+    activities = [extract_times(i) for i in schedule_list.split("\n") if extract_times(i)]
     # Store activities in a df
     activity_df = pd.DataFrame(
         activities, columns=["Start", "End", "Activity"])
     print(activity_df)
+    # Convert time strings to datetime objects
     activity_df[["Start", "End"]] = activity_df[["Start", "End"]].apply(
         lambda x: [mdates.date2num(datetime.strptime(i, "%H:%M")) for i in x]
     )
+
+    return activity_df
+
+
+def plot_schedule(schedule_list, return_fig=False, title_date: str = None):
+    activity_df = tasks_to_df(schedule_list)
 
     # Plotting
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -112,28 +123,6 @@ def testing():
     """
 
     plot_schedule(schedule_str, title_date=today_title)
-
-
-def extract_times(task: str) -> tuple[str, str, str]:
-    """
-    Extracts the start and end times from a task string.
-    """
-    pattern = re.compile(r"(\d{1,2}:\d{2}) - (\d{1,2}:\d{2}) (.+)")
-    match = re.findall(pattern, task)
-    start_time, end_time, description = match[0]
-    return start_time, end_time, description
-
-
-def test_extract_times():
-    task = "- [ ] 12:00 - 12:30 Write Note Dispatcher Screen (Py/Fish)"
-    assert extract_times(task) == (
-        "12:00",
-        "12:30",
-        "Write Note Dispatcher Screen (Py/Fish)",
-    )
-
-
-test_extract_times()
 
 
 # testing()
