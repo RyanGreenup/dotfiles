@@ -258,7 +258,11 @@ use {
 }
 
 -- Copilot
-use { "https://github.com/github/copilot.vim" }
+use { "https://github.com/github/copilot.vim", config = function()
+  vim.cmd("Copilot disable")
+end }
+
+use({ 'TabbyML/vim-tabby' })
 
 -- packer.nvim
 use({
