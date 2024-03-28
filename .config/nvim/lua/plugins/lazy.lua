@@ -113,6 +113,7 @@ use({
 
 
 -- Debugging / DAP
+--[[
 
 use { 'mfussenegger/nvim-dap-python',
   dependencies = { "mfussenegger/nvim-dap" },
@@ -134,6 +135,7 @@ use { 'theHamsta/nvim-dap-virtual-text',
   end
 
 }
+--]]
 
 -- Mason to mange LSP servers
 use({
@@ -258,9 +260,7 @@ use {
 }
 
 -- Copilot
-use { "https://github.com/github/copilot.vim", config = function()
-  vim.cmd("Copilot disable")
-end }
+use { "https://github.com/github/copilot.vim" }
 
 use({ 'TabbyML/vim-tabby' })
 
