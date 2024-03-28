@@ -1,1 +1,11 @@
-../../Code - OSS/User/keybindings.json
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+k ctrl+l",
+        "command": "workbench.action.toggleEditorGroupLock"
+    },
+    {
+        "key": "ctrl+k ctrl+g",
+        "command": "foam-vscode.show-graph"
+    }
+]
