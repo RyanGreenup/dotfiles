@@ -83,6 +83,7 @@ def rerun():
     os.system('clear')
     run()
 
+
 def run():
     # TODO Should I start from file?
     # os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -92,9 +93,8 @@ def run():
     match key:
         case 'q':
             sys.exit(0)
-        case 'l':
-            print("TODO")
-            doit("fd")
+        case 'f':
+            find_notes()
         case 'b':
             doit("broot")
         case 'l':
@@ -137,6 +137,37 @@ def run():
         case _:
             rerun()
 # END_PRINT
+
+
+def find_notes():
+    fd_cmd = f"fd -t f '\.org$|\.md$|\.txt$' {NOTES_DIR}"
+    sk_cmd = ("""sk --ansi -m """
+              """--preview 'bat --style snip {} 2> /dev/null --color=always'""")
+
+    cmd = f"{fd_cmd} | {sk_cmd}"
+    files = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+    files = files.stdout.splitlines()
+    subprocess.run(["codium", *files])
+
+
+def search_notes():
+    # search_cmd = ["note_taking", "search", "-d", NOTES_DIR, "ring"]
+    # search_cmd = ["echo", "{}"]
+    # files = subprocess.run([
+    #     "sk", "-m", "-i", "--preview", "echo {+}", "-c"] + search_cmd,
+    #     shell=False,
+    #     stdout=subprocess.PIPE)
+    cmd = "sk -m -i -c note_taking search -d " + NOTES_DIR + "{} --preview echo {+}"
+    search_cmd = f"note_taking search -d {NOTES_DIR}" + " {} "
+    # search_cmd = "echo {}"
+    preview_cmd = "bat --color=always " + NOTES_DIR + "/{+}"
+    cmd = f"sk -m -i -c '{search_cmd}' --preview '{preview_cmd}'"
+    files = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, text=True)
+    files = files.stdout.splitlines()
+    files = [os.path.join(NOTES_DIR, f) for f in files]
+    print(files)
+    subprocess.run(["codium", *files])
+search_notes()
 
 
 if __name__ == '__main__':
