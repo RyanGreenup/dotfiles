@@ -89,9 +89,7 @@ wk.register({
       -- May sometimes need --disable-gpu
       v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
-      l = { ":lua Change_dayplanner_line(30)<CR>", "Increase Dayplanner Time" },
-      k = { ":lua Change_dayplanner_line(30, true)<CR>", "Increase Dayplanner Time" },
-      j = { ":lua Change_dayplanner_line(-30, true)<CR>", "Increase Dayplanner Time" }
+      j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
     },
     s = {
       name = "+search",

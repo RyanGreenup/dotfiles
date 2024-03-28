@@ -100,3 +100,4 @@ function Open_journals()
     ::continue::
   end
 end
+vim.cmd("command! OpenJournals  lua Open_journals()")
