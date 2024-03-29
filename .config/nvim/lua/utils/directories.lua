@@ -51,3 +51,25 @@ function Change_dir_interactive()
 end
 vim.cmd("command! ChangeDir lua Change_dir_interactive()")
 
+
+
+-- TODO
+function Choose_journal()
+  -- Using Zoxide
+  HOME = os.getenv("HOME")
+  if HOME == nil then
+    print("HOME not set")
+    return
+  end
+  local cmd = "fd md " .. HOME .. "/Notes/slipbox/journals | tac | rofi -dmenu"
+  local output = shell(cmd)
+
+  if output == nil then
+    print("No File Selected")
+    return
+  end
+
+  -- Strip all training newline
+  Open_file_in_split(output, "")
+end
+vim.cmd("command! ChooseJournal lua Choose_journal()")
