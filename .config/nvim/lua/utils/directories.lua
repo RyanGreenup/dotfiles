@@ -1,10 +1,8 @@
 --------------------------------------------------------------------------------
 -- Directories and Projects-----------------------------------------------------
 --------------------------------------------------------------------------------
-
-
 -- Better Directory change
-local function shell(cmd)
+function shell(cmd)
   local handle = io.popen(cmd)
   if handle == nil then
     print("unable to open process for cmd: " .. cmd)
@@ -51,18 +49,26 @@ function Change_dir_interactive()
 end
 vim.cmd("command! ChangeDir lua Change_dir_interactive()")
 
-
-
--- TODO
-function Choose_journal()
-  -- Using Zoxide
-  HOME = os.getenv("HOME")
+function Get_HOME()
+  local HOME = os.getenv("HOME")
   if HOME == nil then
     print("HOME not set")
     return
   end
-  local cmd = "fd md " .. HOME .. "/Notes/slipbox/journals | tac | rofi -dmenu"
-  local output = shell(cmd)
+  return HOME
+end
+
+function Get_notes_dir()
+  return Get_HOME() .. "/Notes/slipbox"
+end
+
+-- TODO
+function Choose_journal()
+  -- local cmd = "fd md " .. HOME .. "/Notes/slipbox/journals | tac | rofi -dmenu"
+  -- local cmd = "ls -t " .. Get_notes_dir() .. "/journals " .. " | " .. " rofi -dmenu"
+  local dir = Get_notes_dir() .. "/journals"
+  local cmd = "ls -t " .. dir .. " | " .. " rofi -dmenu"
+  local output = dir .. "/" .. shell(cmd)
 
   if output == nil then
     print("No File Selected")

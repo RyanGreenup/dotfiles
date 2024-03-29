@@ -19,10 +19,17 @@ function get_recent_journal_files(dir_path)
   -- Sort the files in descending order
   table.sort(journal_files, function(a, b) return a > b end)
 
+  -- Get the top 5
+  journal_files = { unpack(journal_files, 1, 5) }
+
+  -- Now Sort the files in ascending order
+  table.sort(journal_files, function(a, b) return a < b end)
+
   -- Return the last 5 files
   -- return { unpack(journal_files, math.max(#journal_files - 4, 1)) }
   -- Return the first 5 files instead
-  return { unpack(journal_files, 1, 5) }
+  return journal_files
+
 end
 
 -- Function to check if there is a split below
