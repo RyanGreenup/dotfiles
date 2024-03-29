@@ -79,7 +79,7 @@ end
 
 
 function bn
-    bulk_rename.py
+    $HOME/.local/bin/os.utils.bulk_rename.py
 end
 
 ## Easy weather
@@ -306,7 +306,7 @@ function nnm
     $EDITOR $file
 end
 
-function nn
+function nn_old
     # note_taking new -d "$__notes_dir"
 
     # TODO wrap this into the go program
@@ -327,6 +327,11 @@ function nn
     end
     nvim $filename
     rm $file
+end
+
+function nn
+    # set root (fd '\.md$' ~/Notes/slipbox/ | rev | cut -d '.' -f 3- | rev | sort -u | sed "s#$HOME/Notes/slipbox/##" | fzf)
+    ~/.local/bin/notes.new.py
 end
 
 # ..............................................................................
