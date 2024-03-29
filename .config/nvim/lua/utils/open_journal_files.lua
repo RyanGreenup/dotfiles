@@ -1,7 +1,9 @@
 --------------------------------------------------------------------------------
 -- Open Journal Files ----------------------------------------------------------
 --------------------------------------------------------------------------------
-function get_recent_journal_files(dir_path)
+function get_recent_journal_files(dir_path, rev)
+  -- Set default value for rev
+  rev = rev or false
   -- Get all .md files in the directory using vim.fn.globpath
   local files_string = vim.fn.globpath(dir_path, '*.md')
 
@@ -18,18 +20,15 @@ function get_recent_journal_files(dir_path)
 
   -- Sort the files in descending order
   table.sort(journal_files, function(a, b) return a > b end)
-
   -- Get the top 5
   journal_files = { unpack(journal_files, 1, 5) }
 
-  -- Now Sort the files in ascending order
-  table.sort(journal_files, function(a, b) return a < b end)
+  if rev then
+    -- Now Sort the files in ascending order
+    table.sort(journal_files, function(a, b) return a < b end)
+  end
 
-  -- Return the last 5 files
-  -- return { unpack(journal_files, math.max(#journal_files - 4, 1)) }
-  -- Return the first 5 files instead
   return journal_files
-
 end
 
 -- Function to check if there is a split below
@@ -80,7 +79,7 @@ function Open_journals()
   -- Get recent journal files and open them in neovim
   HOME = os.getenv('HOME')
   dir_path = HOME .. '/Notes/slipbox/journals'
-  local files = get_recent_journal_files(dir_path)
+  local files = get_recent_journal_files(dir_path, false)
   for i, file in ipairs(files) do
     print(file)
     -- if the file exists
