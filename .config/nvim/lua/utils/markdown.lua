@@ -8,6 +8,10 @@ require("utils/open_journal_files")
 require("utils/paths")
 
 
+function File_exists(path)
+  return vim.fn.filereadable(path) == 1
+end
+
 --[[
 Convert a string to kebab case
 Dendron recommends lower case kebab case with dots to separate
@@ -85,9 +89,11 @@ function Create_markdown_link()
   vim.api.nvim_set_current_line(link)
 
 
-  -- TODO check if the file exists and only set insert text as ""
-  -- if it does. Not important, won't create subpages like this.
-  Open_file_in_split(new_path, "# " .. title)
+  if File_exists(new_path) then
+    Open_file_in_split(new_path, "")
+  else
+    Open_file_in_split(new_path, "# " .. title)
+  end
 
 end
 
