@@ -5,7 +5,50 @@
 -- Organisation Stuff ----------------------------------------------------------
 require("utils/increment_time_stamps")
 require("utils/open_journal_files")
+require("utils/paths")
 
+
+--[[
+Convert a string to kebab case
+Dendron recommends lower case kebab case with dots to separate
+Upon reflection, I agree, it makes things simpler
+
+Example:
+  "My Title" -> "my-title"
+--]]
+function Kebab_case(user_string)
+  out = user_string
+  -- Replace Slashes with Dots
+  out = string.gsub(out, " / ", ".")
+  out = string.gsub(out, "/", ".")
+  -- Replace spaces with dashes
+  out = string.gsub(out, " ", "-")
+  -- Lower case
+  out = string.lower(out)
+  return out
+end
+
+function Build_markdown_link(title, path)
+  return "[".. title.. "](".. path.. ")"
+end
+
+function Open_file_in_split(path, insert)
+  -- split
+  vim.api.nvim_command('split')
+  vim.api.nvim_command('wincmd j')
+  -- Create the file
+  vim.api.nvim_command('e ' .. path)
+  -- vim.api.nvim_command('wincmd k')
+
+  -- Check that insert isn't empty
+  if insert ~= "" then
+    -- Insert the text
+    vim.api.nvim_set_current_line(insert)
+    -- Open a new line
+    vim.cmd("normal! o")
+    vim.cmd("normal! o")
+  end
+end
 
 
 --[[
@@ -25,37 +68,27 @@ function Create_markdown_link()
   local path = vim.api.nvim_buf_get_name(0)
 
   -- Get the base dir and filename
-  local base_path = string.gmatch(path, "[^/]*$")()
-  local dir_path = string.gsub(path, base_path, "")
-  local filename = string.gmatch(base_path, "%w+")()
+  local dir_path = Dirname(path)
+  local filename = Strip_extension(Basename(path))
 
   -- Take the current line as the name of the sub page
-  local line = vim.api.nvim_get_current_line()
-  local sub_page = line
+  local title = vim.api.nvim_get_current_line()
 
-  -- Replace spaces with dashes
-  sub_page = string.gsub(sub_page, " ", "-")
+  -- Adjust the title a little bit
+  sub_page = Kebab_case(title)
 
-  -- Create the new path and link
-  local new_path = filename .. '.' .. sub_page .. '.md'
-  local link = '[➡️ /' .. sub_page .. '](' .. new_path .. ')'
-
-  -- Check if that file exists
-  local exists = false
-  if vim.fn.filereadable(dir_path .. new_path .. '.md') == 0 then
-    print("here")
-    -- split
-    vim.api.nvim_command('split')
-    vim.api.nvim_command('wincmd j')
-    -- Create the file
-    vim.api.nvim_command('e ' .. new_path)
-    vim.api.nvim_command('wincmd k')
-  end
-
+  -- Insert the sub_page before the extension
+  local new_path = filename .. '.' .. Kebab_case(sub_page) .. '.md'
+  local link = Build_markdown_link('➡️ /' .. title, new_path)
 
   -- Set the new line as the link
-  local new_line = link
-  vim.api.nvim_set_current_line(new_line)
+  vim.api.nvim_set_current_line(link)
+
+
+  -- TODO check if the file exists and only set insert text as ""
+  -- if it does. Not important, won't create subpages like this.
+  Open_file_in_split(new_path, "# " .. title)
+
 end
 
 -- Create a comamand
