@@ -1,1 +1,11 @@
-../../Code - OSS/User/settings.json
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "foam.files.ignore": ["readme.md", "SUMMARY.md"],
+    "foam.openDailyNote.directory": "journals",
+    "markdown.preview.openMarkdownLinks": "inEditor",
+    // "foam.openDailyNote.filenameFormat": "'daily-note'-yyyy-mm-dd",
+    // "foam.openDailyNote.fileExtension":  "mdx",
+    // "foam.openDailyNote.titleFormat": "  'Journal Entry, ' dddd, mmmm d",
+}

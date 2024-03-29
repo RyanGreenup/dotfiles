@@ -85,13 +85,11 @@ wk.register({
     o = {
       name = "+open / org",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
-      n = { "<cmd>e ~/Notes/slipbox/root.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
+      n = { "<cmd>e ~/Notes/slipbox/index.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
       -- May sometimes need --disable-gpu
       v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
-      l = { ":lua Change_dayplanner_line(30)<CR>", "Increase Dayplanner Time" },
-      k = { ":lua Change_dayplanner_line(30, true)<CR>", "Increase Dayplanner Time" },
-      j = { ":lua Change_dayplanner_line(-30, true)<CR>", "Increase Dayplanner Time" }
+      j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
     },
     s = {
       name = "+search",
@@ -144,9 +142,9 @@ wk.register({
         o = { "<cmd>lua ChangeMode(ModalLayer.Organize)<CR>", "Organize" },
         r = { "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>", "Resize" },
         m = { "<cmd>lua ChangeMode(ModalLayer.Move)<CR>", "Move" },
-        b = { "<cmd>lua ChangeMode(ModalLayer.buffer)<CR>", "Buffer" },
-        g = { "<cmd>lua ChangeMode(ModalLayer.git)<CR>", "Git" },
-        s = { "<cmd>lua ChangeMode(ModalLayer.search)<CR>", "Search" },
+        b = { "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>", "Buffer" },
+        g = { "<cmd>lua ChangeMode(ModalLayer.Git)<CR>", "Git" },
+        s = { "<cmd>lua ChangeMode(ModalLayer.Search)<CR>", "Search" },
         n = { "<cmd>lua ChangeMode(ModalLayer.None)<CR>", "None" },
         v = { "<cmd>lua ChangeMode(ModalLayer.Split)<CR>", "Split" },
       },
