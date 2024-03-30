@@ -48,13 +48,13 @@ def notes_find_fzf(editor: str = "Neovide.AppImage", notes_dir: str | None = Non
 
     # Let the user choose some with fzf
     fzf_cmd = "fzf -m"
-    preview_opt = "--preview 'bat --color=always {}'"
-    bind_opt = "--bind 'ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down'"
-    cmd_opt = 'rg -l -t markdown -t org -t txt --ignore-case "{}"'
-    cmd_opt = f"-c '{cmd_opt}'"
-    cmd_opt = """-c 'rg -l  "{}"'"""
-    fzf_cmd = f"sk --ansi -m {preview_opt} {bind_opt} {cmd_opt}"
-    fzf_cmd = f"sk --ansi -m {cmd_opt}"
+    preview = "bat --color=always {}"
+    preview = f"--preview '{preview}'"
+    bind = "ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down"
+    bind = "--bind '{bind}'"
+    cmd = 'rg -l -t markdown -t org -t txt --ignore-case "{}"'
+    cmd = f"-c '{cmd}'"
+    fzf_cmd = f"sk --ansi -m {preview} {bind}"
     files = sh(fzf_cmd, input="\n".join(files))
 
     # Get the abs path
