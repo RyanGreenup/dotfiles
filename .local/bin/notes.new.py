@@ -24,13 +24,19 @@ def main():
     root = choose_file_fzf(list(files))
 
     # Get Title from the user
-    title = input("Enter Note Title: ")
+    title = input("Enter Note Title (With Capitals etc.): ")
 
     # Build the full path
     base_path = title_to_path(title)
     rel_path = heirarchical_join(root, base_path)
     full_path = os.path.join(notes_dir, rel_path)
 
+    ## Check if the file exists
+    if os.path.exists(full_path):
+        print("File already exists", file=sys.stderr)
+    else:
+        with open(full_path, "w") as f:
+            f.write("# " + title + "\n\n")
     print(full_path)
     subprocess.run([EDITOR, full_path])
 

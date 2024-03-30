@@ -1,33 +1,25 @@
 #!/usr/bin/env python3
-# Path: path/to/your_script.py
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python3
+
 import typer
-
-app = typer.Typer()
-
-
-@app.command()
-def hello(name: str):
-    typer.echo(f"Hello {name}")
+import os
 
 
-@app.command()
-def goodbye(name: str):
-    typer.echo(f"Goodbye {name}")
-
-# Test for goodby
-
-
-def test_goodbye():
-    result = goodbye("World")
-    assert result == "Goodbye World"
-
-
-def test_hello():
-    result = hello("World")
-    assert result == "Hello World"
+def main(path: str):
+    """Converts a filepath to a markdown heading"""
+    # Take the basename
+    path = os.path.basename(path)
+    # Drop the extensions
+    path, _ = os.path.splitext(path)
+    # Take the last heirarchical
+    # path = path[::-1]
+    _, path = os.path.splitext(path)
+    path = path[1:]
+    # path = path[::-1]
+    # STDOUT
+    print(path)
 
 
 if __name__ == "__main__":
-    app()
+    typer.run(main)
+
+
