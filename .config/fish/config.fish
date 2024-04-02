@@ -78,10 +78,6 @@ function x
 end
 
 
-function bn
-    $HOME/.local/bin/os.utils.bulk_rename.py
-end
-
 ## Easy weather
 function wtr
     # TODO put a test of age in here
@@ -229,7 +225,7 @@ end
 
 
 function nl
-    $HOME/.config/fish/note_aliases.py --nl --notes_dir $__notes_dir
+    notes.make_link.py --nl --notes_dir $__notes_dir
 end
 
 function nsem
@@ -271,13 +267,15 @@ end
 
 # *** Find main notes
 function nf --description 'Find Notes'
-    _private_open (_private_finding $__notes_dir)
+    # _private_open (_private_finding $__notes_dir)
+   ~/.local/bin/notes.find.py --editor nvim
 end
 
 # *** Find ALL notes
 function nF
     # Find the notes and open if not cancelled
-    _private_open (_private_finding $__note_taking_dirs)
+    # _private_open (_private_finding $__note_taking_dirs)
+    ~/.local/bin/notes.find.py
 end
 
 function nfm
@@ -445,4 +443,85 @@ if status is-interactive
     if command -v hoard 1>/dev/null 2>&1
         hoard shell-config -s fish | source
     end
+end
+
+
+# TODO this should be python
+function __get_distro
+    cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g'
+end
+
+# TODO check hostname for distrobox
+#      Or maybe just check os-release?
+if status is-interactive
+    if command -v python 1>/dev/null 2>&1
+        set distro (__get_distro)
+        set venv_dir /usr/local/venv/default/$distro
+# Check if the directory exists
+        if test -d $venv_dir
+            source $venv_dir/bin/activate.fish
+            echo "Activated $venv_dir"
+        else
+            echo "No virtual environment for $distro"
+            echo "Create one with:"
+            echo ""
+            echo "    python -m venv $venv_dir"
+            echo ""
+            echo "chgrp (id -u) " $venv_dir
+            echo "chmod 775 "     $venv_dir
+        end
+    end
+end
+
+# Everything should simply be alias --------------------------------------------
+set __scripts_dir $HOME/.local/scripts/python
+set __note_scripts $__scripts_dir/notes
+function ns
+    ~/.local/scripts/python/notes/search.py search  '' --fzf
+end
+
+function nsl
+    ~/.local/scripts/python/notes/search__live.py
+end
+
+function nf
+    ~/.local/scripts/python/notes/find.py
+end
+
+function nl
+    ~/.local/scripts/python/notes/make_link.py
+end
+
+
+function nS
+    ~/.local/scripts/python/notes/search__semantic.py
+end
+
+function nj
+    ~/.local/scripts/python/notes/journals__open.py
+end
+
+function x
+    ~/.local/scripts/python/wm__clipboard.py copy
+end
+
+function xp
+    ~/.local/scripts/python/wm__clipboard.py paste
+end
+
+function bn
+    ~/.local/scripts/python/os__utils__bulk_rename.py
+end
+
+function nn
+    ~/.local/scripts/python/notes/new.py
+end
+
+
+function nR
+    ~/.local/scripts/python/notes/search.py reindex
+end
+
+function nd
+    ~/.local/scripts/python/notes/dashboard.py --editor="codium"
 end
