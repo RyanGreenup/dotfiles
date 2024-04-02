@@ -48,7 +48,7 @@ def notes_find_fzf(editor: str = "Neovide.AppImage", notes_dir: str | None = Non
 
     # Let the user choose some with fzf
     fzf_cmd = "fzf -m"
-    preview = "bat --color=always {}"
+    preview = "bat --style snip 2> /dev/null --color=always {}"
     preview = f"--preview '{preview}'"
     bind = "ctrl-f:interactive,pgup:preview-page-up,pgdn:preview-page-down"
     bind = "--bind '{bind}'"

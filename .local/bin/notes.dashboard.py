@@ -4,6 +4,9 @@ import sys
 import os
 import subprocess
 
+from notes.find import notes_find_fzf
+
+
 
 HOME = os.getenv("HOME")
 assert HOME, "HOME not set"
@@ -94,7 +97,7 @@ def run():
         case 'q':
             sys.exit(0)
         case 'f':
-            find_notes()
+            notes_find_fzf(editor="codium")
         case 'b':
             doit("broot")
         case 'l':
@@ -139,15 +142,15 @@ def run():
 # END_PRINT
 
 
-def find_notes():
-    fd_cmd = f"fd -t f '\.org$|\.md$|\.txt$' {NOTES_DIR}"
-    sk_cmd = ("""sk --ansi -m """
-              """--preview 'bat --style snip {} 2> /dev/null --color=always'""")
-
-    cmd = f"{fd_cmd} | {sk_cmd}"
-    files = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
-    files = files.stdout.splitlines()
-    subprocess.run(["codium", *files])
+# def find_notes():
+#     fd_cmd = f"fd -t f '\.org$|\.md$|\.txt$' {NOTES_DIR}"
+#     sk_cmd = ("""sk --ansi -m """
+#               """--preview 'bat --style snip {} 2> /dev/null --color=always'""")
+#
+#     cmd = f"{fd_cmd} | {sk_cmd}"
+#     files = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+#     files = files.stdout.splitlines()
+#     subprocess.run(["codium", *files])
 
 
 def search_notes():
