@@ -128,6 +128,7 @@ def main(notes_dir: str, editor: str, gui: bool = False) -> None:
             case 's':
                 fzf_search_notes()
             case 'm':
+                # Jump into a Tmux session where this is already running
                 doit([os.path.join(SCRIPT_DIR, "search__semantic.py")])
             case 'i':
                 doit([os.path.join(SCRIPT_DIR, "search__live.py")])

@@ -23,6 +23,8 @@ config = Config.default()
 
 
 def main(notes_dir: str):
+    old_dir = os.getcwd()
+    os.chdir(notes_dir)
 
     # Get the clipboard contents, this is the note we are on
     filename = pyperclip.paste()
@@ -32,16 +34,18 @@ def main(notes_dir: str):
         filename = filename.replace("~", HOME)
 
     # Use the note_taking script to get the new note link
+    # TODO just use fzf_select(get_files(notes_dir)) from utils.py
     cmd = ["note_taking", "-d", notes_dir, "link"]
     new_link_from_notes_dir = subprocess.run(
         cmd, capture_output=True, check=True, text=True
     ).stdout.strip()
 
+    start = os.path.dirname(os.path.abspath(filename))
+    target = os.path.abspath(new_link_from_notes_dir)
+
     # Get the full path of the new link
-    new_link = os.path.join(notes_dir, new_link_from_notes_dir)
-    new_link = os.path.abspath(new_link)
-    # Get the relative path
-    rel_link = os.path.relpath(new_link, os.path.dirname(filename))
+    rel_link = os.path.relpath(target, start)
+    print("here")
 
     # Sentence case
     display_title = path_to_title(rel_link)
@@ -50,6 +54,7 @@ def main(notes_dir: str):
     link = create_md_link(display_title, rel_link)
     pyperclip.copy(link)
     print(link)
+    os.chdir(old_dir)
 
 
 def main_all_py(notes_dir):
@@ -69,7 +74,8 @@ def main_all_py(notes_dir):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Add a description for your program")
+    parser = argparse.ArgumentParser(
+        description="Add a description for your program")
     parser.add_argument(
         "--notes_dir",
         type=str,
@@ -81,7 +87,7 @@ if __name__ == "__main__":
         "-g",
         action="store_true",
         help="Use a Gui to select the note to create the link",
-        default=config.notes_dir,
+        default=False
     )
 
     args = parser.parse_args()
