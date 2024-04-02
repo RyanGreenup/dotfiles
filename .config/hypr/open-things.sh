@@ -1,10 +1,11 @@
 #!/bin/sh
 
 notes() {
-    firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/ & disown
+    # firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/ & disown
     ## $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
     ## flatpak run md.obsidian.Obsidian & disown
-    Obsidian.AppImage & disown
+    # Obsidian.AppImage & disown
+    md.obsidian.Obsidian & disown
 }
 
 agenda() {

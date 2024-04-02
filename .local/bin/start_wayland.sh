@@ -72,12 +72,12 @@ keyring() {
     gnome-keyring-daemon -d
 
     # Unlock the keyring
-    if [ -f "$HOME/.local/bin/unlock_keyring.sh" ]; then
-        "$HOME"/.local/bin/unlock_keyring.sh
-    else
-        echo "Error: unlock_keyring.sh does not exist"
-        exit 1
-    fi
+    # if [ -f "$HOME/.local/bin/unlock_keyring.sh" ]; then
+    #     "$HOME"/.local/bin/unlock_keyring.sh
+    # else
+    #     echo "Error: unlock_keyring.sh does not exist"
+    #     exit 1
+    # fi
 }
 
 notifications() {

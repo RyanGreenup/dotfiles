@@ -79,6 +79,39 @@ export QT_XCB_GL_INTEGRATION=none
 export VISUAL=nvim
 export EDITOR=nvim
 #+end_src
+
+Virtual Environments:
+
+#+begin_src fish
+
+
+function __get_distro
+    cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g'
+end
+
+
+if status is-interactive
+    if command -v python 1>/dev/null 2>&1
+        set distro (__get_distro)
+        set venv_dir /usr/local/venv/default/$distro
+        # Check if the directory exists
+        if test -d $venv_dir
+            source $venv_dir/bin/activate.fish
+
+        else
+            echo "No virtual environment for $distro"
+            echo "Create one with:"
+            echo ""
+            echo "    python -m venv $venv_dir"
+            echo "
+            echo "chgrp (id -u) " $venv_dir
+            echo "chmod 775 "     $venv_dir
+        end
+    end
+end
+#+end_src
+
+
 ** Void Specific
 #+begin_src fish
 export SVDIR=$HOME/.local/service
