@@ -48,7 +48,7 @@ if __name__ == "__main__":
         "-g",
         action="store_true",
         help="Notes Directory",
-        default=config.notes_dir
+        default=False
     )
 
     args = parser.parse_args()

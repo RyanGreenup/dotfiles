@@ -25,7 +25,8 @@ def main(
         cache_dir: str,
         reindex: bool = False,
         context: bool = False,
-        fzf: bool = False
+        fzf: bool = False,
+        rel: bool = False
 ) -> None:
     if reindex:
         index_tantivy(notes_dir, cache_dir)
@@ -35,9 +36,14 @@ def main(
             index_tantivy(notes_dir, cache_dir)
 
     matches, content = perform_query(query, cache_dir)
+    if rel:
+        matches = [os.path.relpath(m, notes_dir) for m in matches]
     if fzf:
         _ = query
-        new_matches = sk_cmd(notes_dir, preview=True)
+        cmd = __file__
+        cmd += f" --notes_dir {notes_dir} --cache_dir {cache_dir} "
+        cmd += " search --relative  '{}' "
+        new_matches = sk_cmd(notes_dir, cmd, preview=True)
         new_content = []
         for i, m in enumerate(matches):
             if m in new_matches:
@@ -71,7 +77,9 @@ def context_print(matches: list[str], contents: list[str]) -> None:
         print("\n")
 
 
-def perform_query(term: str, cache_dir: str) -> tuple[list[str], list[str]]:
+def perform_query(term: str,
+                  cache_dir: str,
+                  remove_dups: bool = True) -> tuple[list[str], list[str]]:
     """Perform a tantivy query which is basically:
 
         ```sh
@@ -99,6 +107,15 @@ def perform_query(term: str, cache_dir: str) -> tuple[list[str], list[str]]:
     # Same idea for content
     contents = [doc['content'] for doc in out_dicts]
     contents = [p[0] for p in contents if len(p) >= 1]
+
+    # Drop duplicate paths
+    if remove_dups:
+        d = {}
+        for i, p in enumerate(paths):
+            if p not in d:
+                d[p] = contents[i]
+        paths = list(d.keys())
+        contents = list(d.values())
 
     return paths, contents
 
@@ -233,6 +250,14 @@ if __name__ == "__main__":
         default=config.editor
     )
 
+    parser_search.add_argument(
+        "--relative",
+        "-r",
+        action='store_true',
+        default=False,
+        help="Print relative paths"
+    )
+
     args = parser.parse_args()
     match args.command:
         case "reindex":
@@ -245,4 +270,5 @@ if __name__ == "__main__":
                 main("", args.notes_dir, args.editor,
                      args.cache_dir, fzf=True)
             else:
-                main(args.query, args.notes_dir, args.editor, args.cache_dir)
+                main(args.query, args.notes_dir, args.editor,
+                     args.cache_dir, rel = args.relative)

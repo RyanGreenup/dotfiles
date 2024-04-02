@@ -262,6 +262,7 @@ def gui_select(input: list[str],
 
 
 def sk_cmd(dir: str,
+           cmd_to_run: str,
            preview: bool = False,
            chooser: str = "sk",
            multi: bool = True,
@@ -272,7 +273,7 @@ def sk_cmd(dir: str,
     cmd = [chooser, "--ansi", "-i"]
     if multi:
         cmd.append("-m")
-    interactive = 'rg -l "{}"'
+    interactive = cmd_to_run
     cmd += ["-c", interactive]
     if preview:
         cmd.append("--preview")

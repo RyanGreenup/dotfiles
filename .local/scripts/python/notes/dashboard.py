@@ -129,6 +129,8 @@ def main(notes_dir: str, editor: str, gui: bool = False) -> None:
                 fzf_search_notes()
             case 'm':
                 doit([os.path.join(SCRIPT_DIR, "search__semantic.py")])
+            case 'i':
+                doit([os.path.join(SCRIPT_DIR, "search__live.py")])
             case 'l':
                 make_link.main(notes_dir)
             case 'v':
