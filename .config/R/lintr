@@ -1,0 +1,8 @@
+linters: linters_with_defaults(
+  line_length_linter(120),
+  indentation_linter(indent = 4L),
+  indentation_linter(4),
+  cyclocomp_linter = NULL,
+  object_name_linter = NULL,
+  object_usage_linter = NULL)
+
