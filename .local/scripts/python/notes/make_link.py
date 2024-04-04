@@ -36,9 +36,16 @@ def main(notes_dir: str):
     # Use the note_taking script to get the new note link
     # TODO just use fzf_select(get_files(notes_dir)) from utils.py
     cmd = ["note_taking", "-d", notes_dir, "link"]
-    new_link_from_notes_dir = subprocess.run(
-        cmd, capture_output=True, check=True, text=True
-    ).stdout.strip()
+    try:
+        new_link_from_notes_dir = subprocess.run(
+            cmd, capture_output=True, check=True, text=True
+        ).stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(e.stderr)
+        return
+    except Exception as e:
+        print(e)
+        return
 
     start = os.path.dirname(os.path.abspath(filename))
     target = os.path.abspath(new_link_from_notes_dir)
