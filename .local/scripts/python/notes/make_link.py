@@ -52,7 +52,7 @@ def main(notes_dir: str):
 
     # Get the full path of the new link
     rel_link = os.path.relpath(target, start)
-    print("here")
+    rel_link = rel_link.replace(" ", "%20")
 
     # Sentence case
     display_title = path_to_title(rel_link)
@@ -72,7 +72,9 @@ def main_all_py(notes_dir):
     files = get_files(notes_dir, relative=True)
     file = gui_select(files)
     file = os.path.relpath(file, os.path.basename(target))
-    link = create_md_link(path_to_title(file), file)
+    title = path_to_title(file)
+    file = file.replace(" ", "%20")
+    link = create_md_link(title, file)
     pyperclip.copy(link)
     os.chdir(old_dir)
 
@@ -81,8 +83,9 @@ def main_all_py(notes_dir):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(
-        description="Add a description for your program")
+        description="Takes a link to a note in the clipboard and creates a relative link to another note")
     parser.add_argument(
         "--notes_dir",
         type=str,
