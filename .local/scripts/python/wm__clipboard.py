@@ -25,11 +25,14 @@ def main(copy: bool = False):
 
 def copy_to_clipboard(server: DisplayServer = DisplayServer.Wayland) -> None:
     """Copy to clipboard"""
+    # get the stdinput
+    input = sys.stdin.read()
     match server:
         case DisplayServer.Wayland:
-            subprocess.run(["wl-copy"], stdin=PIPE, text=True)
+            subprocess.run(["wl-copy"], input=input, text=True, check=True)
         case DisplayServer.X11:
-            subprocess.run(["xclip", "-selection", "clipboard"], stdin=PIPE, text=True)
+            subprocess.run(["xclip", "-selection", "clipboard"],
+                           input=input, text=True, check=True)
         case _:
             pyperclip.copy(sys.stdin.read())
 
@@ -38,15 +41,17 @@ def paste_from_clipboard(server: DisplayServer = DisplayServer.Wayland) -> None:
     """Paste to clipboard"""
     match server:
         case DisplayServer.Wayland:
-            subprocess.run(["wl-paste"], text=True)
+            subprocess.run(["wl-paste"], text=True, check=True)
         case DisplayServer.X11:
-            subprocess.run(["xclip", "-selection", "clipboard", "-o"], text=True)
+            subprocess.run(
+                ["xclip", "-selection", "clipboard", "-o"], text=True, check=True)
         case _:
             print(pyperclip.paste())
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Add a description for your program")
+    parser = argparse.ArgumentParser(
+        description="Add a description for your program")
 
     sub_parser = parser.add_subparsers(dest="command")
     copy_parser = sub_parser.add_parser("copy")
