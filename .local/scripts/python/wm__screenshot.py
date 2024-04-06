@@ -9,6 +9,11 @@ from subprocess import PIPE
 from utils import get_display_server, DisplayServer
 
 SCREENSHOT_DIR = "/tmp/screenshots/"
+if not os.path.exists(SCREENSHOT_DIR):
+    # optionally make directory if it doesn't exist
+    os.makedirs(SCREENSHOT_DIR)
+
+
 
 
 def main():
@@ -34,14 +39,14 @@ def wayland_screenshot():
     out = subprocess.run(["slurp"], stdout=PIPE, text=True, check=True)
     dim = out.stdout.strip()
     name = screenshot_name()
-    out = subprocess.run(["grim", "-g", dim, name])
+    out = subprocess.run(["grim", "-g", dim, name], check=True)
     copy_image_to_clipboard(name, DisplayServer.Wayland)
     return name
 
 
 def x11_screenshot():
     name = screenshot_name()
-    subprocess.run(["maim", "-s", name])
+    subprocess.run(["maim", "-s", name], check=True)
     copy_image_to_clipboard(name, DisplayServer.X11)
     return name
 
@@ -53,11 +58,11 @@ def copy_image_to_clipboard(
     match server:
         case DisplayServer.Wayland:
             subprocess.run(["wl-copy", "-t", "image/png"],
-                           stdin=open(image, "rb"))
+                           stdin=open(image, "rb"), check=True)
         case DisplayServer.X11:
             subprocess.run(
                 ["xclip", "-selection", "clipboard", "-t", "image/png"],
-                stdin=open(image, "rb"),
+                stdin=open(image, "rb"), check=True
             )
         case DisplayServer.Quartz:
             subprocess.run(["pngpaste", image])
