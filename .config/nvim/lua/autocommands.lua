@@ -2,9 +2,9 @@ local cmd = vim.cmd -- execute Vim commands
 
 -- Skeletons, see `:h skeleton`
 -- Only when running :e
-cmd [[
-  autocmd BufNewFile  *.py	0r /home/ryan/Templates/python_script.py
-]]
+-- cmd [[
+--   autocmd BufNewFile  *.py	0r /home/ryan/Templates/python_script.py
+-- ]]
 
 -- Dynamic Keymaps
 -----------------------------------------------------------
