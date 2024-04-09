@@ -34,6 +34,8 @@ vim.cmd [[
   autocmd FileType zig map <buffer>  <F2> :w<CR>:exec      '!zig run' shellescape(@%, 1)<CR>
   autocmd FileType zig imap <buffer>  <F2> <esc>:w<CR>:exec '!zig run' shellescape(@%, 1)<CR>
 
+  autocmd FileType markdown set foldmethod=expr
+  autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()
 
 ]]
 
