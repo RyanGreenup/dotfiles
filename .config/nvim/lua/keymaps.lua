@@ -16,12 +16,6 @@ map('n', '<leader>c', ':nohl<CR>', default_opts)
 -- map Esc to kk
 map('i', 'jk', '<Esc>', { noremap = true })
 
--- don't use arrow keys
-map('', '<up>', '<nop>', { noremap = true })
-map('', '<down>', '<nop>', { noremap = true })
-map('', '<left>', '<nop>', { noremap = true })
-map('', '<right>', '<nop>', { noremap = true })
-
 -- fast saving with <leader> and s
 map('i', '<C-x><C-s>', '<C-c>:w<CR>', default_opts)
 
@@ -84,6 +78,9 @@ map('n', '<C-m>', ':Vista!!<CR>', default_opts) -- open/close
 ------------------------------------------------------------
 -- Markdown stuff
 ------------------------------------------------------------
+map('n', '<C-PageDown>', '<cmd>lua Change_dayplanner_line(-30)<CR>', default_opts)
+map('n', '<C-PageUp>', '<cmd>lua Change_dayplanner_line(30)<CR>', default_opts)
+
 vim.cmd [[ autocmd BufEnter *.md :map <f2> :! pandoc -s --katex "%" -o "%".html && chromium "%".html & disown <Enter> <Enter> ]]
 vim.cmd [[ autocmd BufEnter *.md :setlocal filetype=markdown ]]
 vim.cmd [[ autocmd BufEnter *.md :nmap <leader>v :MarkdownPreview<CR> ]]
@@ -224,3 +221,25 @@ smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>'
 smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
 xmap <Tab> <Plug>(snippy-cut-text)
 ]]
+
+-- Tabby
+-- /home/ryan/.tabby-client/agent/config.toml
+vim.g.tabby_trigger_mode = 'manual'
+vim.g.tabby_keybinding_accept = '<Tab>'
+vim.g.tabby_keybinding_trigger_or_dismiss = '<C-\\>'
+
+-- Modal Keybindings
+map('n', '<Up>', '<cmd>lua ModalCommands[Mode][ModalKey.Up]()<CR>', default_opts)
+map('n', '<Down>', '<cmd>lua ModalCommands[Mode][ModalKey.Down]()<CR>', default_opts)
+map('n', '<Left>', '<cmd>lua ModalCommands[Mode][ModalKey.Left]()<CR>', default_opts)
+map('n', '<Right>', '<cmd>lua ModalCommands[Mode][ModalKey.Right]()<CR>', default_opts)
+map('n', '<CR>', '<cmd>lua ModalCommands[Mode][ModalKey.Enter]()<CR>', default_opts)
+-- map('n', 'm', '<cmd>lua ModalCommands[Mode][ModalKey.M]()<CR>', default_opts)
+-- map('n', 'p', '<cmd>lua ModalCommands[Mode][ModalKey.P]()<CR>', default_opts)
+
+
+
+
+-- Trailing C-i fix
+-- https://github.com/neovim/neovim/issues/20126
+map('n', '<C-i>', '<C-i>', { noremap = true })

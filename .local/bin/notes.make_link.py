@@ -3,8 +3,9 @@
 # -*- coding: utf-8 -*-
 
 """
-Your module-level docstring explaining this script's primary function or role.
-Add any relevant usage instructions and notes about expected inputs/outputs.
+A script to create links from a note path in the clipboard
+
+TODO Switch to fzf or skim, the matching is better
 """
 
 # Import necessary standard Python libraries
@@ -14,6 +15,7 @@ import sys
 import os
 import subprocess
 import pyperclip
+from utils import path_to_title, create_md_link
 
 HOME = os.getenv("HOME")
 assert HOME is not None, "HOME environment variable not set"
@@ -30,31 +32,21 @@ def note_taking_link(notes_dir: str):
 
     # Use the note_taking script to get the new note link
     cmd = ["note_taking", "-d", notes_dir, "link"]
-    new_link_from_notes_dir = subprocess.run(cmd, capture_output=True,
-                                             check=True,
-                                             text=True).stdout.strip()
-    new_link = f"{notes_dir}/{new_link_from_notes_dir}"
+    new_link_from_notes_dir = subprocess.run(
+        cmd, capture_output=True, check=True, text=True
+    ).stdout.strip()
+
+    # Get the full path of the new link
+    new_link = os.path.join(notes_dir, new_link_from_notes_dir)
     new_link = os.path.abspath(new_link)
+    # Get the relative path
     rel_link = os.path.relpath(new_link, os.path.dirname(filename))
 
-    # Clean it up with a display title
-    froms = ["-", "_", " "]
-    strips = ["../", "./"]
-    ext = "." + filename.split(".")[-1]
-
-    display_title = rel_link
-    if ext != "":
-        display_title = display_title.replace(ext, "")
-    for f in froms:
-        display_title = display_title.replace(f, " ")
-    for s in strips:
-        display_title = display_title.replace(s, "")
-
     # Sentence case
-    display_title = display_title.title()
+    display_title = path_to_title(rel_link)
 
     # Now print it
-    link = f"[{display_title}]({rel_link})"
+    link = create_md_link(display_title, rel_link)
     pyperclip.copy(link)
     print(link)
 
@@ -76,13 +68,8 @@ def main(args):
 # This if-clause ensures the following code only runs
 # when this file is executed directly
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Add a description for your program")
-    parser.add_argument(
-        "--nl",  action="store_true", help="Run note_taking link"
-    )
-    parser.add_argument(
-        "--notes_dir", type=str, help="The directory of the notes"
-    )
+    parser = argparse.ArgumentParser(description="Add a description for your program")
+    parser.add_argument("--nl", action="store_true", help="Run note_taking link")
+    parser.add_argument("--notes_dir", type=str, help="The directory of the notes")
     args = parser.parse_args()
     main(args)

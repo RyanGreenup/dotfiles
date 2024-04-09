@@ -113,6 +113,7 @@ use({
 
 
 -- Debugging / DAP
+--[[
 
 use { 'mfussenegger/nvim-dap-python',
   dependencies = { "mfussenegger/nvim-dap" },
@@ -134,6 +135,7 @@ use { 'theHamsta/nvim-dap-virtual-text',
   end
 
 }
+--]]
 
 -- Mason to mange LSP servers
 use({
@@ -259,6 +261,8 @@ use {
 
 -- Copilot
 use { "https://github.com/github/copilot.vim" }
+
+use({ 'TabbyML/vim-tabby' })
 
 -- packer.nvim
 use({
@@ -388,13 +392,8 @@ use {
   dependencies = { 'kyazdani42/nvim-web-devicons', lazy = false }, config = function()
   require("lualine").setup({
     sections = {
-      lualine_x = {
-        {
-          require("lazy.status").updates,
-          cond = require("lazy.status").has_updates,
-          color = { fg = "#ff9e64" },
-        },
-      },
+      lualine_x = { { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = { fg = "#ff9e64" }, }, },
+      lualine_c = { { 'filename', path = 1, } }
     },
   })
 end
@@ -452,6 +451,9 @@ local opts = {
     lazy = false,
   }
 }
+
+use { 'kevinhwang91/nvim-bqf' }
+
 
 
 use { 'TabbyML/vim-tabby' }
