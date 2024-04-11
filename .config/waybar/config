@@ -37,18 +37,23 @@
         "warp-on-scroll": true,
         "format": "{name}: {icon}",
         "format-icons": {
-            "1": "",
+            "1": "",
             "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "󰖬",
+            "7": "",
+            "8": "",
+            "9": "",
+            "10": "⭐"
+            // "urgent": "",
+            // "focused": "",
+            // "default": ""
         },
        "persistent-workspaces": {
-                 "*": 5, // 5 workspaces by default on every monitor
-                 "HDMI-A-1": 3 // but only three on HDMI-A-1
+                 // "*": 5, // 5 workspaces by default on every monitor
+                 // "HDMI-A-1": 3 // but only three on HDMI-A-1
         }
     },
     "keyboard-state": {
@@ -170,7 +175,7 @@
         ]
     },
     "battery#bat2": {
-        "bat": "BAT2"
+        "bat": "BAT0"
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface

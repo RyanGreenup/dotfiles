@@ -36,16 +36,23 @@ def main(notes_dir: str):
     # Use the note_taking script to get the new note link
     # TODO just use fzf_select(get_files(notes_dir)) from utils.py
     cmd = ["note_taking", "-d", notes_dir, "link"]
-    new_link_from_notes_dir = subprocess.run(
-        cmd, capture_output=True, check=True, text=True
-    ).stdout.strip()
+    try:
+        new_link_from_notes_dir = subprocess.run(
+            cmd, capture_output=True, check=True, text=True
+        ).stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(e.stderr)
+        return
+    except Exception as e:
+        print(e)
+        return
 
     start = os.path.dirname(os.path.abspath(filename))
     target = os.path.abspath(new_link_from_notes_dir)
 
     # Get the full path of the new link
     rel_link = os.path.relpath(target, start)
-    print("here")
+    rel_link = rel_link.replace(" ", "%20")
 
     # Sentence case
     display_title = path_to_title(rel_link)
@@ -65,7 +72,9 @@ def main_all_py(notes_dir):
     files = get_files(notes_dir, relative=True)
     file = gui_select(files)
     file = os.path.relpath(file, os.path.basename(target))
-    link = create_md_link(path_to_title(file), file)
+    title = path_to_title(file)
+    file = file.replace(" ", "%20")
+    link = create_md_link(title, file)
     pyperclip.copy(link)
     os.chdir(old_dir)
 
@@ -74,8 +83,9 @@ def main_all_py(notes_dir):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(
-        description="Add a description for your program")
+        description="Takes a link to a note in the clipboard and creates a relative link to another note")
     parser.add_argument(
         "--notes_dir",
         type=str,

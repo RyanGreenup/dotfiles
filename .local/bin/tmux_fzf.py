@@ -74,12 +74,12 @@ def fzf_tmux_sessions():
     subprocess.run(["tmux", "attach", "-t", selected_session])
 
 
-# This if-clause ensures the following code only runs when this file is executed directly
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Tmux session wrapper using fzf")
     parser.add_argument(
-        "session", help="This is the first argument without '--' or '-'.",
+        "session", help=("The session to create or attach."
+                         " If not provided, fzf will list them."),
         nargs="?", default=None, type=str)
     args = parser.parse_args()
     main(args)

@@ -20,6 +20,7 @@
 (setq org-agenda-files (list
                         "~/Agenda/todo.org"
                         "~/Agenda/inbox.org"
+                        "~/Agenda/work.org"
                         "~/Notes/rs_wiki/Agenda/rs_cal.org"
                         "~/Notes/rs_wiki/Agenda/rs_shopping.org"
                         ))

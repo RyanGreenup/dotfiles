@@ -30,3 +30,14 @@ setHook(
 # options(device = "x11") # NOTE may need to remove this for  Jupyter under Runit
 ## https://stackoverflow.com/a/22915279
 options(bitmapType="cairo")
+
+
+
+
+
+## Fix linting [^77286956]
+options(lintr.linter_file="~/.config/R/lintr")
+
+
+## Footnotes ...................................................................
+## [^77286956]: https://stackoverflow.com/a/77286956
