@@ -25,7 +25,8 @@ c.tabs.position = 'left'
 c.tabs.show = 'multiple'
 # colors.webpage.prefers_color_scheme_dark
 # c.editor.command = ["gvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
-c.editor.command = ["alacritty", "-e", "nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
+# c.editor.command = ["neovide", "{file}"]
+c.editor.command = ["kitty", "-e", "nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
 # c.editor.command = ["emacsclient", "-f", "{file}"]
 # c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
 # c.editor.command = ["neoray", "{file}", "--column", "{column0}", "--line", "{line}"]
@@ -70,4 +71,5 @@ config.bind('cc',  'hint code userscript code_select.py')
 config.bind('ed',  'spawn --userscript edit_dw.sh')
 config.bind('eg',  'spawn --userscript edit_gm.sh')
 config.bind('el',  'edit-url')
+config.bind('ew',  'spawn --userscript edit_wikijs.sh')
 
