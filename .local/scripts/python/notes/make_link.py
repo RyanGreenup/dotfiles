@@ -64,14 +64,21 @@ def main(notes_dir: str):
     os.chdir(old_dir)
 
 
+def relpath(target_note: str, note_editing: str) -> str:
+    return os.path.relpath(
+        path=target_note,
+        start=os.path.dirname(os.path.abspath(note_editing)),
+    )
+
+
 def main_all_py(notes_dir):
     old_dir = os.getcwd()
     os.chdir(notes_dir)
     # The target note is the path in the clipboard
-    target = pyperclip.paste()
+    current_note = pyperclip.paste()
     files = get_files(notes_dir, relative=True)
     file = gui_select(files)
-    file = os.path.relpath(file, os.path.basename(target))
+    file = relpath(file, current_note)
     title = path_to_title(file)
     file = file.replace(" ", "%20")
     link = create_md_link(title, file)
@@ -83,9 +90,9 @@ def main_all_py(notes_dir):
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
-        description="Takes a link to a note in the clipboard and creates a relative link to another note")
+        description="Takes a link to a note in the clipboard and creates a relative link to another note"
+    )
     parser.add_argument(
         "--notes_dir",
         type=str,
@@ -97,7 +104,7 @@ if __name__ == "__main__":
         "-g",
         action="store_true",
         help="Use a Gui to select the note to create the link",
-        default=False
+        default=False,
     )
 
     args = parser.parse_args()
