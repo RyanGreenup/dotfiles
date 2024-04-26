@@ -1,0 +1,48 @@
+snippet h1
+	# $1
+	$0
+
+snippet h2
+	## $1
+	$0
+
+snippet h3
+	### $1
+	$0
+
+snippet h4
+	#### $1
+	$0
+
+
+snippet h5
+	##### $1
+	$0
+
+snippet h6
+	###### $1
+	$0
+
+snippet fn
+	[^$1] $0
+
+	[^$1]: $2
+
+
+
+snippet det
+	<details closed><summary>
+
+	$1
+	</summary>
+
+	$2
+	</details>
+
+snippet nav
+	<details closed><summary><h2>🧭</h2></summary>
+
+	- [$1]($2)
+	    - x
+	</details>
+	$0
