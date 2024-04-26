@@ -46,3 +46,34 @@ snippet nav
 	    - x
 	</details>
 	$0
+
+snippet pic
+	<details><summary>📷 Desc.</summary> <div style="max-width: 62%;">
+
+	![](assets/$1)
+	</div></details>
+	$0
+
+snippet vid
+	<details><summary>🎥 Desc.</summary> <div style="max-width: 62%;">
+
+	<video controls>
+	  <source src="assets/$1" type="video/mp4">
+	Your browser does not support the video tag.
+	</video>
+	</div></details>
+	$0
+
+snippet tabpic
+	<details><summary>📷 Desc.</summary> <div style="max-width: 62%;">
+
+	## Tabs {.tabset}
+	### 1
+	![](assets/$1)
+	### 2
+	![](assets/$2)
+	### 3
+	![](assets/$3)
+
+	</div></details>
+	$0
