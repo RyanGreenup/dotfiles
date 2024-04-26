@@ -82,6 +82,10 @@ wk.register({
       p = { "<cmd>Telescope packer theme=dropdown<CR>", "Help Packages" },
 
     },
+    n = {
+      name = "+notes",
+      l = { ":lua insert_notes_link()<CR>", "Insert a link to a note using rofi"}
+    },
     o = {
       name = "+open / org",
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
@@ -495,3 +499,4 @@ function Open_file_in_clipboard()
   file:close()
   vim.cmd(":e " .. path)
 end
+

@@ -33,7 +33,7 @@ function Kebab_case(user_string)
 end
 
 function Build_markdown_link(title, path)
-  return "[".. title.. "](".. path.. ")"
+  return "[" .. title .. "](" .. path .. ")"
 end
 
 function Open_file_in_split(path, insert)
@@ -53,7 +53,6 @@ function Open_file_in_split(path, insert)
     vim.cmd("normal! o")
   end
 end
-
 
 --[[
 Create a markdown link to a sub page
@@ -94,7 +93,6 @@ function Create_markdown_link()
   else
     Open_file_in_split(new_path, "# " .. title)
   end
-
 end
 
 -- Create a comamand
@@ -119,4 +117,32 @@ function Create_mermaid()
   vim.cmd([[normal! G]])
   vim.cmd([[normal! "*p]])
 end
+
 vim.cmd("command! CreateMermaid lua Create_mermaid()")
+
+
+--------------------------------------------------------------------------------
+-- Notetaking Stuff ------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+require('utils/directories')
+function insert_notes_link()
+  local notes_dir = "--notes_dir "
+  notes_dir = notes_dir .. "~/Notes/slipbox/ "
+  local current_buffer = "-c " .. vim.api.nvim_get_current_buf() .. " "
+
+  local cmd = "~/.local/scripts/python/notes/make_link.py -g "
+  cmd = cmd .. notes_dir .. current_buffer
+
+  -- current_link=shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
+  local current_link = shell(cmd)
+  -- Assert the link is not empty
+  if current_link == nil then
+    print("No link selected")
+    return
+  end
+  -- Strip the trailing new line (TODO: Should this be done in the function?)
+  current_link = string.gsub(current_link, "\n$", "")
+  -- insert the link into the current buffer
+  vim.api.nvim_put({ current_link }, "l", true, true)
+end

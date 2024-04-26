@@ -71,11 +71,10 @@ def relpath(target_note: str, note_editing: str) -> str:
     )
 
 
-def main_all_py(notes_dir):
+def main_all_py(notes_dir, current_note: str):
     old_dir = os.getcwd()
     os.chdir(notes_dir)
     # The target note is the path in the clipboard
-    current_note = pyperclip.paste()
     files = get_files(notes_dir, relative=True)
     file = gui_select(files)
     file = relpath(file, current_note)
@@ -84,9 +83,7 @@ def main_all_py(notes_dir):
     link = create_md_link(title, file)
     pyperclip.copy(link)
     os.chdir(old_dir)
-
-    # This if-clause ensures the following code only runs
-    # when this file is executed directly
+    print(link)
 
 
 if __name__ == "__main__":
@@ -106,10 +103,22 @@ if __name__ == "__main__":
         help="Use a Gui to select the note to create the link",
         default=False,
     )
+    parser.add_argument(
+        "-c",
+        "--current_note",
+        type=str,
+        help="The note you are currently on (Takes clipboard if not provided)",
+        default=None,
+    )
 
     args = parser.parse_args()
 
+    if not args.current_note:
+        current_note = pyperclip.paste()
+    else:
+        current_note = args.current_note
+
     if args.gui:
-        main_all_py(args.notes_dir)
+        main_all_py(args.notes_dir, current_note)
     else:
         main(args.notes_dir)
