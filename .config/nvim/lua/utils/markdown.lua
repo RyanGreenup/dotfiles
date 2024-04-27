@@ -21,10 +21,11 @@ Example:
   "My Title" -> "my-title"
 --]]
 function Kebab_case(user_string)
+  local out
   out = user_string
-  -- Replace Slashes with Dots
-  out = string.gsub(out, " / ", ".")
-  out = string.gsub(out, "/", ".")
+  -- Replace Slashes with Underscore
+  out = string.gsub(out, " / ", "_")
+  out = string.gsub(out, "/", "_")
   -- Replace spaces with dashes
   out = string.gsub(out, " ", "-")
   -- Lower case
@@ -63,7 +64,10 @@ Example:
 sub-page
 
 # Have it replaced with this link to sub-page
-[➡️ /sub-page](filename.sub-page.md)
+[➡️ /sub-page](filename_sub-page.md)
+
+- `_` represents heirarchy (not dot because wikijs doesn't support that)
+    - otherwise consistent with dendron.
 
 --]]
 function Create_markdown_link()
@@ -81,7 +85,7 @@ function Create_markdown_link()
   sub_page = Kebab_case(title)
 
   -- Insert the sub_page before the extension
-  local new_path = filename .. '.' .. Kebab_case(sub_page) .. '.md'
+  local new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
   local link = Build_markdown_link('➡️ /' .. title, new_path)
 
   -- Set the new line as the link
