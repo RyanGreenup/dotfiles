@@ -145,7 +145,9 @@ def path_to_title(path: str) -> str:
     """
     path = os.path.basename(path)
     title = path.replace(".md", "")
+    # TODO remove dots as heirarcy for wikijs
     title = title.replace(".", " / ")
+    title = title.replace("_", " / ")
     title = title.replace("-", " ")
     return title.title()
 
