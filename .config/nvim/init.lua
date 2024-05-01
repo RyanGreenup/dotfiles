@@ -6,6 +6,7 @@ if vim.g.vscode then
 else
   -- require('plugins/packer')
   require('plugins/lazy')
+  require('plugins/themes/init')
 
   require('autocommands') -- Put these before lsp
 
