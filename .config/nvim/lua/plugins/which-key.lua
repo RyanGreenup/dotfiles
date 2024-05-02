@@ -168,8 +168,8 @@ wk.register({
       name = "Preview",
       -- using iamcco/markdown-preview.nvim
       v = {"<cmd>MarkdownPreview<CR>", "Markdown Preview"},
-      -- using ikey4u/nvim-previewer
-      V = {"<cmd>PreviewAlt<CR>", "Markdown Preview (Rust)"},
+      -- using VSCode
+      c = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
     },
     w = {
       name = "+window",

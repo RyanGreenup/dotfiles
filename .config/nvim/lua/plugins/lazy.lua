@@ -223,8 +223,6 @@ use {
 }
 
 
--- I've found this to be more reliable, further debugging is required
-use { 'ikey4u/nvim-previewer', build = [[ cargo build --release ]] }
 use({
   "iamcco/markdown-preview.nvim",
   build = function() vim.fn["mkdp#util#install"]() end,
