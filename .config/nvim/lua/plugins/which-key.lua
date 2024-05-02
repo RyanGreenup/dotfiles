@@ -164,6 +164,13 @@ wk.register({
       name = "insert",
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
     },
+    v = {
+      name = "Preview",
+      -- using iamcco/markdown-preview.nvim
+      v = {"<cmd>MarkdownPreview<CR>", "Markdown Preview"},
+      -- using ikey4u/nvim-previewer
+      V = {"<cmd>PreviewAlt<CR>", "Markdown Preview (Rust)"},
+    },
     w = {
       name = "+window",
       -- Splits

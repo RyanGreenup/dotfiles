@@ -222,6 +222,9 @@ use {
   end
 }
 
+
+-- I've found this to be more reliable, further debugging is required
+use { 'ikey4u/nvim-previewer', build = [[ cargo build --release ]] }
 use({
   "iamcco/markdown-preview.nvim",
   build = function() vim.fn["mkdp#util#install"]() end,
@@ -410,6 +413,7 @@ use 'tjdevries/colorbuddy.vim'
 
 
 -- Themes ics ..................................................................
+use('rose-pine/neovim')
 use({
   "folke/tokyonight.nvim",
   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -454,7 +458,7 @@ local opts = {
 
 use { 'kevinhwang91/nvim-bqf' }
 
-
+use { 'SmiteshP/nvim-navbuddy' }
 
 --------------------------------------------------------------------------------
 -- Finally Call the plugin Manager ---------------------------------------------
