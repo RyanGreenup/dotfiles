@@ -10,8 +10,8 @@ import sys
 config = Config.default()
 
 
-def filename_to_markdown(file_path):
-    file_path = os.path.relpath(path=file_path, start=config.notes_dir)
+def filename_to_markdown(file_path, notes_dir):
+    file_path = os.path.relpath(path=file_path, start=notes_dir)
 
     # Remove extension and make relative to base directory
     file_path = os.path.splitext(file_path.replace("~/Notes/slipbox/", ""))[0]
@@ -44,8 +44,11 @@ def filename_to_markdown(file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process filepath.")
     parser.add_argument("filepath", nargs="?", type=str, default=None)
+    parser.add_argument("notes_dir", nargs="?", type=str, default=None)
     args = parser.parse_args()
 
     if not (filepath := args.filepath):
         filepath = sys.stdin.read().strip()
-    print(filename_to_markdown(filepath))
+    if not (notes_dir := args.notes_dir):
+        notes_dir = config.notes_dir
+    print(filename_to_markdown(filepath, notes_dir))

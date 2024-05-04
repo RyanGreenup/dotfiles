@@ -1,3 +1,5 @@
+require("utils/config")
+
 --------------------------------------------------------------------------------
 -- Directories and Projects-----------------------------------------------------
 --------------------------------------------------------------------------------
@@ -47,6 +49,7 @@ function Change_dir_interactive()
   vim.api.nvim_set_current_dir(dir)
   print("Changed to: " .. dir)
 end
+
 vim.cmd("command! ChangeDir lua Change_dir_interactive()")
 
 function Get_HOME()
@@ -58,8 +61,35 @@ function Get_HOME()
   return HOME
 end
 
-function Get_notes_dir()
-  return Get_HOME() .. "/Notes/slipbox"
+
+-- Change to the directory of the notes as defined by the
+-- Get_notes_dir function
+function CD_notes()
+  local notes_dir = Get_notes_dir()
+  vim.api.nvim_set_current_dir(notes_dir)
+  print("Changed to: " .. notes_dir)
+end
+
+-- Change to the directory of the current buffer
+--
+-- Why a Function?
+-- ---------------
+-- This is wrapped into a function because I'm unsure
+-- If I want to do this sometimes, it may be simpler to manage
+-- manually with `SPC f g`.
+-- If I change my mind, I can `grep` for the function name
+function CD_current_buffer()
+  local current_file_path = vim.api.nvim_buf_get_name(0)
+  local current_dir, _ = Dirname(current_file_path)
+  print(current_dir)
+  vim.api.nvim_set_current_dir(current_dir)
+end
+
+-- Returns the directory of the current buffer as a string
+function Get_dirname_buffer()
+  local current_file_path = vim.api.nvim_buf_get_name(0)
+  local current_dir, _ = Dirname(current_file_path)
+  return current_dir
 end
 
 -- TODO
@@ -78,4 +108,5 @@ function Choose_journal()
   -- Strip all training newline
   Open_file_in_split(output, "")
 end
+
 vim.cmd("command! ChooseJournal lua Choose_journal()")

@@ -131,8 +131,9 @@ vim.cmd("command! CreateMermaid lua Create_mermaid()")
 
 require('utils/directories')
 function insert_notes_link()
+  -- Use the current buffer as the notes directory in case of other wiki
   local notes_dir = "--notes_dir "
-  notes_dir = notes_dir .. "~/Notes/slipbox/ "
+  notes_dir = notes_dir .. Get_dirname_buffer() .. " "
   local current_buffer = "-c " .. vim.api.nvim_get_current_buf() .. " "
 
   local cmd = "~/.local/scripts/python/notes/make_link.py -g "
@@ -158,8 +159,12 @@ function Generate_navigation_tree()
   -- Build the command
   local HOME = Get_HOME()
   local current_file_path = vim.api.nvim_buf_get_name(0)
+  local notes_dir = Get_dirname_buffer()
+
   local cmd = HOME .. "/.local/scripts/python/notes/generate-navigation.py "
-  cmd = cmd .. current_file_path
+  cmd = cmd .. current_file_path .. " "
+  cmd = cmd .. notes_dir
+
 
   -- Run the command and get the output
   local navigation_tree_string = shell(cmd)

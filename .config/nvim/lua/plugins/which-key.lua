@@ -23,7 +23,7 @@ wk.register({
     b = {
       name = "+buffers",
       b = { "<cmd>Telescope buffers<CR>", "Buffers" },
-
+      d = { "<cmd>bd<CR>", "Delete" },
       n = { "<cmd>bn<CR>", "Buffer Previous" },
       p = { "<cmd>bp<CR>", "Buffer Next" },
     },
@@ -84,7 +84,9 @@ wk.register({
     },
     n = {
       name = "+notes",
-      l = { ":lua insert_notes_link()<CR>", "Insert a link to a note using rofi"}
+      l = { ":lua insert_notes_link()<CR>", "Insert a link to a note using rofi" },
+      s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
+      v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
     },
     o = {
       name = "+open / org",
@@ -167,7 +169,7 @@ wk.register({
     v = {
       name = "Preview",
       -- using iamcco/markdown-preview.nvim
-      v = {"<cmd>MarkdownPreview<CR>", "Markdown Preview"},
+      v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
       -- using VSCode
       c = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
     },
@@ -506,4 +508,3 @@ function Open_file_in_clipboard()
   file:close()
   vim.cmd(":e " .. path)
 end
-
