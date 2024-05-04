@@ -19,7 +19,10 @@ def filename_to_markdown(file_path):
     # Split into hierarchy
     sections = file_path.replace("_", "/").split("/")
 
-    markdown = "<details closed><summary><h2>🧭</h2></summary>\n\n"
+    markdown = "<details closed><summary><h2>🧭</h2></summary>\n"
+    # Add a space before the newline so lua gmatch has an easier time
+    # see ~/.config/nvim/lua/utils/markdown.lua
+    markdown += " \n"
 
     for i in range(len(sections)):
         # Use '-' to split words, and capitalize each word

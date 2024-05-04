@@ -150,3 +150,32 @@ function insert_notes_link()
   -- insert the link into the current buffer
   vim.api.nvim_put({ current_link }, "l", true, true)
 end
+
+--------------------------------------------------------------------------------
+-- Generate a Navigation Tree --------------------------------------------------
+--------------------------------------------------------------------------------
+function Generate_navigation_tree()
+  -- Build the command
+  local HOME = Get_HOME()
+  local current_file_path = vim.api.nvim_buf_get_name(0)
+  local cmd = HOME .. "/.local/scripts/python/notes/generate-navigation.py "
+  cmd = cmd .. current_file_path
+
+  -- Run the command and get the output
+  local navigation_tree_string = shell(cmd)
+  if navigation_tree_string == nil then
+    print("No navigation tree generated")
+    return
+  end
+
+
+  -- Split the output into a list of lines
+  lines = {}
+  for line in navigation_tree_string:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+
+
+  -- Insert the output
+  vim.api.nvim_put(lines, "l", true, true)
+end
