@@ -19,6 +19,7 @@ local opt = vim.opt -- global/buffer/windows-scoped options
 -----------------------------------------------------------
 
 g.mapleader = ' ' -- change leader to a comma
+vim.api.nvim_set_keymap('i', '<M-Space>', '<C-o>', { noremap = true })
 opt.mouse = 'a' -- enable mouse support
 opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile = false -- don't use swapfile
@@ -73,7 +74,7 @@ opt.synmaxcol = 240 -- max column for syntax highlight
 -- Colorscheme
 -----------------------------------------------------------
 opt.termguicolors = true -- enable 24-bit RGB colors
-cmd [[colorscheme rose-pine-dawn ]]
+cmd [[colorscheme rose-pine ]]
 
 -----------------------------------------------------------
 -- Tabs, indent
@@ -260,3 +261,4 @@ set conceallevel=0
 ------------------------------------------------------------
 vim.filetype.add({ extension = { txt = 'dokuwiki' } })
 vim.filetype.add({ extension = { elv = 'elvish' } })
+
