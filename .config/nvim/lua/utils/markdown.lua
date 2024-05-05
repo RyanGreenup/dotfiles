@@ -37,23 +37,6 @@ function Build_markdown_link(title, path)
   return "[" .. title .. "](" .. path .. ")"
 end
 
-function Open_file_in_split(path, insert)
-  -- split
-  vim.api.nvim_command('split')
-  vim.api.nvim_command('wincmd j')
-  -- Create the file
-  vim.api.nvim_command('e ' .. path)
-  -- vim.api.nvim_command('wincmd k')
-
-  -- Check that insert isn't empty
-  if insert ~= "" then
-    -- Insert the text
-    vim.api.nvim_set_current_line(insert)
-    -- Open a new line
-    vim.cmd("normal! o")
-    vim.cmd("normal! o")
-  end
-end
 
 --[[
 Create a markdown link to a sub page

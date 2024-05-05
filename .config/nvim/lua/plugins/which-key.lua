@@ -182,7 +182,7 @@ wk.register({
       j = { "<C-w>j", "Move Down" },
       k = { "<C-w>k", "Move Up" },
       l = { "<C-w>l", "Move Right" },
-      d = { "<cmd>:q<CR>", "quit" },
+      q = { "<cmd>q<CR>", "quit" },
       t = {
         name = "+tab",
         e = { "<cmd>tabedit<CR>", "Edit" },
@@ -190,6 +190,7 @@ wk.register({
         p = { "<cmd>tabprevious<CR>", "Previous" },
         n = { "<cmd>tabnext<CR>", "Next" },
         o = { "<cmd>tabedit<CR>", "Open Tab" },
+        m = { "<cmd>lua Move_window_to_tab()<CR>", "Move" },
 
 
       },
