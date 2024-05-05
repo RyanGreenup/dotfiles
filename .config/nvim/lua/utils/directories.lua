@@ -15,18 +15,7 @@ function Shell(cmd)
   return result
 end
 
-local function choose_dir_fd()
-  local home = os.getenv("HOME")
-  -- Using Find
-  --[[
-  local cmd = "cd " .. home
-  cmd = cmd .. " && " .. "fd -t d .    | rofi -dmenu"
-  local output = Shell(cmd)
-  return home .. "/" .. output
-  --]]
-end
-
-function choose_dir()
+function Choose_dir()
   -- Using Zoxide
   local cmd = "zoxide query -l | rofi -dmenu"
   local output = Shell(cmd)
@@ -41,7 +30,7 @@ function choose_dir()
 end
 
 function Change_dir_interactive()
-  local dir = choose_dir()
+  local dir = Choose_dir()
   if dir == nil then
     print("No directory selected")
     return
