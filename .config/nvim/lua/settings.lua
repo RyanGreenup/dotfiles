@@ -19,7 +19,7 @@ local opt = vim.opt -- global/buffer/windows-scoped options
 -----------------------------------------------------------
 
 g.mapleader = ' ' -- change leader to a comma
-vim.api.nvim_set_keymap('i', '<M-Space>', '<C-o>', { noremap = true })
+vim.api.nvim_set_keymap('i', '<M-Space>', '<Esc><leader>', { noremap = true })
 opt.mouse = 'a' -- enable mouse support
 opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile = false -- don't use swapfile
