@@ -4,7 +4,7 @@ require("utils/config")
 -- Directories and Projects-----------------------------------------------------
 --------------------------------------------------------------------------------
 -- Better Directory change
-function shell(cmd)
+function Shell(cmd)
   local handle = io.popen(cmd)
   if handle == nil then
     print("unable to open process for cmd: " .. cmd)
@@ -21,7 +21,7 @@ local function choose_dir_fd()
   --[[
   local cmd = "cd " .. home
   cmd = cmd .. " && " .. "fd -t d .    | rofi -dmenu"
-  local output = shell(cmd)
+  local output = Shell(cmd)
   return home .. "/" .. output
   --]]
 end
@@ -29,7 +29,7 @@ end
 function choose_dir()
   -- Using Zoxide
   local cmd = "zoxide query -l | rofi -dmenu"
-  local output = shell(cmd)
+  local output = Shell(cmd)
 
   if output == nil then
     print("No directory selected")
@@ -98,7 +98,7 @@ function Choose_journal()
   -- local cmd = "ls -t " .. Get_notes_dir() .. "/journals " .. " | " .. " rofi -dmenu"
   local dir = Get_notes_dir() .. "/journals"
   local cmd = "ls -t " .. dir .. " | " .. " rofi -dmenu"
-  local output = dir .. "/" .. shell(cmd)
+  local output = dir .. "/" .. Shell(cmd)
 
   if output == nil then
     print("No File Selected")

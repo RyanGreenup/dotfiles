@@ -122,8 +122,8 @@ function Insert_notes_link()
   local cmd = "~/.local/scripts/python/notes/make_link.py -g "
   cmd = cmd .. notes_dir .. current_buffer
 
-  -- current_link=shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
-  local current_link = shell(cmd)
+  -- current_link=Shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
+  local current_link = Shell(cmd)
   -- Assert the link is not empty
   if current_link == nil then
     print("No link selected")
@@ -150,7 +150,7 @@ function Generate_navigation_tree()
 
 
   -- Run the command and get the output
-  local navigation_tree_string = shell(cmd)
+  local navigation_tree_string = Shell(cmd)
   if navigation_tree_string == nil then
     print("No navigation tree generated")
     return
@@ -158,7 +158,7 @@ function Generate_navigation_tree()
 
 
   -- Split the output into a list of lines
-  lines = {}
+  local lines = {}
   for line in navigation_tree_string:gmatch("[^\r\n]+") do
     table.insert(lines, line)
   end
