@@ -84,7 +84,7 @@ wk.register({
     },
     n = {
       name = "+notes",
-      l = { ":lua insert_notes_link()<CR>", "Insert a link to a note using rofi" },
+      l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
       s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
     },

@@ -113,7 +113,7 @@ vim.cmd("command! CreateMermaid lua Create_mermaid()")
 --------------------------------------------------------------------------------
 
 require('utils/directories')
-function insert_notes_link()
+function Insert_notes_link()
   -- Use the current buffer as the notes directory in case of other wiki
   local notes_dir = "--notes_dir "
   notes_dir = notes_dir .. Get_dirname_buffer() .. " "
