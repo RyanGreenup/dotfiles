@@ -49,9 +49,6 @@ file_autocmd_function_py = file_autocmd_function_factory('*.py', python_group)
 file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in Python')
 file_autocmd_command_py('0r ~/Templates/python_script.py', "Load Python Template")
 -- Autocmd Callback Functions
-file_autocmd_function_py({ "CursorHold" }, function()
-  print("We are doing CursorHold")
-end)
 -- Python Autocommands --------------------------------------------------------
 -- Create Helpers
 file_autocmd_command_md = file_autocmd_command_factory('*.md', markdown_group)
