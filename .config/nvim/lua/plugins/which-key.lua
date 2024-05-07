@@ -68,6 +68,7 @@ wk.register({
       D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "LSP: Definition" },
       i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "LSP: Implementation" },
       r = { "<cmd>lua vim.lsp.buf.references()<CR>", "LSP: References" },
+      v = { "<cmd>Navbuddy<CR>", "Navbuddy" },
       n = {
         name = "+notes",
         d = { "<cmd>:cd ~/Notes/dokuwiki/config/dokuwiki/data/pages/<CR><cmd>Telescope find_files<CR>", "Dokuwiki" }
