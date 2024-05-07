@@ -473,14 +473,6 @@ local opts = {
 use { 'kevinhwang91/nvim-bqf' }
 
 use { 'SmiteshP/nvim-navbuddy' }
-use {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    {
-    }
-  },
-  -- your lsp config or other stuff
-}
 
 
 
