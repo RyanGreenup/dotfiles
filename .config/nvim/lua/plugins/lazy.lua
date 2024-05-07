@@ -140,7 +140,23 @@ use { 'theHamsta/nvim-dap-virtual-text',
 -- Mason to mange LSP servers
 use({
   "neovim/nvim-lspconfig",
+  -- #+START_Navbuddy
+  -- These dependencies are actually for Navbuddy which wires into
+  -- the LSP. Bit of a hack, but it works.
+  dependencies = {
+    "SmiteshP/nvim-navbuddy",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim"
+    },
+    opts = { lsp = { auto_attach = true } }
+  -- #+END_Navbuddy
+  }
 })
+
+
+
+
 use { 'williamboman/mason-lspconfig.nvim',
   dependencies = { 'williamboman/mason.nvim' },
   config = function()
@@ -457,6 +473,16 @@ local opts = {
 use { 'kevinhwang91/nvim-bqf' }
 
 use { 'SmiteshP/nvim-navbuddy' }
+use {
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    {
+    }
+  },
+  -- your lsp config or other stuff
+}
+
+
 
 --------------------------------------------------------------------------------
 -- Finally Call the plugin Manager ---------------------------------------------
