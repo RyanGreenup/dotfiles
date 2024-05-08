@@ -11,7 +11,7 @@ main() {
 
     nvidia
     user_dir
-    keyring
+    # keyring
     notifications
 
     # Run Wayland Session
