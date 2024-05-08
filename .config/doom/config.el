@@ -60,7 +60,7 @@
 
 (load! "./personal_config/org-agenda/location.el")
 (load! "./personal_config/org-agenda/functions.el")
-(load! "./personal_config/org-agenda/aesthetics.el")
+;; (load! "./personal_config/org-agenda/aesthetics.el")
 (load! "./personal_config/dokuwiki.el")
 (load! "./personal_config/keybindings.el")
 (load! "./lisp/init-org-ref.el")
@@ -71,3 +71,12 @@
 ;;; Set up a load path
 (setq doom-config-directory "~/.config/doom")
 (add-to-list 'load-path (expand-file-name "lisp" doom-config-directory))
+
+
+
+
+(defun my/create-md-subpage ()
+  (interactive)
+  (async-shell-command
+   (format "local-scripts notes sub-page --source %s"
+           (shell-quote-argument buffer-file-name))))
