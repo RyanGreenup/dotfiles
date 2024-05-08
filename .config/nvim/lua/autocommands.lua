@@ -57,6 +57,7 @@ file_autocmd_function_md = file_autocmd_function_factory('*.md', markdown_group)
 file_autocmd_command_md('set foldmethod=expr', 'Set Fold Method to Expression')
 file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in code blocks')
 file_autocmd_command_md('set foldexpr=nvim_treesitter#foldexpr()', 'Set Fold Expression to Treesitter')
+-- [^6158294]
 file_autocmd_command_md(
   ':nmap <C-CR> "<Esc>:e <cfile><CR>" <CR>',
   'Create a New Markdown File from bracketed link')
@@ -115,3 +116,7 @@ for _, value in ipairs(run_file) do
       })
   end
 end
+
+-- [[ References
+-- [^6158294]: https://stackoverflow.com/questions/6158294/how-to-create-and-open-for-editing-a-nonexistent-file-whose-path-is-under-the-cu
+-- ]]
