@@ -113,29 +113,32 @@ use({
 
 
 -- Debugging / DAP
---[[
-
-use { 'mfussenegger/nvim-dap-python',
-  dependencies = { "mfussenegger/nvim-dap" },
-  config = function()
-    require('dap-python').setup()
-  end
-}
 
 use { "rcarriga/nvim-dap-ui",
-  dependencies = { "mfussenegger/nvim-dap" },
+  dependencies = {
+    "mfussenegger/nvim-dap",
+    "nvim-neotest/nvim-nio",
+    "mfussenegger/nvim-dap-python",
+    "theHamsta/nvim-dap-virtual-text",
+    "nvim-telescope/telescope-dap.nvim"
+  },
   config = function()
     require("dapui").setup()
-  end
-}
-use { 'theHamsta/nvim-dap-virtual-text',
-  dependencies = { "mfussenegger/nvim-dap", "nvim-treesitter/nvim-treesitter" },
-  config = function()
-    require("nvim-dap-virtual-text").setup()
-  end
+    require("nvim-dap-virtual-text").setup({ enabled = true })
+    require("dap-python").setup("~/.local/share/virtualenvs/debugpy/bin/python")
 
+    local map = vim.api.nvim_set_keymap
+    local default_opts = { noremap = true, silent = true }
+
+    map("n", "<F4>", ":lua require('dapui').toggle()<CR>", default_opts)
+    map("n", "<F9>", ":lua require('dap').toggle_breakpoint()<CR>", default_opts)
+
+    map("n", "<F5>", ":lua require('dap').continue()<CR>", default_opts)
+    map("n", "<F10>", ":lua require('dap').step_over()<CR>", default_opts)
+    map("n", "<F11>", ":lua require('dap').step_into()<CR>", default_opts)
+    map("n", "<F23>", ":lua require('dap').step_out()<CR>", default_opts) -- Shift+F11
+  end
 }
---]]
 
 -- Mason to mange LSP servers
 use({
@@ -150,7 +153,7 @@ use({
       "MunifTanjim/nui.nvim"
     },
     opts = { lsp = { auto_attach = true } }
-  -- #+END_Navbuddy
+    -- #+END_Navbuddy
   }
 })
 
