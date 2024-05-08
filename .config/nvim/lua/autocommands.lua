@@ -58,7 +58,7 @@ file_autocmd_command_md('set foldmethod=expr', 'Set Fold Method to Expression')
 file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in code blocks')
 file_autocmd_command_md('set foldexpr=nvim_treesitter#foldexpr()', 'Set Fold Expression to Treesitter')
 file_autocmd_command_md(
-  'nmap <C-CR> "zviby :cd %:p:h<cr> :!touch <C-R>z<CR> :e <C-R>"<CR>',
+  ':nmap <C-CR> "<Esc>:e <cfile><CR>" <CR>',
   'Create a New Markdown File from bracketed link')
 -- Autocmd Callback Functions
 
