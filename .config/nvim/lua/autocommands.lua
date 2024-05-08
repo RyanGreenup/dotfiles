@@ -55,6 +55,7 @@ file_autocmd_command_md = file_autocmd_command_factory('*.md', markdown_group)
 file_autocmd_function_md = file_autocmd_function_factory('*.md', markdown_group)
 -- Autocmd Commands
 file_autocmd_command_md('set foldmethod=expr', 'Set Fold Method to Expression')
+file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in code blocks')
 file_autocmd_command_md('set foldexpr=nvim_treesitter#foldexpr()', 'Set Fold Expression to Treesitter')
 file_autocmd_command_md(
   'nmap <C-CR> "zviby :cd %:p:h<cr> :!touch <C-R>z<CR> :e <C-R>"<CR>',
