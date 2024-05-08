@@ -1,11 +1,11 @@
 require("rose-pine").setup({
-    variant = "dawn", -- auto, main, moon, or dawn
+    variant = "moon", -- auto, main, moon, or dawn
     dark_variant = "moon", -- main, moon, or dawn
     dim_inactive_windows = true,
     extend_background_behind_borders = true,
 
     enable = {
-        terminal = false,
+        terminal = true,
         legacy_highlights = false, -- Improve compatibility for previous versions of Neovim
         migrations = true, -- Handle deprecated options automatically
     },
@@ -65,7 +65,6 @@ require("rose-pine").setup({
     end,
 })
 
-vim.cmd("colorscheme rose-pine")
 -- vim.cmd("colorscheme rose-pine-main")
 -- vim.cmd("colorscheme rose-pine-moon")
 -- vim.cmd("colorscheme rose-pine-dawn")
