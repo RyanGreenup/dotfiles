@@ -1,3 +1,6 @@
+local map = vim.api.nvim_set_keymap
+local default_opts = { noremap = true, silent = true }
+
 --------------------------------------------------------------------------------
 -- Bootstrap Lazy Vim ----------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -83,8 +86,8 @@ use({
   },
   config = function()
     require("neo-tree").setup({
-   -- I disabled this and re-enabled netrw In favour of stevearc/oil.nvim
-   --   hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
+      -- I disabled this and re-enabled netrw In favour of stevearc/oil.nvim
+      --   hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
     })
   end
 })
@@ -215,9 +218,18 @@ use {
   "otavioschwanck/arrow.nvim",
   opts = {
     show_icons = true,
-    leader_key = '\\',            -- Recommended to be a single key
+    leader_key = '\\',           -- Recommended to be a single key
     buffer_leader_key = '<F12>', -- Per Buffer Mappings
   }
+}
+
+-- Comments
+use {
+  'numToStr/Comment.nvim',
+  opts = {
+    -- add any options here
+  },
+  lazy = false,
 }
 
 -- Lightspeed, like easy motion
