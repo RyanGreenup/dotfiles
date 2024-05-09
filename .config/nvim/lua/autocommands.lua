@@ -42,12 +42,20 @@ end
 
 
 -- Python Autocommands --------------------------------------------------------
+local py_pattern = "*.py"
 -- Create Helpers
 file_autocmd_command_py = file_autocmd_command_factory('*.py', python_group)
 file_autocmd_function_py = file_autocmd_function_factory('*.py', python_group)
 -- Autocmd Commands
 file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in Python')
-file_autocmd_command_py('0r ~/Templates/python_script.py', "Load Python Template")
+vim.api.nvim_create_autocmd(
+  { "BufNewFile" },
+  {
+    pattern = py_pattern,
+    group = python_group,
+    command = '0r ~/Templates/python_script.py',
+    desc = "Load Python Template",
+  })
 -- Autocmd Callback Functions
 -- Python Autocommands --------------------------------------------------------
 -- Create Helpers
