@@ -37,5 +37,9 @@ let g:slime_preserve_curpos = 0
 ]]
 
 
+-- Send everything
+vim.cmd[[
+  nmap <C-S-CR> <Esc>ggVG<C-c><C-c><C-o>
+]]
 -- vim.cmd(zellij_config)
 
