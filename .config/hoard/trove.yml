@@ -1411,7 +1411,7 @@ commands:
     is_favorite: false
     is_hidden: false
     is_deleted: false
-    namespace: custoim
+    namespace: custom
   - name: ssh-forward-port
     command: "ssh -L 9898:localhost:8384 #host!"
     description: Forward a port from one machine onto another via an ssh connection
@@ -1432,9 +1432,9 @@ commands:
     is_deleted: false
     namespace: net
 namespaces:
+  - net
   - git
-  - containers
+  - custom
   - gpt
   - default
-  - custoim
-  - net
+  - containers
