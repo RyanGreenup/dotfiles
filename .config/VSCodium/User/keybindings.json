@@ -7,5 +7,9 @@
     {
         "key": "ctrl+k ctrl+g",
         "command": "foam-vscode.show-graph"
+    },
+    {
+        "key": "ctrl+enter",
+        "command": "editor.action.openLink"
     }
 ]
