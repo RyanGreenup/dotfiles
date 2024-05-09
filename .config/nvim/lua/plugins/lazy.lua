@@ -83,7 +83,8 @@ use({
   },
   config = function()
     require("neo-tree").setup({
-      hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
+   -- I disabled this and re-enabled netrw In favour of stevearc/oil.nvim
+   --   hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
     })
   end
 })
@@ -199,6 +200,24 @@ use({
 use {
   'lewis6991/gitsigns.nvim', lazy = false, dependencies = { 'nvim-lua/plenary.nvim' },
   config = function() require('gitsigns').setup() end
+}
+
+-- File Managers
+use {
+  'stevearc/oil.nvim',
+  opts = {},
+  -- Optional dependencies
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+}
+
+-- Bookmarks
+use {
+  "otavioschwanck/arrow.nvim",
+  opts = {
+    show_icons = true,
+    leader_key = ';',            -- Recommended to be a single key
+    buffer_leader_key = '<F12>', -- Per Buffer Mappings
+  }
 }
 
 -- Lightspeed, like easy motion
