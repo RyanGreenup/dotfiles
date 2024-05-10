@@ -1,3 +1,6 @@
+local map = vim.api.nvim_set_keymap
+local default_opts = { noremap = true, silent = true }
+
 --------------------------------------------------------------------------------
 -- Bootstrap Lazy Vim ----------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -83,7 +86,8 @@ use({
   },
   config = function()
     require("neo-tree").setup({
-      hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
+      -- I disabled this and re-enabled netrw In favour of stevearc/oil.nvim
+      --   hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
     })
   end
 })
@@ -113,34 +117,53 @@ use({
 
 
 -- Debugging / DAP
---[[
-
-use { 'mfussenegger/nvim-dap-python',
-  dependencies = { "mfussenegger/nvim-dap" },
-  config = function()
-    require('dap-python').setup()
-  end
-}
 
 use { "rcarriga/nvim-dap-ui",
-  dependencies = { "mfussenegger/nvim-dap" },
+  dependencies = {
+    "mfussenegger/nvim-dap",
+    "nvim-neotest/nvim-nio",
+    "mfussenegger/nvim-dap-python",
+    "theHamsta/nvim-dap-virtual-text",
+    "nvim-telescope/telescope-dap.nvim"
+  },
   config = function()
     require("dapui").setup()
-  end
-}
-use { 'theHamsta/nvim-dap-virtual-text',
-  dependencies = { "mfussenegger/nvim-dap", "nvim-treesitter/nvim-treesitter" },
-  config = function()
-    require("nvim-dap-virtual-text").setup()
-  end
+    require("nvim-dap-virtual-text").setup({ enabled = true })
+    require("dap-python").setup("~/.local/share/virtualenvs/debugpy/bin/python")
 
+    local map = vim.api.nvim_set_keymap
+    local default_opts = { noremap = true, silent = true }
+
+    map("n", "<F4>", ":lua require('dapui').toggle()<CR>", default_opts)
+    map("n", "<F9>", ":lua require('dap').toggle_breakpoint()<CR>", default_opts)
+
+    map("n", "<F5>", ":lua require('dap').continue()<CR>", default_opts)
+    map("n", "<F10>", ":lua require('dap').step_over()<CR>", default_opts)
+    map("n", "<F11>", ":lua require('dap').step_into()<CR>", default_opts)
+    map("n", "<F23>", ":lua require('dap').step_out()<CR>", default_opts) -- Shift+F11
+  end
 }
---]]
 
 -- Mason to mange LSP servers
 use({
   "neovim/nvim-lspconfig",
+  -- #+START_Navbuddy
+  -- These dependencies are actually for Navbuddy which wires into
+  -- the LSP. Bit of a hack, but it works.
+  dependencies = {
+    "SmiteshP/nvim-navbuddy",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim"
+    },
+    opts = { lsp = { auto_attach = true } }
+    -- #+END_Navbuddy
+  }
 })
+
+
+
+
 use { 'williamboman/mason-lspconfig.nvim',
   dependencies = { 'williamboman/mason.nvim' },
   config = function()
@@ -182,6 +205,33 @@ use {
   config = function() require('gitsigns').setup() end
 }
 
+-- File Managers
+use {
+  'stevearc/oil.nvim',
+  opts = {},
+  -- Optional dependencies
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+}
+
+-- Bookmarks
+use {
+  "otavioschwanck/arrow.nvim",
+  opts = {
+    show_icons = true,
+    leader_key = '\\',           -- Recommended to be a single key
+    buffer_leader_key = '<F12>', -- Per Buffer Mappings
+  }
+}
+
+-- Comments
+use {
+  'numToStr/Comment.nvim',
+  opts = {
+    -- add any options here
+  },
+  lazy = false,
+}
+
 -- Lightspeed, like easy motion
 use { 'ggandor/leap.nvim', config = function()
   require('leap').add_default_mappings()
@@ -221,6 +271,7 @@ use {
       { remap = true, silent = true, desc = 'Fold-cycle: close all folds' })
   end
 }
+
 
 use({
   "iamcco/markdown-preview.nvim",
@@ -410,6 +461,7 @@ use 'tjdevries/colorbuddy.vim'
 
 
 -- Themes ics ..................................................................
+use('rose-pine/neovim')
 use({
   "folke/tokyonight.nvim",
   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -453,6 +505,8 @@ local opts = {
 }
 
 use { 'kevinhwang91/nvim-bqf' }
+
+use { 'SmiteshP/nvim-navbuddy' }
 
 
 

@@ -64,28 +64,32 @@ def main(notes_dir: str):
     os.chdir(old_dir)
 
 
-def main_all_py(notes_dir):
+def relpath(target_note: str, note_editing: str) -> str:
+    return os.path.relpath(
+        path=target_note,
+        start=os.path.dirname(os.path.abspath(note_editing)),
+    )
+
+
+def main_all_py(notes_dir, current_note: str):
     old_dir = os.getcwd()
     os.chdir(notes_dir)
     # The target note is the path in the clipboard
-    target = pyperclip.paste()
     files = get_files(notes_dir, relative=True)
     file = gui_select(files)
-    file = os.path.relpath(file, os.path.basename(target))
+    file = relpath(file, current_note)
     title = path_to_title(file)
     file = file.replace(" ", "%20")
     link = create_md_link(title, file)
     pyperclip.copy(link)
     os.chdir(old_dir)
-
-    # This if-clause ensures the following code only runs
-    # when this file is executed directly
+    print(link)
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
-        description="Takes a link to a note in the clipboard and creates a relative link to another note")
+        description="Takes a link to a note in the clipboard and creates a relative link to another note"
+    )
     parser.add_argument(
         "--notes_dir",
         type=str,
@@ -97,12 +101,24 @@ if __name__ == "__main__":
         "-g",
         action="store_true",
         help="Use a Gui to select the note to create the link",
-        default=False
+        default=False,
+    )
+    parser.add_argument(
+        "-c",
+        "--current_note",
+        type=str,
+        help="The note you are currently on (Takes clipboard if not provided)",
+        default=None,
     )
 
     args = parser.parse_args()
 
+    if not args.current_note:
+        current_note = pyperclip.paste()
+    else:
+        current_note = args.current_note
+
     if args.gui:
-        main_all_py(args.notes_dir)
+        main_all_py(args.notes_dir, current_note)
     else:
         main(args.notes_dir)

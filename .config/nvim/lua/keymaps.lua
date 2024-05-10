@@ -233,7 +233,6 @@ map('n', '<Up>', '<cmd>lua ModalCommands[Mode][ModalKey.Up]()<CR>', default_opts
 map('n', '<Down>', '<cmd>lua ModalCommands[Mode][ModalKey.Down]()<CR>', default_opts)
 map('n', '<Left>', '<cmd>lua ModalCommands[Mode][ModalKey.Left]()<CR>', default_opts)
 map('n', '<Right>', '<cmd>lua ModalCommands[Mode][ModalKey.Right]()<CR>', default_opts)
-map('n', '<CR>', '<cmd>lua ModalCommands[Mode][ModalKey.Enter]()<CR>', default_opts)
 -- map('n', 'm', '<cmd>lua ModalCommands[Mode][ModalKey.M]()<CR>', default_opts)
 -- map('n', 'p', '<cmd>lua ModalCommands[Mode][ModalKey.P]()<CR>', default_opts)
 

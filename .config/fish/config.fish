@@ -525,3 +525,7 @@ end
 function nd
     ~/.local/scripts/python/notes/dashboard.py --editor="codium"
 end
+
+function ai
+    python /home/ryan/.local/scripts/python/query-ollama.py data/prompts/write-article.md  data/prompts/write-article_system.md "$argv"
+end

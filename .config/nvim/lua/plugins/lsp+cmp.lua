@@ -10,7 +10,23 @@
 -- Setup nvim-cmp.
 local cmp = require 'cmp'
 
+-- Specify how the border looks like
+local my_border = {
+  { '┌', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '┐', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+  { '┘', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '└', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+}
+
 cmp.setup({
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
@@ -204,11 +220,17 @@ lsp.handlers['textDocument/hover'] = lsp.with(
 -- Default hover function has &nbsp rubbish, see clean_hover func
 -- lsp.handlers.hover,
   clean_hover,
-  { border = 'rounded', max_width = max_width, max_height = max_height }
+  {
+    border = my_border, -- could be 'single', 'double',
+    -- 'shadow', 'rounded', 'solid'
+    -- or `my_border` from above
+    max_width = max_width,
+    max_height = max_height
+  }
 )
 
 lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help, {
-  border = 'rounded',
+  border = 'shadow', -- could be 'single', 'double', 'shadow', 'rounded', 'solid'
   max_width = max_width,
   max_height = max_height,
 })

@@ -23,7 +23,7 @@ wk.register({
     b = {
       name = "+buffers",
       b = { "<cmd>Telescope buffers<CR>", "Buffers" },
-
+      d = { "<cmd>bd<CR>", "Delete" },
       n = { "<cmd>bn<CR>", "Buffer Previous" },
       p = { "<cmd>bp<CR>", "Buffer Next" },
     },
@@ -68,6 +68,7 @@ wk.register({
       D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "LSP: Definition" },
       i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "LSP: Implementation" },
       r = { "<cmd>lua vim.lsp.buf.references()<CR>", "LSP: References" },
+      v = { "<cmd>Navbuddy<CR>", "Navbuddy" },
       n = {
         name = "+notes",
         d = { "<cmd>:cd ~/Notes/dokuwiki/config/dokuwiki/data/pages/<CR><cmd>Telescope find_files<CR>", "Dokuwiki" }
@@ -81,6 +82,12 @@ wk.register({
       u = { "<cmd>:PackerSync<CR>", "Packer Sync" },
       p = { "<cmd>Telescope packer theme=dropdown<CR>", "Help Packages" },
 
+    },
+    n = {
+      name = "+notes",
+      l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
+      s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
+      v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
     },
     o = {
       name = "+open / org",
@@ -160,6 +167,13 @@ wk.register({
       name = "insert",
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
     },
+    v = {
+      name = "Preview",
+      -- using iamcco/markdown-preview.nvim
+      v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
+      -- using VSCode
+      c = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
+    },
     w = {
       name = "+window",
       -- Splits
@@ -169,7 +183,7 @@ wk.register({
       j = { "<C-w>j", "Move Down" },
       k = { "<C-w>k", "Move Up" },
       l = { "<C-w>l", "Move Right" },
-      d = { "<cmd>:q<CR>", "quit" },
+      q = { "<cmd>q<CR>", "quit" },
       t = {
         name = "+tab",
         e = { "<cmd>tabedit<CR>", "Edit" },
@@ -177,6 +191,7 @@ wk.register({
         p = { "<cmd>tabprevious<CR>", "Previous" },
         n = { "<cmd>tabnext<CR>", "Next" },
         o = { "<cmd>tabedit<CR>", "Open Tab" },
+        m = { "<cmd>lua Move_window_to_tab()<CR>", "Move" },
 
 
       },

@@ -12,6 +12,17 @@
 (map! :after evil-org-agenda
       :map evil-org-agenda-mode-map
       :m "c" #'org-agenda-log-mode)
+
+
+
+(defun my/org-agenda-filter-by-tag-with-prefix-arg ()
+  (interactive)
+  (let
+
+      (defun my/org-agenda-filter-by-tag
+          (org-agenda-filter-by-tag 0))
+    (setq current-prefix-arg '(4)) ; C-u
+    (call-interactively (lambda (p) (interactive "P") (org-agenda-filter-by-tag 0) ))))
 (map!
  :map org-agenda-mode-map
  ;; Easier reschedule
@@ -25,7 +36,9 @@
  "M-S-<left>"     (lambda (p) (interactive "P") (org-agenda-do-date-earlier '(4)) )
  ;; Reschedule Minute
  "C-M-<right>"    (lambda (p) (interactive "P") (org-agenda-do-date-later '(16)) )
- "C-M-<left>"     (lambda (p) (interactive "P") (org-agenda-do-date-earlier '(16)) ))
+ "C-M-<left>"     (lambda (p) (interactive "P") (org-agenda-do-date-16 '(earlier)) )
+ "C-t"            (lambda (p) (interactive "P") (org-agenda-filter-by-tag 0) )
+ )
 ;;;; Open Tasks
 ;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
 ;; (global-set-key (kbd "<f1> t") 'my/open_tasks)
