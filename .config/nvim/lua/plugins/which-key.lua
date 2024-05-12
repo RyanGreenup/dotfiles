@@ -89,6 +89,10 @@ wk.register({
       s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
       r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
+      f = {
+        name = "+format",
+        t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }
+      }
     },
     o = {
       name = "+open / org",
