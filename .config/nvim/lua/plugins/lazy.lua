@@ -292,6 +292,11 @@ use {
   end,
 }
 
+use {
+  'AckslD/nvim-FeMaco.lua',
+  config = 'require("femaco").setup()',
+}
+
 use('lervag/vimtex')
 use { 'nblock/vim-dokuwiki' }
 use({ 'glacambre/firenvim', build = function() vim.fn['firenvim#install'](0) end })
