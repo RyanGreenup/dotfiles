@@ -277,6 +277,21 @@ use({
   "iamcco/markdown-preview.nvim",
   build = function() vim.fn["mkdp#util#install"]() end,
 })
+
+
+
+use {
+  'MeanderingProgrammer/markdown.nvim',
+  name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  config = function()
+    require('render-markdown').setup({
+      -- Configure whether Markdown should be rendered by default or not
+      start_enabled = true
+    })
+  end,
+}
+
 use('lervag/vimtex')
 use { 'nblock/vim-dokuwiki' }
 use({ 'glacambre/firenvim', build = function() vim.fn['firenvim#install'](0) end })

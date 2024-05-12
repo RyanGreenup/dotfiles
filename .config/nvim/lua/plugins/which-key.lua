@@ -88,6 +88,7 @@ wk.register({
       l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
       s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
+      r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
     },
     o = {
       name = "+open / org",
