@@ -143,7 +143,7 @@ local servers = {
   'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
   'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
-  'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
+  'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
   'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
 }
 
@@ -164,6 +164,16 @@ for _, lsp in pairs(servers) do
     capabilities = capabilities,
   }
 end
+
+-- sqlls requires a custom setup
+-- https://github.com/LunarVim/LunarVim/discussions/4210
+require("lspconfig")["sqlls"].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+  filetypes = {"sql", "mysql", ".pgsql"},
+  root_dir = function() return vim.loop.cwd() end,
+  -- cmd = {"sql-language-server", "up", "--method", "stdio"};
+})
 
 -- For julia we have to use a custom setup for a sysimage
 -- See https://github.com/fredrikekre/.dotfiles/blob/master/.julia/environments/nvim-lspconfig/Makefile

@@ -74,7 +74,7 @@ use { 'dcampos/nvim-snippy', config = function()
   })
 end }
 
-
+use { 'is0n/fm-nvim' }
 use({
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -528,6 +528,24 @@ use { 'kevinhwang91/nvim-bqf' }
 
 use { 'SmiteshP/nvim-navbuddy' }
 
+
+use {
+  'kristijanhusak/vim-dadbod-ui',
+  dependencies = {
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+}
 
 
 --------------------------------------------------------------------------------
