@@ -123,6 +123,7 @@ wk.register({
     },
     l = {
       name = "LSP",
+      t = { "<cmd>lua Toggle_inlay_hints()<CR>", "Toggle Inlay Hints" },
       g = {
         name = "+go",
         d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
@@ -136,7 +137,7 @@ wk.register({
       w = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Workspace Folder" },
       W = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
       x = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List folders" },
-      t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
+      T = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
       r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
       a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
       f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format (Async)" }, -- NOTE unsupported on OBSD
@@ -514,4 +515,16 @@ function Open_file_in_clipboard()
   end
   file:close()
   vim.cmd(":e " .. path)
+end
+
+
+function Toggle_inlay_hints()
+  if vim.fn.has "nvim-0.10" == 1 then
+    local ok = pcall(vim.lsp.inlay_hint.enable, vim.lsp.inlay_hint.is_enabled())
+    if ok then
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    else
+      vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+    end
+  end
 end
