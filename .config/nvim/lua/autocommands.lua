@@ -7,7 +7,7 @@ local markdown_group = vim.api.nvim_create_augroup("Markdown", { clear = true })
 -- Create Functions
 function file_autocmd_command(pattern, group, command, desc)
   vim.api.nvim_create_autocmd(
-    { "BufNewFile", "BufRead" },
+    { "BufNewFile", "BufRead", "FileType" },
     {
       pattern = pattern,
       group = group,
@@ -62,9 +62,10 @@ vim.api.nvim_create_autocmd(
 file_autocmd_command_md = file_autocmd_command_factory('*.md', markdown_group)
 file_autocmd_function_md = file_autocmd_function_factory('*.md', markdown_group)
 -- Autocmd Commands
+file_autocmd_command_md('set foldexpr=nvim_treesitter#foldexpr()', 'Set Fold Expression to Treesitter')
+file_autocmd_command_md('lua print("Hello")', 'Print Hello in Lua')
 file_autocmd_command_md('set foldmethod=expr', 'Set Fold Method to Expression')
 file_autocmd_command_py('set cindent', 'Allow Indenting Comments and Code in code blocks')
-file_autocmd_command_md('set foldexpr=nvim_treesitter#foldexpr()', 'Set Fold Expression to Treesitter')
 -- [^6158294]
 file_autocmd_command_md(
   ':nmap <C-CR> "<Esc>:e <cfile><CR>" <CR>',
@@ -117,7 +118,7 @@ for _, value in ipairs(run_file) do
 
   for _, c in ipairs({ imap_command, nmap_command }) do
     vim.api.nvim_create_autocmd(
-      { "BufNewFile", "BufRead" },
+      { "BufNewFile", "BufRead", "FileType" },
       {
         pattern = pattern,
         command = c,
@@ -128,3 +129,47 @@ end
 -- [[ References
 -- [^6158294]: https://stackoverflow.com/questions/6158294/how-to-create-and-open-for-editing-a-nonexistent-file-whose-path-is-under-the-cu
 -- ]]
+
+
+-- TODO  Clean up this file to have a better abstraction for FileType, BufNewFile, BufRead etc.
+-- vim.cmd [[
+--
+--   autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()
+--   autocmd FileType markdown set foldmethod=expr
+-- ]]
+
+vim.api.nvim_create_autocmd(
+  { "FileType" },
+  {
+    pattern = "markdown",
+    command = "set foldexpr=nvim_treesitter#foldexpr()",
+    desc = "Set Fold Expression to Treesitter",
+
+  })
+
+vim.api.nvim_create_autocmd(
+  { "FileType" },
+  {
+    pattern = "markdown",
+    command = "set foldmethod=expr",
+    desc = "Set Fold Method to Expression",
+
+  })
+
+vim.api.nvim_create_autocmd(
+  { "FileType" },
+  {
+    pattern = "markdown",
+    command = "set cindent",
+    desc = "Set Fold Method to Expression",
+
+  })
+
+vim.api.nvim_create_autocmd(
+  { "FileType" },
+  {
+    pattern = "python",
+    command = "set cindent",
+    desc = "Set Fold Expression to Treesitter",
+
+  })
