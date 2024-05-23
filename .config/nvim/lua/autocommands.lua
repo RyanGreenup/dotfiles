@@ -38,59 +38,58 @@ for _, value in ipairs(run_file) do
 end
 
 
--- Markdown
+function create_autocommand(events, attributes)
+  vim.api.nvim_create_autocmd(events, attributes)
+end
 
-vim.api.nvim_create_autocmd(
-  { "FileType" },
+local autocmds = {
   {
-    pattern = "markdown",
-    group = markdown_group,
-    command = "set foldexpr=nvim_treesitter#foldexpr()",
-    desc = "Set Fold Expression to Treesitter",
-
-  })
-
-vim.api.nvim_create_autocmd(
-  { "FileType" },
+    events = { "BufNewFile" },
+    attrs = {
+      {
+        pattern = "python",
+        group = python_group,
+        command = '0r ~/Templates/python_script.py',
+        desc = "Load Python Template",
+      }
+    }
+  },
   {
-    pattern = "markdown",
-    group = markdown_group,
-    command = "set foldmethod=expr",
-    desc = "Set Fold Method to Expression",
+    events = { "FileType" },
+    attrs = {
+      {
+        pattern = "markdown",
+        group = markdown_group,
+        command = "set foldexpr=nvim_treesitter#foldexpr()",
+        desc = "Set Fold Expression to Treesitter",
+      },
+      {
+        pattern = "markdown",
+        group = markdown_group,
+        command = "set foldmethod=expr",
+        desc = "Set Fold Method to Expression",
+      },
+      {
+        pattern = "markdown",
+        group = markdown_group,
+        command = "set cindent",
+        desc = "Set Fold Method to Expression",
+      },
 
-  })
+      {
+        pattern = "python",
+        command = "set cindent",
+        desc = "Set Fold Expression to Treesitter",
+      }
+    }
+  },
+}
 
-vim.api.nvim_create_autocmd(
-  { "FileType" },
-  {
-    pattern = "markdown",
-    group = markdown_group,
-    command = "set cindent",
-    desc = "Set Fold Method to Expression",
-
-  })
-
--- Python
-
-vim.api.nvim_create_autocmd(
-  { "FileType" },
-  {
-    pattern = "python",
-    command = "set cindent",
-    desc = "Set Fold Expression to Treesitter",
-
-  })
-
-
-vim.api.nvim_create_autocmd(
-  { "BufNewFile" },
-  {
-    pattern = "python",
-    group = python_group,
-    command = '0r ~/Templates/python_script.py',
-    desc = "Load Python Template",
-  })
-
+for _, autocmd in pairs(autocmds) do
+  for _, attr in pairs(autocmd.attrs) do
+    create_autocommand(autocmd.events, attr)
+  end
+end
 
 -- Ansible Autocommands -------------------------------------------------------
 -- NOTE This breaks the mnemonic above, because there's multiple exts
@@ -109,6 +108,7 @@ for _, ext in ipairs(exts) do
     vim.cmd(s)
   end
 end
+
 
 -- [[ References
 -- [^6158294]: https://stackoverflow.com/questions/6158294/how-to-create-and-open-for-editing-a-nonexistent-file-whose-path-is-under-the-cu
