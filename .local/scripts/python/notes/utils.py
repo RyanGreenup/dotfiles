@@ -16,6 +16,7 @@ import sys
 from enum import Enum
 
 from config import Config
+
 config = Config.default()
 # An enum for keys
 
@@ -81,17 +82,17 @@ keys = {
     87: Key.F9,
     88: Key.F10,
     89: Key.F11,
-    90: Key.F12
+    90: Key.F12,
 }
 
 
 def getch_unix():
-    os.system('stty raw -echo')
+    os.system("stty raw -echo")
     char = sys.stdin.read(1)
     if ord(char) in keys:
         char = keys[ord(char)]
 
-    os.system('stty -raw echo')
+    os.system("stty -raw echo")
     return char
 
 
@@ -104,8 +105,7 @@ def check_valid_task(task: str) -> bool:
 
 
 def test_check_valid_task():
-    assert check_valid_task(
-        "10:30 - 11:00 Finalise Quartz and MD Book Workflow")
+    assert check_valid_task("10:30 - 11:00 Finalise Quartz and MD Book Workflow")
     assert not check_valid_task("10:30 - 11:00")
     assert not check_valid_task("Finalise Quartz and MD Book Workflow")
 
@@ -206,7 +206,7 @@ def sed_notes(old: str, new: str):
 
 
 def open_in_editor(files: list[str], editor=config.editor) -> None:
-    subprocess.run([editor]+files, check=True)
+    subprocess.run([editor] + files, check=True)
 
 
 def get_files(dir_path: str, relative: bool = False) -> list[str]:
@@ -219,17 +219,15 @@ def get_files(dir_path: str, relative: bool = False) -> list[str]:
             if ext in allowed_extensions:
                 full_path = f"{root}/{file}"
                 path = (
-                    full_path if not relative else os.path.relpath(
-                        full_path, dir_path)
+                    full_path if not relative else os.path.relpath(full_path, dir_path)
                 )
                 matching_notes.append(path)
     return matching_notes
 
 
-def fzf_select(notes: list[str],
-               preview: bool = False,
-               chooser: str = "fzf",
-               multi: bool = True) -> list[str]:
+def fzf_select(
+    notes: list[str], preview: bool = False, chooser: str = "fzf", multi: bool = True
+) -> list[str]:
     """
     Use fzf to select a note from a list of notes
     """
@@ -294,10 +292,7 @@ def sk_cmd(
     if preview:
         cmd.append("--preview")
         cmd.append(preview_cmd)
-    out = subprocess.run(
-        cmd,
-        stdout=subprocess.PIPE,
-        text=True, check=True)
+    out = subprocess.run(cmd, stdout=subprocess.PIPE, text=True, check=True)
     files = out.stdout.splitlines()
     if relative:
         files = [os.path.abspath(f) for f in files]
