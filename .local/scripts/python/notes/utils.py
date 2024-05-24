@@ -240,36 +240,50 @@ def fzf_select(notes: list[str],
         cmd.append("--preview")
         cmd.append(preview_cmd)
     out = subprocess.run(
-        cmd,
-        stdout=subprocess.PIPE,
-        input="\n".join(notes),
-        text=True, check=True)
+        cmd, stdout=subprocess.PIPE, input="\n".join(notes), text=True, check=True
+    )
     files = out.stdout.splitlines()
     return files
 
 
-def gui_select(input: list[str],
-               chooser: list[str] = ["rofi", "-dmenu"]) -> str:
+rofi_cmd = ["rofi", "-dmenu"]
+fuzzel_cmd = ["fuzzel", "-d"]
+# Make it bigger
+fuzzel_cmd += ["-l", "50", "-w", "100", "-B", "20", "-r", "50"]
+# Change the colours
+fuzzel_cmd += [
+    "--icon-theme=Moka",
+    "--background-color=3E4A89FF",
+    "--text-color=FFFFFFFF",
+    "--match-color=CB9D63FF",
+    "--selection-color=000000FF",
+    "--selection-text-color=CB9D63FF",
+    "--selection-match-color=CB9D63FF",
+    "--border-color=3E4A89FF",
+    "--log-colorize=always",
+]
+
+
+def gui_select(input: list[str], chooser: list[str] = fuzzel_cmd) -> str:
     """
     Use a GUI chooser to select an item from a list
     """
     out = subprocess.run(
-        chooser,
-        stdout=subprocess.PIPE,
-        input="\n".join(input),
-        text=True, check=True)
+        chooser, stdout=subprocess.PIPE, input="\n".join(input), text=True, check=True
+    )
     # Only one item is selected
     out = out.stdout.strip()
     return out
 
 
-def sk_cmd(dir: str,
-           cmd_to_run: str,
-           preview: bool = False,
-           chooser: str = "sk",
-           multi: bool = True,
-           relative: bool = True
-           ) -> list[str]:
+def sk_cmd(
+    dir: str,
+    cmd_to_run: str,
+    preview: bool = False,
+    chooser: str = "sk",
+    multi: bool = True,
+    relative: bool = True,
+) -> list[str]:
     old_dir = os.getcwd()
     os.chdir(dir)
     cmd = [chooser, "--ansi", "-i"]
