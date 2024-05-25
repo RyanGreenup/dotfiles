@@ -12,7 +12,6 @@ from subprocess import PIPE
 from utils import get_display_server, DisplayServer
 import sys
 import argparse
-import pyperclip
 
 
 def main(copy: bool = False):
@@ -34,6 +33,7 @@ def copy_to_clipboard(server: DisplayServer = DisplayServer.Wayland) -> None:
             subprocess.run(["xclip", "-selection", "clipboard"],
                            input=input, text=True, check=True)
         case _:
+            import pyperclip
             pyperclip.copy(sys.stdin.read())
 
 
@@ -46,6 +46,7 @@ def paste_from_clipboard(server: DisplayServer = DisplayServer.Wayland) -> None:
             subprocess.run(
                 ["xclip", "-selection", "clipboard", "-o"], text=True, check=True)
         case _:
+            import pyperclip
             print(pyperclip.paste())
 
 
