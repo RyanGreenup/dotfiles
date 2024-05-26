@@ -85,6 +85,33 @@ end
 -- Create a comamand
 vim.cmd("command! CreateMarkdownLink lua Create_markdown_link()")
 
+
+--[[
+Format a url in the clipboard as a markdown link
+--]]
+
+function Format_url_markdown()
+  -- Get the current buffer name
+  local path = vim.api.nvim_buf_get_name(0)
+
+  local url = Shell("wl-paste | tr -d '\n'")
+  print(url)
+  local link = Shell("note_taking url md " .. url)
+  print(link)
+  if link == nil then
+    print("No link generated")
+    return
+  end
+  -- Remove the trailing new line
+  link = string.gsub(link, "\n$", "")
+  print(link)
+
+  -- Set the new line as the link
+  vim.api.nvim_set_current_line(link)
+end
+
+
+
 --[[
 Creates a mermaid diagram using a python script from the system
 --]]
