@@ -3,7 +3,7 @@ x-scheme-handler/http=firefox.desktop;userapp-Firefox-KLC881.desktop;
 x-scheme-handler/https=firefox.desktop;userapp-Firefox-KLC881.desktop;
 x-scheme-handler/mailto=thunderbird.desktop;
 x-scheme-handler/chrome=userapp-Firefox-KLC881.desktop;
-text/html=userapp-Firefox-KLC881.desktop;
+text/html=firefox-bin.desktop;userapp-Firefox-KLC881.desktop;
 application/x-extension-htm=userapp-Firefox-KLC881.desktop;
 application/x-extension-html=userapp-Firefox-KLC881.desktop;
 application/x-extension-shtml=userapp-Firefox-KLC881.desktop;
@@ -11,6 +11,7 @@ application/xhtml+xml=userapp-Firefox-KLC881.desktop;
 application/x-extension-xhtml=userapp-Firefox-KLC881.desktop;
 application/x-extension-xht=userapp-Firefox-KLC881.desktop;
 video/x-matroska=vlc.desktop;
+text/plain=r-codium.desktop;
 
 [Default Applications]
 application/ogg=vlc
@@ -58,7 +59,7 @@ text/html=userapp-Firefox-KLC881.desktop
 text/markdown=nvim-qt.desktop;
 inode/mount-point=thunar.desktop;
 x-scheme-handler/obsidian=obsidian.desktop
-application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-usercreated-1.desktop;
 application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-usercreated-2.desktop;
 application/epub+zip=zathura-usercreated-1.desktop;
 application/pdf=zathura-usercreated-1.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=org.libreoffice.LibreOffice.writer.desktop;

@@ -95,10 +95,9 @@ vim.cmd [[
 
 ]]
 
--- autocmd BufEnter *.md :map <f12> :w<cr>:!typora "%" & disown <Enter>
--- autocmd BufEnter *.md :map <Space>fo :w<cr>:!marktext "%" & disown <Enter>
--- autocmd BufEnter *.md :map <Space>foa :w<cr>:!atom "%" & disown <Enter>
 
+-- Femaco Plugin
+map('n', "<C-C>'", '<cmd>FeMaco<CR>', default_opts)
 
 ------------------------------------------------------------
 -- dokuwiki stuff

@@ -98,6 +98,13 @@ vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<C
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+  if client.server_capabilities.inlayHintProvider then
+    -- Enable Hints
+    vim.g.inlay_hints_visible = true
+    -- vim.lsp.inlay_hint(bufnr, true)
+  else
+    print("no inlay hints available")
+  end
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -141,16 +148,16 @@ require 'lspconfig'.lua_ls.setup {
 local servers = {
   'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
   'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
-  'kotlin_language_server', 'marksman', 'nimls', 'pyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
+  'kotlin_language_server', 'marksman', 'nimls', 'basedpyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
-  'tsserver', 'sqlls', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
+  'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
   'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
 }
 
 local python_servers = {
-  'pylsp',   -- This is the main one, formatting requires it
-  'pyright', -- This performs type checking and static analysis
-  'ruff_lsp' -- This is like pyright but with less Microsoft
+  'pylsp',         -- This is the main one, formatting requires it
+  'ruff_lsp',      -- This is like pyright but with less Microsoft
+  'basedpyright',  -- This performs type checking and static analysis
 }
 
 for _, s in pairs(python_servers) do
@@ -163,7 +170,29 @@ for _, lsp in pairs(servers) do
     on_attach = on_attach,
     capabilities = capabilities,
   }
+
+  if lsp == "basedpyright" then
+    require('lspconfig')[lsp].setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      settings = {
+        basedpyright = {
+          typeCheckingMode = "standard",
+        },
+      },
+    })
+  end
 end
+
+-- sqlls requires a custom setup
+-- https://github.com/LunarVim/LunarVim/discussions/4210
+require("lspconfig")["sqlls"].setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "sql", "mysql", ".pgsql" },
+  root_dir = function() return vim.loop.cwd() end,
+  -- cmd = {"sql-language-server", "up", "--method", "stdio"};
+})
 
 -- For julia we have to use a custom setup for a sysimage
 -- See https://github.com/fredrikekre/.dotfiles/blob/master/.julia/environments/nvim-lspconfig/Makefile
@@ -298,6 +327,8 @@ function M.setup()
   end
 end
 
+-- Make inlay hints visible
+vim.lsp.inlay_hint.enable(true)
 return M
 
 --[[

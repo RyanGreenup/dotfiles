@@ -74,7 +74,7 @@ use { 'dcampos/nvim-snippy', config = function()
   })
 end }
 
-
+use { 'is0n/fm-nvim' }
 use({
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -277,6 +277,26 @@ use({
   "iamcco/markdown-preview.nvim",
   build = function() vim.fn["mkdp#util#install"]() end,
 })
+
+
+
+use {
+  'MeanderingProgrammer/markdown.nvim',
+  name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  config = function()
+    require('render-markdown').setup({
+      -- Configure whether Markdown should be rendered by default or not
+      start_enabled = true
+    })
+  end,
+}
+
+use {
+  'AckslD/nvim-FeMaco.lua',
+  config = 'require("femaco").setup()',
+}
+
 use('lervag/vimtex')
 use { 'nblock/vim-dokuwiki' }
 use({ 'glacambre/firenvim', build = function() vim.fn['firenvim#install'](0) end })
@@ -508,6 +528,24 @@ use { 'kevinhwang91/nvim-bqf' }
 
 use { 'SmiteshP/nvim-navbuddy' }
 
+
+use {
+  'kristijanhusak/vim-dadbod-ui',
+  dependencies = {
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+}
 
 
 --------------------------------------------------------------------------------
