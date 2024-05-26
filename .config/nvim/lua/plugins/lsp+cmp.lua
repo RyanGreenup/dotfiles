@@ -328,7 +328,7 @@ function M.setup()
 end
 
 -- Make inlay hints visible
-vim.lsp.inlay_hint.enable(true)
+-- vim.lsp.inlay_hint.enable(true)
 return M
 
 --[[
