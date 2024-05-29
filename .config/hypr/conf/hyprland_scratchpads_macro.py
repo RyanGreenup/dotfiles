@@ -37,8 +37,8 @@ class Scratchpad:
         {comment}
         $wspace = {self.wspace}
         workspace = special:$wspace, on-created-empty: {self.cmd}
-        bind = {self.key}, movetoworkspace, special:$wspace
-        bind = {self.key}, togglespecialworkspace, $wspace
+        bind = {self.key}     , movetoworkspace,        special:$wspace
+        bind = {self.key} CTRL, togglespecialworkspace,         $wspace
         """
 
         return dedent(scratchpad_cmd)
@@ -59,7 +59,7 @@ def generate_commands(scratchpads: dict["str", Scratchpad]) -> str:
 def write_commands(scratchpads: dict["str", Scratchpad]):
     HOME = os.getenv("HOME")
     assert HOME, "HOME not found"
-    with open(f"{HOME}/.config/hypr/conf/hyprland_scratchpads.conf") as f:
+    with open(f"{HOME}/.config/hypr/conf/hyprland_scratchpads.conf", "w") as f:
         f.write(generate_commands(scratchpads))
 
 
@@ -110,7 +110,7 @@ def build_commands() -> dict["str", Scratchpad]:
 
 def main():
     scratchpads = build_commands()
-    write_commands(scratchpads)
+    # write_commands(scratchpads)
     print(generate_commands(scratchpads))
 
 
