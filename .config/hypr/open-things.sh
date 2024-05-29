@@ -1,7 +1,12 @@
 #!/bin/sh
 
-notes() {
-    firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/linux/too-many-open-files & disown
+notes_write() {
+    distrobox-enter  -n r -- /bin/sh -l -c  "/usr/share/codium/codium --disable-gpu --unity-launch ~/Notes/slipbox/ 1>/dev/null 2>&1" 1>/dev/null 2>&1 & disown
+    neovide $HOME/Notes/slipbox/home.md
+}
+
+notes_read() {
+    firefox-bin --profile ~/.mozilla/firefox/webapp --new-window http://localhost:8926 & disown
     $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
 }
 
@@ -20,8 +25,11 @@ options() {
 }
 
 case "$1" in
-    "notes")
-        notes
+    "notes_read")
+        notes_read
+        ;;
+    "notes_write")
+        notes_write
         ;;
     "agenda")
         agenda
