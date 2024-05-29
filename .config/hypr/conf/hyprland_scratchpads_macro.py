@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # ~/.config/hypr/conf/hyprland_scratchpads_macro.py
 
+from __future__ import annotations
 from textwrap import dedent
 import os
 
@@ -19,6 +20,11 @@ class Key:
 
     def __str__(self):
         return f"{self.mod}, {self.key}"
+
+
+def are_keys_unique(scratchpads: dict["str", Scratchpad]) -> bool:
+    keys = [s.key for s in scratchpads.values()]
+    return len(keys) == len(set(keys))
 
 
 class Scratchpad:
@@ -44,12 +50,17 @@ class Scratchpad:
         return dedent(scratchpad_cmd)
 
 
-def generate_commands(scratchpads: dict["str", Scratchpad]) -> str:
+def generate_commands(
+    scratchpads: dict["str", Scratchpad], allow_dup_keys=False
+) -> str:
     sep = "\n\n"
     output = (
         "# This is a generated file\n"
         f"# See ~/.config/hypr/conf/hyprland_scratchpads_macro.py{sep}"
     )
+
+    if not allow_dup_keys:
+        assert are_keys_unique(scratchpads), "Keys are not unique"
 
     output += "\n\n".join([str(s) for s in scratchpads.values()])
 
@@ -101,7 +112,7 @@ def build_commands() -> dict["str", Scratchpad]:
     scratchpads["dokuwiki"] = Scratchpad(
         "dokuwiki",
         ["~/.config/hypr/open-things.sh" "dokuwiki"],
-        Key(["SUPER", "SHIFT"], "D"),
+        Key(["SUPER", "SHIFT"], "F2"),
         "Open Dokuwiki",
     )
 
