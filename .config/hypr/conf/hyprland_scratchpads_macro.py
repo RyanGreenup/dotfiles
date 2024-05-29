@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # ~/.config/hypr/conf/hyprland_scratchpads_macro.py
+
 from textwrap import dedent
+import os
 
 """
 This script build the hyprland_scratchpads.conf file.
@@ -8,8 +10,6 @@ This script build the hyprland_scratchpads.conf file.
 This script was written as a python script / macro to reduce errors in the
 file, which can be a pain as it updates live.
 """
-
-import os
 
 
 class Key:
