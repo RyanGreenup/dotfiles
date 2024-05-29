@@ -13,7 +13,6 @@ This script takes an image from the clipboard and:
 from PIL import ImageGrab, Image
 
 import argparse
-import clipboard
 from PIL import Image
 import io
 from datetime import datetime
@@ -36,6 +35,8 @@ def main(dir: str, filename: str | None = None):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = os.path.join(dir, f"{timestamp}.{img_format}")
 
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     # save image to file
     image.save(filename)
     print(f"![{filename}]({filename})")
