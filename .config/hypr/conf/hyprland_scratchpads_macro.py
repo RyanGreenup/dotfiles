@@ -11,6 +11,11 @@ This script build the hyprland_scratchpads.conf file.
 
 This script was written as a python script / macro to reduce errors in the
 file, which can be a pain as it updates live.
+
+Free bindings that are nice:
+
+    - s-C-m
+    - s-a
 """
 
 
@@ -19,8 +24,8 @@ class Key:
         self.mod = mod
         self.key = key
 
-    def append_CTRL(self):
-        self.mod.append("CTRL")
+    def append_SHIFT(self):
+        self.mod.append("SHIFT")
 
     def __str__(self):
         mod = " ".join(self.mod)
@@ -44,24 +49,33 @@ class Scratchpad:
     def __str__(self):
         comment = f"# {self.comment}" if self.comment else ""
 
-        (move_key := deepcopy(self.key)).append_CTRL()
+        (move_key := deepcopy(self.key)).append_SHIFT()
         # move_key = str(move_key)
         # key = str(self.key)
         scratchpad_cmd = f"""\
         {comment}
         $wspace = {self.wspace}
         workspace = special:$wspace, on-created-empty: {self.cmd}
-        bind = {self.key}, togglespecialworkspace,        special:$wspace
-        bind = {move_key}, movetoworkspace,         $wspace
+        bind = {self.key}, togglespecialworkspace, $wspace
+        bind = {move_key}, movetoworkspace, special:$wspace
         """
 
         return dedent(scratchpad_cmd)
+
+    def summary(self):
+        output = f"""\
+        {self.key}: {self.comment}
+        """
+
+        return dedent(output)
+
 
 
 def main():
     scratchpads = build_commands()
     write_commands(scratchpads)
     print(generate_commands(scratchpads))
+    print(print_summarize_commands(scratchpads))
 
 
 def build_commands() -> dict["str", Scratchpad]:
@@ -81,28 +95,35 @@ def build_commands() -> dict["str", Scratchpad]:
     scratchpads["agenda"] = Scratchpad(
         "agenda",
         ["~/.config/hypr/open-things.sh", "agenda"],
-        Key(["SUPER", "SHIFT"], "A"),
+        Key(["SUPER", "CTRL"], "o"),
         "Org Mode Agenda",
     )
 
-    scratchpads["notes"] = Scratchpad(
-        "notes",
-        ["~/.config/hypr/open-things.sh", "notes"],
-        Key(["SUPER", "SHIFT"], "G"),
+    scratchpads["notes_write"] = Scratchpad(
+        "notes_write",
+        ["~/.config/hypr/open-things.sh", "notes_write"],
+        Key(["SUPER"], "g"),
+        "Open Notetaking Software",
+    )
+
+    scratchpads["notes_read"] = Scratchpad(
+        "notes_read",
+        ["~/.config/hypr/open-things.sh", "notes_read"],
+        Key(["SUPER", "CTRL"], "g"),
         "Open Notetaking Software",
     )
 
     scratchpads["Messages"] = Scratchpad(
         "messages",
         ["~/.config/hypr/open-things.sh", "messages"],
-        Key(["SUPER", "SHIFT"], "M"),
+        Key(["SUPER"], "y"),
         "Open Messages",
     )
 
     scratchpads["dokuwiki"] = Scratchpad(
         "dokuwiki",
         ["~/.config/hypr/open-things.sh", "dokuwiki"],
-        Key(["SUPER", "SHIFT"], "F2"),
+        Key(["SUPER"], "F2"),
         "Open Dokuwiki",
     )
 
@@ -131,6 +152,10 @@ def generate_commands(
     output += "\n\n".join([str(s) for s in scratchpads.values()])
 
     return output
+
+def print_summarize_commands( scratchpads: dict["str", Scratchpad]):
+    for k,v in scratchpads.items():
+        print(f"{k:<12} {v.key}")
 
 
 if __name__ == "__main__":
