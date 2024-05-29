@@ -194,3 +194,22 @@ function Generate_navigation_tree()
   -- Insert the output
   vim.api.nvim_put(lines, "l", true, true)
 end
+
+
+--------------------------------------------------------------------------------
+-- Insert a png image from the clipboard --------------------------------------
+--------------------------------------------------------------------------------
+
+-- /home/ryan/.local/scripts/python/wm__clipboard.py
+--[[
+This function takes an image from the clipboard and aves it to ./assets
+--]]
+function Paste_png_image()
+  local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
+  -- strip trailing
+  if md_link == nil then
+    print("No image found in clipboard")
+  end
+  md_link = string.gsub(md_link, "\n", "")
+  vim.api.nvim_put({ md_link }, "l", true, true)
+end
