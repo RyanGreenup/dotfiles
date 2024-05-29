@@ -37,8 +37,8 @@ fpath+=/home/ryan/.cache/zr/geometry-zsh/geometry/functions
 source /home/ryan/.cache/zr/jedahan/geometry-hydrate/plugin.zsh
 
 # jedahan/geometry-todo
-source /home/ryan/.cache/zr/jedahan/geometry-todo/geometry_todo.plugin.zsh
 source /home/ryan/.cache/zr/jedahan/geometry-todo/geometry_todo.zsh
+source /home/ryan/.cache/zr/jedahan/geometry-todo/geometry_todo.plugin.zsh
 
 # geometry-zsh/geometry
 source /home/ryan/.cache/zr/geometry-zsh/geometry/geometry.plugin.zsh
