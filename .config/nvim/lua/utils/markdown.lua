@@ -213,3 +213,29 @@ function Paste_png_image()
   md_link = string.gsub(md_link, "\n", "")
   vim.api.nvim_put({ md_link }, "l", true, true)
 end
+
+
+--------------------------------------------------------------------------------
+-- Attach a File Into a Markdown Note ------------------------------------------
+--------------------------------------------------------------------------------
+function Attach_file()
+  -- Prompt for filepath
+  local filepath = vim.fn.input("Enter the filepath to attach: ")
+
+  -- Create Directory if needed
+  local dir = "assets/" -- NOTE Requires trailing /
+  if vim.fn.isdirectory(dir) == 0 then
+    print("Created Directory: " .. dir)
+    vim.fn.mkdir(dir)
+  end
+
+  -- Copy file
+  Shell("cp " .. filepath .. " " .. dir)
+  print("Attached " .. filepath .. "into " .. dir)
+
+  -- Insert Attachment Link
+  local basename = vim.fn.fnamemodify(filepath, ":t")
+  local line = dir .. basename
+  line = "[" .. basename .. "](" .. line .. ")"
+  vim.api.nvim_put({ line }, "l", true, true)
+end
