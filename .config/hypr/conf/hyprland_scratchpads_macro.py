@@ -127,6 +127,13 @@ def build_commands() -> dict["str", Scratchpad]:
         "Open Dokuwiki",
     )
 
+    scratchpads["open-web-ui"] = Scratchpad(
+        "open-web-ui",
+        ["distrobox-enter", "-n", "arch", "--", "/usr/bin/chromium", "http://ai.vale"],
+        Key(["SUPER"], "F6"),
+        "Open Web UI",
+    )
+
     return scratchpads
 
 
