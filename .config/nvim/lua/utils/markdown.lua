@@ -147,7 +147,7 @@ function Insert_notes_link()
   local current_buffer = "-c " .. vim.api.nvim_get_current_buf() .. " "
 
   local cmd = "~/.local/scripts/python/notes/make_link.py -g "
-  cmd = cmd .. notes_dir .. current_buffer
+  cmd = cmd .. notes_dir .. current_buffer .. "2>/dev/null"
 
   -- current_link=Shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
   local current_link = Shell(cmd)
