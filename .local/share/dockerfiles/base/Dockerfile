@@ -59,7 +59,8 @@ RUN dnf install -y cmake gcc clang nodejs nodejs-npm \
                    zoxide fzf gitui ctags nano xclip wl-clipboard xsel
 
 # Required for the chat_cli program I wrote in rust
-RUN dnf install -y openssl openssl-devel openssl1.1 alacritty libxkbcommon-x11-devel
+# Removed openssl1.1
+RUN dnf install -y openssl openssl-devel  alacritty libxkbcommon-x11-devel
 
 # Get some networking tools
 RUN dnf install -y bind-utils
