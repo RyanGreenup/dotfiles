@@ -1,5 +1,7 @@
 #https://www.cogitri.dev/posts/12-fedora-toolbox/
-FROM fedora:latest
+# FROM fedora:latest
+# 39 is required for https://copr.fedorainfracloud.org/coprs/deathwish/emacs-pgtk-nativecomp/
+FROM fedora:39
 
 # Fix default container stuff
 RUN \
