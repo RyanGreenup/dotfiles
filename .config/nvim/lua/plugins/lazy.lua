@@ -169,7 +169,7 @@ use { 'williamboman/mason-lspconfig.nvim',
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup {
-      ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "spectral", "marksman", "dockerls" },
+      ensure_installed = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "marksman", "dockerls" },
     }
     -- Also install some basic servers (https://github.com/williamboman/mason-lspconfig.nvim)
     require("mason-lspconfig").setup()
