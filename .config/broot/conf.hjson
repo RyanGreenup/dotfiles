@@ -175,13 +175,6 @@
 
         # This file contains the skin to use when the terminal
         # is dark (or when this couldn't be determined)
-		{
-			luma: [
-				dark
-				unknown
-			]
-			file: ./skins/dark-blue.hjson
-		}
 
         # This skin is imported when your terminal is light
 		{
