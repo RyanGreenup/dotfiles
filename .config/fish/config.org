@@ -8,70 +8,6 @@
 
 #+author: Ryan Greenup
 
-* Set Path Variables
-** Default Pahts
-#+begin_src fish
-# Set PATH
-set PATH /usr/local/bin/            $PATH
-set PATH $HOME/.local/bin           $PATH
-set PATH $HOME/bin                  $PATH
-set PATH $HOME/.cargo/bin           $PATH
-set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
-set PATH $HOME/.local/share/gem/ruby/3.2.0/bin $PATH
-set PATH $HOME/go/bin               $PATH
-set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
-set PATH $PATH /usr/lib/rstudio
-#+end_src
-** Appimages
-#+begin_src fish
-# Add AppImages
-set PATH $PATH $HOME/Applications/AppImages/bin/
-#+end_src
-** Flatpak
-#+begin_src fish
-# Add Flatpak
-set PATH $PATH /var/lib/flatpak/exports/bin/
-set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
-#+end_src
-** Nix
-This is nix as a non-root user. It's needed here for ssh
-#+begin_src fish
-# Add Flatpak
-set PATH $PATH $HOME/.nix-profile/bin/
-#+end_src
-** Neovim
-I use [[https://github.com/williamboman/mason.nvim#setup][Mason]] with Neovim and so it's necessary to add that to the path:
-
-#+begin_src fish
-set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
-#+end_src
-
-Mason probably isn't needed for something like [[https://wiki.archlinux.org/][arch]] where utilities like [[https://archlinux.org/packages/community/any/pyright/][pyright]]
-and [[https://archlinux.org/packages/community/x86_64/tree-sitter/][treesitter-fish]] are packaged, but on something like [[https://voidlinux.org/][void]] it's pretty
-helpful.
-** Nix
-Nix has been removed:
-
-  + Broke R, regardless of whether R wis installed through =nix= or =xbps=
-    + xml2 and other packages would not install correctly
-  + Broke the integrated terminal in VSCode and Neovim
-
-I made some progress on this, so it may be re-implemented later.
-
-Nonetheless, this was the config I was using:
-
-#+begin_src fish :tangle no
-set PATH $PATH $HOME/.nix-profile/bin/
-for dir in (ls "/nix/var/nix/profiles/per-user/")
-    set XDG_DATA_DIRS $XDG_DATA_DIRS:/nix/var/nix/profiles/per-user/$dir/profile/share/
-end
-#+end_src
-
-The following is required for QT programs installed under nix to run.
-#+begin_src fish
-export QT_XCB_GL_INTEGRATION=none
-# <https://github.com/NixOS/nixpkgs/issues/169630>
-#+end_src
 * Environment variables
 #+begin_src fish
 # Set Default Editor to Emacs
@@ -103,7 +39,7 @@ if status is-interactive
             echo "Create one with:"
             echo ""
             echo "    python -m venv $venv_dir"
-            echo "
+            echo ""
             echo "chgrp (id -u) " $venv_dir
             echo "chmod 775 "     $venv_dir
         end
@@ -625,3 +561,70 @@ bind \co '
 
 
 
+
+* Set Path Variables
+Set path variables at the end because python venv seems to overwrite them for some reason
+** Default Paths
+#+begin_src fish
+# Set PATH
+set PATH /usr/local/bin/            $PATH
+set PATH $HOME/.local/bin           $PATH
+set PATH $HOME/bin                  $PATH
+set PATH $HOME/.cargo/bin           $PATH
+set PATH $HOME/.juliaup/bin         $PATH
+set PATH $HOME/.gem/ruby/2.7.0/bin/ $PATH
+set PATH $HOME/.local/share/gem/ruby/3.2.0/bin $PATH
+set PATH $HOME/go/bin               $PATH
+set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
+set PATH $PATH /usr/lib/rstudio
+#+end_src
+** Appimages
+#+begin_src fish
+# Add AppImages
+set PATH $PATH $HOME/Applications/AppImages/bin/
+#+end_src
+** Flatpak
+#+begin_src fish
+# Add Flatpak
+set PATH $PATH /var/lib/flatpak/exports/bin/
+set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
+#+end_src
+** Nix
+This is nix as a non-root user. It's needed here for ssh
+#+begin_src fish
+# Add Flatpak
+set PATH $PATH $HOME/.nix-profile/bin/
+#+end_src
+** Neovim
+I use [[https://github.com/williamboman/mason.nvim#setup][Mason]] with Neovim and so it's necessary to add that to the path:
+
+#+begin_src fish
+set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
+#+end_src
+
+Mason probably isn't needed for something like [[https://wiki.archlinux.org/][arch]] where utilities like [[https://archlinux.org/packages/community/any/pyright/][pyright]]
+and [[https://archlinux.org/packages/community/x86_64/tree-sitter/][treesitter-fish]] are packaged, but on something like [[https://voidlinux.org/][void]] it's pretty
+helpful.
+** Nix
+Nix has been removed:
+
+  + Broke R, regardless of whether R wis installed through =nix= or =xbps=
+    + xml2 and other packages would not install correctly
+  + Broke the integrated terminal in VSCode and Neovim
+
+I made some progress on this, so it may be re-implemented later.
+
+Nonetheless, this was the config I was using:
+
+#+begin_src fish :tangle no
+set PATH $PATH $HOME/.nix-profile/bin/
+for dir in (ls "/nix/var/nix/profiles/per-user/")
+    set XDG_DATA_DIRS $XDG_DATA_DIRS:/nix/var/nix/profiles/per-user/$dir/profile/share/
+end
+#+end_src
+
+The following is required for QT programs installed under nix to run.
+#+begin_src fish
+export QT_XCB_GL_INTEGRATION=none
+# <https://github.com/NixOS/nixpkgs/issues/169630>
+#+end_src
