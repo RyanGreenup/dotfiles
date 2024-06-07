@@ -72,8 +72,8 @@ local autocmds = {
       {
         pattern = "markdown",
         group = markdown_group,
-        command = "set cindent",
-        desc = "Set Fold Method to Expression",
+        command = "set nocindent",
+        desc = "Set No C Indent -- This causes auto indent on new lines",
       },
 
       {

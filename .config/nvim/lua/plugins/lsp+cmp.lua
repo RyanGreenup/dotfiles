@@ -148,7 +148,7 @@ require 'lspconfig'.lua_ls.setup {
 local servers = {
   'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
   'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
-  'kotlin_language_server', 'marksman', 'nimls', 'basedpyright', 'ruff_lsp', 'pylsp', 'quick_lint_js',
+  'kotlin_language_server', 'marksman', 'nimls', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
   'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
@@ -156,7 +156,7 @@ local servers = {
 
 local python_servers = {
   'pylsp',         -- This is the main one, formatting requires it
-  'ruff_lsp',      -- This is like pyright but with less Microsoft
+  'ruff_lsp',      -- This is like pyright but with less Microsoft + black
   'basedpyright',  -- This performs type checking and static analysis
 }
 
@@ -327,8 +327,11 @@ function M.setup()
   end
 end
 
--- Make inlay hints visible
--- vim.lsp.inlay_hint.enable(true)
+-- Make inlay hints visible (only if neovim is new enough)
+if vim.fn.has('nvim-0.10.0') == 1 then
+    vim.lsp.inlay_hint.enable(true)
+end
+
 return M
 
 --[[

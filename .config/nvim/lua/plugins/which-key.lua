@@ -87,8 +87,11 @@ wk.register({
       name = "+notes",
       l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
       s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
+      u = { ":lua Format_url_markdown()<CR>", "Format a URL as a Markdown Link" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
       r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
+      p = { "<cmd>lua Paste_png_image()<CR>", "Paste Image from Clipboard" },
+      a = { "<cmd>lua Attach_file()<CR>", "Prompt User to attach file under ./assets" },
       f = {
         name = "+format",
         t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }

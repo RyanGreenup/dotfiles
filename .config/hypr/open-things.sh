@@ -1,23 +1,21 @@
 #!/bin/sh
 
-notes() {
-    # firefox-bin --profile ~/.mozilla/firefox/webapp http://localhost:3818/ & disown
-    ## $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
-    ## flatpak run md.obsidian.Obsidian & disown
-    # Obsidian.AppImage & disown
-    md.obsidian.Obsidian & disown
+notes_write() {
+    # distrobox-enter  -n r -- /bin/sh -l -c  "/usr/share/codium/codium --disable-gpu --unity-launch ~/Notes/slipbox/ 1>/dev/null 2>&1" 1>/dev/null 2>&1 & disown
+    # neovide $HOME/Notes/slipbox/home.md
+}
+
+notes_read() {
+    # firefox-bin --profile ~/.mozilla/firefox/webapp --new-window http://localhost:8926 & disown
+    # $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
 }
 
 agenda() {
-    emacs --eval '(org-agenda nil "a")' --eval "(load-theme 'doom-badger t)"
-    # /usr/bin/distrobox-enter  -n text_editors -- /bin/sh -l -c  emacs  & disown
+    /usr/bin/distrobox-enter  -n text_editors -- /bin/sh -l -c  emacs  & disown
     # --eval '(org-agenda nil "a")'
 }
 
 messages() {
-    ## flatpak run org.signal.Signal & disown
-    ## flatpak run im.riot.Riot & disown
-    ## element-desktop & disown
     /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Signal/signal-desktop   --no-sandbox & disown
     /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Element/element-desktop              & disown
 }
@@ -27,8 +25,11 @@ options() {
 }
 
 case "$1" in
-    "notes")
-        notes
+    "notes_read")
+        notes_read
+        ;;
+    "notes_write")
+        notes_write
         ;;
     "agenda")
         agenda

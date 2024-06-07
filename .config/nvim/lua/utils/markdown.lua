@@ -85,6 +85,33 @@ end
 -- Create a comamand
 vim.cmd("command! CreateMarkdownLink lua Create_markdown_link()")
 
+
+--[[
+Format a url in the clipboard as a markdown link
+--]]
+
+function Format_url_markdown()
+  -- Get the current buffer name
+  local path = vim.api.nvim_buf_get_name(0)
+
+  local url = Shell("wl-paste | tr -d '\n'")
+  print(url)
+  local link = Shell("note_taking url md " .. url)
+  print(link)
+  if link == nil then
+    print("No link generated")
+    return
+  end
+  -- Remove the trailing new line
+  link = string.gsub(link, "\n$", "")
+  print(link)
+
+  -- Set the new line as the link
+  vim.api.nvim_set_current_line(link)
+end
+
+
+
 --[[
 Creates a mermaid diagram using a python script from the system
 --]]
@@ -120,7 +147,7 @@ function Insert_notes_link()
   local current_buffer = "-c " .. vim.api.nvim_get_current_buf() .. " "
 
   local cmd = "~/.local/scripts/python/notes/make_link.py -g "
-  cmd = cmd .. notes_dir .. current_buffer
+  cmd = cmd .. notes_dir .. current_buffer .. "2>/dev/null"
 
   -- current_link=Shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
   local current_link = Shell(cmd)
@@ -166,4 +193,49 @@ function Generate_navigation_tree()
 
   -- Insert the output
   vim.api.nvim_put(lines, "l", true, true)
+end
+
+
+--------------------------------------------------------------------------------
+-- Insert an image from the clipboard --------------------------------------
+--------------------------------------------------------------------------------
+
+-- /home/ryan/.local/scripts/python/wm__clipboard.py
+--[[
+This function takes an image from the clipboard and aves it to ./assets
+--]]
+function Paste_png_image()
+  local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
+  -- strip trailing
+  if md_link == nil then
+    print("No image found in clipboard")
+  end
+  md_link = string.gsub(md_link, "\n", "")
+  vim.api.nvim_put({ md_link }, "l", true, true)
+end
+
+
+--------------------------------------------------------------------------------
+-- Attach a File Into a Markdown Note ------------------------------------------
+--------------------------------------------------------------------------------
+function Attach_file()
+  -- Prompt for filepath
+  local filepath = vim.fn.input("Enter the filepath to attach: ")
+
+  -- Create Directory if needed
+  local dir = "assets/" -- NOTE Requires trailing /
+  if vim.fn.isdirectory(dir) == 0 then
+    print("Created Directory: " .. dir)
+    vim.fn.mkdir(dir)
+  end
+
+  -- Copy file
+  Shell("cp " .. filepath .. " " .. dir)
+  print("Attached " .. filepath .. "into " .. dir)
+
+  -- Insert Attachment Link
+  local basename = vim.fn.fnamemodify(filepath, ":t")
+  local line = dir .. basename
+  line = "[" .. basename .. "](" .. line .. ")"
+  vim.api.nvim_put({ line }, "l", true, true)
 end
