@@ -1,23 +1,35 @@
 #!/bin/sh
 
+# Yeah babe; in POSIX shell you can't have empty functions like this
+# See this <https://unix.stackexchange.com/questions/349632/can-a-function-in-sh-have-zero-statements>
+# Basically you can use `:` to represent true or `pass` in python
+
 notes_write() {
-    # distrobox-enter  -n r -- /bin/sh -l -c  "/usr/share/codium/codium --disable-gpu --unity-launch ~/Notes/slipbox/ 1>/dev/null 2>&1" 1>/dev/null 2>&1 & disown
-    # neovide $HOME/Notes/slipbox/home.md
+    # I don't know why nvim won't open
+    cd ~/Notes/slipbox && Neovide.AppImage index.md & disown
+    # TODO probably not Ryan approved
+    # Open the most recent journal
+    cd ~/Notes/slipbox
+    LATEST_JOURNAL="$(ls -t journals/*.md | head -n1)"
+    Neovide.AppImage "$LATEST_JOURNAL" & disown
+    Obsidian.AppImage & disown
 }
 
 notes_read() {
-    # firefox-bin --profile ~/.mozilla/firefox/webapp --new-window http://localhost:8926 & disown
-    # $HOME/Applications/AppImages/Obsidian-1.5.8.AppImage --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --disable-gpu & disown
+    com.brave.Browser http:://home.eir http://flarum.eir http://wikijs.eir --new-window & disown
+    com.brave.Browser http://pixie:3818 --new-window & disown
 }
 
 agenda() {
-    /usr/bin/distrobox-enter  -n text_editors -- /bin/sh -l -c  emacs  & disown
-    # --eval '(org-agenda nil "a")'
+    emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Agenda/clockreport.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
+    # emacs --eval '(load-theme "doom-badger" t)'
 }
 
 messages() {
-    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Signal/signal-desktop   --no-sandbox & disown
-    /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop -- /bin/sh -l -c  /opt/Element/element-desktop              & disown
+    # TODO I forgot which ones I'm using
+    org.signal.Signal & disown
+    /usr/bin/element-desktop & disown
+    org.ferdium.Ferdium & disown
 }
 
 options() {
