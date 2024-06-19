@@ -4,6 +4,12 @@ require("utils/config")
 -- Directories and Projects-----------------------------------------------------
 --------------------------------------------------------------------------------
 -- Better Directory change
+--[[
+Run a shell script and return the stdout as a string
+
+- input: string   shell command
+- output: string  stdout of the shell command
+--]]
 function Shell(cmd)
   local handle = io.popen(cmd)
   if handle == nil then

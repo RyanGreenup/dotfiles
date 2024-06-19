@@ -1,0 +1,6 @@
+faiss-cpu==1.8.0
+langchain==0.1.15
+markdown==3.6
+pip-chill==1.0.3
+sentence-transformers==2.6.1
+unstructured==0.13.2

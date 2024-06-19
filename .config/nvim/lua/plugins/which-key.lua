@@ -91,6 +91,7 @@ wk.register({
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
       r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
       p = { "<cmd>lua Paste_png_image()<CR>", "Paste Image from Clipboard" },
+      a = { "<cmd>lua Attach_file()<CR>", "Prompt User to attach file under ./assets" },
       f = {
         name = "+format",
         t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }

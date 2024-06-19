@@ -1,7 +1,7 @@
 FROM localhost/base
 
 RUN dnf install -y go golang-x-tools-gopls golang-x-tools-guru                                       \
-                   python black python3-pyflakes  python3-isort pipenv                               \
+                   python black python3-pyflakes  python3-isort                                      \
                    python3-nose python3-pytest ansible                                               \
                    shellcheck shfmt                                                                  \
                    rustup fd-find git neovim texlive latexmk texlive-xetex texlive-wrapfig texstudio \

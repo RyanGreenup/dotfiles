@@ -1,5 +1,7 @@
 #https://www.cogitri.dev/posts/12-fedora-toolbox/
-FROM fedora:latest
+# FROM fedora:latest
+# 39 is required for https://copr.fedorainfracloud.org/coprs/deathwish/emacs-pgtk-nativecomp/
+FROM fedora:39
 
 # Fix default container stuff
 RUN \
@@ -59,7 +61,8 @@ RUN dnf install -y cmake gcc clang nodejs nodejs-npm \
                    zoxide fzf gitui ctags nano xclip wl-clipboard xsel
 
 # Required for the chat_cli program I wrote in rust
-RUN dnf install -y openssl openssl-devel openssl1.1 alacritty libxkbcommon-x11-devel
+# Removed openssl1.1
+RUN dnf install -y openssl openssl-devel  alacritty libxkbcommon-x11-devel
 
 # Get some networking tools
 RUN dnf install -y bind-utils

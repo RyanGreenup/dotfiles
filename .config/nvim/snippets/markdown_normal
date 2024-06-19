@@ -24,11 +24,15 @@ snippet h6
 	$0
 
 snippet fn
-	[^$1] $0
+	[^`!l os.time()`] $0
 
-	[^$1]: $2
+	[^`!l os.time()`]: $1
 
+snippet l
+	[$2]($1) $0
 
+snippet choices
+	print('My favorite language is: ${1|JavaScript,Lua,Rust|}')
 
 snippet det
 	<details closed><summary>
@@ -77,3 +81,25 @@ snippet tabpic
 
 	</div></details>
 	$0
+
+snippet journal_link
+	[`!l os.date("%Y-%m-%d")`](j_`!l os.date("%Y-%m-%d")`.md)
+
+snippet ab
+	`!l Testing_snippy()`
+
+snippet is-info
+	> [!NOTE]
+	> $1
+	{.is-info}
+
+	$0
+
+snippet `el
+	\`\`\`elisp
+	$1
+	\`\`\`
+	$0
+
+snippet [[ "Wikilink to MD Link" A
+	[$2]($1) $0

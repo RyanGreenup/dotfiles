@@ -147,7 +147,7 @@ function Insert_notes_link()
   local current_buffer = "-c " .. vim.api.nvim_get_current_buf() .. " "
 
   local cmd = "~/.local/scripts/python/notes/make_link.py -g "
-  cmd = cmd .. notes_dir .. current_buffer
+  cmd = cmd .. notes_dir .. current_buffer .. "2>/dev/null"
 
   -- current_link=Shell("cd ~/Notes/slipbox/ && fd -t f . | rofi -dmenu")
   local current_link = Shell(cmd)
@@ -197,7 +197,7 @@ end
 
 
 --------------------------------------------------------------------------------
--- Insert a png image from the clipboard --------------------------------------
+-- Insert an image from the clipboard --------------------------------------
 --------------------------------------------------------------------------------
 
 -- /home/ryan/.local/scripts/python/wm__clipboard.py
@@ -212,4 +212,30 @@ function Paste_png_image()
   end
   md_link = string.gsub(md_link, "\n", "")
   vim.api.nvim_put({ md_link }, "l", true, true)
+end
+
+
+--------------------------------------------------------------------------------
+-- Attach a File Into a Markdown Note ------------------------------------------
+--------------------------------------------------------------------------------
+function Attach_file()
+  -- Prompt for filepath
+  local filepath = vim.fn.input("Enter the filepath to attach: ")
+
+  -- Create Directory if needed
+  local dir = "assets/" -- NOTE Requires trailing /
+  if vim.fn.isdirectory(dir) == 0 then
+    print("Created Directory: " .. dir)
+    vim.fn.mkdir(dir)
+  end
+
+  -- Copy file
+  Shell("cp " .. filepath .. " " .. dir)
+  print("Attached " .. filepath .. "into " .. dir)
+
+  -- Insert Attachment Link
+  local basename = vim.fn.fnamemodify(filepath, ":t")
+  local line = dir .. basename
+  line = "[" .. basename .. "](" .. line .. ")"
+  vim.api.nvim_put({ line }, "l", true, true)
 end

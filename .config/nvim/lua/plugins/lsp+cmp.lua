@@ -327,8 +327,11 @@ function M.setup()
   end
 end
 
--- Make inlay hints visible
--- vim.lsp.inlay_hint.enable(true)
+-- Make inlay hints visible (only if neovim is new enough)
+if vim.fn.has('nvim-0.10.0') == 1 then
+    vim.lsp.inlay_hint.enable(true)
+end
+
 return M
 
 --[[
