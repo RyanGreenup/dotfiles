@@ -17,24 +17,34 @@ If all notes are certainly flat, one could simply use `sed`:
     mv $a $b
 """
 
+import typer
+
 import os
-import filename_sed
-import argparse
+# import filename_sed
+# import argparse
 import re
 
 os.chdir(os.path.realpath(os.path.dirname(__file__)))
 os.chdir("..")
 
 ignores = [".py", ".json", ".js"]
+HOME = os.getenv("HOME")
+assert HOME, "No home directory found"
+NOTES_DIR = f"{HOME}/Notes/slipbox"
 
 
-def main(args):
-    from_file = args.from_file
-    to_file = args.to_file
+def main(from_file: str, to_file: str, notes_dir: str = NOTES_DIR):
+    os.chdir(NOTES_DIR)
+    if to_file == ".":
+        to_file = os.path.basename(from_file)
+    # Check if to_file is a directory
+    if os.path.isdir(to_file):
+        to_file = os.path.join(to_file, os.path.basename(from_file))
     move_file(from_file, to_file)
 
 
 def move_file(from_file, to_file):
+    ignore_dirs = [".git", ".vscode", ".obsidian"]
     root_dir = os.getcwd()
     # Walk the file tree
     for root, dirs, files in os.walk("."):
@@ -43,6 +53,9 @@ def move_file(from_file, to_file):
             if ext in ignores:
                 continue
             filepath = os.path.join(root, file)
+            # Check if the file is in an ignored directory
+            if any([ignore in filepath for ignore in ignore_dirs]):
+                continue
             this_dir = os.path.dirname(filepath)
             # Change to the file's directory
             from_file_rel = os.path.relpath(from_file, this_dir)
@@ -113,17 +126,4 @@ def rename_file_replace_char(file, from_file, to_file):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Move a file and update links in relative paths"
-    )
-
-    parser.add_argument("--from-file", type=str, help="Character to remove")
-    parser.add_argument("--to-file", type=str,
-                        help="Character to replace with")
-    parser.add_argument("--dir", type=str,
-                        help="Directory containing note files")
-
-    args = parser.parse_args()
-    dir = args.dir
-    os.chdir(dir)
-    main(args)
+    typer.run(main)
