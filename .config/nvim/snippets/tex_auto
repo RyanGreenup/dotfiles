@@ -76,6 +76,9 @@ snippet mcl "Mathcal" A
 snippet `s "sigma" A
 	\sigma$0
 
+snippet `a "sigma" A
+	\alpha$0
+
 snippet `O "Omega" A
 	\Omega$0
 
