@@ -51,6 +51,14 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   },
   sources = cmp.config.sources({
+    {
+      name = 'nvim_lsp',
+      option = {
+        markdown_oxide = {
+          keyword_pattern = [[\(\k\| \|\/\|#\)\+]]
+        }
+      }
+    },
     { name = 'nvim_lsp_signature_help' },
     { name = 'nvim_lsp' },
     { name = 'otter' },
@@ -183,6 +191,24 @@ for _, lsp in pairs(servers) do
     })
   end
 end
+
+function markdown_oxide_on_attach(client, bufnr)
+  on_attach(client, bufnr)
+  -- refresh codelens on TextChanged and InsertLeave as well
+  vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach' }, {
+    buffer = bufnr,
+    callback = vim.lsp.codelens.refresh,
+  })
+
+  -- trigger codelens refresh
+  vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
+end
+
+-- Markdown Oxide
+require("lspconfig").markdown_oxide.setup({
+  capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+  on_attach = on_attach        -- configure your on attach config
+})
 
 -- sqlls requires a custom setup
 -- https://github.com/LunarVim/LunarVim/discussions/4210
