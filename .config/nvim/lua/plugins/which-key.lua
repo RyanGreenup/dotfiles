@@ -102,7 +102,7 @@ wk.register({
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/home.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
       -- May sometimes need --disable-gpu
-      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
+      v = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown <CR>" , "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
       j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
     },
@@ -181,7 +181,7 @@ wk.register({
       -- using iamcco/markdown-preview.nvim
       v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
       -- using VSCode
-      c = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
+      c = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
     },
     w = {
       name = "+window",
