@@ -175,6 +175,7 @@ wk.register({
     i = {
       name = "insert",
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
+      t = { "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", "Symbols" },
     },
     v = {
       name = "Preview",
