@@ -319,6 +319,8 @@ end
 
 function nl
     $HOME/.config/fish/note_aliases.py --nl --notes_dir $__notes_dir
+    $HOME/.local/scripts/python/notes/make_link_fzf.py --notes-dir $__notes_dir
+
 end
 
 # *** Search ALL notes
