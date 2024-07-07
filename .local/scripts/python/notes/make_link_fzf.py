@@ -39,7 +39,8 @@ def get_markdown_links(
     # Cast files to relative paths
     if not os.path.isdir(start_dir):
         start_dir = start_dir.parent
-    files = [Path(os.path.abspath(f)).relative_to(start_dir) for f in files]
+
+    files = [os.path.relpath(os.path.abspath(f), start_dir) for f in files]
 
     # Make into md links and drop empties
     [print(make_link(Path(f))) for f in files if f]
