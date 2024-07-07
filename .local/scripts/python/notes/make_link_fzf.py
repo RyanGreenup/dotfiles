@@ -43,7 +43,7 @@ def get_markdown_links(
     ext = r"\.md$"
 
     # Get the files using fd
-    cmd = f"fd {ext} | fzg -m --preview 'bat --color=always " + "{}'"
+    cmd = f"fd {ext} | fzf -m --preview 'bat --color=always " + "{}'"
     try:
         files = (
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, check=True)
