@@ -5,6 +5,7 @@ from pathlib import Path
 import typer
 from enum import Enum
 import tempfile
+import sys
 
 
 # Make a tempfile
@@ -42,18 +43,28 @@ def get_markdown_links(
     ext = r"\.md$"
 
     # Get the files using fd
-    cmd = f"fd {ext} | fzf -m --preview 'bat --color=always " + "{}'"
-    files = (
-        subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
-        .stdout.decode("utf-8")
-        .strip()
-        .split("\n")
-    )
+    cmd = f"fd {ext} | fzg -m --preview 'bat --color=always " + "{}'"
+    try:
+        files = (
+            subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, check=True)
+            .stdout.decode("utf-8")
+            .strip()
+            .split("\n")
+        )
+    except subprocess.CalledProcessError as e:
+        print(e, file=sys.stderr)
+        return
+
+    # Remove empties
+    files = [f for f in files if f]
+    # If it's empty, return
+    if not files:
+        return
 
     # Change back
     os.chdir(here)
 
-    # Cast files to relative paths
+    # Check that start dir is a directory
     if not os.path.isdir(start_dir):
         start_dir = start_dir.parent
 
@@ -61,6 +72,12 @@ def get_markdown_links(
     files = [os.path.relpath(os.path.abspath(f), start_dir) for f in files]
 
     links = [make_link(Path(f)) for f in files if f]
+
+    if len(links) > 1:
+        # Sort links in alphabetical order
+        links.sort()
+        # Make list items
+        links = [f"- {link}" for link in links]
 
     if output_file:
         with open(output_file, "w") as f:

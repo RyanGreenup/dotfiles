@@ -177,6 +177,9 @@ function Insert_notes_link_alacritty_fzf()
 
   -- Read the output of the file
   vim.cmd([[ r ]] .. tmp)
+
+  -- remove the tmp file
+  Shell("rm " .. tmp)
 end
 
 --------------------------------------------------------------------------------
