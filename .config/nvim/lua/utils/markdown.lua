@@ -37,7 +37,6 @@ function Build_markdown_link(title, path)
   return "[" .. title .. "](" .. path .. ")"
 end
 
-
 --[[
 Create a markdown link to a sub page
 
@@ -110,8 +109,6 @@ function Format_url_markdown()
   vim.api.nvim_set_current_line(link)
 end
 
-
-
 --[[
 Creates a mermaid diagram using a python script from the system
 --]]
@@ -162,6 +159,26 @@ function Insert_notes_link()
   vim.api.nvim_put({ current_link }, "l", true, true)
 end
 
+function Insert_notes_link_alacritty_fzf()
+  -- Make a temp file
+  local tmp = Shell("mktemp")
+  if tmp == nil then
+    return
+  end
+  tmp = string.sub(tmp, 1, -2)
+
+  local start_dir = Dirname(vim.api.nvim_buf_get_name(0))
+
+  -- Run the script in alacritty
+  local cmd = "~/.local/scripts/python/notes/make_link_fzf.py "
+  cmd = cmd .. "--output-file " .. "'" .. tmp .. "'"
+  cmd = cmd .. " --start-dir " .. "'" .. start_dir .. "'"
+  local _ = Shell("alacritty -T popup -e ".. cmd)
+
+  -- Read the output of the file
+  vim.cmd([[ r ]] .. tmp)
+end
+
 --------------------------------------------------------------------------------
 -- Generate a Navigation Tree --------------------------------------------------
 --------------------------------------------------------------------------------
@@ -195,7 +212,6 @@ function Generate_navigation_tree()
   vim.api.nvim_put(lines, "l", true, true)
 end
 
-
 --------------------------------------------------------------------------------
 -- Insert an image from the clipboard --------------------------------------
 --------------------------------------------------------------------------------
@@ -213,7 +229,6 @@ function Paste_png_image()
   md_link = string.gsub(md_link, "\n", "")
   vim.api.nvim_put({ md_link }, "l", true, true)
 end
-
 
 --------------------------------------------------------------------------------
 -- Attach a File Into a Markdown Note ------------------------------------------

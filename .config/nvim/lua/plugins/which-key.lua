@@ -45,7 +45,8 @@ wk.register({
     },
     f = {
       name = "+file",
-      f = telescope_command("Telescope file_browser", "Find File"),
+      f = { "<cmd>lua require('yazi').yazi()<CR>", "File Manager"},
+      -- f = telescope_command("Telescope file_browser", "Find File"),
       z = telescope_command("Telescope find_files", "Fzf File"),
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
@@ -85,7 +86,8 @@ wk.register({
     },
     n = {
       name = "+notes",
-      l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
+      l = { ":lua Insert_notes_link_alacritty_fzf()<CR>", "Insert a link to a note using alacritty and fzf" },
+      L = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
       s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
       u = { ":lua Format_url_markdown()<CR>", "Format a URL as a Markdown Link" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },

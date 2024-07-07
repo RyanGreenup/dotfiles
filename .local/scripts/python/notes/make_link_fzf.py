@@ -3,9 +3,19 @@ import os
 import subprocess
 from pathlib import Path
 import typer
+from enum import Enum
+import tempfile
+
+
+# Make a tempfile
 
 
 NOTES_DIR = os.path.join(os.path.expanduser("~"), Path("Notes/slipbox"))
+
+
+class OutputType(Enum):
+    tmp = "tmp"
+    stdout = "stdout"
 
 
 def make_link(file: Path) -> str:
@@ -14,7 +24,14 @@ def make_link(file: Path) -> str:
 
 
 def get_markdown_links(
-    start_dir: Path = Path(os.getcwd()), notes_dir: Path = Path(NOTES_DIR)
+    start_dir: Path = Path(os.getcwd()),
+    notes_dir: Path = Path(NOTES_DIR),
+    output_type: OutputType = typer.Option(
+        OutputType.stdout.value, help=("The output type")
+    ),
+    output_file: Path = typer.Option(
+        None, help="The output file, overrides output_type."
+    ),
 ):
     """
     Get relative markdown links starting from a given directory
@@ -40,10 +57,22 @@ def get_markdown_links(
     if not os.path.isdir(start_dir):
         start_dir = start_dir.parent
 
+    # Get relative paths
     files = [os.path.relpath(os.path.abspath(f), start_dir) for f in files]
 
-    # Make into md links and drop empties
-    [print(make_link(Path(f))) for f in files if f]
+    links = [make_link(Path(f)) for f in files if f]
+
+    if output_file:
+        with open(output_file, "w") as f:
+            [f.write(f"{link}\n") for link in links]
+    else:
+        match output_type:
+            case OutputType.tmp:
+                with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    [tmp.write(f"{link}\n".encode("utf-8")) for link in links]
+                    print(tmp.name)
+            case OutputType.stdout:
+                [print(link) for link in links]
 
 
 if __name__ == "__main__":
