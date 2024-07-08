@@ -43,3 +43,4 @@ umap-learn
 numba
 visidata
 vdsql
+pipx
