@@ -1,6 +1,5 @@
 KDTREE
 KnnClassifier
-PIL
 PyMuPDF
 PyPDF2
 black
@@ -14,7 +13,6 @@ markdown
 matplotlib
 numpy
 ollama
-ollama-cuda
 openai
 pandas
 pdf2text
@@ -28,8 +26,6 @@ pillow
 plotnine
 podman-compose
 polars
-pptx
-pygmentize
 pygments
 pytesseract
 pyyaml
@@ -40,7 +36,6 @@ statsmodels
 sympy
 tesseract
 tk
-tkinter
 torch
 tqdm
 typer
@@ -48,4 +43,3 @@ umap-learn
 numba
 visidata
 vdsql
-yaml
