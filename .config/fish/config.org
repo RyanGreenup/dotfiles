@@ -42,6 +42,10 @@ if status is-interactive
             echo ""
             echo "chgrp (id -u) " $venv_dir
             echo "chmod 775 "     $venv_dir
+            echo ""
+            echo "The default dependencies are tracked here:"
+            echo ""
+            echo "pip install -r ~/.local/share/virtualenvs/requirements_default.txt"
         end
     end
 end
