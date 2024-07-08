@@ -57,6 +57,9 @@ snippet rm "Roman" Aw
 snippet lrp "Parenthesis" Aw
 	\left($1\right)$0
 
+snippet lr| "Absolute" Aw
+	\left|$1\right|$0
+
 snippet lr{ "Brace" Aw
 	\left\{$1\right\\}$0
 
@@ -76,7 +79,12 @@ snippet mcl "Mathcal" A
 snippet `s "sigma" A
 	\sigma$0
 
-snippet `a "sigma" A
+snippet `l "sigma" A
+	\lambda$0
+
+snippet `L "sigma" A
+	\Lambda$0
+snippet `a "alpha" A
 	\alpha$0
 
 snippet `O "Omega" A
@@ -105,3 +113,13 @@ snippet imp "Implies" Aw
 
 snippet ddx "Derivative" A
 	\frac{\mathrm{d}}{\mathrm{d}x} \left( $1 \right) $0
+
+snippet mat "Matrix" A
+	\begin{bmatrix}
+	$1 & $2 \\\\
+	$3 & $4
+	\end{bmatrix}
+	$0
+
+snippet vec "Vector" A
+	\vec{$1}$0

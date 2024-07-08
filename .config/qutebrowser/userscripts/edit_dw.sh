@@ -12,6 +12,6 @@ file="$(echo "${QUTE_URL}" |\
      sd '.*id=(.*)#.*$' 'id=$1' |\
      sd '.*id=(.*)' '$1.txt' |\
      sd ':' '/' | tr -d '\n' |\
-     sd '^' "$HOME/Notes/dokuwiki/data/pages/")"
+     sd '^' "$HOME/Notes/dokuwiki/config/dokuwiki/data/pages/")"
 
 ${editor} "${file}"
