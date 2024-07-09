@@ -46,3 +46,13 @@ desc = "Rename bookmark by fzf"
 on   = [ "<C-d>" ]
 run  = "plugin diff"
 desc = "Diff the selected with the hovered file"
+
+[[manager.prepend_keymap]]
+on   = [ "<C-l>" ]
+run  = "plugin copy-md-link --sync --args='foo bar'"
+desc = "Copy a markdown link to the hovered file"
+
+[[manager.prepend_keymap]]
+on   = [ "<C-h>" ]
+run  = "plugin copy-md-link"
+desc = "Copy a markdown link to the hovered file"
