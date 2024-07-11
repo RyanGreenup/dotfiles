@@ -153,10 +153,11 @@ require 'lspconfig'.lua_ls.setup {
   }
 }
 
+
 local servers = {
   'bashls', 'clangd', 'clojure_lsp', 'cmake', 'csharp_ls', 'dartls', 'dockerls',
   'dotls', 'gopls', 'java_language_server', 'jsonls', 'lua_ls',
-  'kotlin_language_server', 'marksman', 'nimls', 'quick_lint_js',
+  'kotlin_language_server', 'nimls', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
   'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
@@ -207,7 +208,7 @@ end
 -- Markdown Oxide
 require("lspconfig").markdown_oxide.setup({
   capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-  on_attach = on_attach        -- configure your on attach config
+  on_attach = markdown_oxide_on_attach        -- configure your on attach config
 })
 
 -- sqlls requires a custom setup
