@@ -15,6 +15,14 @@ If all notes are certainly flat, one could simply use `sed`:
     # Logic
     sed "s/$a/$b/g" -i *.md
     mv $a $b
+
+TODO this script doesn't handle renaming the relative links inside the file.
+This is a bit more complicated because they might be absolute links or websites.
+could filter out links starting with `http://` or `/` that would reduce issues.
+
+use regex to match link, if link file is resolved before move and under notes dir
+transform with os.path.relpath(os.path.abspath(from_file), os.path.dirname(to_file))
+
 """
 
 import typer
