@@ -51,8 +51,12 @@ sub-page
 - `_` represents heirarchy (not dot because wikijs doesn't support that)
     - otherwise consistent with dendron.
 
+@param subpage bool (optional) whether the new page should be a subpage
 --]]
-function Create_markdown_link()
+function Create_markdown_link(subpage)
+  if subpage == nil then
+    subpage = false
+  end
   -- Get the current buffer name
   local path = vim.api.nvim_buf_get_name(0)
 
@@ -64,11 +68,18 @@ function Create_markdown_link()
   local title = vim.api.nvim_get_current_line()
 
   -- Adjust the title a little bit
-  sub_page = Kebab_case(title)
+  local sub_page = Kebab_case(title)
 
+  local link
+  local new_path
   -- Insert the sub_page before the extension
-  local new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-  local link = Build_markdown_link('➡️ /' .. title, new_path)
+  if subpage then
+      new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
+      link = Build_markdown_link('➡️ /' .. title, new_path)
+  else
+      new_path = sub_page .. ".md"
+      link = Build_markdown_link(title, new_path)
+  end
 
   -- Set the new line as the link
   vim.api.nvim_set_current_line(link)
