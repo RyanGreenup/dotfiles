@@ -103,3 +103,4 @@ fi
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
   [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
 # [ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
+if [ -f "/home/ryan/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/ryan/.config/fabric/fabric-bootstrap.inc"; fi
