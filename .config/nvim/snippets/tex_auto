@@ -123,3 +123,29 @@ snippet mat "Matrix" A
 
 snippet vec "Vector" A
 	\vec{$1}$0
+
+snippet sum "Summation" A
+	\sum_{${1:i} = 1}^{${2:n}} \left[ $3 \right] $0
+
+snippet isum "Summation" A
+	\sum_{${1:i \\in X}} \left[ $2 \right] $0
+
+snippet fun
+	function ${1:name}(${2:params})
+		${0:$VISUAL}
+	end
+
+snippet sr "Square" Ai
+	^{${1:2}} $0
+
+# :snippy help
+# - `w` Word boundary - The word expands only when the trigger is on a word
+#     boundary. This is the default behavior.
+# - `i` In-word expansion - The snippet gets expanded even if the trigger is
+#     only part of the word, up to the cursor.
+# - `b` Beginning of line - The snippet is only expanded if its trigger is
+#     the first word on the line, only preceded by whitespace.
+# - `A` Autotrigger - The snippet is expanded automatically when the trigger
+#     is typed. Requires the `enable_auto` option to be `true`. Note that
+#     this feature, because it checks every key pressed, may theoretically
+#     affect the performance of your editor when used.
