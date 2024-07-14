@@ -193,6 +193,16 @@ function Insert_notes_link_alacritty_fzf()
   Shell("rm " .. tmp)
 end
 
+-- Search Notes using ai-tools with fzf
+-- and open note in neovim
+-- TODO thoughts, how to make open in vim as well?
+--      caching to disk is not very elegant
+function Search_notes_fzf()
+  -- Run the script in alacritty
+  local cmd = "ai-tools live-search --fzf --editor 'code'"
+  local _ = Shell("alacritty -T popup -e ".. cmd)
+end
+
 --------------------------------------------------------------------------------
 -- Generate a Navigation Tree --------------------------------------------------
 --------------------------------------------------------------------------------
@@ -241,6 +251,7 @@ function Paste_png_image()
     print("No image found in clipboard")
   end
   md_link = string.gsub(md_link, "\n", "")
+  require('notify')("Image saved to assets" .. md_link)
   vim.api.nvim_put({ md_link }, "l", true, true)
 end
 

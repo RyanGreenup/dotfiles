@@ -95,6 +95,7 @@ wk.register({
       r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
       p = { "<cmd>lua Paste_png_image()<CR>", "Paste Image from Clipboard" },
       a = { "<cmd>lua Attach_file()<CR>", "Prompt User to attach file under ./assets" },
+      z = { "<cmd>lua Search_notes_fzf()<CR>", "Search Notes using Embeddings" },
       f = {
         name = "+format",
         t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }
