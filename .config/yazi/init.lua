@@ -92,7 +92,7 @@ local function main()
 
   -- Configure Bookmarks
   config_yamb()
-  config_full_border()
+  -- config_full_border()
 end
 
 
