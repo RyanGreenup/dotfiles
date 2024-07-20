@@ -195,6 +195,7 @@ end,
 
 use({
   "folke/which-key.nvim",
+  version = "v2",
   lazy = false,
   dependencies = {
     { "rcarriga/nvim-notify", lazy = false } -- this is used by my which-key.lua
