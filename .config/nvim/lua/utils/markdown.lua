@@ -37,7 +37,6 @@ function Build_markdown_link(title, path)
   return "[" .. title .. "](" .. path .. ")"
 end
 
-
 --[[
 Create a markdown link to a sub page
 
@@ -52,8 +51,12 @@ sub-page
 - `_` represents heirarchy (not dot because wikijs doesn't support that)
     - otherwise consistent with dendron.
 
+@param subpage bool (optional) whether the new page should be a subpage
 --]]
-function Create_markdown_link()
+function Create_markdown_link(subpage)
+  if subpage == nil then
+    subpage = false
+  end
   -- Get the current buffer name
   local path = vim.api.nvim_buf_get_name(0)
 
@@ -65,11 +68,18 @@ function Create_markdown_link()
   local title = vim.api.nvim_get_current_line()
 
   -- Adjust the title a little bit
-  sub_page = Kebab_case(title)
+  local sub_page = Kebab_case(title)
 
+  local link
+  local new_path
   -- Insert the sub_page before the extension
-  local new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-  local link = Build_markdown_link('➡️ /' .. title, new_path)
+  if subpage then
+      new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
+      link = Build_markdown_link('➡️ /' .. title, new_path)
+  else
+      new_path = sub_page .. ".md"
+      link = Build_markdown_link(title, new_path)
+  end
 
   -- Set the new line as the link
   vim.api.nvim_set_current_line(link)
@@ -109,8 +119,6 @@ function Format_url_markdown()
   -- Set the new line as the link
   vim.api.nvim_set_current_line(link)
 end
-
-
 
 --[[
 Creates a mermaid diagram using a python script from the system
@@ -162,6 +170,39 @@ function Insert_notes_link()
   vim.api.nvim_put({ current_link }, "l", true, true)
 end
 
+function Insert_notes_link_alacritty_fzf()
+  -- Make a temp file
+  local tmp = Shell("mktemp")
+  if tmp == nil then
+    return
+  end
+  tmp = string.sub(tmp, 1, -2)
+
+  local start_dir = Dirname(vim.api.nvim_buf_get_name(0))
+
+  -- Run the script in alacritty
+  local cmd = "~/.local/scripts/python/notes/make_link_fzf.py "
+  cmd = cmd .. "--output-file " .. "'" .. tmp .. "'"
+  cmd = cmd .. " --start-dir " .. "'" .. start_dir .. "'"
+  local _ = Shell("alacritty -T popup -e ".. cmd)
+
+  -- Read the output of the file
+  vim.cmd([[ r ]] .. tmp)
+
+  -- remove the tmp file
+  Shell("rm " .. tmp)
+end
+
+-- Search Notes using ai-tools with fzf
+-- and open note in neovim
+-- TODO thoughts, how to make open in vim as well?
+--      caching to disk is not very elegant
+function Search_notes_fzf()
+  -- Run the script in alacritty
+  local cmd = "ai-tools live-search --fzf --editor 'code'"
+  local _ = Shell("alacritty -T popup -e ".. cmd)
+end
+
 --------------------------------------------------------------------------------
 -- Generate a Navigation Tree --------------------------------------------------
 --------------------------------------------------------------------------------
@@ -195,7 +236,6 @@ function Generate_navigation_tree()
   vim.api.nvim_put(lines, "l", true, true)
 end
 
-
 --------------------------------------------------------------------------------
 -- Insert an image from the clipboard --------------------------------------
 --------------------------------------------------------------------------------
@@ -211,9 +251,9 @@ function Paste_png_image()
     print("No image found in clipboard")
   end
   md_link = string.gsub(md_link, "\n", "")
+  require('notify')("Image saved to assets" .. md_link)
   vim.api.nvim_put({ md_link }, "l", true, true)
 end
-
 
 --------------------------------------------------------------------------------
 -- Attach a File Into a Markdown Note ------------------------------------------

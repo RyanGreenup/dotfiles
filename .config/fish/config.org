@@ -42,6 +42,10 @@ if status is-interactive
             echo ""
             echo "chgrp (id -u) " $venv_dir
             echo "chmod 775 "     $venv_dir
+            echo ""
+            echo "The default dependencies are tracked here:"
+            echo ""
+            echo "pip install -r ~/.local/share/virtualenvs/requirements_default.txt"
         end
     end
 end
@@ -243,7 +247,7 @@ if status is-interactive
 end
 #+end_src
 ** LF
-*** Cd
+*** CD
 #+begin_src fish
 function lfcd
     set tmp (mktemp)
@@ -257,6 +261,18 @@ function lfcd
             end
         end
     end
+end
+#+end_src
+** Yzi
+*** CD
+#+begin_src fish
+function yy
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	yazi $argv --cwd-file="$tmp"
+	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+		cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
 end
 #+end_src
 * Notetaking
@@ -319,6 +335,8 @@ end
 
 function nl
     $HOME/.config/fish/note_aliases.py --nl --notes_dir $__notes_dir
+    $HOME/.local/scripts/python/notes/make_link_fzf.py --notes-dir $__notes_dir
+
 end
 
 # *** Search ALL notes

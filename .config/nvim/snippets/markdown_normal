@@ -101,5 +101,17 @@ snippet `el
 	\`\`\`
 	$0
 
+snippet `p "Python Code Block" A
+	\`\`\`python
+	$1
+	\`\`\`
+	$0
+
+snippet `n "Empty Code block" A
+	\`\`\`
+	$1
+	\`\`\`
+	$0
+
 snippet [[ "Wikilink to MD Link" A
 	[$2]($1) $0

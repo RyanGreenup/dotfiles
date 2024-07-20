@@ -45,7 +45,8 @@ wk.register({
     },
     f = {
       name = "+file",
-      f = telescope_command("Telescope file_browser", "Find File"),
+      f = { "<cmd>lua require('yazi').yazi()<CR>", "File Manager"},
+      -- f = telescope_command("Telescope file_browser", "Find File"),
       z = telescope_command("Telescope find_files", "Fzf File"),
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
@@ -85,13 +86,16 @@ wk.register({
     },
     n = {
       name = "+notes",
-      l = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
-      s = { ":CreateMarkdownLink<CR>", "Create a Subpage Link and Open Buffer" },
+      l = { ":lua Insert_notes_link_alacritty_fzf()<CR>", "Insert a link to a note using alacritty and fzf" },
+      L = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
+      s = { ":lua Create_markdown_link(true)<CR>", "Create a Subpage Link and Open Buffer" },
+      S = { ":lua Create_markdown_link()<CR>", "Create a Link From text and Open Buffer" },
       u = { ":lua Format_url_markdown()<CR>", "Format a URL as a Markdown Link" },
       v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
       r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
       p = { "<cmd>lua Paste_png_image()<CR>", "Paste Image from Clipboard" },
       a = { "<cmd>lua Attach_file()<CR>", "Prompt User to attach file under ./assets" },
+      z = { "<cmd>lua Search_notes_fzf()<CR>", "Search Notes using Embeddings" },
       f = {
         name = "+format",
         t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }
@@ -102,7 +106,7 @@ wk.register({
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/home.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
       -- May sometimes need --disable-gpu
-      v = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "VSCode" },
+      v = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown <CR>" , "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
       j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
     },
@@ -175,13 +179,14 @@ wk.register({
     i = {
       name = "insert",
       u = { "<cmd>Telescope symbols<CR>", "Symbols" },
+      t = { "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", "Symbols" },
     },
     v = {
       name = "Preview",
       -- using iamcco/markdown-preview.nvim
       v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
       -- using VSCode
-      c = { "<cmd>!/usr/bin/distrobox-enter  -n r -- /bin/sh -l -c  \"/usr/share/codium/codium --disable-gpu --unity-launch % 1>/dev/null 2>&1\" 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
+      c = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
     },
     w = {
       name = "+window",

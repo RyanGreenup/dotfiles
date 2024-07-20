@@ -17,7 +17,7 @@ prompt = f"""<PRE> {top} <SUF>{bottom} <MID>"""
 print(prompt)
 
 stream = ollama.chat(
-    model="deepseek-coder:6.7b",
+        model="codellama:7b-code",
     messages=[
         {"role": "user", "content": prompt},
     ],
@@ -30,5 +30,12 @@ for chunk in stream:
     content = chunk["message"]["content"]
     s += content
     print(content, end="", flush=True)
+
+with open("/tmp/ollama_out", "w") as f:
+    f.write(s)
+
+s = s.replace('<EOT>', '')
+# Now join them all together
+s = top + s + bottom
 
 pyperclip.copy(s)

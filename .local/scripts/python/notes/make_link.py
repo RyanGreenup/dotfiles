@@ -14,7 +14,7 @@ import argparse
 import os
 import subprocess
 import pyperclip
-from utils import gui_select, path_to_title, create_md_link, get_files
+from utils import gui_select, path_to_title, create_md_link, get_files, fzf_select
 from config import Config
 
 HOME = os.getenv("HOME")
@@ -27,6 +27,7 @@ def main(notes_dir: str):
     os.chdir(notes_dir)
 
     # Get the clipboard contents, this is the note we are on
+    # TODO take arg
     filename = pyperclip.paste()
 
     # Replace the tilde with the home directory
@@ -35,10 +36,12 @@ def main(notes_dir: str):
 
     # Use the note_taking script to get the new note link
     # TODO just use fzf_select(get_files(notes_dir)) from utils.py
-    cmd = ["note_taking", "-d", notes_dir, "link"]
+    cmd = ["fd", r"\.md$", notes_dir, "|", "fzf --preview 'bat --color=always {}'"]
+    cmd = r"fd \.md$ /home/ryan/Notes/slipbox/ | fzf --preview 'bat --color=always {}'"
+    # new_link_from_notes_dir = fzf_select(get_files(notes_dir))
     try:
         new_link_from_notes_dir = subprocess.run(
-            cmd, capture_output=True, check=True, text=True
+            cmd, capture_output=True, check=True, text=True, shell=True
         ).stdout.strip()
     except subprocess.CalledProcessError as e:
         print(e.stderr)

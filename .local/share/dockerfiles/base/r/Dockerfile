@@ -32,5 +32,6 @@ RUN jup_dir="~/.local/share/virtualenvs/jupyter"; \
     ${jup_dir}/bin/pip install \
         numpy polars pandas torch jupyterlab scikit-learn
 
+RUN dnf install -y R-CRAN-latex2exp R-CRAN-gridExtra
 
 CMD ~/.local/share/virtualenvs/jupyter/bin/jupyter lab

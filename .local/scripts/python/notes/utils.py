@@ -278,7 +278,7 @@ def sk_cmd(
     dir: str,
     cmd_to_run: str,
     preview: bool = False,
-    chooser: str = "sk",
+    chooser: str = "fzf",  # sk doesn't choose as well
     multi: bool = True,
     relative: bool = True,
 ) -> list[str]:

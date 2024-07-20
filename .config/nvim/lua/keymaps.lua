@@ -72,7 +72,7 @@ map('n', '<leader>hk', ':e +/#mappings ~/.config/nvim/lua/plugins/lsp+cmp.lua<CR
 map('n', '<C-n>', '<cmd>Neotree toggle<CR>', default_opts) -- open/close
 
 -- Vista tag-viewer
-map('n', '<C-m>', ':Vista!!<CR>', default_opts) -- open/close
+map('n', '<C-m>', ':Outline<CR>', default_opts) -- open/close
 
 
 ------------------------------------------------------------

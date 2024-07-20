@@ -82,7 +82,7 @@ def build_commands() -> dict["str", Scratchpad]:
     scratchpads = dict()
 
     scratchpads["terminal"] = Scratchpad(
-        "scratch", ["$term"], Key(["SUPER"], "grave"), "Terminal Scratchpad"
+        "scratch", ["$term", "-T", "quake"], Key(["SUPER"], "grave"), "Terminal Scratchpad"
     )
 
     scratchpads["flarum"] = Scratchpad(
@@ -127,9 +127,16 @@ def build_commands() -> dict["str", Scratchpad]:
         "Open Dokuwiki",
     )
 
-    scratchpads["open-web-ui"] = Scratchpad(
-        "open-web-ui",
-        ["distrobox-enter", "-n", "arch", "--", "/usr/bin/chromium", "http://ai.vale"],
+    # scratchpads["open-web-ui"] = Scratchpad(
+    #     "open-web-ui",
+    #     ["distrobox-enter", "-n", "arch", "--", "/usr/bin/chromium", "http://ai.vale"],
+    #     Key(["SUPER"], "F6"),
+    #     "Open Web UI",
+    # )
+
+    scratchpads["ollama"] = Scratchpad(
+        "ollama",
+        ["alacritty", "-T", "chat", "-e", "tmux", "attach", "-t", "ait"],
         Key(["SUPER"], "F6"),
         "Open Web UI",
     )
