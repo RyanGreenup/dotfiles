@@ -82,3 +82,16 @@
   (async-shell-command
    (format "local-scripts notes sub-page --source %s"
            (shell-quote-argument buffer-file-name))))
+
+(defun open-latest-journal-page ()
+  "Open the latest journal page."
+  (interactive)
+  (let* ((journal-dir "~/Notes/slipbox/journals/")
+         (journal-files (directory-files journal-dir t "\\.org\\'"))
+         (latest-journal-file
+          (car (sort journal-files
+                     (lambda (a b)
+                       (time-less-p (nth 5 (file-attributes b))
+                                    (nth 5 (file-attributes a))))))))
+    (when latest-journal-file
+      (find-file latest-journal-file))))
