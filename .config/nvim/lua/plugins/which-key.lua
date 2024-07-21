@@ -45,7 +45,7 @@ wk.register({
     },
     f = {
       name = "+file",
-      f = { "<cmd>lua require('yazi').yazi()<CR>", "File Manager"},
+      f = { "<cmd>lua require('yazi').yazi()<CR>", "File Manager" },
       -- f = telescope_command("Telescope file_browser", "Find File"),
       z = telescope_command("Telescope find_files", "Fzf File"),
       t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
@@ -106,7 +106,7 @@ wk.register({
       s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
       n = { "<cmd>e ~/Notes/slipbox/home.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
       -- May sometimes need --disable-gpu
-      v = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown <CR>" , "VSCode" },
+      v = { "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown <CR>", "VSCode" },
       h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
       j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
     },
@@ -186,7 +186,10 @@ wk.register({
       -- using iamcco/markdown-preview.nvim
       v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
       -- using VSCode
-      c = { "<cmd>!codium --disable-gpu --unity-launch % 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
+      c = { "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
+      -- using Tatum
+      -- t = { "<cmd>lua vim.fn.jobstart({ 'tatum', 'serve', '--open', vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", "Markdown Preview (Tatum)" }
+      t = { "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", "Markdown Preview (Tatum)" }
     },
     w = {
       name = "+window",

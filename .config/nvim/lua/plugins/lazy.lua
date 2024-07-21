@@ -288,7 +288,7 @@ use {
   config = function()
     require('render-markdown').setup({
       -- Configure whether Markdown should be rendered by default or not
-      start_enabled = true
+      start_enabled = false
     })
   end,
 }
@@ -579,6 +579,8 @@ use {
     open_for_directories = false,
   },
 }
+
+use { 'dhruvasagar/vim-table-mode' }
 
 
 --------------------------------------------------------------------------------

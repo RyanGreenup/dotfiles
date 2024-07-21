@@ -160,7 +160,7 @@ local servers = {
   'kotlin_language_server', 'nimls', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
-  'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols', 'harper_ls',
+  'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
 }
 
 local python_servers = {
