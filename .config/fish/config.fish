@@ -11,7 +11,7 @@ end
 if status is-interactive
     if command -v python 1>/dev/null 2>&1
         set distro (__get_distro)
-        set venv_dir /usr/local/venv/default/$distro
+        set venv_dir ($HOME/.local/bin/get_venv)
         # Check if the directory exists
         if test -d $venv_dir
             source $venv_dir/bin/activate.fish

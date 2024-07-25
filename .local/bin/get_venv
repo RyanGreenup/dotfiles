@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Distrobox sets the CONTAINER_ID environment variable
+# which makes life a bit easier.
+# Not sure how to test for docker vs podman
+# but given distrobox deals with this, I doubt it would be an issue.
+
+
+venv_base="${HOME}/.local/share/virtualvenvs"
+
+if [ -z "${CONTAINER_ID}" ]; then
+  echo "${venv_base}/default"
+else
+  echo "${venv_base}/containers/${CONTAINER_ID}"
+fi
