@@ -99,6 +99,39 @@ wk.register({
       f = {
         name = "+format",
         t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }
+      },
+      q = {
+        "+quarto",
+        m = { "<cmd>!quarto render  %:r.qmd --to gfm --cache<CR>", "Render" },
+        -- TODO add some option to stop the preview, write a function to track the job ID after updating which-key
+        p = { '<cmd>lua vim.fn.jobstart({"quarto", "preview", vim.fn.expand("%:r") .. ".qmd",  "--cache"})<CR>', "Preview" },
+        v = {
+          name = "+view",
+          m = { '<cmd>:vsplit %:r.md<CR>', "Markdown" },
+          r = { '<cmd>:vsplit %:r.Rmd<CR>', "Rmd" },
+          p = { '<cmd>:vsplit %:r.py<CR>', "Python" },
+          j = { '<cmd>:vsplit %:r.jl<CR>', "Julia" },
+          s = { '<cmd>:vsplit %:r.rs<CR>', "Rust" },
+          i = { '<cmd>:vsplit %:r.ipynb<CR>', "⚠ ipynb" },
+        }
+      },
+      j = {
+        name = "+jupyter notebook",
+        p = { '<cmd>!jupytext --set-formats "py:percent,Rmd,ipynb" "%"<CR>', "Jupytext Pair" },
+        -- TODO Add a notify after updating Which-key, i.e. check the output of:
+        -- p = { '<cmd>:lua vim.fn.jobstart({ "jupytext", "--set-formats", "py:percent,Rmd,ipynb", vim.fn.expand("%") })<CR>', "Jupytext Pair" },
+        s = { '<cmd>!jupytext --sync "%"<CR>', "Jupytext Sync" },
+        o = { '<cmd>!code --disable-gpu %:r.ipynb<CR>', "Open in VSCode" },
+        m = { '<cmd>!jupytext --sync "%" && jupyter nbconvert --to markdown --execute "%:r"' .. ".ipynb<CR>", "Export to Markdown" },
+        v = {
+          name = "+view",
+          m = { '<cmd>:vsplit %:r.md<CR>', "Markdown" },
+          r = { '<cmd>:vsplit %:r.Rmd<CR>', "Rmd" },
+          p = { '<cmd>:vsplit %:r.py<CR>', "Python" },
+          j = { '<cmd>:vsplit %:r.jl<CR>', "Julia" },
+          s = { '<cmd>:vsplit %:r.rs<CR>', "Rust" },
+          i = { '<cmd>:vsplit %:r.ipynb<CR>', "⚠ ipynb" },
+        }
       }
     },
     o = {
@@ -130,6 +163,11 @@ wk.register({
     },
     l = {
       name = "LSP",
+      o = {
+        name = "+Otter",
+        a = { "<cmd>lua require('otter').activate()<CR>", "Activate" },
+        d = { "<cmd>lua require('otter').deactivate()<CR>", "Deactivate" },
+      },
       t = { "<cmd>lua Toggle_inlay_hints()<CR>", "Toggle Inlay Hints" },
       g = {
         name = "+go",
@@ -527,7 +565,6 @@ function Open_file_in_clipboard()
   file:close()
   vim.cmd(":e " .. path)
 end
-
 
 function Toggle_inlay_hints()
   if vim.fn.has "nvim-0.10" == 1 then
