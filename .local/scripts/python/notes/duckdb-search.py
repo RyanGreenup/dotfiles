@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import duckdb as db
 import polars as pl
