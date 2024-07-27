@@ -3,10 +3,7 @@
 import os
 import duckdb as db
 import polars as pl
-from typing import Annotated
 import typer
-import json
-import subprocess
 
 
 TBL_NAME = "notes"
