@@ -3,8 +3,10 @@
 import os
 import duckdb as db
 import polars as pl
+from typing import Annotated
 import typer
 import json
+import subprocess
 
 
 TBL_NAME = "notes"
@@ -27,6 +29,9 @@ def build_index(db_path: str = DEFUALT_DB_PATH, only_build_db: bool = False):
     build_fts_index(db_path)
 
 
+# NOTE works well with
+# sk -m -i -c '~/.local/scripts/python/notes/duckdb-search.py search {}' --preview 'bat --color=always {+}'
+# Consider adding a live search
 @app.command()
 def search(
     search_input: str,
