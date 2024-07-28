@@ -160,7 +160,7 @@ local servers = {
   'kotlin_language_server', 'nimls', 'quick_lint_js',
   'r_language_server', 'racket_langserver', 'rust_analyzer', 'texlab',
   'tsserver', 'stylelint_lsp', 'vala_ls', 'vls', 'zls', 'ols',
-  'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols'
+  'spectral', 'ansiblels', 'rome', 'jsonls', 'html', 'denols', 'marksman'
 }
 
 local python_servers = {
@@ -206,10 +206,11 @@ function markdown_oxide_on_attach(client, bufnr)
 end
 
 -- Markdown Oxide
-require("lspconfig").markdown_oxide.setup({
-  capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-  on_attach = markdown_oxide_on_attach        -- configure your on attach config
-})
+-- This is too buggy to use
+-- require("lspconfig").markdown_oxide.setup({
+--   capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+--   on_attach = markdown_oxide_on_attach        -- configure your on attach config
+-- })
 
 -- sqlls requires a custom setup
 -- https://github.com/LunarVim/LunarVim/discussions/4210
