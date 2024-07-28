@@ -5,11 +5,22 @@
 # Not sure how to test for docker vs podman
 # but given distrobox deals with this, I doubt it would be an issue.
 
+## Usage
+## Provide the name of the container as the first argument
+## or interpret from the CONTAINER_ID set by distrobox
+## Else, assume base install and a default venv
+
 
 venv_base="${HOME}/.local/share/virtualvenvs"
 
+
 if [ -z "${CONTAINER_ID}" ]; then
-  echo "${venv_base}/default"
+    if [ $# -eq 0 ]
+      then
+      echo "${venv_base}/default"
+    else
+      echo "${venv_base}/containers/$1"
+    fi
 else
   echo "${venv_base}/containers/${CONTAINER_ID}"
 fi
