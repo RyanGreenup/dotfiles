@@ -33,7 +33,7 @@ cmd [[
 -----------------------------------------------------------
 opt.number = true -- show line number
 opt.showmatch = true -- highlight matching parenthesis
-opt.foldlevelstart = 99   -- Open everything up at first
+opt.foldlevelstart = 2 -- Open everything up at first
 opt.colorcolumn = '80' -- line lenght marker at 80 columns
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- horizontal split to the bottom
@@ -45,9 +45,11 @@ opt.relativenumber = true -- Relative numbers
 cmd [[ set modelineexpr ]] -- See vim modeline vulnerability 2019
 
 -- Folding
-opt.foldmethod = "expr" -- fold based on Syntax
-opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use Treesitter for folding syntax
+opt.foldmethod = "expr" -- fold based on Treesitter Expression
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 opt.foldlevel = 99 -- Start with everything unfolded
+opt.fillchars:append({fold = " "}) -- Don't show fold icons
 
 -- remove whitespace on save
 cmd [[au BufWritePre * :%s/\s\+$//e]]
