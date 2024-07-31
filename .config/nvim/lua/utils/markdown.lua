@@ -6,6 +6,7 @@
 require("utils/increment_time_stamps")
 require("utils/open_journal_files")
 require("utils/paths")
+require("utils/lists")
 
 
 function File_exists(path)
@@ -74,11 +75,11 @@ function Create_markdown_link(subpage)
   local new_path
   -- Insert the sub_page before the extension
   if subpage then
-      new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-      link = Build_markdown_link('/' .. title, new_path)
+    new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
+    link = Build_markdown_link('/' .. title, new_path)
   else
-      new_path = sub_page .. ".md"
-      link = Build_markdown_link(title, new_path)
+    new_path = sub_page .. ".md"
+    link = Build_markdown_link(title, new_path)
   end
 
   -- Set the new line as the link
@@ -184,7 +185,7 @@ function Insert_notes_link_alacritty_fzf()
   local cmd = "~/.local/scripts/python/notes/make_link_fzf.py "
   cmd = cmd .. "--output-file " .. "'" .. tmp .. "'"
   cmd = cmd .. " --start-dir " .. "'" .. start_dir .. "'"
-  local _ = Shell("alacritty -T popup -e ".. cmd)
+  local _ = Shell("alacritty -T popup -e " .. cmd)
 
   -- Read the output of the file
   vim.cmd([[ r ]] .. tmp)
@@ -200,7 +201,7 @@ end
 function Search_notes_fzf()
   -- Run the script in alacritty
   local cmd = "ai-tools live-search --fzf --editor 'code'"
-  local _ = Shell("alacritty -T popup -e ".. cmd)
+  local _ = Shell("alacritty -T popup -e " .. cmd)
 end
 
 --------------------------------------------------------------------------------
