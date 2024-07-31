@@ -75,7 +75,7 @@ function Create_markdown_link(subpage)
   -- Insert the sub_page before the extension
   if subpage then
       new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-      link = Build_markdown_link('➡️ /' .. title, new_path)
+      link = Build_markdown_link('/' .. title, new_path)
   else
       new_path = sub_page .. ".md"
       link = Build_markdown_link(title, new_path)
@@ -212,7 +212,7 @@ function Generate_navigation_tree()
   local current_file_path = vim.api.nvim_buf_get_name(0)
   local notes_dir = Get_dirname_buffer()
 
-  local cmd = HOME .. "/.local/scripts/python/notes/generate-navigation.py "
+  local cmd = "~/.local/scripts/python/notes/generate-navigation.py "
   cmd = cmd .. current_file_path .. " "
   cmd = cmd .. notes_dir
 

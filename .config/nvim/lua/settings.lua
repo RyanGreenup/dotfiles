@@ -33,7 +33,7 @@ cmd [[
 -----------------------------------------------------------
 opt.number = true -- show line number
 opt.showmatch = true -- highlight matching parenthesis
-opt.foldlevelstart = 2 -- Open everything up at first
+opt.foldlevelstart = 99 -- Open everything up at first
 opt.colorcolumn = '80' -- line lenght marker at 80 columns
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- horizontal split to the bottom
@@ -224,6 +224,8 @@ if exists('g:neovide')
   "" let g:neovide_cursor_vfx_particle_lifetime = 1.2
   "" let g:neovide_cursor_vfx_particle_speed = 10.0
   "" let g:neovide_transparency = 0.8
+  let g:neovide_confirm_quit = v:true
+  let g:neovide_fullscreen = v:false
 endif
 ]]
 
