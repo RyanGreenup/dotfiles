@@ -9,6 +9,10 @@ import sys
 
 config = Config.default()
 
+# These delimiters make it easier to programattically remove thes blocks
+BEGIN = "<!-- #+BEGIN_NAV -->"
+END = "<!-- #+END_NAV -->"
+
 
 def filename_to_markdown(file_path, notes_dir):
     file_path = os.path.relpath(path=file_path, start=notes_dir)
@@ -19,7 +23,7 @@ def filename_to_markdown(file_path, notes_dir):
     # Split into hierarchy
     sections = file_path.replace("_", "/").split("/")
 
-    markdown = "<details closed><summary><h2>🧭</h2></summary>\n"
+    markdown = "<details open><summary><b>🧭</b></summary>\n"
     # Add a space before the newline so lua gmatch has an easier time
     # see ~/.config/nvim/lua/utils/markdown.lua
     markdown += " \n"
@@ -38,6 +42,7 @@ def filename_to_markdown(file_path, notes_dir):
         markdown += "    " * i + f"{prefix} [{title}]({filename})\n"
 
     markdown += "</details>"
+    markdown = BEGIN + "\n" + markdown + "\n" + END
     return markdown
 
 
