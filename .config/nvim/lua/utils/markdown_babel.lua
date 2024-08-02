@@ -132,6 +132,44 @@ end
 
 
 local result_markers = { [[<!-- BEGIN_RESULTS -->]], [[<!-- END_RESULTS -->]] }
+
+--@param n_lines number: How far ahead the output can be from the end of the
+--                       the code block (default 4)
+--@param start_line number: The start line of the code block
+--@param end_line number: The end line of the code block
+--@param lines table: The lines of the current buffer
+--@param buf number: The buffer number
+local function remove_last_output(n_lines, start_line, end_line, lines, buf)
+  if n_lines == nil then
+    n_lines = 4
+  end
+  -- +2 because we did -1 to be inside the code block
+  for i = end_line + 2, end_line + n_lines do
+    -- Read that line
+    local line = lines[i]
+    if line == nil then
+      break
+    end
+    -- If it is a code fence give up
+    if line:match("^```") then
+      break
+    elseif line == result_markers[1] then
+      -- Delete until the next result marker
+      for j = i, #lines do
+        if lines[j] == result_markers[2] then
+          vim.api.nvim_buf_set_lines(buf, i - 1, j, false, {})
+          break
+        end
+      end
+    end
+  end
+end
+
+
+local function get_start_line_of_cell_at_cursor()
+end
+
+
 local function highlight_markdown_cell()
   local api = vim.api
   local buf = api.nvim_get_current_buf()
@@ -216,6 +254,9 @@ local function highlight_markdown_cell()
   -- Move below the current cell
   vim.api.nvim_win_set_cursor(0, { end_line + 1, 0 })
 
+  -- Remove the old output
+  remove_last_output(4, start_line, end_line, lines, buf)
+
   -- Run the command
   local exe = get_executable(lang)
   if exe == nil then
@@ -238,6 +279,7 @@ local function highlight_markdown_cell()
   end
   --]]
 
+
   -- Insert some text
   -- vim.api.nvim_put({ "```", result, "```" }, "l", , true)
   vim.api.nvim_put({ "", result_markers[1], "```" }, "l", true, true)
@@ -255,12 +297,18 @@ local function highlight_markdown_cell()
   --
   -- vim.cmd('split')
   -- vim.cmd('edit ' .. cell_path)
+  -- Restore the cursor position
+  vim.api.nvim_win_set_cursor(0, current_location)
 end
 
 
 -- Define the function we want to export
 function M.send_code()
   highlight_markdown_cell()
+end
+
+function M.remove_last_output()
+  remove_last_output(4, start_line, end_line, lines, buf)
 end
 
 -- Return the module table so that it can be required by other scripts
