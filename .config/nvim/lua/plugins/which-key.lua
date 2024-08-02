@@ -135,24 +135,35 @@ function Which_key_modal_bind()
   end
 end
 
-local function Revert_all_buffers()
+local function Revert_all_buffers(cmd)
+  if cmd == nil then
+    cmd = "e!"
+  end
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if buf ~= nil then
-      vim.api.nvim_buf_call(buf, function()
-        vim.cmd("e!")
-      end)
+      -- check if file exists
+      if vim.api.nvim_buf_get_name(buf) ~= "" then
+        vim.api.nvim_buf_call(buf, function()
+          vim.cmd(cmd)
+        end)
+      end
     end
   end
+  vim.cmd(cmd)
 end
+
 
 local notes_dir = "~/Notes/slipbox/"
 -- F Files
 wk.add({
   { "<leader>f", group = "Why" }, -- group
   {
-    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                      desc = "Find File", mode = "n" },
+    -- [fn_1]
+    { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert", mode = "n" },
+    { "<leader>fQ",  function() Revert_all_buffers("q!") end,                                   desc = "Auto Revert", mode = "n" },
+    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                                           desc = "Find File",   mode = "n" },
     { "<leader>fo",  group = "Open" }, -- group
-    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end, desc = "Clipboard", mode = "n" },
+    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,                      desc = "Clipboard",   mode = "n" },
     {
       "<leader>fon",
       function()
@@ -183,7 +194,12 @@ wk.add({
     {
       "<leader>fy",
       function()
-        vim.fn.setreg('+', vim.api.nvim_buf_get_name(0))
+        local path = vim.api.nvim_buf_get_name(0)
+        local home = os.getenv("HOME")
+        if home ~= nil then
+          path = path:gsub(home, "~")
+        end
+        vim.fn.setreg('+', path)
       end,
       desc = "Copy Path"
     },
@@ -211,7 +227,7 @@ wk.add({
 wk.add({
   {
     { "<leader>n",  group = "Notes" }, -- group
-    { "<leader>nb", require("utils/markdown_babel").send_code, desc = "Execute a markdown cell and include output"},
+    { "<leader>nb", require("utils/markdown_babel").send_code,        desc = "Execute a markdown cell and include output" },
     { "<leader>nl", function() Insert_notes_link_alacritty_fzf() end, desc = "Insert Notes Link" },
     { "<leader>nL", function() Insert_notes_link() end,               desc = "Insert Notes Link" },
     { "<leader>ns", function() Create_markdown_link(true) end,        desc = "Create a Subpage Link and Open Buffer" },
@@ -227,17 +243,33 @@ wk.add({
 })
 
 
+-- Toggle
+wk.add({
+  { "<leader>t", group = "toggle" },
+})
+
 wk.add({
   { "<leader>j",  group = "Jupyter Notebook" }, -- group
-  { "<leader>jj", require('utils/notebooks').jupytext_set_formats,  desc = "Jupytext Pair" },
-  { "<leader>jp", require('utils/notebooks').quarto_preview,                  desc = "Jupytext Pair" },
-  { "<leader>js", require('utils/notebooks').jupytext_sync,                   desc = "Jupytext Sync" },
-  { "<leader>jw", require('utils/notebooks').jupytext_watch_sync,             desc = "Watch Sync" },
-  { "<leader>jo", require('utils/notebooks').open_in_vscode,           desc = "Open in VSCode" },
-  { "<leader>jm", require('utils/notebooks').jupytext_render_markdown,    desc = "Export to Markdown (Quarto)" },
-  { "<leader>jM", require('utils/notebooks').jupytext_render_markdown,   desc = "Export to Markdown (Jupyter)" },
+  { "<leader>jj", require('utils/notebooks').jupytext_set_formats,                  desc = "Jupytext Pair" },
+  { "<leader>jp", require('utils/notebooks').quarto_preview,                        desc = "Jupytext Pair" },
+  { "<leader>js", require('utils/notebooks').jupytext_sync,                         desc = "Jupytext Sync" },
+  { "<leader>jw", require('utils/notebooks').jupytext_watch_sync,                   desc = "Watch Jupytext Sync" },
+  { "<leader>jo", require('utils/notebooks').open_in_vscode,                        desc = "Open in VSCode" },
+  { "<leader>jm", require('utils/notebooks').jupytext_render_markdown_with_quarto,  desc = "Export to Markdown (Quarto)" },
+  { "<leader>jM", require('utils/notebooks').jupytext_render_markdown_with_jupyter, desc = "Export to Markdown (Jupyter)" },
   { "<leader>jv", group = "View" }, -- subgroup for view commands
   {
+    {
+      "<leader>jva",
+      function()
+        splits = { "vsplit", "split" }
+        for i, ext in pairs({ ".md", ".Rmd", ".py", ".r" }) do
+          vim.cmd(splits[(i % 2) + 1] .. " %:r" .. ext)
+        end
+        vim.cmd("wincmd =")
+      end,
+      desc = "All"
+    },
     { "<leader>jvm", function() vim.cmd [[:vsplit %:r.md]] end, desc = "Markdown" },
     { "<leader>jvn", function() vim.cmd [[:vsplit %:r.Rmd]] end, desc = "Rmd" },
     { "<leader>jvp", function() vim.cmd [[:vsplit %:r.py]] end, desc = "Python" },
@@ -283,3 +315,12 @@ wk.add({
     -- { "<leader>vml", function() vim.cmd [[source /tmp/file.lua]] end, desc = "LaTeX Mode" }
   }
 })
+
+
+--------------------------------------------------------------------------------
+-- Footnotes -------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--[[
+[fn_1]: [Auto-reloading a file in VIM as soon as it changes on disk - Super User](https://superuser.com/questions/181377/auto-reloading-a-file-in-vim-as-soon-as-it-changes-on-disk)
+
+-]]
