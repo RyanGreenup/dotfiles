@@ -132,6 +132,25 @@ end
 
 
 local result_markers = { [[<!-- BEGIN_RESULTS -->]], [[<!-- END_RESULTS -->]] }
+local opts = { raw = "<!-- opts: raw -->", latex = "<!-- opts: latex -->" }
+
+
+--- Parse the options from a line directly above the code block
+--- @param line number: The line number Directly above the code block
+function parse_opts(line)
+  local buf = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  if lines[line] == nil then
+    return nil
+  end
+  if lines[line] == opts.raw then
+    return { raw = true }
+  elseif lines[line] == opts.latex then
+    return { latex = true }
+  else
+    return nil
+  end
+end
 
 --@param n_lines number: How far ahead the output can be from the end of the
 --                       the code block (default 4)
@@ -294,12 +313,36 @@ local function highlight_markdown_cell()
   end
   --]]
 
+  -- Deal with options
+  local output_opts = parse_opts(start_line - 2)
+  local raw_output = false
+  if output_opts ~= nil then
+    raw_output = output_opts.raw
+  end
+
+
 
   -- Insert some text
   -- vim.api.nvim_put({ "```", result, "```" }, "l", , true)
-  vim.api.nvim_put({ "", result_markers[1], "```" }, "l", true, true)
+  local before_output = "```"
+  local after_output = "```"
+  if output_opts ~= nil then
+    raw_output = output_opts.raw or false
+    latex_output = output_opts.latex or false
+    if output_opts.raw then
+      before_output = ""
+      after_output = ""
+    elseif latex_output then
+      before_output = "$$"
+      after_output = "$$"
+    end
+  end
+  vim.api.nvim_put({ "",  }, "l", true, true)
+  vim.api.nvim_put({result_markers[1]}, "l", true, false)
+  vim.api.nvim_put({ before_output }, "l", true, false)
   vim.cmd('r! ' .. exe .. ' ' .. cell_path)
-  vim.api.nvim_put({ "```", result_markers[2] }, "l", true, true)
+  vim.api.nvim_put({ after_output, result_markers[2] }, "l", true, true)
+
 
 
 
@@ -313,7 +356,7 @@ local function highlight_markdown_cell()
   -- vim.cmd('split')
   -- vim.cmd('edit ' .. cell_path)
   -- Restore the cursor position
-  -- vim.api.nvim_win_set_cursor(0, current_location)
+  vim.api.nvim_win_set_cursor(0, current_location)
 end
 
 
