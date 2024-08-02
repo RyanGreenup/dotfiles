@@ -167,6 +167,35 @@ end
 
 
 local function get_start_line_of_cell_at_cursor()
+  local api = vim.api
+  local buf = api.nvim_get_current_buf()
+  local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
+  local current_location = api.nvim_win_get_cursor(0)
+  local current_line = current_location[1]
+  local lang = nil
+  local context_path = "nvim_my_babel_context"
+  local cell_path = "nvim_my_babel_cell"
+  local start_line, end_line = nil, nil
+
+  -- Loop backwards for the start of the code block
+  for i = current_line, 1, -1 do
+    local line = lines[i]
+    if line:match("^```") then
+      start_line = i + 1 -- Don't include fence
+      lang = get_lang(line)
+      break
+    end
+  end
+
+  -- Search forward for the end of the code block
+  for i = current_line, #lines do
+    if lines[i]:match("^```") then
+      end_line = i - 1 -- don't include fence
+      break
+    end
+  end
+
+  return { start_line = start_line, end_line = end_line, lang = lang }
 end
 
 
@@ -180,26 +209,12 @@ local function highlight_markdown_cell()
   local context_path = "nvim_my_babel_context"
   local cell_path = "nvim_my_babel_cell"
 
-  local start_line, end_line = nil, nil
-
-  -- Loop backwards for the start of the code block
-  for i = current_line, 1, -1 do
-    local line = lines[i]
-    if line:match("^```") then
-      start_line = i + 1 -- Don't include fence
-      lang = get_lang(line)
-      break
-    end
-  end
+  current_cell = get_start_line_of_cell_at_cursor()
+  start_line = current_cell.start_line
+  end_line = current_cell.end_line
+  lang = current_cell.lang
 
 
-  -- Search forward for the end of the code block
-  for i = current_line, #lines do
-    if lines[i]:match("^```") then
-      end_line = i - 1 -- don't include fence
-      break
-    end
-  end
 
   if start_line == nil or end_line == nil then
     print("No code block found")
@@ -298,7 +313,7 @@ local function highlight_markdown_cell()
   -- vim.cmd('split')
   -- vim.cmd('edit ' .. cell_path)
   -- Restore the cursor position
-  vim.api.nvim_win_set_cursor(0, current_location)
+  -- vim.api.nvim_win_set_cursor(0, current_location)
 end
 
 
@@ -308,6 +323,12 @@ function M.send_code()
 end
 
 function M.remove_last_output()
+  local current_cell = get_start_line_of_cell_at_cursor()
+  local buf = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  local start_line = current_cell.start_line
+  local end_line = current_cell.end_line
+  local lang = current_cell.lang
   remove_last_output(4, start_line, end_line, lines, buf)
 end
 
