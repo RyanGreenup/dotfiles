@@ -1,6 +1,10 @@
-local wk = require('which-key')
+local wk = require("which-key")
 
-vim.cmd [[ set timeoutlen=10 ]]
+-- TODO decide on autocommand keymaps
+-- for markdown and slime
+-- Keybindings aim for some degree of consistency with
+-- [Mappings](https://docs.astronvim.com/mappings)
+
 local n = require('notify')
 
 local theme = "ivy" -- Allowed: dropdown, ivy, ...
@@ -9,570 +13,273 @@ function telescope_command(s, s2)
   return { command, s2 }
 end
 
-wk.register({
-  ["<leader>"] = {
-    -- ["<leader>"] = { "<cmd>Telescope<CR>", "Telescope" },
-    -- ["<leader>"] = { "<cmd>Telescope find_files theme=ivy<cr>", "Find File" },
-    -- ["'"] = { "<cmd>Telescope resume<CR>", "Telescope Resume" },
-    ["<leader>"] = telescope_command("Telescope find_files", "Find File"),
-    ["'"] = telescope_command("Telescope resume", "Telescope Resume"),
+wk.add({
+  { "<leader><leader>", function() require('telescope.builtin').find_files() end, desc = "fzf" },
 
-    -- a = {"<cmd>Tabularize /\\s\\+<CR>", "Align"},
-    a = { "<cmd>Tabularize /|<CR>", "Align" },
-
-    b = {
-      name = "+buffers",
-      b = { "<cmd>Telescope buffers<CR>", "Buffers" },
-      d = { "<cmd>bd<CR>", "Delete" },
-      n = { "<cmd>bn<CR>", "Buffer Previous" },
-      p = { "<cmd>bp<CR>", "Buffer Next" },
-    },
-    c = {
-      name = "+create",
-      f = { "<cmd>!touch <c-r><c-p><cr><cr>", "Create File" },
-    },
-    d = {
-      name = "+debug",
-      t = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle Debug UI" },
-      b = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle Breakpoint" },
-      s = { "<cmd>lua require'dap'.continue()<CR>", "Start or Continue" },
-      o = { "<cmd>lua require'dap'.step_over()<CR>", "Step over" },
-      i = { "<cmd>lua require'dap'.step_in()<CR>", "Step in" },
-      r = { "<cmd>lua require'dap'.repl.open()<CR>", "REPL" },
-      ["?"] = { "<cmd>lua dap_usage()<CR>", "Key Bindings" },
-
-
-    },
-    f = {
-      name = "+file",
-      f = { "<cmd>lua require('yazi').yazi()<CR>", "File Manager" },
-      -- f = telescope_command("Telescope file_browser", "Find File"),
-      z = telescope_command("Telescope find_files", "Fzf File"),
-      t = { "<cmd>Telescope filetypes theme=dropdown<cr>", "Find File" },
-      r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-      n = { "<cmd>enew<cr>", "New File" },
-      o = {
-        name = "+open",
-        c = { "<cmd>lua Open_file_in_clipboard()<cr>", "Open Clipboard" },
-      },
-      p = { "<cmd>e ~/.config/nvim/init.lua<CR>:cd %:p:h<CR>:cd lua<CR>", "Edit Config" },
-      g = { "<cmd>:cd %:p:h<cr>", "Go to file (cd)" },
-      y = { '<cmd>:let @+=expand("%:p")<cr>', "Copy File Path" },
-      Y = { '<cmd>:let @+=expand("%")<cr>"%:p")<cr>', "Copy File Path" },
-      s = { '<cmd>:w!<cr>', "Save" },
-      e = { '<cmd>:e!<cr>', "Revert" },
-
-    },
-    g = {
-      name = "+go",
-      d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Definition" },
-      D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "LSP: Definition" },
-      i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "LSP: Implementation" },
-      r = { "<cmd>lua vim.lsp.buf.references()<CR>", "LSP: References" },
-      v = { "<cmd>Navbuddy<CR>", "Navbuddy" },
-      n = {
-        name = "+notes",
-        d = { "<cmd>:cd ~/Notes/dokuwiki/config/dokuwiki/data/pages/<CR><cmd>Telescope find_files<CR>", "Dokuwiki" }
-      }
-    },
-    h = {
-      name = "help",
-      h = { "<cmd>Telescope help_tags<CR>", "Help" },
-      r = { "<cmd>:PackerCompile<CR><cmd>source $MYVIMRC<cr>", "source $MYVIMRC" },
-      t = { "<cmd>Telescope colorscheme theme=dropdown<cr>", "Choose Theme" },
-      u = { "<cmd>:PackerSync<CR>", "Packer Sync" },
-      p = { "<cmd>Telescope packer theme=dropdown<CR>", "Help Packages" },
-
-    },
-    n = {
-      name = "+notes",
-      l = { ":lua Insert_notes_link_alacritty_fzf()<CR>", "Insert a link to a note using alacritty and fzf" },
-      L = { ":lua Insert_notes_link()<CR>", "Insert a link to a note using rofi" },
-      s = { ":lua Create_markdown_link(true)<CR>", "Create a Subpage Link and Open Buffer" },
-      S = { ":lua Create_markdown_link()<CR>", "Create a Link From text and Open Buffer" },
-      u = { ":lua Format_url_markdown()<CR>", "Format a URL as a Markdown Link" },
-      v = { ":lua Generate_navigation_tree()<CR>", "Generate Navigation Tree" },
-      r = { "<cmd>RenderMarkdownToggle<CR>", "Render Markdown Toggle" },
-      p = { "<cmd>lua Paste_png_image()<CR>", "Paste Image from Clipboard" },
-      a = { "<cmd>lua Attach_file()<CR>", "Prompt User to attach file under ./assets" },
-      z = { "<cmd>lua Search_notes_fzf()<CR>", "Search Notes using Embeddings" },
-      f = {
-        name = "+format",
-        t = { "<Esc>vap<cmd>'<,'>!pandoc -t commonmark_x<CR>", "Format Table" }
-      },
-      q = {
-        "+quarto",
-        m = { "<cmd>!quarto render  %:r.qmd --to gfm --cache<CR>", "Render" },
-        -- TODO add some option to stop the preview, write a function to track the job ID after updating which-key
-        p = { '<cmd>lua vim.fn.jobstart({"quarto", "preview", vim.fn.expand("%:r") .. ".qmd",  "--cache"})<CR>', "Preview" },
-        v = {
-          name = "+view",
-          m = { '<cmd>:vsplit %:r.md<CR>', "Markdown" },
-          r = { '<cmd>:vsplit %:r.Rmd<CR>', "Rmd" },
-          p = { '<cmd>:vsplit %:r.py<CR>', "Python" },
-          j = { '<cmd>:vsplit %:r.jl<CR>', "Julia" },
-          s = { '<cmd>:vsplit %:r.rs<CR>', "Rust" },
-          i = { '<cmd>:vsplit %:r.ipynb<CR>', "⚠ ipynb" },
-        }
-      },
-      j = {
-        name = "+jupyter notebook",
-        p = { '<cmd>!jupytext --set-formats "py:percent,Rmd,ipynb" "%"<CR>', "Jupytext Pair" },
-        -- TODO Add a notify after updating Which-key, i.e. check the output of:
-        -- p = { '<cmd>:lua vim.fn.jobstart({ "jupytext", "--set-formats", "py:percent,Rmd,ipynb", vim.fn.expand("%") })<CR>', "Jupytext Pair" },
-        s = { '<cmd>!jupytext --sync "%"<CR>', "Jupytext Sync" },
-        o = { '<cmd>!code --disable-gpu %:r.ipynb<CR>', "Open in VSCode" },
-        m = { '<cmd>!jupytext --sync "%" && jupyter nbconvert --to markdown --execute "%:r"' .. ".ipynb<CR>", "Export to Markdown" },
-        v = {
-          name = "+view",
-          m = { '<cmd>:vsplit %:r.md<CR>', "Markdown" },
-          r = { '<cmd>:vsplit %:r.Rmd<CR>', "Rmd" },
-          p = { '<cmd>:vsplit %:r.py<CR>', "Python" },
-          j = { '<cmd>:vsplit %:r.jl<CR>', "Julia" },
-          s = { '<cmd>:vsplit %:r.rs<CR>', "Rust" },
-          i = { '<cmd>:vsplit %:r.ipynb<CR>', "⚠ ipynb" },
-        }
-      }
-    },
-    o = {
-      name = "+open / org",
-      s = { "<cmd>cd ~/.config/nvim/snippets/<CR><cmd>Telescope find_files<CR>", "Snippets Directory" },
-      n = { "<cmd>e ~/Notes/slipbox/home.md<CR><cmd>cd ~/Notes/slipbox/ <CR>", "Notes" },
-      -- May sometimes need --disable-gpu
-      v = { "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown <CR>", "VSCode" },
-      h = { ":lua Change_dayplanner_line(-30)<CR>", "Decrease Dayplanner Time" },
-      j = { ":lua Open_journals()<CR>", "Open Journal Pages" },
-    },
-    s = {
-      name = "+search",
-      -- s = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "Swoop" },
-      s = telescope_command("Telescope current_buffer_fuzzy_find", "Swoop"),
-      d = { "<cmd>Telescope lsp_document_symbols<CR>", "LSP Document 🔣" },
-      j = { "<cmd>Telescope jumplist theme=ivy<CR>", "Jumplist" },
-      D = { "<cmd>Telescope lsp_workspace<CR>", "LSP workspace" },
-      i = { "<cmd>Telescope ultisnips<CR>", "Ultisnips" },
-      e = { "<cmd>Telescope quickfix<CR>", "Errors" },
-      r = { "<cmd>Telescope lsp_references<CR>", "LSP References" },
-      m = telescope_command("Telescope marks", "Marks"),
-
-    },
-    r = {
-      name = "Iron",
-      c = { "<cmd>:IronSend<CR>", "line" },
-      ["?"] = { "<cmd>lua iron_keybindings()<CR>", "Key Bindings" },
-    },
-    l = {
-      name = "LSP",
-      o = {
-        name = "+Otter",
-        a = { "<cmd>lua require('otter').activate()<CR>", "Activate" },
-        d = { "<cmd>lua require('otter').deactivate()<CR>", "Deactivate" },
-      },
-      t = { "<cmd>lua Toggle_inlay_hints()<CR>", "Toggle Inlay Hints" },
-      g = {
-        name = "+go",
-        d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-        D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Definition" },
-        i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation" },
-        r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
-      },
-      q = { "<cmd>LspStop<CR>", "Stop LSP" },
-      k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover (S-k)" },
-      h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-      w = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Workspace Folder" },
-      W = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
-      x = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List folders" },
-      T = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Type Definition" },
-      r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-      a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-      f = { "<cmd>lua vim.lsp.buf.format { async = true }<CR>", "Format (Async)" }, -- NOTE unsupported on OBSD
-      F = { "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", "Format" },
-    },
-    t = {
-      name = "Toggle",
-      a = { ":lua ToggleAutoSave()<CR>", "Autosave" },
-      n = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
-      f = { "<cmd>Telescope filetypes<CR>", "Filetype" },
-      x = { "<cmd>Telescope tmux sessions theme=ivy<CR>", "Tmux Sessions" },
-      h = { "<cmd>lua Conceal_toggle()<CR>", "Conceal" },
-      m = {
-        name = "mode+",
-        o = { "<cmd>lua ChangeMode(ModalLayer.Organize)<CR>", "Organize" },
-        r = { "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>", "Resize" },
-        m = { "<cmd>lua ChangeMode(ModalLayer.Move)<CR>", "Move" },
-        b = { "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>", "Buffer" },
-        g = { "<cmd>lua ChangeMode(ModalLayer.Git)<CR>", "Git" },
-        s = { "<cmd>lua ChangeMode(ModalLayer.Search)<CR>", "Search" },
-        n = { "<cmd>lua ChangeMode(ModalLayer.None)<CR>", "None" },
-        v = { "<cmd>lua ChangeMode(ModalLayer.Split)<CR>", "Split" },
-      },
-      s = {
-        name = "Snippets",
-        {
-          l = { "<cmd> lua Snippy_Toggle_Auto()<CR>", "Toggle Auto LaTeX Snippets" }
-        }
-      }
-
-    },
-    i = {
-      name = "insert",
-      u = { "<cmd>Telescope symbols<CR>", "Symbols" },
-      t = { "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", "Symbols" },
-    },
-    v = {
-      name = "Preview",
-      -- using iamcco/markdown-preview.nvim
-      v = { "<cmd>MarkdownPreview<CR>", "Markdown Preview" },
-      -- using VSCode
-      c = { "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>", "Markdown Preview (VSCode)" },
-      -- using Tatum
-      -- t = { "<cmd>lua vim.fn.jobstart({ 'tatum', 'serve', '--open', vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", "Markdown Preview (Tatum)" }
-      t = { "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", "Markdown Preview (Tatum)" }
-    },
-    w = {
-      name = "+window",
-      -- Splits
-      v = { "<cmd>:vsplit<CR>", "vsplit" },
-      s = { "<cmd>:split<CR>", "hsplit" },
-      h = { "<C-w>h", "Move Left" },
-      j = { "<C-w>j", "Move Down" },
-      k = { "<C-w>k", "Move Up" },
-      l = { "<C-w>l", "Move Right" },
-      q = { "<cmd>q<CR>", "quit" },
-      t = {
-        name = "+tab",
-        e = { "<cmd>tabedit<CR>", "Edit" },
-        x = { "<cmd>tabclose<CR>", "Close" },
-        p = { "<cmd>tabprevious<CR>", "Previous" },
-        n = { "<cmd>tabnext<CR>", "Next" },
-        o = { "<cmd>tabedit<CR>", "Open Tab" },
-        m = { "<cmd>lua Move_window_to_tab()<CR>", "Move" },
-
-
-      },
-      T = { "<C-w> t", "New Tab" },
-      o = { "<C-w>|<C-w>_", "maximize" },
-      O = { "<cmd>only<CR>", "Max (:only)" },
-      m = { "<C-w>s<C-w>v<C-w>w<C-w>s", "Many splits" },
-      ["_"] = { "<C-w>_", "Flatten" },
-      ["|"] = { "<C-w>|", "Width" },
-      ["="] = { "<C-w>=", "Resize" },
-    },
-    q = { ":qa!<CR>", "Quit all!" },
-    ["<Left>"] = { "<cmd>vertical resize +15<CR>", "Resize ⬅" },
-    ["<Right>"] = { "<cmd>vertical resize -15<CR>", "Resize ➡" },
-    ["<Up>"] = { "<cmd>         resize +15<CR>", "Resize ⬇" },
-    ["<Down>"] = { "<cmd>         resize -15<CR>", "Resize ⬆" },
-    ["/"] = { "<cmd>Telescope live_grep<CR>", "Resize" },
+  { "<leader>w",        proxy = "<c-w>",                                          group = "windows" }, -- proxy to window mappings
+  {
+    "<leader>b",
+    group = "buffers",
+    expand = function()
+      return require("which-key.extras").expand.buf()
+    end
   },
 })
 
-
--- TODO configure this through which key instead
---      Disable in iron and enable in which key
-local function iron_keybindings()
-  local message = [[
-  ~/.config/nvim/lua/plugins/iron.lua
-  ______________________________________
-
-    send_motion....SPC s c
-    visual_send....SPC s c
-    send_file......SPC s f
-    send_line......SPC s l
-    send_mark......SPC s m
-    mark_motion....SPC m c
-    mark_visual....SPC m c
-    remove_mark....SPC m d
-    cr.............SPC s Ret
-    interrupt......SPC s SPC
-    exit...........SPC s q
-    clear..........SPC c l
-
-  ______________________________________
-
-  These are set separetly, hence this overlay
-  ]]
-  local n = require('notify')
-  n(message)
-end
-
-function dap_usage()
-  local message = [[
-  Debugging
-  ___________
-    First set a break point with <F9>, then
-    open  up  the  UI  with  <F4> and start
-    debugging with <F5>.
-
-    Use <F10> and  <F11> to go over and in
-    functions and <S-F11> if needed to get
-    out.
-
-  _________________________________________
-    Toggle Breakpoint...<F9>......SPC d b t
-    Toggle UI...........<F4>......SPC d t
-    ---------------------------------------
-    Start Debugging.....<F5>......SPC d s c
-    Step Over...........<F10>.....SPC d s v
-    Step Into...........<F11>.....SPC d s c
-    Step Out............<S-F11>...SPC d s c
-  _________________________________________
-
-  If the dap isn't installed run:
-    `:DBInstall <Tab>`
-
-  ]]
-  local n = require('notify')
-  n(message)
-end
-
-wk.register()
-
-
-wk.register({
-  d = {
-    name = "Debug",
-    n = { "<cmd>lua require('dap').step_into()<CR>", "Step In" },
-    o = { "<cmd>lua require('dap').step_over()<CR>", "Step Over" },
-    O = { "<cmd>lua require('dap').step_out()<CR>", "Step Out" },
-    d = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
-    ["<Space>"] = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Continue" },
-    s = {
-      name = "Step",
-      c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
-      v = { "<cmd>lua require('dap').step_over()<CR>", "Step Over" },
-      i = { "<cmd>lua require('dap').step_into()<CR>", "Step Into" },
-      o = { "<cmd>lua require('dap').step_out()<CR>", "Step Out" },
-    },
-    h = {
-      name = "Hover",
-      h = { "<cmd>lua require('dap.ui.variables').hover()<CR>", "Hover" },
-      v = { "<cmd>lua require('dap.ui.variables').visual_hover()<CR>", "Visual Hover" },
-    },
-    u = {
-      name = "UI",
-      h = { "<cmd>lua require('dap.ui.widgets').hover()<CR>", "Hover" },
-      f = { "local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>", "Float" },
-    },
-    r = {
-      name = "Repl",
-      o = { "<cmd>lua require('dap').repl.open()<CR>", "Open" },
-      l = { "<cmd>lua require('dap').repl.run_last()<CR>", "Run Last" },
-    },
-    b = {
-      name = "Breakpoints",
-      c = {
-        "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-        "Breakpoint Condition",
-      },
-      m = {
-        "<cmd>lua require('dap').set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>",
-        "Log Point Message",
-      },
-      t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Create" },
-    },
-    c = { "<cmd>lua require('dap').scopes()<CR>", "Scopes" },
-    i = { "<cmd>lua require('dap').toggle()<CR>", "Toggle" },
-  },
-}, { prefix = "<leader>" })
-
-
--- VISUAL mode mappings
--- s, x, v modes are handled the same way by which_key
-wk.register({
-  -- ...
-  ["<C-g>"] = {
-    c = { ":<C-u>'<,'>GpChatNew<cr>", "Visual Chat New" },
-    p = { ":<C-u>'<,'>GpChatPaste<cr>", "Visual Chat Paste" },
-    t = { ":<C-u>'<,'>GpChatToggle<cr>", "Visual Toggle Chat" },
-
-    ["<C-x>"] = { ":<C-u>'<,'>GpChatNew split<cr>", "Visual Chat New split" },
-    ["<C-v>"] = { ":<C-u>'<,'>GpChatNew vsplit<cr>", "Visual Chat New vsplit" },
-    ["<C-t>"] = { ":<C-u>'<,'>GpChatNew tabnew<cr>", "Visual Chat New tabnew" },
-
-    r = { ":<C-u>'<,'>GpRewrite<cr>", "Visual Rewrite" },
-    a = { ":<C-u>'<,'>GpAppend<cr>", "Visual Append (after)" },
-    b = { ":<C-u>'<,'>GpPrepend<cr>", "Visual Prepend (before)" },
-    i = { ":<C-u>'<,'>GpImplement<cr>", "Implement selection" },
-
-    g = {
-      name = "generate into new ..",
-      p = { ":<C-u>'<,'>GpPopup<cr>", "Visual Popup" },
-      e = { ":<C-u>'<,'>GpEnew<cr>", "Visual GpEnew" },
-      n = { ":<C-u>'<,'>GpNew<cr>", "Visual GpNew" },
-      v = { ":<C-u>'<,'>GpVnew<cr>", "Visual GpVnew" },
-      t = { ":<C-u>'<,'>GpTabnew<cr>", "Visual GpTabnew" },
-    },
-
-    n = { "<cmd>GpNextAgent<cr>", "Next Agent" },
-    s = { "<cmd>GpStop<cr>", "GpStop" },
-    x = { ":<C-u>'<,'>GpContext<cr>", "Visual GpContext" },
-
-    w = {
-      name = "Whisper",
-      w = { ":<C-u>'<,'>GpWhisper<cr>", "Whisper" },
-      r = { ":<C-u>'<,'>GpWhisperRewrite<cr>", "Whisper Rewrite" },
-      a = { ":<C-u>'<,'>GpWhisperAppend<cr>", "Whisper Append (after)" },
-      b = { ":<C-u>'<,'>GpWhisperPrepend<cr>", "Whisper Prepend (before)" },
-      p = { ":<C-u>'<,'>GpWhisperPopup<cr>", "Whisper Popup" },
-      e = { ":<C-u>'<,'>GpWhisperEnew<cr>", "Whisper Enew" },
-      n = { ":<C-u>'<,'>GpWhisperNew<cr>", "Whisper New" },
-      v = { ":<C-u>'<,'>GpWhisperVnew<cr>", "Whisper Vnew" },
-      t = { ":<C-u>'<,'>GpWhisperTabnew<cr>", "Whisper Tabnew" },
-    },
-  },
-  -- ...
-}, {
-  mode = "v", -- VISUAL mode
-  prefix = "",
-  buffer = nil,
-  silent = true,
-  noremap = true,
-  nowait = true,
+-- D Debug
+wk.add({
+  { "<leader>d", group = "Debug" }, -- group
+  {
+    { "<leader>dt", function() require('dapui').toggle() end,          desc = "Info" },
+    { "<leader>db", function() require('dap').toggle_breakpoint() end, desc = "Breakpoint" },
+    { "<leader>dc", function() require 'dap'.continue() end,           desc = "Continue" },
+    { "<leader>dC", function() require 'dap'.run_to_cursor() end,      desc = "Run to Cursor" },
+    { "<leader>di", function() require 'dap'.step_into() end,          desc = "In (Step)" },
+    { "<leader>dj", function() require 'dap'.down() end,               desc = "Down" },
+    { "<leader>dk", function() require 'dap'.up() end,                 desc = "Up" },
+    { "<leader>dl", function() require 'dap'.run_last() end,           desc = "Run Last" },
+    { "<leader>do", function() require 'dap'.step_out() end,           desc = "Out (Step)" },
+    { "<leader>dO", function() require 'dap'.step_over() end,          desc = "Over (Step)" },
+    { "<leader>dp", function() require 'dap'.pause() end,              desc = "Pause" },
+    { "<leader>di", function() require 'dap'.session() end,            desc = "Session" },
+    { "<leader>dq", function() require 'dap'.terminate() end,          desc = "Quit (Terminate)" },
+  }
 })
 
--- NORMAL mode mappings
-require("which-key").register({
-  -- ...
-  ["<C-g>"] = {
-    c = { "<cmd>GpChatNew<cr>", "New Chat" },
-    t = { "<cmd>GpChatToggle<cr>", "Toggle Chat" },
-    f = { "<cmd>GpChatFinder<cr>", "Chat Finder" },
-
-    ["<C-x>"] = { "<cmd>GpChatNew split<cr>", "New Chat split" },
-    ["<C-v>"] = { "<cmd>GpChatNew vsplit<cr>", "New Chat vsplit" },
-    ["<C-t>"] = { "<cmd>GpChatNew tabnew<cr>", "New Chat tabnew" },
-
-    r = { "<cmd>GpRewrite<cr>", "Inline Rewrite" },
-    a = { "<cmd>GpAppend<cr>", "Append (after)" },
-    b = { "<cmd>GpPrepend<cr>", "Prepend (before)" },
-
-    g = {
-      name = "generate into new ..",
-      p = { "<cmd>GpPopup<cr>", "Popup" },
-      e = { "<cmd>GpEnew<cr>", "GpEnew" },
-      n = { "<cmd>GpNew<cr>", "GpNew" },
-      v = { "<cmd>GpVnew<cr>", "GpVnew" },
-      t = { "<cmd>GpTabnew<cr>", "GpTabnew" },
+-- L LSP
+wk.add({
+  { "<leader>l", group = "LSP" }, -- group
+  {
+    mode = { "n", "v" },
+    { "<leader>la",  function() vim.lsp.buf.code_action() end,     desc = "Code Action" },
+    { "<leader>li",  function() vim.cmd [[LspInfo]] end,           desc = "LSP Info" },
+    { "<leader>lh",  function() vim.lsp.buf.signature_help() end,  desc = "Signature Help" },
+    { "<leader>lr",  function() vim.lsp.buf.rename() end,          desc = "Rename Symbol" },
+    { "<leader>lf",  function() vim.lsp.buf.format() end,          desc = "Format" },
+    { "<leader>ld",  function() vim.diagnostic.goto_next() end,    desc = "Diagnostic" },
+    { "<leader>lo",  group = "Otter" },
+    { "<leader>loa", function() require('otter').activate() end,   desc = "Activate" },
+    { "<leader>lod", function() require('otter').deactivate() end, desc = "Deactivate" },
+    { "<leader>gD",  function() vim.lsp.buf.declaration() end,     desc = "LSP Declaration" },
+    { "<leader>gD",  function() vim.lsp.buf.definition() end,      desc = "LSP Declaration" },
+    { "<leader>gy",  function() vim.lsp.buf.type_definition() end, desc = "LSP Type Definition" },
+    {
+      "<leader>grr",
+      function()
+        -- vim.lsp.buf.references()
+        require('telescope.builtin').lsp_references()
+      end,
+      desc = "LSP Declaration",
+      mode = "n"
     },
-
-    n = { "<cmd>GpNextAgent<cr>", "Next Agent" },
-    s = { "<cmd>GpStop<cr>", "GpStop" },
-    x = { "<cmd>GpContext<cr>", "Toggle GpContext" },
-
-    w = {
-      name = "Whisper",
-      w = { "<cmd>GpWhisper<cr>", "Whisper" },
-      r = { "<cmd>GpWhisperRewrite<cr>", "Whisper Inline Rewrite" },
-      a = { "<cmd>GpWhisperAppend<cr>", "Whisper Append (after)" },
-      b = { "<cmd>GpWhisperPrepend<cr>", "Whisper Prepend (before)" },
-      p = { "<cmd>GpWhisperPopup<cr>", "Whisper Popup" },
-      e = { "<cmd>GpWhisperEnew<cr>", "Whisper Enew" },
-      n = { "<cmd>GpWhisperNew<cr>", "Whisper New" },
-      v = { "<cmd>GpWhisperVnew<cr>", "Whisper Vnew" },
-      t = { "<cmd>GpWhisperTabnew<cr>", "Whisper Tabnew" },
+    {
+      "<leader>lG",
+      function()
+        -- vim.lsp.buf.document_symbol()
+        require('telescope.builtin').lsp_workspace_symbols()
+      end,
+      desc = "Workspace Symbols",
+      mode = "n"
     },
-  },
-  -- ...
-}, {
-  mode = "n", -- NORMAL mode
-  prefix = "",
-  buffer = nil,
-  silent = true,
-  noremap = true,
-  nowait = true,
-})
-
--- INSERT mode mappings
-require("which-key").register({
-  -- ...
-  ["<C-g>"] = {
-    c = { "<cmd>GpChatNew<cr>", "New Chat" },
-    t = { "<cmd>GpChatToggle<cr>", "Toggle Chat" },
-    f = { "<cmd>GpChatFinder<cr>", "Chat Finder" },
-
-    ["<C-x>"] = { "<cmd>GpChatNew split<cr>", "New Chat split" },
-    ["<C-v>"] = { "<cmd>GpChatNew vsplit<cr>", "New Chat vsplit" },
-    ["<C-t>"] = { "<cmd>GpChatNew tabnew<cr>", "New Chat tabnew" },
-
-    r = { "<cmd>GpRewrite<cr>", "Inline Rewrite" },
-    a = { "<cmd>GpAppend<cr>", "Append (after)" },
-    b = { "<cmd>GpPrepend<cr>", "Prepend (before)" },
-
-    g = {
-      name = "generate into new ..",
-      p = { "<cmd>GpPopup<cr>", "Popup" },
-      e = { "<cmd>GpEnew<cr>", "GpEnew" },
-      n = { "<cmd>GpNew<cr>", "GpNew" },
-      v = { "<cmd>GpVnew<cr>", "GpVnew" },
-      t = { "<cmd>GpTabnew<cr>", "GpTabnew" },
+    {
+      "<leader>ls",
+      function()
+        -- vim.lsp.buf.document_symbol()
+        require('telescope.builtin').lsp_document_symbols()
+      end,
+      desc = "Document Symbols",
+      mode = "n"
     },
-
-    x = { "<cmd>GpContext<cr>", "Toggle GpContext" },
-    s = { "<cmd>GpStop<cr>", "GpStop" },
-    n = { "<cmd>GpNextAgent<cr>", "Next Agent" },
-
-    w = {
-      name = "Whisper",
-      w = { "<cmd>GpWhisper<cr>", "Whisper" },
-      r = { "<cmd>GpWhisperRewrite<cr>", "Whisper Inline Rewrite" },
-      a = { "<cmd>GpWhisperAppend<cr>", "Whisper Append (after)" },
-      b = { "<cmd>GpWhisperPrepend<cr>", "Whisper Prepend (before)" },
-      p = { "<cmd>GpWhisperPopup<cr>", "Whisper Popup" },
-      e = { "<cmd>GpWhisperEnew<cr>", "Whisper Enew" },
-      n = { "<cmd>GpWhisperNew<cr>", "Whisper New" },
-      v = { "<cmd>GpWhisperVnew<cr>", "Whisper Vnew" },
-      t = { "<cmd>GpWhisperTabnew<cr>", "Whisper Tabnew" },
-    },
-  },
-  -- ...
-}, {
-  mode = "i", -- INSERT mode
-  prefix = "",
-  buffer = nil,
-  silent = true,
-  noremap = true,
-  nowait = true,
+  }
 })
 
 
 
-local conceal_level = 0
-local ever_fired = false
-function Conceal_toggle()
-  local new_level = 0
-  if ever_fired == false then
-    new_level = 0
-    ever_fired = true
-  else
-    new_level = (conceal_level + 1) % 3
+-- B Buffers
+wk.add({
+  { "<leader>b", group = "Buffers" }, -- group
+  {
+    { "<leader>bd", function() vim.api.nvim_buf_delete(0, { force = true }) end, desc = "Delete", mode = "n" },
+    { "<leader>bp", function() vim.cmd [[bp]] end,                               desc = "Delete", mode = "n" },
+    { "<leader>bn", function() vim.cmd [[bn]] end,                               desc = "Delete", mode = "n" },
+    { "<leader>bb", function() require('telescope.builtin').buffers() end,       desc = "Delete", mode = "n" },
+    -- { "<leader>bp",  function()  end, desc = "Delete", mode = "n" },
+  }
+})
+
+
+-- S Search
+wk.add({
+  { "<leader>s", group = "Search" }, -- group
+  {
+    { "<leader>ss", function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = "Delete", mode = "n" },
+  }
+})
+
+-- LaTeX
+function Which_key_modal_bind()
+  if Which_key_mode == nil then
+    Which_key_mode = "none"
   end
-  local message = "Conceal level: " .. conceal_level .. " --> " .. new_level
-  local cmd = "set conceallevel=" .. new_level
-  require('notify')(message)
-  vim.cmd(cmd)
-  conceal_level = new_level
-end
-
-function Open_file_in_clipboard()
-  local path = vim.fn.getreg("+")
-  -- check if the file exists
-  local file = io.open(path, "r")
-  if file == nil then
-    print("File does not exist: " .. path)
-    return
+  if Which_key_mode == "none" then
+    -- TODO is there a way to make this more dynamic?
+    vim.cmd [[source ~/.config/nvim/lua/plugins/which-key.lua]]
+  elseif Which_key_mode == "latex" then
+    wk.add({
+      { "q", function() Which_key_mode = "normal" end, desc = "Quit" },
+      {
+        mode = { "i", "n" },
+        { "dm", function() n('Hello') end, desc = "Quit", cond = Which_key_mode == "latex" },
+      }
+    })
   end
-  file:close()
-  vim.cmd(":e " .. path)
 end
 
-function Toggle_inlay_hints()
-  if vim.fn.has "nvim-0.10" == 1 then
-    local ok = pcall(vim.lsp.inlay_hint.enable, vim.lsp.inlay_hint.is_enabled())
-    if ok then
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-    else
-      vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+local function Revert_all_buffers()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= nil then
+      vim.api.nvim_buf_call(buf, function()
+        vim.cmd("e!")
+      end)
     end
   end
 end
+
+local notes_dir = "~/Notes/slipbox/"
+-- F Files
+wk.add({
+  { "<leader>f", group = "Why" }, -- group
+  {
+    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                      desc = "Find File", mode = "n" },
+    { "<leader>fo",  group = "Open" }, -- group
+    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end, desc = "Clipboard", mode = "n" },
+    {
+      "<leader>fon",
+      function()
+        vim.cmd('edit' .. notes_dir .. "home.md")
+        vim.cmd('cd' .. notes_dir)
+      end,
+      desc = "Clipboard",
+      mode = "n"
+    },
+    { "<leader>fs", function() vim.cmd [[w]] end,         desc = "Save",           mode = "n" },
+    { "<leader>fe", function() vim.cmd [[e!]] end,        desc = "Revert",         mode = "n" },
+    { "<leader>fE", function() Revert_all_buffers() end,  desc = "Revert",         mode = "n" },
+    { "<leader>fg", function() vim.cmd [[:cd %:p:h]] end, desc = "Go to File Dir", mode = "n" },
+    {
+      "<leader>fr",
+      function()
+        require('telescope.builtin').oldfiles()
+      end,
+      desc = "Recent"
+    },
+    {
+      "<leader>ft",
+      function()
+        require('telescope.builtin').filetypes()
+      end,
+      desc = "File Types"
+    },
+    {
+      "<leader>fy",
+      function()
+        vim.fn.setreg('+', vim.api.nvim_buf_get_name(0))
+      end,
+      desc = "Copy Path"
+    },
+    {
+      "<leader>fY",
+      function()
+        vim.fn.setreg('+', vim.api.nvim_buf_get_name(0))
+      end,
+      desc = "Copy Path"
+    },
+    {
+      "<leader>fp",
+      function()
+        vim.cmd('edit ' .. '~/.config/nvim/init.lua')
+        vim.cmd('cd' .. '~/.config/nvim/lua')
+      end,
+      desc = "Edit Config"
+    }
+  }
+})
+
+
+-- Notes
+
+wk.add({
+  {
+    { "<leader>n",  group = "Notes" }, -- group
+    { "<leader>nb", require("utils/markdown_babel").send_code, desc = "Execute a markdown cell and include output"},
+    { "<leader>nl", function() Insert_notes_link_alacritty_fzf() end, desc = "Insert Notes Link" },
+    { "<leader>nL", function() Insert_notes_link() end,               desc = "Insert Notes Link" },
+    { "<leader>ns", function() Create_markdown_link(true) end,        desc = "Create a Subpage Link and Open Buffer" },
+    { "<leader>nS", function() Create_markdown_link() end,            desc = "Create a Link From text and Open Buffer" },
+    { "<leader>nu", function() Format_url_markdown() end,             desc = "Format a URL as a Markdown Link" },
+    { "<leader>nv", function() Generate_navigation_tree() end,        desc = "Generate Navigation Tree" },
+    { "<leader>nr", function() RenderMarkdownToggle() end,            desc = "Render Markdown Toggle" },
+    { "<leader>np", function() Paste_png_image()() end,               desc = "Paste Image from Clipboard" },
+    { "<leader>na", function() Attach_file()() end,                   desc = "Prompt User to attach file under ./assets" },
+    { "<leader>nz", function() Search_notes_fzf()() end,              desc = "Search Notes using Embeddings" },
+    { "<leader>nj", group = "Notes" }, -- group
+  }
+})
+
+
+wk.add({
+  { "<leader>j",  group = "Jupyter Notebook" }, -- group
+  { "<leader>jj", require('utils/notebooks').jupytext_set_formats,  desc = "Jupytext Pair" },
+  { "<leader>jp", require('utils/notebooks').quarto_preview,                  desc = "Jupytext Pair" },
+  { "<leader>js", require('utils/notebooks').jupytext_sync,                   desc = "Jupytext Sync" },
+  { "<leader>jw", require('utils/notebooks').jupytext_watch_sync,             desc = "Watch Sync" },
+  { "<leader>jo", require('utils/notebooks').open_in_vscode,           desc = "Open in VSCode" },
+  { "<leader>jm", require('utils/notebooks').jupytext_render_markdown,    desc = "Export to Markdown (Quarto)" },
+  { "<leader>jM", require('utils/notebooks').jupytext_render_markdown,   desc = "Export to Markdown (Jupyter)" },
+  { "<leader>jv", group = "View" }, -- subgroup for view commands
+  {
+    { "<leader>jvm", function() vim.cmd [[:vsplit %:r.md]] end, desc = "Markdown" },
+    { "<leader>jvn", function() vim.cmd [[:vsplit %:r.Rmd]] end, desc = "Rmd" },
+    { "<leader>jvp", function() vim.cmd [[:vsplit %:r.py]] end, desc = "Python" },
+    { "<leader>jvr", function() vim.cmd [[:vsplit %:r.r]] end, desc = "Python" },
+    { "<leader>jvj", function() vim.cmd [[:vsplit %:r.jl]] end, desc = "Julia" },
+    { "<leader>jvs", function() vim.cmd [[:vsplit %:r.rs]] end, desc = "Rust" },
+    { "<leader>jvi", function() vim.cmd [[:vsplit %:r.ipynb]] end, desc = "⚠ ipynb" },
+  }
+})
+
+
+-- v Vim
+wk.add({
+
+  { "<leader>v", group = "Help" }, -- group
+  {
+    {
+      "<leader>ht",
+
+      function()
+        require('telescope.builtin').colorscheme()
+      end,
+      desc = "Theme",
+      mode = "n"
+    },
+    {
+      "<leader>hp",
+      "<cmd>Telescope lazy<CR>",
+      desc = "Packages",
+      mode = "n"
+    },
+  }
+})
+
+
+-- v Vim
+wk.add({
+
+  { "<leader>v", group = "Vim" }, -- group
+  {
+    { "<leader>vs", "<cmd>so %<cr>", desc = "Find File", mode = "n" },
+    -- { "<leader>vm",  group = "Mode" },
+    -- { "<leader>vml", function() vim.cmd [[source /tmp/file.lua]] end, desc = "LaTeX Mode" }
+  }
+})
