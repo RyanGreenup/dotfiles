@@ -262,5 +262,26 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         desc =
         "Use Treesitter to Insert a Markdown Heading of the right level"
       })
+    map('n', '<M-Left>', '',
+      {
+        callback = function()
+          require('utils/markdown_headings').demote_heading()
+        end,
+        noremap = true,
+        silent = true,
+        desc =
+        "Use Treesitter to demote a Markdown Heading"
+      })
+
+    map('n', '<M-Right>', '',
+      {
+        callback = function()
+          require('utils/markdown_headings').promote_heading()
+        end,
+        noremap = true,
+        silent = true,
+        desc =
+        "Use Treesitter to promote a Markdown Heading"
+      })
   end,
 })

@@ -102,6 +102,61 @@ local function Insert_markdown_heading_below(demote)
   api.nvim_set_current_line(string.rep("#", h_level) .. " ")
 end
 
+local function get_heading_level()
+  local ts_type = get_tresitter_type()
+  if ts_type ~= nil then
+    local header_levels = {
+      atx_h1_marker = 1,
+      atx_h2_marker = 2,
+      atx_h3_marker = 3,
+      atx_h4_marker = 4,
+      atx_h5_marker = 5,
+      atx_h6_marker = 6,
+    }
+
+    return header_levels[ts_type] or nil -- set h_level to the corresponding value from map or nil if not found
+  end
+  return nil
+end
+
+local function heading_promotion(decrease)
+  if decrease == nil then
+    decrease = false
+  end
+  local h_level = get_heading_level()
+  if h_level == nil then
+    print("No heading found")
+    return
+  end
+  local current_line = vim.api.nvim_get_current_line()
+  if decrease then
+    if h_level == 1 then
+      print("Cannot decrease heading level below 1")
+      return
+    else
+      -- Remove one # from the start of the line
+      vim.api.nvim_set_current_line(current_line:sub(2))
+    end
+  else
+    if h_level == 6 then
+      print("Cannot decrease heading level above 6")
+      return
+    else
+      -- Add one # to the start of the line
+      vim.api.nvim_set_current_line("#" .. current_line)
+    end
+  end
+end
+
+
+function M.demote_heading()
+  heading_promotion(true)
+end
+
+function M.promote_heading()
+  heading_promotion(false)
+end
+
 function M.insert_heading_below()
   Insert_markdown_heading_below(false)
 end
