@@ -44,6 +44,24 @@ local function get_tresitter_type()
   return type
 end
 
+local function get_heading_level()
+  local ts_type = get_tresitter_type()
+  if ts_type ~= nil then
+    local header_levels = {
+      atx_h1_marker = 1,
+      atx_h2_marker = 2,
+      atx_h3_marker = 3,
+      atx_h4_marker = 4,
+      atx_h5_marker = 5,
+      atx_h6_marker = 6,
+    }
+
+    return header_levels[ts_type] or nil -- set h_level to the corresponding value from map or nil if not found
+  end
+  return nil
+end
+
+
 
 -- Insert a markdown heading below the current line
 -- This heading will be the correct Depth
@@ -57,22 +75,8 @@ local function Insert_markdown_heading_below(demote)
   for i = current_line, 1, -1 do
     -- TODO test if I need to be below
     vim.api.nvim_win_set_cursor(0, { i, 0 })
-    local ts_type = get_tresitter_type()
-    if ts_type ~= nil then
-      if ts_type == "atx_h1_marker" then
-        h_level = 1
-      elseif ts_type == "atx_h2_marker" then
-        h_level = 2
-      elseif ts_type == "atx_h3_marker" then
-        h_level = 3
-      elseif ts_type == "atx_h4_marker" then
-        h_level = 4
-      elseif ts_type == "atx_h5_marker" then
-        h_level = 5
-      elseif ts_type == "atx_h6_marker" then
-        h_level = 6
-      end
-    end
+
+    h_level = get_heading_level()
 
     if h_level > 0 then
       break
@@ -100,23 +104,6 @@ local function Insert_markdown_heading_below(demote)
     vim.cmd("normal! o")
   end
   api.nvim_set_current_line(string.rep("#", h_level) .. " ")
-end
-
-local function get_heading_level()
-  local ts_type = get_tresitter_type()
-  if ts_type ~= nil then
-    local header_levels = {
-      atx_h1_marker = 1,
-      atx_h2_marker = 2,
-      atx_h3_marker = 3,
-      atx_h4_marker = 4,
-      atx_h5_marker = 5,
-      atx_h6_marker = 6,
-    }
-
-    return header_levels[ts_type] or nil -- set h_level to the corresponding value from map or nil if not found
-  end
-  return nil
 end
 
 local function heading_promotion(decrease)
@@ -193,7 +180,6 @@ local function heading_promotion_all_below(demote)
   -- Restore cursor
   vim.api.nvim_win_set_cursor(0, current_location)
 end
-
 
 function M.promote_all_headings_below()
   heading_promotion_all_below(false)
