@@ -26,8 +26,17 @@ local function get_sourcing_command(lang, file_path)
   py_command = py_command .. "import contextlib\n"
   py_command = py_command .. "with contextlib.redirect_stdout(None):\n"
   py_command = py_command .. "    from " .. file_path .. " import *\n"
+  local r_command = ""
+  r_command = r_command .. 'invisible(suppressMessages({\n'
+  r_command = '  ' .. r_command .. 'invisible(suppressWarnings({\n'
+  r_command = '    ' .. r_command .. "original_channel <- stdout()\n"
+  r_command = '    ' .. r_command .. 'sink("/dev/null")\n'
+  r_command = '    ' .. r_command .. "source('" .. file_path .. ".r')\n"
+  r_command = '    ' .. r_command .. "sink(original_channel)\n"
+  r_command = '  ' .. r_command .. '}))'
+  r_command = r_command .. '}))'
   local commands = {
-    r = 'source("' .. file_path .. '.' .. lang .. '")',
+    r = r_command,
     py = py_command
   }
 
@@ -121,6 +130,8 @@ local function get_executable(lang)
   return executables[lang] or nil
 end
 
+
+local result_markers = { [[<!-- BEGIN_RESULTS -->]], [[<!-- END_RESULTS -->]] }
 local function highlight_markdown_cell()
   local api = vim.api
   local buf = api.nvim_get_current_buf()
@@ -228,10 +239,12 @@ local function highlight_markdown_cell()
   --]]
 
   -- Insert some text
-  -- vim.api.nvim_put({ "```", result, "```" }, "l", true, true)
-  vim.api.nvim_put({"", "```"}, "l", true, true)
+  -- vim.api.nvim_put({ "```", result, "```" }, "l", , true)
+  vim.api.nvim_put({ "", result_markers[1], "```" }, "l", true, true)
   vim.cmd('r! ' .. exe .. ' ' .. cell_path)
-  vim.api.nvim_put({ "```"}, "l", true, true)
+  vim.api.nvim_put({ "```", result_markers[2] }, "l", true, true)
+
+
 
   -- Remove the files
   os.remove(context_path)
