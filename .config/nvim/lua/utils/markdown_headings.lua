@@ -189,6 +189,9 @@ local function heading_promotion_all_below(demote)
       end
     end
   end
+
+  -- Restore cursor
+  vim.api.nvim_win_set_cursor(0, current_location)
 end
 
 
