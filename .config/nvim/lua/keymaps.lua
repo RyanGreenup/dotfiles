@@ -241,3 +241,26 @@ map('n', '<Right>', '<cmd>lua ModalCommands[Mode][ModalKey.Right]()<CR>', defaul
 -- Trailing C-i fix
 -- https://github.com/neovim/neovim/issues/20126
 map('n', '<C-i>', '<C-i>', { noremap = true })
+
+
+
+
+
+--------------------------------------------------------------------------------
+-- Autocommand Keymaps ---------------------------------------------------------
+--------------------------------------------------------------------------------
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = 'markdown',
+  callback = function()
+    map('n', '<C-CR>', '',
+      {
+        callback = function()
+          require('utils/markdown_headings').insert_subheading_below()
+        end,
+        noremap = true,
+        silent = true,
+        desc =
+        "Use Treesitter to Insert a Markdown Heading of the right level"
+      })
+  end,
+})
