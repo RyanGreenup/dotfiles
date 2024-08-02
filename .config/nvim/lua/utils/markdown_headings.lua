@@ -129,7 +129,7 @@ local function heading_promotion(decrease)
     return
   end
   local current_line = vim.api.nvim_get_current_line()
-  if decrease then
+  if not decrease then
     if h_level == 1 then
       print("Cannot decrease heading level below 1")
       return
@@ -148,13 +148,64 @@ local function heading_promotion(decrease)
   end
 end
 
+local function heading_promotion_all_below(demote)
+  if demote == nil then
+    demote = true
+  end
+  local current_location = vim.api.nvim_win_get_cursor(0)
+  local current_line = current_location[1]
+  local current_h_level = get_heading_level()
+  if current_h_level == nil then
+    print("No heading found")
+    return
+  end
+
+  -- Promote the current heading
+  local h_level = get_heading_level() or 0
+  if h_level ~= 0 then
+    heading_promotion(demote)
+  end
+
+
+  -- Loop forward through the lines
+  h_level = 0
+  for i = current_line + 1, vim.api.nvim_buf_line_count(0), 1 do
+    -- Move cursor down
+    vim.api.nvim_win_set_cursor(0, { i, 0 })
+    -- Get the heading level
+    h_level = get_heading_level() or 0
+
+    if h_level ~= 0 then
+      local test = current_h_level >= h_level
+      -- If we hit a heading above we are done
+      if test then
+        print(current_h_level .. " >= " .. h_level .. " STOP")
+        -- Restore cursor
+        vim.api.nvim_win_set_cursor(0, current_location)
+        return
+      else
+        -- Otherwise demote this heading
+        heading_promotion(demote)
+      end
+    end
+  end
+end
+
+
+function M.promote_all_headings_below()
+  heading_promotion_all_below(false)
+end
+
+function M.demote_all_headings_below()
+  heading_promotion_all_below(true)
+end
 
 function M.demote_heading()
-  heading_promotion(true)
+  heading_promotion(false)
 end
 
 function M.promote_heading()
-  heading_promotion(false)
+  heading_promotion(true)
 end
 
 function M.insert_heading_below()

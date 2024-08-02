@@ -283,5 +283,27 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         desc =
         "Use Treesitter to promote a Markdown Heading"
       })
+
+    map('n', '<M-h>', '',
+      {
+        callback = function()
+          require('utils/markdown_headings').promote_all_headings_below()
+        end,
+        noremap = true,
+        silent = true,
+        desc =
+        "Use Treesitter to promote a Markdown Heading"
+      })
+
+    map('n', '<M-l>', '',
+      {
+        callback = function()
+          require('utils/markdown_headings').demote_all_headings_below()
+        end,
+        noremap = true,
+        silent = true,
+        desc =
+        "Use Treesitter to promote a Markdown Heading"
+      })
   end,
 })
