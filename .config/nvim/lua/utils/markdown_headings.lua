@@ -45,7 +45,12 @@ local function get_tresitter_type()
 end
 
 local function get_heading_level()
+  local current_location = vim.api.nvim_win_get_cursor(0)
+  -- Move cursor to the beginning of the line
+  vim.api.nvim_win_set_cursor(0, { current_location[1], 0 })
   local ts_type = get_tresitter_type()
+  -- Move cursor back
+  vim.api.nvim_win_set_cursor(0, current_location)
   if ts_type ~= nil then
     local header_levels = {
       atx_h1_marker = 1,
@@ -76,7 +81,7 @@ local function Insert_markdown_heading_below(demote)
     -- TODO test if I need to be below
     vim.api.nvim_win_set_cursor(0, { i, 0 })
 
-    h_level = get_heading_level()
+    h_level = get_heading_level() or 0
 
     if h_level > 0 then
       break
@@ -87,10 +92,10 @@ local function Insert_markdown_heading_below(demote)
   vim.api.nvim_win_set_cursor(0, current_location)
 
   -- Decide the heading level
-  if h_level == 0 then
-    print("No heading found")
-    return
-  elseif demote then
+  -- if h_level == 0 then
+  --   print("No heading found")
+  --   return
+  if demote then
     h_level = h_level + 1
   end
   if h_level > 6 then
