@@ -14,15 +14,20 @@ function telescope_command(s, s2)
 end
 
 wk.add({
-  { "<leader><leader>", function() require('telescope.builtin').find_files() end, desc = "fzf" },
+  { "<leader><leader>", require('telescope.builtin').find_files, desc = "fzf" },
+  { "<leader>'",        require('telescope.builtin').resume,     desc = "fzf" },
 
-  { "<leader>w",        proxy = "<c-w>",                                          group = "windows" }, -- proxy to window mappings
+  { "<leader>w",        proxy = "<c-w>",                         group = "windows" }, -- proxy to window mappings
+  { "<leader>wo",       "<cmd>wincmd |<CR><cmd>wincmd _<CR>",    desc = "Maximize" },
+  { "<leader>wO",       "<cmd>only<CR>",                         desc = "Only Window" },
+  { "<leader>wt",       group = "Tabs" },
   {
-    "<leader>b",
-    group = "buffers",
-    expand = function()
-      return require("which-key.extras").expand.buf()
-    end
+    { "<leader>wte", "<cmd>tabedit<CR>",                  desc = "Edit Tab",           mode = "n" },
+    { "<leader>wtx", "<cmd>tabclose<CR>",                 desc = "Close Tab",          mode = "n" },
+    { "<leader>wtp", "<cmd>tabprevious<CR>",              desc = "Previous Tab",       mode = "n" },
+    { "<leader>wtn", "<cmd>tabnext<CR>",                  desc = "Next Tab",           mode = "n" },
+    { "<leader>wto", "<cmd>tabedit<CR>",                  desc = "Open Tab",           mode = "n" },
+    { "<leader>wtm", "<cmd>lua Move_window_to_tab()<CR>", desc = "Move Window to Tab", mode = "n" }
   },
 })
 
@@ -51,45 +56,26 @@ wk.add({
   { "<leader>l", group = "LSP" }, -- group
   {
     mode = { "n", "v" },
-    { "<leader>la",  function() vim.lsp.buf.code_action() end,     desc = "Code Action" },
-    { "<leader>li",  function() vim.cmd [[LspInfo]] end,           desc = "LSP Info" },
-    { "<leader>lh",  function() vim.lsp.buf.signature_help() end,  desc = "Signature Help" },
-    { "<leader>lr",  function() vim.lsp.buf.rename() end,          desc = "Rename Symbol" },
-    { "<leader>lf",  function() vim.lsp.buf.format() end,          desc = "Format" },
-    { "<leader>ld",  function() vim.diagnostic.goto_next() end,    desc = "Diagnostic" },
+    { "<leader>la",  vim.lsp.buf.code_action,                            desc = "Code Action" },
+    { "<leader>li",  function() vim.cmd [[LspInfo]] end,                 desc = "LSP Info" },
+    { "<leader>lh",  vim.lsp.buf.signature_help,                         desc = "Signature Help" },
+    { "<leader>lr",  vim.lsp.buf.rename,                                 desc = "Rename Symbol" },
+    { "<leader>lf",  vim.lsp.buf.format,                                 desc = "Format" },
+    { "<leader>ld",  vim.diagnostic.goto_next,                           desc = "Diagnostic" },
     { "<leader>lo",  group = "Otter" },
-    { "<leader>loa", function() require('otter').activate() end,   desc = "Activate" },
-    { "<leader>lod", function() require('otter').deactivate() end, desc = "Deactivate" },
-    { "<leader>gD",  function() vim.lsp.buf.declaration() end,     desc = "LSP Declaration" },
-    { "<leader>gD",  function() vim.lsp.buf.definition() end,      desc = "LSP Declaration" },
-    { "<leader>gy",  function() vim.lsp.buf.type_definition() end, desc = "LSP Type Definition" },
-    {
-      "<leader>grr",
-      function()
-        -- vim.lsp.buf.references()
-        require('telescope.builtin').lsp_references()
-      end,
-      desc = "LSP Declaration",
-      mode = "n"
-    },
-    {
-      "<leader>lG",
-      function()
-        -- vim.lsp.buf.document_symbol()
-        require('telescope.builtin').lsp_workspace_symbols()
-      end,
-      desc = "Workspace Symbols",
-      mode = "n"
-    },
-    {
-      "<leader>ls",
-      function()
-        -- vim.lsp.buf.document_symbol()
-        require('telescope.builtin').lsp_document_symbols()
-      end,
-      desc = "Document Symbols",
-      mode = "n"
-    },
+    { "<leader>loa", require,                                            desc = "Activate" },
+    { "<leader>lod", require('otter').deactivate,                        desc = "Deactivate" },
+    { "<leader>gD",  vim.lsp.buf.declaration,                            desc = "LSP Declaration" },
+    { "<leader>gD",  vim.lsp.buf.definition,                             desc = "LSP Declaration" },
+    { "<leader>gy",  vim.lsp.buf.type_definition,                        desc = "LSP Type Definition" },
+    { "<leader>gi",  vim.lsp.buf.implementation,                         desc = "LSP Type Implementation" },
+    { "<leader>gr",  vim.lsp.buf.references,                             desc = "LSP Type Implementation" },
+    -- vim.lsp.buf.references()
+    { "<leader>sr",  require('telescope.builtin').lsp_references,        desc = "LSP Declaration" },
+    -- vim.lsp.buf.document_symbol()
+    { "<leader>lG",  require('telescope.builtin').lsp_workspace_symbols, desc = "Workspace Symbols" },
+    -- vim.lsp.buf.document_symbol()
+    { "<leader>ls",  require('telescope.builtin').lsp_document_symbols,  desc = "Document Symbols" },
   }
 })
 
@@ -110,11 +96,21 @@ wk.add({
 
 -- S Search
 wk.add({
-  { "<leader>s", group = "Search" }, -- group
+  { "<leader>s", group = "+search" }, -- group
   {
-    { "<leader>ss", function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = "Delete", mode = "n" },
+    { "<leader>ss", function() require('telescope.builtin').current_buffer_fuzzy_find() end, desc = "Fuzzy search in current buffer", mode = "n" },
+    { "<leader>sd", function() require('telescope.builtin').lsp_document_symbols() end,      desc = "LSP Document symbols",           mode = "n" },
+    { "<leader>sj", "<cmd>Telescope jumplist theme=ivy<CR>",                                 desc = "Jumplist",                       mode = "n" },
+    { "<leader>sD", function() require('telescope.builtin').lsp_workspace_symbols() end,     desc = "LSP workspace symbols",          mode = "n" },
+    { "<leader>se", function() require('telescope.builtin').quickfix() end,                  desc = "Errors",                         mode = "n" },
+    { "<leader>sr", function() require('telescope.builtin').lsp_references() end,            desc = "LSP References",                 mode = "n" },
+    { "<leader>sm", function() require('telescope.builtin').marks() end,                     desc = "Marks",                          mode = "n" }
   }
 })
+
+
+
+
 
 -- LaTeX
 function Which_key_modal_bind()
@@ -159,85 +155,40 @@ wk.add({
   { "<leader>f", group = "Why" }, -- group
   {
     -- [fn_1]
-    { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert", mode = "n" },
-    { "<leader>fQ",  function() Revert_all_buffers("q!") end,                                   desc = "Auto Revert", mode = "n" },
-    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                                           desc = "Find File",   mode = "n" },
+    { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert",    mode = "n" },
+    { "<leader>fQ",  function() Revert_all_buffers("q!") end,                                   desc = "Auto Revert",    mode = "n" },
+    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                                           desc = "Find File",      mode = "n" },
     { "<leader>fo",  group = "Open" }, -- group
-    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,                      desc = "Clipboard",   mode = "n" },
-    {
-      "<leader>fon",
-      function()
-        vim.cmd('edit' .. notes_dir .. "home.md")
-        vim.cmd('cd' .. notes_dir)
-      end,
-      desc = "Clipboard",
-      mode = "n"
-    },
-    { "<leader>fs", function() vim.cmd [[w]] end,         desc = "Save",           mode = "n" },
-    { "<leader>fe", function() vim.cmd [[e!]] end,        desc = "Revert",         mode = "n" },
-    { "<leader>fE", function() Revert_all_buffers() end,  desc = "Revert",         mode = "n" },
-    { "<leader>fg", function() vim.cmd [[:cd %:p:h]] end, desc = "Go to File Dir", mode = "n" },
-    {
-      "<leader>fr",
-      function()
-        require('telescope.builtin').oldfiles()
-      end,
-      desc = "Recent"
-    },
-    {
-      "<leader>ft",
-      function()
-        require('telescope.builtin').filetypes()
-      end,
-      desc = "File Types"
-    },
-    {
-      "<leader>fy",
-      function()
-        local path = vim.api.nvim_buf_get_name(0)
-        local home = os.getenv("HOME")
-        if home ~= nil then
-          path = path:gsub(home, "~")
-        end
-        vim.fn.setreg('+', path)
-      end,
-      desc = "Copy Path"
-    },
-    {
-      "<leader>fY",
-      function()
-        vim.fn.setreg('+', vim.api.nvim_buf_get_name(0))
-      end,
-      desc = "Copy Path"
-    },
-    {
-      "<leader>fp",
-      function()
-        vim.cmd('edit ' .. '~/.config/nvim/init.lua')
-        vim.cmd('cd' .. '~/.config/nvim/lua')
-      end,
-      desc = "Edit Config"
-    }
+    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,                      desc = "Clipboard",      mode = "n" },
+    { "<leader>fon", require('utils/misc').open_notes,                                          desc = "Clipboard",      mode = "n" },
+    { "<leader>fs",  function() vim.cmd [[w]] end,                                              desc = "Save",           mode = "n" },
+    { "<leader>fe",  function() vim.cmd [[e!]] end,                                             desc = "Revert",         mode = "n" },
+    { "<leader>fE",  function() Revert_all_buffers() end,                                       desc = "Revert",         mode = "n" },
+    { "<leader>fg",  function() vim.cmd [[:cd %:p:h]] end,                                      desc = "Go to File Dir", mode = "n" },
+    { "<leader>fr",  function() require('telescope.builtin').oldfiles() end,                    desc = "Recent" },
+    { "<leader>ft",  function() require('telescope.builtin').filetypes() end,                   desc = "File Types" },
+    { "<leader>fy",  require('utils/misc').copy_path,                                           desc = "Copy Path" },
+    { "<leader>fp",  require('utils/misc').open_config,                                         desc = "Edit Config" }
   }
 })
 
 
--- Notes
 
+-- Notes
 wk.add({
   {
     { "<leader>n",  group = "Notes" }, -- group
-    { "<leader>nb", require("utils/markdown_babel").send_code,        desc = "Execute a markdown cell and include output" },
-    { "<leader>nl", function() Insert_notes_link_alacritty_fzf() end, desc = "Insert Notes Link" },
-    { "<leader>nL", function() Insert_notes_link() end,               desc = "Insert Notes Link" },
-    { "<leader>ns", function() Create_markdown_link(true) end,        desc = "Create a Subpage Link and Open Buffer" },
-    { "<leader>nS", function() Create_markdown_link() end,            desc = "Create a Link From text and Open Buffer" },
-    { "<leader>nu", function() Format_url_markdown() end,             desc = "Format a URL as a Markdown Link" },
-    { "<leader>nv", function() Generate_navigation_tree() end,        desc = "Generate Navigation Tree" },
-    { "<leader>nr", function() RenderMarkdownToggle() end,            desc = "Render Markdown Toggle" },
-    { "<leader>np", function() Paste_png_image()() end,               desc = "Paste Image from Clipboard" },
-    { "<leader>na", function() Attach_file()() end,                   desc = "Prompt User to attach file under ./assets" },
-    { "<leader>nz", function() Search_notes_fzf()() end,              desc = "Search Notes using Embeddings" },
+    { "<leader>nb", require("utils/markdown_babel").send_code, desc = "Execute a markdown cell and include output" },
+    { "<leader>nl", Insert_notes_link_alacritty_fzf,           desc = "Insert Notes Link" },
+    { "<leader>nL", Insert_notes_link,                         desc = "Insert Notes Link" },
+    { "<leader>ns", function() Create_markdown_link(true) end, desc = "Create a Subpage Link and Open Buffer" },
+    { "<leader>nS", Create_markdown_link,                      desc = "Create a Link From text and Open Buffer" },
+    { "<leader>nu", Format_url_markdown,                       desc = "Format a URL as a Markdown Link" },
+    { "<leader>nv", Generate_navigation_tree,                  desc = "Generate Navigation Tree" },
+    { "<leader>nr", require('render-markdown').toggle,         desc = "Render Markdown Toggle" },
+    { "<leader>np", Paste_png_image,                           desc = "Paste Image from Clipboard" },
+    { "<leader>na", Attach_file,                               desc = "Prompt User to attach file under ./assets" },
+    { "<leader>nz", Search_notes_fzf,                          desc = "Search Notes using Embeddings" },
     { "<leader>nj", group = "Notes" }, -- group
   }
 })
@@ -249,11 +200,44 @@ wk.add({
   { "<leader>ts", group = "Snippets Mode" },
   {
     "<leader>tsl",
+    -- See Also
+    -- Snippy_Toggle_Auto()
     function()
       Snippy_state:toggle("latex")
       print("Snippy: LaTeX Mode")
     end,
     desc = "LaTeX Mode"
+  }
+})
+
+wk.add({
+  { "<leader>t", group = "Toggle" }, -- group
+  {
+    { "<leader>ta", ":lua ToggleAutoSave()<CR>",            desc = "Autosave",              mode = "n" },
+    { "<leader>tn", require('notify').dismiss,              desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tf", require('telescope.builtin').filetypes, desc = "Filetype",              mode = "n" },
+    { "<leader>th", require('utils/misc').conceal_toggle,   desc = "Conceal",               mode = "n" },
+  },
+})
+
+wk.add({
+  { "<leader>tm", group = "Toggle+Mode" }, -- group
+  {
+    { "<leader>tmo", function() ChangeMode(ModalLayer.Organize) end, desc = "Organize", mode = "n" },
+    { "<leader>tmr", "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Resize",   mode = "n" },
+    { "<leader>tmm", "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",     desc = "Move",     mode = "n" },
+    { "<leader>tmb", "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<leader>tmg", "<cmd>lua ChangeMode(ModalLayer.Git)<CR>",      desc = "Git",      mode = "n" },
+    { "<leader>tms", "<cmd>lua ChangeMode(ModalLayer.Search)<CR>",   desc = "Search",   mode = "n" },
+    { "<leader>tmn", "<cmd>lua ChangeMode(ModalLayer.None)<CR>",     desc = "None",     mode = "n" },
+    { "<leader>tmv", "<cmd>lua ChangeMode(ModalLayer.Split)<CR>",    desc = "Split",    mode = "n" },
+  }
+})
+
+wk.add({
+  { "<leader>ts", group = "Toggle+Snippets" }, -- group
+  {
+    { "<leader>tsl", "<cmd>lua Snippy_Toggle_Auto()<CR>", desc = "Toggle Auto LaTeX Snippets", mode = "n" }
   }
 })
 
@@ -268,17 +252,7 @@ wk.add({
   { "<leader>jM", require('utils/notebooks').jupytext_render_markdown_with_jupyter, desc = "Export to Markdown (Jupyter)" },
   { "<leader>jv", group = "View" }, -- subgroup for view commands
   {
-    {
-      "<leader>jva",
-      function()
-        splits = { "vsplit", "split" }
-        for i, ext in pairs({ ".md", ".Rmd", ".py", ".r" }) do
-          vim.cmd(splits[(i % 2) + 1] .. " %:r" .. ext)
-        end
-        vim.cmd("wincmd =")
-      end,
-      desc = "All"
-    },
+    { "<leader>jva", require('utils/notebooks').open_all_formats, desc = "All" },
     { "<leader>jvm", function() vim.cmd [[:vsplit %:r.md]] end, desc = "Markdown" },
     { "<leader>jvn", function() vim.cmd [[:vsplit %:r.Rmd]] end, desc = "Rmd" },
     { "<leader>jvp", function() vim.cmd [[:vsplit %:r.py]] end, desc = "Python" },
@@ -289,40 +263,51 @@ wk.add({
   }
 })
 
-
--- v Vim
+-- Go
 wk.add({
-
-  { "<leader>v", group = "Help" }, -- group
-  {
-    {
-      "<leader>ht",
-
-      function()
-        require('telescope.builtin').colorscheme()
-      end,
-      desc = "Theme",
-      mode = "n"
-    },
-    {
-      "<leader>hp",
-      "<cmd>Telescope lazy<CR>",
-      desc = "Packages",
-      mode = "n"
-    },
-  }
+  { "<leader>g",  group = "Go" }, -- group
+  { "<leader>gv", "<cmd>Navbuddy<CR>", desc = "Navbuddy" },
 })
 
 
 -- v Vim
 wk.add({
 
+  { "<leader>h", group = "Help" }, -- group
+  {
+    { "<leader>ht", require('telescope.builtin').colorscheme, desc = "Theme" },
+    { "<leader>hp", "<cmd>Telescope lazy<CR>",                desc = "Packages" },
+    { "<leader>hu", "<cmd>Lazy update<CR>",                   desc = "Lazy Update" },
+  }
+})
+
+
+-- v view / Vim
+wk.add({
   { "<leader>v", group = "Vim" }, -- group
   {
     { "<leader>vs", "<cmd>so %<cr>", desc = "Find File", mode = "n" },
     -- { "<leader>vm",  group = "Mode" },
     -- { "<leader>vml", function() vim.cmd [[source /tmp/file.lua]] end, desc = "LaTeX Mode" }
   }
+})
+
+wk.add({
+  { "<leader>v", group = "Preview" }, -- group
+  {
+    { "<leader>vv", "<cmd>MarkdownPreview<CR>",                                                                                                               desc = "Markdown Preview",          mode = "n" },
+    { "<leader>vc", "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>",                                                                             desc = "Markdown Preview (VSCode)", mode = "n" },
+    { "<leader>vt", "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", desc = "Markdown Preview (Tatum)",  mode = "n" }
+  }
+})
+
+-- Insert
+wk.add({
+  { "<leader>i",  group = "insert" },
+  { "<leader>iu", require('telescope.builtin').symbols,                           desc = "Symbols",       mode = "n" },
+  -- todo this is worth doing with a vmap
+  -- look at ollama codestral
+  { "<leader>it", "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", desc = "Text to Latex", mode = "v" },
 })
 
 
