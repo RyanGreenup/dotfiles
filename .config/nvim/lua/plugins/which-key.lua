@@ -245,7 +245,16 @@ wk.add({
 
 -- Toggle
 wk.add({
-  { "<leader>t", group = "toggle" },
+  { "<leader>t",  group = "toggle" },
+  { "<leader>ts", group = "Snippets Mode" },
+  {
+    "<leader>tsl",
+    function()
+      Snippy_state:toggle("latex")
+      print("Snippy: LaTeX Mode")
+    end,
+    desc = "LaTeX Mode"
+  }
 })
 
 wk.add({

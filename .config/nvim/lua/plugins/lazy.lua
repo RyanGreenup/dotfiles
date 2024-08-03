@@ -59,8 +59,41 @@ use({
 -- Snippets
 use 'honza/vim-snippets'
 use { 'dcampos/nvim-snippy', config = function()
+  local snippy_state_loaded = false
+  local package = 'utils/env_states'
+  if pcall(require, package) then
+    snippy_state_loaded = true
+    Snippy_state = require(package).Snippy_state()
+  else
+    print("WARNING: could not load " .. package .. ".lua")
+  end
   require('snippy').setup({
     enable_auto = true,
+    virtual_markers = {
+      enabled = true,
+      -- Marker for all placeholders (non-empty)
+      default = '☐',
+      -- Marker for all empty tabstops
+      empty = '✀',
+      -- Marker highlighing
+      hl_group = 'SnippyMarker',
+    },
+    expand_options = {
+      -- Here we can create optional environments for things
+      -- e.g. modal snippets based on an env var:
+      l = function()
+        return Snippy_state.is_state.latex and snippy_state_loaded
+      end,
+      -- Snippets dependent on a treesitter environment etc.
+      m = function()
+        return require('utils/tsutils_math').in_mathzone()
+      end,
+      c = function()
+        return require('utils/tsutils_math').in_comment()
+      end,
+    }
+
+
     -- The Tab Mapping seems not to stick, I set the keybindings in
     -- ~/.config/nvim/lua/keymaps.lua | 209
     -- [fn_vimtex]
@@ -197,7 +230,8 @@ use({
   "folke/which-key.nvim",
   lazy = false,
   dependencies = {
-    { "rcarriga/nvim-notify", lazy = false } -- this is used by my which-key.lua
+    { "rcarriga/nvim-notify",   lazy = false }, -- this is used by my which-key.lua
+    { "echasnovski/mini.icons", lazy = false },
   }
 })
 
@@ -533,7 +567,7 @@ use { 'SmiteshP/nvim-navbuddy' }
 use {
   'kristijanhusak/vim-dadbod-ui',
   dependencies = {
-    { 'tpope/vim-dadbod', lazy = true },
+    { 'tpope/vim-dadbod',                     lazy = true },
     { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
   },
   cmd = {
