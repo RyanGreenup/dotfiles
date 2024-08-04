@@ -246,14 +246,20 @@ end
 This function takes an image from the clipboard and aves it to ./assets
 --]]
 function Paste_png_image()
-  local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
-  -- strip trailing
-  if md_link == nil then
-    print("No image found in clipboard")
-  end
-  md_link = string.gsub(md_link, "\n", "")
-  require('notify')("Image saved to assets" .. md_link)
-  vim.api.nvim_put({ md_link }, "l", true, true)
+  -- local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
+  -- -- strip trailing
+  -- if md_link == nil then
+  --   print("No image found in clipboard")
+  -- end
+  -- md_link = string.gsub(md_link, "\n", "")
+  -- require('notify')("Image saved to assets" .. md_link)
+  -- vim.api.nvim_put({ md_link }, "l", true, true)
+
+  -- TODO the above doesn't work for some reason
+  -- maybe the command is returning after the text is inserted??
+  -- I have no clue, this does work though:
+  vim.cmd [[cd %:p:h]]
+  vim.cmd [[r! ~/.local/scripts/python/wm__image-save.py assets]]
 end
 
 --------------------------------------------------------------------------------
@@ -280,4 +286,3 @@ function Attach_file()
   line = "[" .. basename .. "](" .. line .. ")"
   vim.api.nvim_put({ line }, "l", true, true)
 end
-
