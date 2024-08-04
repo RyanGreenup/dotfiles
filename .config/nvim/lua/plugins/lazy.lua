@@ -59,11 +59,21 @@ use({
 -- Snippets
 use 'honza/vim-snippets'
 use { 'dcampos/nvim-snippy', config = function()
+  local allow_contextual = true -- False positives get annoying
   local snippy_state_loaded = false
   local package = 'utils/env_states'
   if pcall(require, package) then
     snippy_state_loaded = true
     Snippy_state = require(package).Snippy_state()
+    -- Set Keybinding to toggle the latex state
+    vim.api.nvim_set_keymap(
+      'i', '<A-l>', '', {
+        noremap = true,
+        silent = true,
+        callback = function()
+          Snippy_state:toggle("latex")
+        end
+      })
   else
     print("WARNING: could not load " .. package .. ".lua")
   end
@@ -86,10 +96,10 @@ use { 'dcampos/nvim-snippy', config = function()
       end,
       -- Snippets dependent on a treesitter environment etc.
       m = function()
-        return require('utils/tsutils_math').in_mathzone()
+        return require('utils/tsutils_math').in_mathzone() and allow_contextual
       end,
       c = function()
-        return require('utils/tsutils_math').in_comment()
+        return require('utils/tsutils_math').in_comment() and allow_contextual
       end,
     }
 
