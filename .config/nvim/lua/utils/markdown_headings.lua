@@ -102,6 +102,8 @@ local function Insert_markdown_heading_below(demote)
     h_level = 6
   end
 
+  -- TODO use vim.api.nvim_buf_set_lines(0, location_for_insert[1], location_for_insert[1], false, {string.rep("#", h_level) .. " "})
+  -- To set the heading below headings of a lesser level
   -- Insert the heading
   -- check if the current line is empty
   local current_line_text = api.nvim_get_current_line()
@@ -115,6 +117,8 @@ local function heading_promotion(decrease)
   if decrease == nil then
     decrease = false
   end
+  -- Move cursor to the start of the line where heading is
+  vim.api.nvim_win_set_cursor(0, { vim.api.nvim_win_get_cursor(0)[1], 0 })
   local h_level = get_heading_level()
   if h_level == nil then
     print("No heading found")
@@ -186,28 +190,65 @@ local function heading_promotion_all_below(demote)
   vim.api.nvim_win_set_cursor(0, current_location)
 end
 
+local function update_folds()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("zx", true, false, true), 'n', false)
+end
+
 function M.promote_all_headings_below()
   heading_promotion_all_below(false)
 end
 
 function M.demote_all_headings_below()
   heading_promotion_all_below(true)
+  update_folds()
 end
 
 function M.demote_heading()
   heading_promotion(false)
+  update_folds()
 end
 
 function M.promote_heading()
   heading_promotion(true)
+  update_folds()
 end
 
 function M.insert_heading_below()
   Insert_markdown_heading_below(false)
+  update_folds()
 end
 
 function M.insert_subheading_below()
   Insert_markdown_heading_below(true)
+  update_folds()
+end
+
+function M.get_treesitter_type()
+  print(get_tresitter_type())
+end
+
+---Creates a title from a file path
+---@param path string
+---@return string
+function M.make_title(path)
+  local title ---@type string: The title to return
+  local base_no_ext ---@type string: Base name without extension
+  -- basename
+  base_no_ext = vim.fn.fnamemodify(path, ":t:r")
+  -- Change extensions etc.
+  title = base_no_ext:gsub("-", " "):gsub("_", " / ")
+  -- title case
+  title = title:gsub("(%a)([%w_']*)", function(first, rest)
+    return first:upper() .. rest:lower()
+  end)
+  return title
+end
+
+---Creates a markdown link from a file path
+---@param path string: the target path to the file
+---@return string: A markdown link with a formatted title
+function M.make_markdown_link(path)
+  return "[" .. M.make_title(path) .. "](" .. path .. ")"
 end
 
 return M
