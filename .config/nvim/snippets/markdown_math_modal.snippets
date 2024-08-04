@@ -1,0 +1,50 @@
+# Snippets that are treated like menu items
+# lightly following lyx
+# TODO Write a python function to generate this, it's a pain to edit
+
+snippet aw "Aligned" Al
+	$$
+	\begin{aligned}
+		$1
+	\end{aligned}
+	$$
+	$0
+
+snippet i "Integral" Al
+	\int $1 \mathrm{d} $2 $0
+
+snippet cz "Calculs Evaluate Range" Al
+	\left. \right|
+
+snippet op "Power" Al
+	^{$1} $0
+
+snippet os "Subscript" Al
+	_{$1} $0
+
+snippet om "Minus" Al
+	- $0
+
+snippet bp "Parentheses" Al
+	\left( $1 \right) $0
+
+snippet bs "Brackets" Al
+	\left[ $1 \right] $0
+
+snippet bc "Curly Brackets" Al
+	\left\{ $1 \right\} $0
+
+snippet b| "Absolute Value" Al
+	\left| $1 \right| $0
+
+snippet b< "Angle Brackets" Al
+	\left< $1 \right> $0
+
+snippet tx "Text / Normal" Al
+	\text{$1} $0
+
+snippet tr "Text / Roman" Al
+	\mathrm{$1} $0
+
+snippet of "Fraction" Al
+	\frac{$1}{$2} $0
