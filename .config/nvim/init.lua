@@ -34,6 +34,4 @@ else
   -- -- Load keymap last
   require('settings')
   require('keymaps')
-
 end
-

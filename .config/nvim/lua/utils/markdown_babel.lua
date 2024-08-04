@@ -2,22 +2,7 @@ local M = {} -- define a table to hold our module
 
 -- @param fence_line string: The line containing the fence
 local function get_lang(fence_line)
-  -- Sort langs by length so that we match the longest first
-  local langs = {
-    "rs",
-    "lua",
-    "py",
-    "jl",
-    "r",
-  }
-
-
-  for _, lang in ipairs(langs) do
-    if fence_line:find(lang, 1, true) ~= nil then
-      return lang
-    end
-  end
-  return nil
+  return require('utils/markdown_code_cells').get_lang(fence_line)
 end
 
 local function get_sourcing_command(lang, file_path)
@@ -50,59 +35,7 @@ end
 -- @param debug (boolean) Optional parameter that enables printing debug information about the code blocks found.
 -- @return table A table where each element is another table with two elements: start line number and end line number of a code block.
 local function get_block_locations(debug)
-  if debug == nil then
-    debug = false
-  end
-  local api = vim.api
-  local buf = api.nvim_get_current_buf()
-  local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
-
-  local fences = {}
-  local langs = {}
-  -- Search forward for the end of the code block
-  for i = 1, #lines do
-    -- Append the line number
-    local line = lines[i]
-
-    -- Append the detected language
-    if line:match("^```") then
-      fences[#fences + 1] = i
-      langs[#langs + 1] = nil
-    end
-  end
-
-
-  -- At this stage we have a flat vector of {start, end, start, end ...}
-  --[[
-  for i = 1, #fences, 2 do
-    print("Code block found from line " .. fences[i] .. " to " .. fences[i + 1])
-  end
-  --]]
-
-  -- Now restructure to pairs {{start, end, lang}, {start, end, lang}, ...}
-  local blocks = {}
-  if #fences % 2 ~= 0 then
-    print("Warning: Odd number of fences found")
-    table.insert(fences, nil)
-  end
-  for i = 1, #fences, 2 do
-    local start, finish = fences[i], fences[i + 1]
-    local lang = get_lang(lines[start])
-    table.insert(blocks, { start, finish, lang })
-  end
-
-  if debug == true then
-    -- Print those blocks
-    for i = 1, #blocks do
-      local lang = blocks[i][3]
-      if lang == nil then
-        lang = ""
-      end
-      print(lang .. " Code block " .. i .. " found from line " .. blocks[i][1] .. " to " .. blocks[i][2])
-    end
-  end
-
-  return blocks
+  return require('utils/markdown_code_cells').get_block_locations()
 end
 
 local function write_file(file_path, contents)
@@ -184,37 +117,8 @@ local function remove_last_output(n_lines, start_line, end_line, lines, buf)
   end
 end
 
-
-local function get_start_line_of_cell_at_cursor()
-  local api = vim.api
-  local buf = api.nvim_get_current_buf()
-  local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
-  local current_location = api.nvim_win_get_cursor(0)
-  local current_line = current_location[1]
-  local lang = nil
-  local context_path = "nvim_my_babel_context"
-  local cell_path = "nvim_my_babel_cell"
-  local start_line, end_line = nil, nil
-
-  -- Loop backwards for the start of the code block
-  for i = current_line, 1, -1 do
-    local line = lines[i]
-    if line:match("^```") then
-      start_line = i + 1 -- Don't include fence
-      lang = get_lang(line)
-      break
-    end
-  end
-
-  -- Search forward for the end of the code block
-  for i = current_line, #lines do
-    if lines[i]:match("^```") then
-      end_line = i - 1 -- don't include fence
-      break
-    end
-  end
-
-  return { start_line = start_line, end_line = end_line, lang = lang }
+local function get_current_markdown_cell()
+  return require('utils/markdown_code_cells').get_current_markdown_cell()
 end
 
 
@@ -228,10 +132,10 @@ local function highlight_markdown_cell()
   local context_path = "nvim_my_babel_context"
   local cell_path = "nvim_my_babel_cell"
 
-  current_cell = get_start_line_of_cell_at_cursor()
-  start_line = current_cell.start_line
-  end_line = current_cell.end_line
-  lang = current_cell.lang
+  local current_cell = get_current_markdown_cell()
+  local start_line = current_cell.start_line
+  local end_line = current_cell.end_line
+  local lang = current_cell.lang
 
 
 
@@ -337,8 +241,8 @@ local function highlight_markdown_cell()
       after_output = "$$"
     end
   end
-  vim.api.nvim_put({ "",  }, "l", true, true)
-  vim.api.nvim_put({result_markers[1]}, "l", true, false)
+  vim.api.nvim_put({ "", }, "l", true, true)
+  vim.api.nvim_put({ result_markers[1] }, "l", true, false)
   vim.api.nvim_put({ before_output }, "l", true, false)
   vim.cmd('r! ' .. exe .. ' ' .. cell_path)
   vim.api.nvim_put({ after_output, result_markers[2] }, "l", true, true)
@@ -366,7 +270,7 @@ function M.send_code()
 end
 
 function M.remove_last_output()
-  local current_cell = get_start_line_of_cell_at_cursor()
+  local current_cell = get_current_markdown_cell()
   local buf = vim.api.nvim_get_current_buf()
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
   local start_line = current_cell.start_line
@@ -374,6 +278,7 @@ function M.remove_last_output()
   local lang = current_cell.lang
   remove_last_output(4, start_line, end_line, lines, buf)
 end
+
 
 -- Return the module table so that it can be required by other scripts
 return M

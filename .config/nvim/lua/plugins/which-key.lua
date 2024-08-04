@@ -16,6 +16,7 @@ end
 wk.add({
   { "<leader><leader>", require('telescope.builtin').find_files, desc = "fzf" },
   { "<leader>'",        require('telescope.builtin').resume,     desc = "fzf" },
+  { "<leader>/",        require('telescope.builtin').live_grep,  desc = "fzf" },
 
   { "<leader>w",        proxy = "<c-w>",                         group = "windows" }, -- proxy to window mappings
   { "<leader>wo",       "<cmd>wincmd |<CR><cmd>wincmd _<CR>",    desc = "Maximize" },
@@ -152,12 +153,12 @@ end
 local notes_dir = "~/Notes/slipbox/"
 -- F Files
 wk.add({
-  { "<leader>f", group = "Why" }, -- group
+  { "<leader>f", group = "Files" }, -- group
   {
     -- [fn_1]
     { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert",    mode = "n" },
     { "<leader>fQ",  function() Revert_all_buffers("q!") end,                                   desc = "Auto Revert",    mode = "n" },
-    { "<leader>ff",  "<cmd>Telescope find_files<cr>",                                           desc = "Find File",      mode = "n" },
+    { "<leader>ff",  require('yazi').yazi,                                                      desc = "Find File",      mode = "n" },
     { "<leader>fo",  group = "Open" }, -- group
     { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,                      desc = "Clipboard",      mode = "n" },
     { "<leader>fon", require('utils/misc').open_notes,                                          desc = "Clipboard",      mode = "n" },
@@ -168,6 +169,7 @@ wk.add({
     { "<leader>fr",  function() require('telescope.builtin').oldfiles() end,                    desc = "Recent" },
     { "<leader>ft",  function() require('telescope.builtin').filetypes() end,                   desc = "File Types" },
     { "<leader>fy",  require('utils/misc').copy_path,                                           desc = "Copy Path" },
+    { "<leader>fY",  require('utils/misc').copy_base_path,                                      desc = "Copy Path" },
     { "<leader>fp",  require('utils/misc').open_config,                                         desc = "Edit Config" }
   }
 })
@@ -178,15 +180,18 @@ wk.add({
 wk.add({
   {
     { "<leader>n",  group = "Notes" }, -- group
-    { "<leader>nb", require("utils/markdown_babel").send_code, desc = "Execute a markdown cell and include output" },
-    { "<leader>nl", Insert_notes_link_alacritty_fzf,           desc = "Insert Notes Link" },
-    { "<leader>nL", Insert_notes_link,                         desc = "Insert Notes Link" },
-    { "<leader>ns", function() Create_markdown_link(true) end, desc = "Create a Subpage Link and Open Buffer" },
+    { "<leader>nc", require("utils/markdown_babel").send_code,                   desc = "Execute a markdown cell and include output" },
+    { "<leader>nb", require('utils/telescope_markdown-links').open_backlink,     desc = "Insert Notes Link" },
+    { "<leader>nl", require('utils/telescope_markdown-links').insert_notes_link, desc = "Insert Notes Link" },
+    { "<leader>nL", function() Insert_notes_link_alacritty_fzf() end,            desc = "Insert Notes Link" },
+    -- { "<leader>nL", Insert_notes_link,                                desc = "Insert Notes Link" },
+    { "<leader>ns", function() Create_markdown_link(true) end, desc = "Create a Subpage Link and Open Buffer"},
     { "<leader>nS", Create_markdown_link,                      desc = "Create a Link From text and Open Buffer" },
     { "<leader>nu", Format_url_markdown,                       desc = "Format a URL as a Markdown Link" },
-    { "<leader>nv", Generate_navigation_tree,                  desc = "Generate Navigation Tree" },
+    { "<leader>nv", function() Generate_navigation_tree() end, desc = "Generate Navigation Tree" },
     { "<leader>nr", require('render-markdown').toggle,         desc = "Render Markdown Toggle" },
-    { "<leader>np", Paste_png_image,                           desc = "Paste Image from Clipboard" },
+    { "<leader>nip", function() Paste_png_image() end,                           desc = "Paste Image from Clipboard" },
+    { "<leader>nic", require('utils/markdown_notes').make_cite_page,                           desc = "Make a Citation Page" },
     { "<leader>na", Attach_file,                               desc = "Prompt User to attach file under ./assets" },
     { "<leader>nz", Search_notes_fzf,                          desc = "Search Notes using Embeddings" },
     { "<leader>nj", group = "Notes" }, -- group
@@ -198,6 +203,8 @@ wk.add({
 wk.add({
   { "<leader>t",  group = "toggle" },
   { "<leader>ts", group = "Snippets Mode" },
+  -- The old approach of using a symlink
+  { "<leader>tsL", "<cmd>lua Snippy_Toggle_Auto()<CR>", desc = "Toggle Auto LaTeX Snippets", mode = "n" },
   {
     "<leader>tsl",
     -- See Also
@@ -215,6 +222,7 @@ wk.add({
   {
     { "<leader>ta", ":lua ToggleAutoSave()<CR>",            desc = "Autosave",              mode = "n" },
     { "<leader>tn", require('notify').dismiss,              desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes, desc = "Filetype",              mode = "n" },
     { "<leader>th", require('utils/misc').conceal_toggle,   desc = "Conceal",               mode = "n" },
   },
@@ -237,12 +245,11 @@ wk.add({
 wk.add({
   { "<leader>ts", group = "Toggle+Snippets" }, -- group
   {
-    { "<leader>tsl", "<cmd>lua Snippy_Toggle_Auto()<CR>", desc = "Toggle Auto LaTeX Snippets", mode = "n" }
   }
 })
 
 wk.add({
-  { "<leader>j",  group = "Jupyter Notebook" }, -- group
+  { "<leader>j",  group = "Jupyter Notebook", icon = { cat = "extension", name = "ipynb" } }, -- group
   { "<leader>jj", require('utils/notebooks').jupytext_set_formats,                  desc = "Jupytext Pair" },
   { "<leader>jp", require('utils/notebooks').quarto_preview,                        desc = "Jupytext Pair" },
   { "<leader>js", require('utils/notebooks').jupytext_sync,                         desc = "Jupytext Sync" },

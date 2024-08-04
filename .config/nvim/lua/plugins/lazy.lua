@@ -242,7 +242,12 @@ use({
   dependencies = {
     { "rcarriga/nvim-notify",   lazy = false }, -- this is used by my which-key.lua
     { "echasnovski/mini.icons", lazy = false },
-  }
+  },
+  opts = function()
+    return {
+      preset = "modern"
+    }
+  end
 })
 
 use {

@@ -6,12 +6,19 @@
 local map = vim.api.nvim_set_keymap
 local default_opts = { noremap = true, silent = true }
 
+--- Create a Keymapping with a vim command
+local function mp(mode, key, command)
+  vim.api.nvim_set_keymap(mode, key, command, default_opts)
+end
+
+
 -----------------------------------------------------------
 -- Neovim shortcuts:
 -----------------------------------------------------------
 
 -- clear search highlighting
-map('n', '<leader>c', ':nohl<CR>', default_opts)
+mp('n', '<C-/>', ':nohl<CR>')
+
 
 -- map Esc to kk
 map('i', 'jk', '<Esc>', { noremap = true })
@@ -37,9 +44,9 @@ map('n', '<F3>', ':DocsViewToggle<CR>', default_opts)
 -----------------------------------------------------------
 -- Tabs
 -----------------------------------------------------------
-map('n', '<M-Right>', '<cmd>tabnext<CR>', default_opts)
-map('n', '<M-Left>', '<cmd>tabprev<CR>', default_opts)
-map('n', '<M-Up>', '<cmd>tabnew<CR>', default_opts)
+map('n', '<PageUp>', '<cmd>tabnext<CR>', default_opts)
+map('n', '<PageDown>', '<cmd>tabprev<CR>', default_opts)
+map('n', '<Insert>', '<cmd>tabnew<CR>', default_opts)
 
 -----------------------------------------------------------
 -- FZF / Telescope Stuff
@@ -245,65 +252,67 @@ map('n', '<C-i>', '<C-i>', { noremap = true })
 
 
 
+local function normal_map(desc, key, func)
+  vim.api.nvim_set_keymap('n', key, '',
+    {
+      callback = func,
+      noremap = true,
+      silent = true,
+      desc = desc
+    })
+end
 
 --------------------------------------------------------------------------------
 -- Autocommand Keymaps ---------------------------------------------------------
 --------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = 'markdown',
+  pattern = { 'markdown', 'rmd' },
   callback = function()
-    map('n', '<C-CR>', '',
-      {
-        callback = function()
-          require('utils/markdown_headings').insert_subheading_below()
-        end,
-        noremap = true,
-        silent = true,
-        desc =
-        "Use Treesitter to Insert a Markdown Heading of the right level"
-      })
-    map('n', '<M-Left>', '',
-      {
-        callback = function()
-          require('utils/markdown_headings').demote_heading()
-        end,
-        noremap = true,
-        silent = true,
-        desc =
-        "Use Treesitter to demote a Markdown Heading"
-      })
+    -- Slime
+    normal_map(
+      "Evaluate Markdown Cell with Slime and tmux",
+      '<M-S-CR>', require("utils/slime_utils").send_slime_markdown_cell
+    )
+    normal_map(
+      "Send all Markdown Cells",
+      '<M-C-r>', require("utils/slime_utils").send_all_markdown_cells
+    )
+    normal_map(
+      "Evaluate Next Code Cell with Slime and tmux",
+      '<M-C-n>', require("utils/slime_utils").send_next_markdown_cell
+    )
+    normal_map(
+      "Evaluate Previous Code Cell with Slime and tmux",
+      '<M-C-p>', require("utils/slime_utils").send_prev_markdown_cell
+    )
+    normal_map(
+      "Use Treesitter to Insert a Markdown Heading of the right level",
+      '<C-CR>', require('utils/markdown_headings').insert_subheading_below
+    )
+    normal_map(
+      "Use Treesitter to Insert a Markdown Heading of the right level",
+      '<A-CR>',
+      require('utils/markdown_headings').insert_heading_below)
 
-    map('n', '<M-Right>', '',
-      {
-        callback = function()
-          require('utils/markdown_headings').promote_heading()
-        end,
-        noremap = true,
-        silent = true,
-        desc =
-        "Use Treesitter to promote a Markdown Heading"
-      })
+    -- TODO this no longer works :(
+    normal_map(
+      "Use Treesitter to demote a Markdown Heading",
+      '<M-Left>',
+      require('utils/markdown_headings').demote_heading)
 
-    map('n', '<M-h>', '',
-      {
-        callback = function()
-          require('utils/markdown_headings').promote_all_headings_below()
-        end,
-        noremap = true,
-        silent = true,
-        desc =
-        "Use Treesitter to promote a Markdown Heading"
-      })
+    normal_map(
+      "Use Treesitter to promote a Markdown Heading",
+      '<M-Right>',
+      require('utils/markdown_headings').promote_heading)
 
-    map('n', '<M-l>', '',
-      {
-        callback = function()
-          require('utils/markdown_headings').demote_all_headings_below()
-        end,
-        noremap = true,
-        silent = true,
-        desc =
-        "Use Treesitter to promote a Markdown Heading"
-      })
+    normal_map(
+      "Use Treesitter to promote a Markdown Heading",
+      '<M-h>',
+      require('utils/markdown_headings').promote_all_headings_below)
+
+    normal_map(
+      "Use Treesitter to promote a Markdown Heading",
+      '<M-l>',
+      require('utils/markdown_headings').demote_all_headings_below)
   end,
 })

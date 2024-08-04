@@ -31,7 +31,7 @@ local function jobstart(command)
   })
 end
 
-local exts = { "r", "py", "rmd", "ipynb"}
+local exts = { "r", "py", "rmd", "ipynb" }
 local get_format_string = function(percent)
   if percent == nil then
     percent = true
@@ -157,7 +157,7 @@ local function jupytext_render_markdown(use_quarto, open_markdown)
     -- jobstart({ "quarto", "render", vim.fn.expand("%:r.Rmd"), "--to", "gfm" })
   else
     -- how to pass --kernel ir to jupyter?
-    local cmd = "jupyter nbconvert " .. vim.fn.expand("%:r") .. ".ipynb " .. kernel .." --execute  --to markdown"
+    local cmd = "jupyter nbconvert " .. vim.fn.expand("%:r") .. ".ipynb " .. kernel .. " --execute  --to markdown"
     require('notify')(cmd)
     vim.cmd("! " .. cmd)
   end
@@ -188,6 +188,18 @@ local function quarto_preview(port)
   jobstart({ "quarto", "preview", vim.fn.expand("%:r") .. ".Rmd", "--port", port })
 end
 
+--------------------------------------------------------------------------------
+-- Exports ---------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+function M.open_all_formats()
+  local extensions = { "md", "Rmd", "py", "r" }
+  local splits = { "vsplit", "split" }
+  for i, ext in pairs(extensions) do
+    vim.cmd(splits[(i % 2) + 1] .. " %:r." .. ext)
+  end
+  vim.cmd("wincmd =")
+end
 
 function M.jupytext_set_formats()
   jupytext_set_formats()
@@ -237,7 +249,7 @@ end
 
 -- Reverts buffers that have one of the extensions
 function M.Revert_buffer_pairs()
-    Revert_buffer_pairs()
+  Revert_buffer_pairs()
 end
 
 return M
