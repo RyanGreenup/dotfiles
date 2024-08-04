@@ -250,16 +250,19 @@ map('n', '<Right>', '<cmd>lua ModalCommands[Mode][ModalKey.Right]()<CR>', defaul
 map('n', '<C-i>', '<C-i>', { noremap = true })
 
 
-
-
-local function normal_map(desc, key, func)
-  vim.api.nvim_set_keymap('n', key, '',
+local function map_current_buf(mode, desc, key, func)
+  vim.api.nvim_buf_set_keymap(0, mode, key, '',
     {
       callback = func,
       noremap = true,
       silent = true,
       desc = desc
     })
+end
+
+
+local function normal_map_current_buf(desc, key, func)
+  map_current_buf('n', desc, key, func)
 end
 
 --------------------------------------------------------------------------------
@@ -269,48 +272,48 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown', 'rmd' },
   callback = function()
     -- Slime
-    normal_map(
+    normal_map_current_buf(
       "Evaluate Markdown Cell with Slime and tmux",
       '<M-S-CR>', require("utils/slime_utils").send_slime_markdown_cell
     )
-    normal_map(
+    normal_map_current_buf(
       "Send all Markdown Cells",
       '<M-C-r>', require("utils/slime_utils").send_all_markdown_cells
     )
-    normal_map(
+    normal_map_current_buf(
       "Evaluate Next Code Cell with Slime and tmux",
       '<M-C-n>', require("utils/slime_utils").send_next_markdown_cell
     )
-    normal_map(
+    normal_map_current_buf(
       "Evaluate Previous Code Cell with Slime and tmux",
       '<M-C-p>', require("utils/slime_utils").send_prev_markdown_cell
     )
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to Insert a Markdown Heading of the right level",
       '<C-CR>', require('utils/markdown_headings').insert_subheading_below
     )
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to Insert a Markdown Heading of the right level",
       '<A-CR>',
       require('utils/markdown_headings').insert_heading_below)
 
     -- TODO this no longer works :(
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to demote a Markdown Heading",
       '<M-Left>',
       require('utils/markdown_headings').demote_heading)
 
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to promote a Markdown Heading",
       '<M-Right>',
       require('utils/markdown_headings').promote_heading)
 
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to promote a Markdown Heading",
       '<M-h>',
       require('utils/markdown_headings').promote_all_headings_below)
 
-    normal_map(
+    normal_map_current_buf(
       "Use Treesitter to promote a Markdown Heading",
       '<M-l>',
       require('utils/markdown_headings').demote_all_headings_below)
