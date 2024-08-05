@@ -64,8 +64,8 @@ wk.add({
     { "<leader>lf",  vim.lsp.buf.format,                                 desc = "Format" },
     { "<leader>ld",  vim.diagnostic.goto_next,                           desc = "Diagnostic" },
     { "<leader>lo",  group = "Otter" },
-    { "<leader>loa", require,                                            desc = "Activate" },
-    { "<leader>lod", require('otter').deactivate,                        desc = "Deactivate" },
+    { "<leader>loa", require('otter').activate,                          desc = "Deactivate",             cond = pcall(require, 'otter') },
+    { "<leader>lod", require('otter').deactivate,                        desc = "Deactivate",             cond = pcall(require, 'otter') },
     { "<leader>gD",  vim.lsp.buf.declaration,                            desc = "LSP Declaration" },
     { "<leader>gD",  vim.lsp.buf.definition,                             desc = "LSP Declaration" },
     { "<leader>gy",  vim.lsp.buf.type_definition,                        desc = "LSP Type Definition" },
@@ -179,30 +179,30 @@ wk.add({
 -- Notes
 wk.add({
   {
-    { "<leader>n",  group = "Notes" }, -- group
-    { "<leader>nc", require("utils/markdown_babel").send_code,                   desc = "Execute a markdown cell and include output" },
-    { "<leader>nb", require('utils/telescope_markdown-links').open_backlink,     desc = "Insert Notes Link" },
-    { "<leader>nl", require('utils/telescope_markdown-links').insert_notes_link, desc = "Insert Notes Link" },
-    { "<leader>nL", function() Insert_notes_link_alacritty_fzf() end,            desc = "Insert Notes Link" },
+    { "<leader>n",   group = "Notes" }, -- group
+    { "<leader>nc",  require("utils/markdown_babel").send_code,                   desc = "Execute a markdown cell and include output" },
+    { "<leader>nb",  require('utils/telescope_markdown-links').open_backlink,     desc = "Insert Notes Link" },
+    { "<leader>nl",  require('utils/telescope_markdown-links').insert_notes_link, desc = "Insert Notes Link" },
+    { "<leader>nL",  function() Insert_notes_link_alacritty_fzf() end,            desc = "Insert Notes Link" },
     -- { "<leader>nL", Insert_notes_link,                                desc = "Insert Notes Link" },
-    { "<leader>ns", function() Create_markdown_link(true) end, desc = "Create a Subpage Link and Open Buffer"},
-    { "<leader>nS", Create_markdown_link,                      desc = "Create a Link From text and Open Buffer" },
-    { "<leader>nu", Format_url_markdown,                       desc = "Format a URL as a Markdown Link" },
-    { "<leader>nv", function() Generate_navigation_tree() end, desc = "Generate Navigation Tree" },
-    { "<leader>nr", require('render-markdown').toggle,         desc = "Render Markdown Toggle" },
-    { "<leader>nip", function() Paste_png_image() end,                           desc = "Paste Image from Clipboard" },
-    { "<leader>nic", require('utils/markdown_notes').make_cite_page,                           desc = "Make a Citation Page" },
-    { "<leader>na", Attach_file,                               desc = "Prompt User to attach file under ./assets" },
-    { "<leader>nz", Search_notes_fzf,                          desc = "Search Notes using Embeddings" },
-    { "<leader>nj", group = "Notes" }, -- group
+    { "<leader>ns",  function() Create_markdown_link(true) end,                   desc = "Create a Subpage Link and Open Buffer" },
+    { "<leader>nS",  function() Create_markdown_link() end,                       desc = "Create a Link From text and Open Buffer" },
+    { "<leader>nu",  Format_url_markdown,                                         desc = "Format a URL as a Markdown Link" },
+    { "<leader>nv",  function() Generate_navigation_tree() end,                   desc = "Generate Navigation Tree" },
+    { "<leader>nr",  require('render-markdown').toggle,                           desc = "Render Markdown Toggle" },
+    { "<leader>nip", function() Paste_png_image() end,                            desc = "Paste Image from Clipboard" },
+    { "<leader>nic", require('utils/markdown_notes').make_cite_page,              desc = "Make a Citation Page" },
+    { "<leader>na",  Attach_file,                                                 desc = "Prompt User to attach file under ./assets" },
+    { "<leader>nz",  Search_notes_fzf,                                            desc = "Search Notes using Embeddings" },
+    { "<leader>nj",  group = "Notes" }, -- group
   }
 })
 
 
 -- Toggle
 wk.add({
-  { "<leader>t",  group = "toggle" },
-  { "<leader>ts", group = "Snippets Mode" },
+  { "<leader>t",   group = "toggle" },
+  { "<leader>ts",  group = "Snippets Mode" },
   -- The old approach of using a symlink
   { "<leader>tsL", "<cmd>lua Snippy_Toggle_Auto()<CR>", desc = "Toggle Auto LaTeX Snippets", mode = "n" },
   {
@@ -222,7 +222,7 @@ wk.add({
   {
     { "<leader>ta", ":lua ToggleAutoSave()<CR>",            desc = "Autosave",              mode = "n" },
     { "<leader>tn", require('notify').dismiss,              desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",   desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes, desc = "Filetype",              mode = "n" },
     { "<leader>th", require('utils/misc').conceal_toggle,   desc = "Conceal",               mode = "n" },
   },
@@ -249,7 +249,7 @@ wk.add({
 })
 
 wk.add({
-  { "<leader>j",  group = "Jupyter Notebook", icon = { cat = "extension", name = "ipynb" } }, -- group
+  { "<leader>j",  group = "Jupyter Notebook",                                       icon = { cat = "extension", name = "ipynb" } }, -- group
   { "<leader>jj", require('utils/notebooks').jupytext_set_formats,                  desc = "Jupytext Pair" },
   { "<leader>jp", require('utils/notebooks').quarto_preview,                        desc = "Jupytext Pair" },
   { "<leader>js", require('utils/notebooks').jupytext_sync,                         desc = "Jupytext Sync" },

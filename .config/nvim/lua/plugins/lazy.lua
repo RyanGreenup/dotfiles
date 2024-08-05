@@ -482,27 +482,30 @@ use {
 -- Quarto ######################################################################
 
 -- Quarto
-use { 'quarto-dev/quarto-nvim',
-  dependencies = {
-    'jmbuhr/otter.nvim',
-    'neovim/nvim-lspconfig'
-  },
-  config = function()
-    require 'quarto'.setup {
-      lspFeatures = {
-        enabled = true,
-        languages = { 'r', 'python', 'julia' },
-        diagnostics = {
+
+if vim.fn.has('nvim-0.10.0') == 1 then
+  use { 'quarto-dev/quarto-nvim',
+    dependencies = {
+      'jmbuhr/otter.nvim',
+      'neovim/nvim-lspconfig'
+    },
+    config = function()
+      require 'quarto'.setup {
+        lspFeatures = {
           enabled = true,
-          triggers = { "BufWrite" }
-        },
-        completion = {
-          enabled = true
+          languages = { 'r', 'python', 'julia' },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWrite" }
+          },
+          completion = {
+            enabled = true
+          }
         }
       }
-    }
-  end
-}
+    end
+  }
+end
 
 
 
