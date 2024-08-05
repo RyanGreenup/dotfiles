@@ -49,6 +49,7 @@ But It required continously resourcing which-key, I could do that as an autocomm
 autocmd BufEnter * so ~/.config/nvim/lua/plugins/which-key.lua
 ```
 
+Alternatively, I could have one modal keybinding (e.g. <SPC>m that would correspond to the current file, the autocommand could fire on filetype and set the that buffer keymaps (so as to not polute other files keybindings)
 
 ### Centralizing Autocommands and Keymaps
 I have a file for autocommands and other for keymaps, I should:
