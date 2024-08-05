@@ -8,7 +8,7 @@ if len(sys.argv) <= 1:
 else:
     message = sys.argv[1]
 
-model = "phi3:latest"
+model = "codestral:latest"
 if len(sys.argv) > 2:
     model = sys.argv[2]
 

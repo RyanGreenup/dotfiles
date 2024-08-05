@@ -35,3 +35,7 @@ else
   require('settings')
   require('keymaps')
 end
+
+-- TODO why doesn't this work?
+-- vim.cmd[[vmap <Insert> <cmd>lua require('utils/stream_ollama').stream_selection_to_ollama("codestral:latest", "vale")<CR>]]
+vim.cmd[[vmap <Insert> <cmd>lua require('utils/stream_ollama').stream_selection_to_ollama()<CR>]]
