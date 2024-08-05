@@ -83,7 +83,7 @@ function Create_markdown_link(subpage)
   end
 
   -- Set the new line as the link
-  vim.api.nvim_set_current_line(link)
+  vim.api.nvim_set_current_line(string.format("- %s", link))
 
 
   if File_exists(new_path) then
