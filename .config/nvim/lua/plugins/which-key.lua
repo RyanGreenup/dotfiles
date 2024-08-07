@@ -193,7 +193,15 @@ wk.add({
     { "<leader>ft",  function() require('telescope.builtin').filetypes() end,                   desc = "File Types" },
     { "<leader>fy",  require('utils/misc').copy_path,                                           desc = "Copy Path" },
     { "<leader>fY",  require('utils/misc').copy_base_path,                                      desc = "Copy Path" },
-    { "<leader>fp",  require('utils/misc').open_config,                                         desc = "Edit Config" }
+    { "<leader>fp",  require('utils/misc').open_config,                                         desc = "Edit Config" },
+    {
+      "<leader>fj",
+      function()
+        vim.cmd("e " .. "~/Notes/slipbox/" .. "j_" .. os.date("%Y-%m-%d") .. ".md")
+      end,
+      desc = "Edit Config"
+    }
+
   }
 })
 
