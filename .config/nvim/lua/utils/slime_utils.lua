@@ -9,7 +9,11 @@ local function get_session_name(lang)
     lua = "lua",
     rs = "ipython"
   }
-  return "slime_" .. sessions[lang] or nil
+  local matched_lang = sessions[lang]
+  if matched_lang == nil then
+    matched_lang = lang
+  end
+  return "slime_" .. matched_lang
 end
 
 
