@@ -32,6 +32,14 @@ wk.add({
   },
 })
 
+
+wk.add({
+  { "<leader>a", group = "LLM" }, -- group
+  {
+    { "<leader>ac", function() require('utils/telescope_stream_ollama_model').choose_model() end, desc = "Choose model for Ollama Completion with <Insert>" },
+
+  }
+})
 -- D Debug
 wk.add({
   { "<leader>d", group = "Debug" }, -- group
