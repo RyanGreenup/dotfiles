@@ -19,7 +19,7 @@ snippet cz "Calculs Evaluate Range" Al
 snippet op "Power" Al
 	^{$1} $0
 
-snippet os "Subscript" Al
+snippet os "Subscript" Alw
 	_{$1} $0
 
 snippet om "Minus" Al
@@ -28,7 +28,10 @@ snippet om "Minus" Al
 snippet bp "Parentheses" Al
 	\left( $1 \right) $0
 
-snippet bs "Brackets" Al
+snippet bs "Parentheses" Al
+	\left\\{ $1 \right\\} $0
+
+snippet bl "Brackets" Al
 	\left[ $1 \right] $0
 
 snippet bc "Curly Brackets" Al
@@ -45,6 +48,9 @@ snippet tx "Text / Normal" Al
 
 snippet tr "Text / Roman" Al
 	\mathrm{$1} $0
+
+snippet tb "Text / Roman" Alw
+	\mathbf{$1} $0
 
 snippet of "Fraction" Al
 	\frac{$1}{$2} $0

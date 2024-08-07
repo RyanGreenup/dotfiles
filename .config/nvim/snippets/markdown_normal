@@ -115,3 +115,26 @@ snippet `n "Empty Code block" A
 
 snippet [[ "Wikilink to MD Link" A
 	[$2]($1) $0
+
+
+snippet test "Testing things" lA
+    Today is `!lua os.date('%Y-%m-%d')`
+
+snippet ci "Integral" lA
+	$$
+	\int_{a}^{b} f(x) \, dx
+	$$
+	$0
+
+snippet cd "Derivative" lA
+	$$
+	\frac{d}{dx} f(x)
+	$$
+	$0
+
+snippet m "Matrix" mA
+	\begin{bmatrix}
+		$1 & $2 \\
+		$3 & $4
+	\end{bmatrix}
+	$0
