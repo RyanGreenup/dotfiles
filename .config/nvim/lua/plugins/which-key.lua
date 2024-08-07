@@ -57,13 +57,28 @@ wk.add({
   { "<leader>l", group = "LSP" }, -- group
   {
     mode = { "n", "v" },
-    { "<leader>la",  vim.lsp.buf.code_action,                            desc = "Code Action" },
-    { "<leader>li",  function() vim.cmd [[LspInfo]] end,                 desc = "LSP Info" },
-    { "<leader>lh",  vim.lsp.buf.signature_help,                         desc = "Signature Help" },
-    { "<leader>lr",  vim.lsp.buf.rename,                                 desc = "Rename Symbol" },
-    { "<leader>lf",  vim.lsp.buf.format,                                 desc = "Format" },
-    { "<leader>ld",  vim.diagnostic.goto_next,                           desc = "Diagnostic" },
-    { "<leader>lo",  group = "Otter" },
+    { "<leader>la", vim.lsp.buf.code_action,                                desc = "Code Action" },
+    { "<leader>li", function() vim.cmd [[LspInfo]] end,                     desc = "LSP Info" },
+    { "<leader>lh", vim.lsp.buf.signature_help,                             desc = "Signature Help" },
+    { "<leader>lr", vim.lsp.buf.rename,                                     desc = "Rename Symbol" },
+    { "<leader>lR", "<cmd>LspRestart<CR><cmd>LspStop<CR><cmd>LspStart<CR>", desc = "Rename Symbol" },
+    { "<leader>lf", vim.lsp.buf.format,                                     desc = "Format" },
+    { "<leader>ld", vim.diagnostic.goto_next,                               desc = "Diagnostic" },
+    { "<leader>lo", group = "Otter" },
+    {
+      "<leader>lt",
+      function()
+        if vim.fn.has "nvim-0.10" == 1 then
+          local ok = pcall(vim.lsp.inlay_hint.enable, vim.lsp.inlay_hint.is_enabled())
+          if ok then
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+          else
+            vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+          end
+        end
+      end,
+      desc = "Toggle Inlay Type Hints"
+    },
     { "<leader>loa", require('otter').activate,                          desc = "Deactivate",             cond = pcall(require, 'otter') },
     { "<leader>lod", require('otter').deactivate,                        desc = "Deactivate",             cond = pcall(require, 'otter') },
     { "<leader>gD",  vim.lsp.buf.declaration,                            desc = "LSP Declaration" },
@@ -202,9 +217,10 @@ wk.add({
 -- Toggle
 wk.add({
   { "<leader>t",   group = "toggle" },
+  { "<leader>to",  require('utils/telescope_stream_ollama_model').choose_model, desc = "Ollama Model" },
   { "<leader>ts",  group = "Snippets Mode" },
   -- The old approach of using a symlink
-  { "<leader>tsL", "<cmd>lua Snippy_Toggle_Auto()<CR>", desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>tsL", "<cmd>lua Snippy_Toggle_Auto()<CR>",                         desc = "Toggle Auto LaTeX Snippets", mode = "n" },
   {
     "<leader>tsl",
     -- See Also
@@ -302,9 +318,11 @@ wk.add({
 wk.add({
   { "<leader>v", group = "Preview" }, -- group
   {
-    { "<leader>vv", "<cmd>MarkdownPreview<CR>",                                                                                                               desc = "Markdown Preview",          mode = "n" },
-    { "<leader>vc", "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>",                                                                             desc = "Markdown Preview (VSCode)", mode = "n" },
-    { "<leader>vt", "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", desc = "Markdown Preview (Tatum)",  mode = "n" }
+
+    { "<leader>vA", function() require('utils/markdown_toggle_autocmd_vscode').toggle() end,                                                                  desc = "Auto VSCode Markdown Preview", mode = "n" },
+    { "<leader>vv", "<cmd>MarkdownPreview<CR>",                                                                                                               desc = "Markdown Preview",             mode = "n" },
+    { "<leader>vc", "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>",                                                                             desc = "Markdown Preview (VSCode)",    mode = "n" },
+    { "<leader>vt", "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", desc = "Markdown Preview (Tatum)",     mode = "n" }
   }
 })
 
