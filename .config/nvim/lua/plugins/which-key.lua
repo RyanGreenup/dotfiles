@@ -232,21 +232,20 @@ wk.add({
 
 -- Toggle
 wk.add({
-  { "<leader>t",   group = "toggle" },
-  { "<leader>to",  require('utils/telescope_stream_ollama_model').choose_model, desc = "Ollama Model" },
-  { "<leader>ts",  group = "Snippets Mode" },
-  -- The old approach of using a symlink
-  { "<leader>tsL", "<cmd>lua Snippy_Toggle_Auto()<CR>",                         desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>t",  group = "toggle" },
+  { "<leader>to", require('utils/telescope_stream_ollama_model').choose_model, desc = "Ollama Model" },
+  { "<leader>ts", group = "Snippets Mode" },
   {
-    "<leader>tsl",
-    -- See Also
-    -- Snippy_Toggle_Auto()
+    "<leader>tg",
     function()
-      Snippy_state:toggle("latex")
-      print("Snippy: LaTeX Mode")
+      vim.cmd([[FocusToggle]])
     end,
-    desc = "LaTeX Mode"
-  }
+    desc = "Testing"
+  },
+  -- The old approach of using a symlink
+  { "<leader>tsL", require('plugins/snippy_symlink_toggle').toggle, desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>tsa", function()  My_snippy_state.toggles.contextual()  end, desc = "Contextual LaTeX" },
+  { "<leader>tsl", function()  My_snippy_state.Mode.latex = not My_snippy_state.Mode.latex end, desc = "LaTeX Mode" }
 })
 
 wk.add({
@@ -335,10 +334,18 @@ wk.add({
   { "<leader>v", group = "Preview" }, -- group
   {
 
-    { "<leader>vA", function() require('utils/markdown_toggle_autocmd_vscode').toggle() end,                                                                  desc = "Auto VSCode Markdown Preview", mode = "n" },
-    { "<leader>vv", "<cmd>MarkdownPreview<CR>",                                                                                                               desc = "Markdown Preview",             mode = "n" },
-    { "<leader>vc", "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>",                                                                             desc = "Markdown Preview (VSCode)",    mode = "n" },
-    { "<leader>vt", "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", desc = "Markdown Preview (Tatum)",     mode = "n" }
+    {
+      "<leader>vA",
+      function()
+        require('utils/markdown_toggle_autocmd_vscode').toggle()
+        require('notify')("Auto VSCode Markdown Preview")
+      end,
+      desc = "Auto VSCode Markdown Preview",
+      mode = "n"
+    },
+    { "<leader>vv", "<cmd>MarkdownPreview<CR>",                                                                                                               desc = "Markdown Preview",          mode = "n" },
+    { "<leader>vc", "<cmd>!codium --disable-gpu % 1>/dev/null 2>&1 & disown<CR>",                                                                             desc = "Markdown Preview (VSCode)", mode = "n" },
+    { "<leader>vt", "<cmd>lua vim.fn.jobstart({ 'qutebrowser', 'http://preview.vidar/?path='.. vim.fn.expand('%') }, { noremap = true, silent = true })<CR>", desc = "Markdown Preview (Tatum)",  mode = "n" }
   }
 })
 

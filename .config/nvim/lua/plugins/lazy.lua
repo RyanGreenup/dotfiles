@@ -57,66 +57,8 @@ use({
 })
 
 -- Snippets
-use 'honza/vim-snippets'
-use { 'dcampos/nvim-snippy', config = function()
-  local allow_contextual = true -- False positives get annoying
-  local snippy_state_loaded = false
-  local package = 'utils/env_states'
-  if pcall(require, package) then
-    snippy_state_loaded = true
-    Snippy_state = require(package).Snippy_state()
-    -- Set Keybinding to toggle the latex state
-    vim.api.nvim_set_keymap(
-      'i', '<A-l>', '', {
-        noremap = true,
-        silent = true,
-        callback = function()
-          Snippy_state:toggle("latex")
-        end
-      })
-  else
-    print("WARNING: could not load " .. package .. ".lua")
-  end
-  require('snippy').setup({
-    enable_auto = true,
-    virtual_markers = {
-      enabled = true,
-      -- Marker for all placeholders (non-empty)
-      default = '☐',
-      -- Marker for all empty tabstops
-      empty = '✀',
-      -- Marker highlighing
-      hl_group = 'SnippyMarker',
-    },
-    expand_options = {
-      -- Here we can create optional environments for things
-      -- e.g. modal snippets based on an env var:
-      l = function()
-        return Snippy_state.is_state.latex and snippy_state_loaded
-      end,
-      -- Snippets dependent on a treesitter environment etc.
-      m = function()
-        return require('utils/tsutils_math').in_mathzone() and allow_contextual
-      end,
-      c = function()
-        return require('utils/tsutils_math').in_comment() and allow_contextual
-      end,
-    }
-
-
-    -- The Tab Mapping seems not to stick, I set the keybindings in
-    -- ~/.config/nvim/lua/keymaps.lua | 209
-    -- [fn_vimtex]
-    -- expand_options = {
-    --   m = function()
-    --     return vim.fn["vimtex#syntax#in_mathzone"]() == 1
-    --   end,
-    --   c = function()
-    --     return vim.fn["vimtex#syntax#in_comment"]() == 1
-    --   end,
-    -- }
-  })
-end }
+use { 'dcampos/nvim-snippy', dependencies = { 'honza/vim-snippets' },
+  config = function() require('plugins/snippy') end}
 
 use { 'is0n/fm-nvim' }
 use({
@@ -386,17 +328,64 @@ use { "https://github.com/github/copilot.vim" }
 use({ 'TabbyML/vim-tabby' })
 
 -- packer.nvim
-use({
-  "robitx/gp.nvim",
-  config = function()
-    require("gp").setup()
+-- use({
+--   "robitx/gp.nvim",
+--   config = function()
+--     require("gp").setup()
+--
+--     -- or setup with your own config (see Install > Configuration in Readme)
+--     -- require("gp").setup(config)
+--
+--     -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
+--   end,
+-- })
 
-    -- or setup with your own config (see Install > Configuration in Readme)
-    -- require("gp").setup(config)
-
-    -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
-  end,
-})
+-- use {
+--   'huggingface/llm.nvim',
+--   config = function()
+--     local llm = require('llm')
+--
+--     llm.setup({
+--       api_token = nil,                 -- cf Install paragraph
+--       model = "phi3:latest", -- the model ID, behavior depends on backend
+--       backend = "ollama",         -- backend ID, "huggingface" | "ollama" | "openai" | "tgi"
+--       url = "http://localhost:11434/api",                       -- the http url of the backend
+--       tokens_to_clear = { "<|endoftext|>" }, -- tokens to remove from the model's output
+--       -- parameters that are added to the request body, values are arbitrary, you can set any field:value pair here it will be passed as is to the backend
+--       request_body = {
+--         parameters = {
+--           max_new_tokens = 60,
+--           temperature = 0.2,
+--           top_p = 0.95,
+--         },
+--       },
+--       -- set this if the model supports fill in the middle
+--       fim = {
+--         enabled = true,
+--         prefix = "<fim_prefix>",
+--         middle = "<fim_middle>",
+--         suffix = "<fim_suffix>",
+--       },
+--       debounce_ms = 150,
+--       accept_keymap = "<Insert>",
+--       dismiss_keymap = "<Del>",
+--       tls_skip_verify_insecure = false,
+--       -- llm-ls configuration, cf llm-ls section
+--       lsp = {
+--         bin_path = nil,
+--         host = nil,
+--         port = nil,
+--         cmd_env = nil, -- or { LLM_LOG_LEVEL = "DEBUG" } to set the log level of llm-ls
+--         version = "0.5.3",
+--       },
+--       tokenizer = nil,               -- cf Tokenizer paragraph
+--       context_window = 1024,         -- max number of tokens for the context window
+--       enable_suggestions_on_startup = true,
+--       enable_suggestions_on_files = "*", -- pattern matching syntax to enable suggestions on specific files, either a string or a list of strings
+--       disable_url_path_completion = false, -- cf Backend
+--     })
+--   end
+-- }
 
 -- syntax
 use { 'https://github.com/ron-rs/ron.vim' }
@@ -633,6 +622,8 @@ use {
 }
 
 use { 'dhruvasagar/vim-table-mode' }
+
+use { 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
 
 
 --------------------------------------------------------------------------------
