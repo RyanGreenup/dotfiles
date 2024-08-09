@@ -14,7 +14,6 @@ local function on_output(jobid, data, event)
     s = s .. "\n" .. line
   end
   if s ~= "" then
-    print("foo")
     print(s)
   end
 end
@@ -70,9 +69,20 @@ local function Revert_buffer_pairs()
   end
 end
 
-local function jupytext_sync()
-  local job_id = jobstart({ "jupytext", "--sync", vim.fn.expand("%") })
-  -- Revert when the job finishes
+---Sync the file with Jupytext
+---@param execute boolean|nil Whether to execute the file after syncing
+---@return nil
+local function jupytext_sync(execute)
+  if execute == nil then
+    execute = false
+  end
+  local command = { "jupytext", "--sync" }
+  if execute then
+    table.insert(command, "--execute")
+    table.insert(command, "--pre-commit-mode")
+  end
+  table.insert(command, vim.fn.expand("%"))
+  local job_id = jobstart(command)
   return job_id
 end
 
@@ -214,12 +224,8 @@ function M.quarto_preview(port)
   n("Previewing with Quarto on http://localhost:" .. default_quarto_port)
 end
 
-function M.jupytext_sync()
-  jupytext_sync()
-end
-
-function M.jupytext_sync()
-  jupytext_sync()
+function M.jupytext_sync(execute)
+  jupytext_sync(execute)
 end
 
 function M.jupytext_watch_sync()
