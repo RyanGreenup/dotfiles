@@ -16,6 +16,9 @@ host = "vale"
 if len(sys.argv) > 3:
     host = sys.argv[3]
 
+
+# print(message, model, host)
+
 client = Client(host=f"http://{host}:11434")
 
 
