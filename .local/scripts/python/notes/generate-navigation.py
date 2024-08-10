@@ -9,8 +9,12 @@ import sys
 
 config = Config.default()
 
+# These delimiters make it easier to programattically remove thes blocks
+BEGIN = "<!-- #+BEGIN_NAV -->"
+END = "<!-- #+END_NAV -->"
 
-def filename_to_markdown(file_path, notes_dir):
+
+def filename_to_markdown(file_path, notes_dir, include_self=False):
     file_path = os.path.relpath(path=file_path, start=notes_dir)
 
     # Remove extension and make relative to base directory
@@ -19,10 +23,13 @@ def filename_to_markdown(file_path, notes_dir):
     # Split into hierarchy
     sections = file_path.replace("_", "/").split("/")
 
-    markdown = "<details closed><summary><h2>🧭</h2></summary>\n"
+    markdown = "<details open><summary><b>🧭</b></summary>\n"
     # Add a space before the newline so lua gmatch has an easier time
     # see ~/.config/nvim/lua/utils/markdown.lua
     markdown += " \n"
+
+    if not include_self:
+        sections = sections[:-1]
 
     for i in range(len(sections)):
         # Use '-' to split words, and capitalize each word
@@ -31,13 +38,16 @@ def filename_to_markdown(file_path, notes_dir):
         # Create filename by joining sections with '_'
         filename = "_".join(sections[: i + 1]) + ".md"
 
-        # Use '*' for the current file (last section)
-        prefix = "- x" if i == len(sections) - 1 else "-"
+        prefix = "-"
+        if include_self:
+            # Use '*' for the current file (last section)
+            prefix = "- x" if i == len(sections) - 1 else "-"
 
         # Depending on the depth(i), we indent the bullet point more
         markdown += "    " * i + f"{prefix} [{title}]({filename})\n"
 
     markdown += "</details>"
+    markdown = BEGIN + "\n" + markdown + "\n" + END
     return markdown
 
 

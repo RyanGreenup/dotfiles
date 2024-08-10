@@ -6,6 +6,7 @@
 require("utils/increment_time_stamps")
 require("utils/open_journal_files")
 require("utils/paths")
+require("utils/lists")
 
 
 function File_exists(path)
@@ -74,15 +75,15 @@ function Create_markdown_link(subpage)
   local new_path
   -- Insert the sub_page before the extension
   if subpage then
-      new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-      link = Build_markdown_link('➡️ /' .. title, new_path)
+    new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
+    link = Build_markdown_link('/' .. title, new_path)
   else
-      new_path = sub_page .. ".md"
-      link = Build_markdown_link(title, new_path)
+    new_path = sub_page .. ".md"
+    link = Build_markdown_link(title, new_path)
   end
 
   -- Set the new line as the link
-  vim.api.nvim_set_current_line(link)
+  vim.api.nvim_set_current_line(string.format("- %s", link))
 
 
   if File_exists(new_path) then
@@ -184,7 +185,7 @@ function Insert_notes_link_alacritty_fzf()
   local cmd = "~/.local/scripts/python/notes/make_link_fzf.py "
   cmd = cmd .. "--output-file " .. "'" .. tmp .. "'"
   cmd = cmd .. " --start-dir " .. "'" .. start_dir .. "'"
-  local _ = Shell("alacritty -T popup -e ".. cmd)
+  local _ = Shell("alacritty -T popup -e " .. cmd)
 
   -- Read the output of the file
   vim.cmd([[ r ]] .. tmp)
@@ -200,7 +201,7 @@ end
 function Search_notes_fzf()
   -- Run the script in alacritty
   local cmd = "ai-tools live-search --fzf --editor 'code'"
-  local _ = Shell("alacritty -T popup -e ".. cmd)
+  local _ = Shell("alacritty -T popup -e " .. cmd)
 end
 
 --------------------------------------------------------------------------------
@@ -212,7 +213,7 @@ function Generate_navigation_tree()
   local current_file_path = vim.api.nvim_buf_get_name(0)
   local notes_dir = Get_dirname_buffer()
 
-  local cmd = HOME .. "/.local/scripts/python/notes/generate-navigation.py "
+  local cmd = "~/.local/scripts/python/notes/generate-navigation.py "
   cmd = cmd .. current_file_path .. " "
   cmd = cmd .. notes_dir
 
@@ -245,14 +246,20 @@ end
 This function takes an image from the clipboard and aves it to ./assets
 --]]
 function Paste_png_image()
-  local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
-  -- strip trailing
-  if md_link == nil then
-    print("No image found in clipboard")
-  end
-  md_link = string.gsub(md_link, "\n", "")
-  require('notify')("Image saved to assets" .. md_link)
-  vim.api.nvim_put({ md_link }, "l", true, true)
+  -- local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
+  -- -- strip trailing
+  -- if md_link == nil then
+  --   print("No image found in clipboard")
+  -- end
+  -- md_link = string.gsub(md_link, "\n", "")
+  -- require('notify')("Image saved to assets" .. md_link)
+  -- vim.api.nvim_put({ md_link }, "l", true, true)
+
+  -- TODO the above doesn't work for some reason
+  -- maybe the command is returning after the text is inserted??
+  -- I have no clue, this does work though:
+  vim.cmd [[cd %:p:h]]
+  vim.cmd [[r! ~/.local/scripts/python/wm__image-save.py assets]]
 end
 
 --------------------------------------------------------------------------------
@@ -278,4 +285,23 @@ function Attach_file()
   local line = dir .. basename
   line = "[" .. basename .. "](" .. line .. ")"
   vim.api.nvim_put({ line }, "l", true, true)
+end
+
+-- TODO candidate for making a module
+function Send_visual_to_ai_tools_math()
+  local indices = require('utils/stream_ollama').get_visual_start_end()
+  local start_line, end_line = indices[1], indices[2]
+  local content = require('utils/stream_ollama').get_lines_as_string(start_line, end_line)
+  --replace new lines for spaces
+  content = string.gsub(content, "\n", " ")
+
+  -- consider simply
+  -- local content = vim.fn.input('Enter your name: ')
+
+  local command = "r! ai-tools --ollama-host 'http://vale:11434' -c codestral math "
+  command = command .. "'" .. content .. "'"
+  print(command)
+  vim.cmd [[normal! j]]
+  vim.cmd(command)
+  -- Add a new line
 end

@@ -56,3 +56,30 @@ desc = "Copy a markdown link to the hovered file"
 on   = [ "<C-h>" ]
 run  = "plugin copy-md-link"
 desc = "Copy a markdown link to the hovered file"
+
+[[manager.prepend_keymap]]
+on   = [ "u", "m"]
+run = 'shell --confirm "notify-send $0 & disown"'
+desc = "Just for test!"
+
+[[manager.prepend_keymap]]
+on   = [ "u", "z"]
+run = 'shell --confirm "ouch decompress $0 & disown"'
+desc = "Just for test!"
+
+[[manager.prepend_keymap]]
+on   = ["<C-s>"]
+run = 'shell fish --block --confirm'
+desc = "Fish"
+
+[[manager.prepend_keymap]]
+on   = ["<C-x>"]
+run = 'shell xonsh --block --confirm'
+desc = "xonsh"
+
+[[manager.prepend_keymap]]
+on   = ["<C-n>"]
+run = 'shell nu --block --confirm'
+desc = "Nushell"
+
+

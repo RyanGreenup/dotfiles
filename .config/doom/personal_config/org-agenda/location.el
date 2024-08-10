@@ -23,4 +23,5 @@
                         "~/Agenda/work.org"
                         "~/Notes/rs_wiki/Agenda/rs_cal.org"
                         "~/Notes/rs_wiki/Agenda/rs_shopping.org"
+			"~/Agenda/calendar.org"
                         ))

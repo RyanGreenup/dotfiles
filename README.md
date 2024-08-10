@@ -18,6 +18,8 @@ alias gd='git --work-tree $HOME --git-dir $dotfiles_dir $argv'
 gd config --local status.showUntrackedFiles no
 gd reset --hard
 
+cd ~/.local/share/fonts && sh 00_get_fonts.sh
+
 gitui -w $HOME -d "${dot_dir}"
 ```
 
