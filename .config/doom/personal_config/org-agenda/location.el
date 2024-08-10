@@ -22,4 +22,5 @@
                         "~/Agenda/habits.org"
                         "~/Agenda/projects.org"
                         "~/Notes/rs_wiki/calendar.org"
+                        "~/Agenda/calendar.org"
                         ))

@@ -80,3 +80,17 @@
   (async-shell-command
    (format "local-scripts notes sub-page --source %s"
            (shell-quote-argument buffer-file-name))))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `(markdown-mode . ,(eglot-alternatives
+                                   '(("markdown-oxide"))))))
+
+(with-eval-after-load 'lsp
+  (add-to-list 'lsp-language-id-configuration
+               '(markdown-mode . "markdown"))
+  (lsp-register-client (make-lsp-client
+                        :new-connection (lsp-stdio-connection "markdown-oxide")
+                        :activation-fn (lsp-activate-on "markdown")
+                        :server-id 'markdown)))
+;; (message (format "%s" lsp-language-id-configuration))
