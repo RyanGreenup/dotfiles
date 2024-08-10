@@ -8,7 +8,12 @@ gitpython
 ipython
 ipywidgets
 jupyterlab
+jupyterlab-vim
+jupyterlab-lsp
+jupyterlab-lsp
+jupyterlab-quarto
 jupytext
+jupyter-cache
 markdown
 matplotlib
 numpy
