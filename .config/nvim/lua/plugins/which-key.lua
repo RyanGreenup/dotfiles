@@ -179,21 +179,23 @@ wk.add({
   { "<leader>f", group = "Files" }, -- group
   {
     -- [fn_1]
-    { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert",    mode = "n" },
-    { "<leader>fQ",  function() Revert_all_buffers("q!") end,                                   desc = "Auto Revert",    mode = "n" },
-    { "<leader>ff",  require('yazi').yazi,                                                      desc = "Find File",      mode = "n" },
+    -- TODO moved this into the module, check it all
+    -- ~/.config/nvim/lua/utils/markdown_toggle_autocmd_vscode.lua
+    -- { "<leader>fa",  "<cmd>set autoread | au CursorHold * checktime | call feedkeys('lh')<cr>", desc = "Auto Revert",    mode = "n" },
+    { "<leader>fQ",  function() Revert_all_buffers("q!") end,                 desc = "Auto Revert",    mode = "n" },
+    { "<leader>ff",  require('yazi').yazi,                                    desc = "Find File",      mode = "n" },
     { "<leader>fo",  group = "Open" }, -- group
-    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,                      desc = "Clipboard",      mode = "n" },
-    { "<leader>fon", require('utils/misc').open_notes,                                          desc = "Clipboard",      mode = "n" },
-    { "<leader>fs",  function() vim.cmd [[w]] end,                                              desc = "Save",           mode = "n" },
-    { "<leader>fe",  function() vim.cmd [[e!]] end,                                             desc = "Revert",         mode = "n" },
-    { "<leader>fE",  function() Revert_all_buffers() end,                                       desc = "Revert",         mode = "n" },
-    { "<leader>fg",  function() vim.cmd [[:cd %:p:h]] end,                                      desc = "Go to File Dir", mode = "n" },
-    { "<leader>fr",  function() require('telescope.builtin').oldfiles() end,                    desc = "Recent" },
-    { "<leader>ft",  function() require('telescope.builtin').filetypes() end,                   desc = "File Types" },
-    { "<leader>fy",  require('utils/misc').copy_path,                                           desc = "Copy Path" },
-    { "<leader>fY",  require('utils/misc').copy_base_path,                                      desc = "Copy Path" },
-    { "<leader>fp",  require('utils/misc').open_config,                                         desc = "Edit Config" },
+    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,    desc = "Clipboard",      mode = "n" },
+    { "<leader>fon", require('utils/misc').open_notes,                        desc = "Clipboard",      mode = "n" },
+    { "<leader>fs",  function() vim.cmd [[w]] end,                            desc = "Save",           mode = "n" },
+    { "<leader>fe",  function() vim.cmd [[e!]] end,                           desc = "Revert",         mode = "n" },
+    { "<leader>fE",  function() Revert_all_buffers() end,                     desc = "Revert",         mode = "n" },
+    { "<leader>fg",  function() vim.cmd [[:cd %:p:h]] end,                    desc = "Go to File Dir", mode = "n" },
+    { "<leader>fr",  function() require('telescope.builtin').oldfiles() end,  desc = "Recent" },
+    { "<leader>ft",  function() require('telescope.builtin').filetypes() end, desc = "File Types" },
+    { "<leader>fy",  require('utils/misc').copy_path,                         desc = "Copy Path" },
+    { "<leader>fY",  require('utils/misc').copy_base_path,                    desc = "Copy Path" },
+    { "<leader>fp",  require('utils/misc').open_config,                       desc = "Edit Config" },
     {
       "<leader>fj",
       function()
@@ -243,29 +245,37 @@ wk.add({
     desc = "Testing"
   },
   -- The old approach of using a symlink
-  { "<leader>tsL", require('plugins/snippy_symlink_toggle').toggle, desc = "Toggle Auto LaTeX Snippets", mode = "n" },
-  { "<leader>tsa", function()  My_snippy_state.toggles.contextual()  end, desc = "Contextual LaTeX" },
-  { "<leader>tsl", function()  My_snippy_state.Mode.latex = not My_snippy_state.Mode.latex end, desc = "LaTeX Mode" }
+  { "<leader>tsL", require('plugins/snippy_symlink_toggle').toggle,     desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>tsa", function() My_snippy_state.toggles.contextual() end, desc = "Contextual LaTeX" },
+  { "<leader>tsl", function() My_snippy_state.toggles.latex() end,      desc = "LaTeX Mode" }
 })
+
+
 
 wk.add({
   { "<leader>t", group = "Toggle" }, -- group
   {
-    { "<leader>ta", ":lua ToggleAutoSave()<CR>",            desc = "Autosave",              mode = "n" },
-    { "<leader>tn", require('notify').dismiss,              desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",   desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tf", require('telescope.builtin').filetypes, desc = "Filetype",              mode = "n" },
-    { "<leader>th", require('utils/misc').conceal_toggle,   desc = "Conceal",               mode = "n" },
+    { "<leader>ta", function() require('utils/toggle_autosave').toggle() end, desc = "Autosave",              mode = "n" },
+    { "<leader>tn", require('notify').dismiss,                                desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tf", require('telescope.builtin').filetypes,                   desc = "Filetype",              mode = "n" },
+    { "<leader>th", require('utils/misc').conceal_toggle,                     desc = "Conceal",               mode = "n" },
   },
 })
 
+-- TODO wrap with ipairs for automatic Alt-# bindings.
 wk.add({
   { "<leader>tm", group = "Toggle+Mode" }, -- group
   {
     { "<leader>tmo", function() ChangeMode(ModalLayer.Organize) end, desc = "Organize", mode = "n" },
     { "<leader>tmr", "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Resize",   mode = "n" },
+    { "<M-2>", "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmm", "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",     desc = "Move",     mode = "n" },
+    { "<M-4>", "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmb", "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<M-3>", "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<leader>tmt", "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<M-1>", "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmg", "<cmd>lua ChangeMode(ModalLayer.Git)<CR>",      desc = "Git",      mode = "n" },
     { "<leader>tms", "<cmd>lua ChangeMode(ModalLayer.Search)<CR>",   desc = "Search",   mode = "n" },
     { "<leader>tmn", "<cmd>lua ChangeMode(ModalLayer.None)<CR>",     desc = "None",     mode = "n" },
@@ -284,6 +294,7 @@ wk.add({
   { "<leader>jj", require('utils/notebooks').jupytext_set_formats,                  desc = "Jupytext Pair" },
   { "<leader>jp", require('utils/notebooks').quarto_preview,                        desc = "Jupytext Pair" },
   { "<leader>js", require('utils/notebooks').jupytext_sync,                         desc = "Jupytext Sync" },
+  { "<leader>jS", function() require('utils/notebooks').jupytext_sync(true) end,    desc = "Jupytext Sync" },
   { "<leader>jw", require('utils/notebooks').jupytext_watch_sync,                   desc = "Watch Jupytext Sync" },
   { "<leader>jo", require('utils/notebooks').open_in_vscode,                        desc = "Open in VSCode" },
   { "<leader>jm", require('utils/notebooks').jupytext_render_markdown_with_quarto,  desc = "Export to Markdown (Quarto)" },
@@ -352,10 +363,15 @@ wk.add({
 -- Insert
 wk.add({
   { "<leader>i",  group = "insert" },
-  { "<leader>iu", require('telescope.builtin').symbols,                           desc = "Symbols",       mode = "n" },
+  { "<leader>im", function() Send_visual_to_ai_tools_math() end,                  desc = "Convert Visual Selection to Katex", mode = "v" },
+  { "<leader>iu", require('telescope.builtin').symbols,                           desc = "Symbols",                           mode = "n" },
   -- todo this is worth doing with a vmap
   -- look at ollama codestral
-  { "<leader>it", "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", desc = "Text to Latex", mode = "v" },
+  { "<leader>it", "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", desc = "Text to Latex",                     mode = "v" },
+})
+
+wk.add({
+  {"<leader>"}
 })
 
 
