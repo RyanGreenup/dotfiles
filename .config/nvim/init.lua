@@ -15,7 +15,8 @@ else
   -- -- LSP
   require('plugins/neodev') -- Must precede lsp setup
   -- require('plugins/lsp+omnifunc') -- Only enable one of these
-  require('plugins/lsp+cmp')
+  require('plugins/lsp').run_setup()
+  require('plugins/cmp').run_setup()
   require('plugins/snippy')
   require('plugins/vimtex')
   -- require('plugins/markdown-preview')
