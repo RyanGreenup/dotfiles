@@ -1,4 +1,6 @@
-FROM localhost/base
+# Inherit from text-editors so the r box has latex
+FROM localhost/text_editors
+
 
 
 
