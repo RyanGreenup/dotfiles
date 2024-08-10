@@ -286,3 +286,22 @@ function Attach_file()
   line = "[" .. basename .. "](" .. line .. ")"
   vim.api.nvim_put({ line }, "l", true, true)
 end
+
+-- TODO candidate for making a module
+function Send_visual_to_ai_tools_math()
+  local indices = require('utils/stream_ollama').get_visual_start_end()
+  local start_line, end_line = indices[1], indices[2]
+  local content = require('utils/stream_ollama').get_lines_as_string(start_line, end_line)
+  --replace new lines for spaces
+  content = string.gsub(content, "\n", " ")
+
+  -- consider simply
+  -- local content = vim.fn.input('Enter your name: ')
+
+  local command = "r! ai-tools --ollama-host 'http://vale:11434' -c codestral math "
+  command = command .. "'" .. content .. "'"
+  print(command)
+  vim.cmd [[normal! j]]
+  vim.cmd(command)
+  -- Add a new line
+end
