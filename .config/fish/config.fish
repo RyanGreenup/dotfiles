@@ -22,9 +22,6 @@ if status is-interactive
             echo ""
             echo "    python -m venv $venv_dir"
             echo ""
-            echo "chgrp (id -u) " $venv_dir
-            echo "chmod 775 "     $venv_dir
-            echo ""
             echo "The default dependencies are tracked here:"
             echo ""
             echo "pip install -r ~/.local/share/virtualenvs/requirements_default.txt"
@@ -63,9 +60,12 @@ function ls! --wraps='ls -ultrah' --description 'alias ls!=ls -ultrah'
     ls -ultrah $argv
 end
 
-## Easier Xclip
-function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
-    xclip -selection clipboard $argv
+function x --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for copy xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py copy $argv
+end
+
+function xp --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for paste xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py paste $argv
 end
 
 function bn
@@ -430,6 +430,14 @@ bind \co '
     rm $tmp
     commandline -f repaint'
 
+bind -k f1 '
+    ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
+    commandline -f repaint'
+
+function g
+    ~/.local/scripts/python/shell__alias.py --alias $argv
+end
+
 # Set PATH
 set PATH /usr/local/bin/            $PATH
 set PATH $HOME/.local/bin           $PATH
@@ -441,18 +449,3 @@ set PATH $HOME/.local/share/gem/ruby/3.2.0/bin $PATH
 set PATH $HOME/go/bin               $PATH
 set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
 set PATH $PATH /usr/lib/rstudio
-
-# Add AppImages
-set PATH $PATH $HOME/Applications/AppImages/bin/
-
-# Add Flatpak
-set PATH $PATH /var/lib/flatpak/exports/bin/
-set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
-
-# Add Flatpak
-set PATH $PATH $HOME/.nix-profile/bin/
-
-set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
-
-export QT_XCB_GL_INTEGRATION=none
-# <https://github.com/NixOS/nixpkgs/issues/169630>

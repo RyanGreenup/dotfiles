@@ -110,12 +110,15 @@ end
 #+end_src
 
 ** Clipboard
+Use a python script, [[file:~/.local/scripts/python/wm__clipboard.py][~/.local/scripts/python/wm__clipboard.py]], to detect X11 or Wayland and set the clipboard.
 #+begin_src fish
-## Easier Xclip
-function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
-    xclip -selection clipboard $argv
+function x --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for copy xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py copy $argv
 end
 
+function xp --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for paste xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py paste $argv
+end
 #+end_src
 ** File Rename
 An simple way to bulk-rename files without relying on =vimv=, =brn= or =ranger=:
@@ -580,6 +583,20 @@ bind \co '
         sed "s/^cd //g" < $tmp | sed "s/\"//g")
     rm $tmp
     commandline -f repaint'
+#+end_src
+* Experimental
+** Shell out for Aliases?
+Maybe something like hoard would be simpler though hmmm
+
+
+#+begin_src fish
+bind -k f1 '
+    ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
+    commandline -f repaint'
+
+function g
+    ~/.local/scripts/python/shell__alias.py --alias $argv
+end
 #+end_src
 
 
