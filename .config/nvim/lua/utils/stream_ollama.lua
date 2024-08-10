@@ -184,6 +184,14 @@ function M.stream_selection_to_ollama(model, host)
   my_copilot_current_selection(model, host)
 end
 
+function M.get_visual_start_end()
+  return get_visual_start_end()
+end
+
+function M.get_lines_as_string(start_line, end_line)
+  return get_lines_as_string(start_line, end_line)
+end
+
 -- TODO add error messages
 --      if the model isn't on the server this fails
 --      if the server isn't available this fails
