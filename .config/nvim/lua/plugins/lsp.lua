@@ -61,13 +61,13 @@ local function nmap(key, callback, mode, bufnr)
   end
 end
 
-local function set_lsp_keymaps()
+local function set_lsp_keymaps(bufnr)
   for _, keybinding in ipairs(outside_normal_maps) do
     nmap(keybinding[1], keybinding[2])
   end
 
   for _, keybinding in ipairs(on_attach_normal_maps) do
-    nmap(keybinding[1], keybinding[2])
+    nmap(keybinding[1], keybinding[2], "n", bufnr)
   end
 end
 
@@ -80,7 +80,7 @@ end
 
 local on_attach = function(client, bufnr)
   enable_inlay_hints_if_provided(client)
-  set_lsp_keymaps()
+  set_lsp_keymaps(bufnr)
   if not cmp_nvim_lsp_available then
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
   end
