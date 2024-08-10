@@ -4,6 +4,18 @@
 local M = {} -- define a table to hold our module
 
 
+local function shell(cmd)
+  local handle = io.popen(cmd)
+  if handle == nil then
+    print("Failed to run the command.")
+  else
+    local output = handle:read("*a")
+    handle:close()
+    return output
+  end
+end
+
+
 --------------------------------------------------------------------------------
 -- Get Notes -------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -68,10 +80,15 @@ end
 
 
 
-local function get_note_paths()
-  local dir_path = expanduser(notes_dir)
+local function get_note_paths(dir, filter_for_markdown)
+  if filter_for_markdown == nil then
+    filter_for_markdown = true
+  end
+  local dir_path = expanduser(dir)
   local files = vim.fn.globpath(dir_path, "**", true, true) ---@type table
-  files = clean_links(files)
+  if filter_for_markdown then
+    files = clean_links(files, dir_path)
+  end
   return files
 end
 
@@ -108,6 +125,26 @@ local function telescope_attach_insert_text(prompt_bufnr, map)
   return true
 end
 
+---Boilerplate telescope function to insert the selected item
+---Default is to go to that buffer
+---@param prompt_bufnr number
+---@param map table
+local function telescope_attach_copy_file(prompt_bufnr, map)
+  actions.select_default:replace(function()
+    actions.close(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    print(vim.inspect(selection))
+    local file = selection[1]
+    -- TODO check if the file would clobber another
+    local basename = vim.fn.fnamemodify(file, ":t")
+    -- copy the file into ./assets
+    shell("cp " .. file .. " ./assets/")
+    local link = string.format("![%s](./assets/%s)", basename, basename)
+    vim.api.nvim_put({ link }, "", false, true)
+  end)
+  return true
+end
+
 local pick_notes = function(opts)
   opts = opts or {}
   pickers.new(opts, {
@@ -116,21 +153,11 @@ local pick_notes = function(opts)
     attach_mappings = telescope_attach_insert_text,
     previewer = conf.file_previewer(opts),
     finder = finders.new_table {
-      results = get_note_paths(),
+      results = get_note_paths(notes_dir),
     },
   }):find()
 end
 
-local function shell(cmd)
-  local handle = io.popen(cmd)
-  if handle == nil then
-    print("Failed to run the command.")
-  else
-    local output = handle:read("*a")
-    handle:close()
-    return output
-  end
-end
 
 local function ripgrep(search_string)
   local out = shell("rg -l " .. search_string)
@@ -163,6 +190,34 @@ local open_backlink = function(opts)
   }):find()
 end
 
+local function fd_files(opts)
+  local files = shell("fd -t f . ~")
+
+  -- Split into a table
+  local lines = vim.split(out, "\n")
+  -- Remove empty lines
+  lines = vim.tbl_filter(function(line)
+    return line ~= ""
+  end, lines)
+
+  return lines
+end
+
+
+local grab_attachment = function(opts)
+  opts = opts or {}
+  pickers.new(opts, {
+    prompt_title = "Files",
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = telescope_attach_copy_file,
+    previewer = conf.file_previewer(opts),
+    finder = finders.new_table {
+      results = get_note_paths("~")
+    },
+  }):find()
+end
+
+
 
 -- Define the function we want to export
 function M.insert_notes_link()
@@ -173,6 +228,8 @@ function M.open_backlink()
   open_backlink()
 end
 
-
+function M.todo()
+  grab_attachment()
+end
 
 return M
