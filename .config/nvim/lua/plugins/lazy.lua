@@ -58,7 +58,7 @@ use({
 
 -- Snippets
 use { 'dcampos/nvim-snippy', dependencies = { 'honza/vim-snippets' },
-  config = function() require('plugins/snippy') end}
+  config = function() require('plugins/snippy') end }
 
 use { 'is0n/fm-nvim' }
 use({
@@ -534,19 +534,23 @@ use({
     vim.cmd([[colorscheme tokyonight]])
   end,
 })
-use { 'Mofiqul/dracula.nvim' }
-use { 'catppuccin/nvim' }
-use { 'shaunsingh/moonlight.nvim' }
-use { 'rafamadriz/neon' }
-use { 'Domeee/mosel.nvim' }
-use { 'folke/tokyonight.nvim' }
-use 'ellisonleao/gruvbox.nvim'
-use 'marko-cerovac/material.nvim'
-use 'Mofiqul/vscode.nvim'
-use 'https://github.com/bluz71/vim-nightfly-colors'
--- use { 'tomasr/molokai' }
--- use 'https://github.com/projekt0n/github-nvim-theme'
--- use { 'protesilaos/tempus-themes-vim' }
+
+for _, theme in ipairs({
+  "EdenEast/nightfox.nvim",
+  'https://github.com/bluz71/vim-nightfly-colors',
+  'Mofiqul/vscode.nvim',
+  'marko-cerovac/material.nvim',
+  'ellisonleao/gruvbox.nvim',
+  'folke/tokyonight.nvim',
+  'Domeee/mosel.nvim',
+  'rafamadriz/neon',
+  'shaunsingh/moonlight.nvim',
+  'catppuccin/nvim',
+  'Mofiqul/dracula.nvim',
+  -- 'protesilaos/tempus-themes-vim',
+}) do
+  use({ theme, lazy = false })
+end
 
 -- Additional Syntax ...........................................................
 use { 'https://github.com/meatballs/vim-xonsh' }
