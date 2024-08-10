@@ -103,3 +103,7 @@ def custom_keybindings(bindings, **kw):
         xonsh.dirstack.cd([fzf('d', 50)])
         event.cli.renderer.erase()
         event.cli.renderer.erase()
+
+
+# Add xonsh
+execx($(atuin init xonsh))
