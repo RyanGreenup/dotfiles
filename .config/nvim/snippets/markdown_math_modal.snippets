@@ -2,27 +2,49 @@
 # lightly following lyx
 # TODO Write a python function to generate this, it's a pain to edit
 
-snippet aw "Aligned" Al
-	$$
-	\begin{aligned}
-		$1
-	\end{aligned}
-	$$
-	$0
+# -- `w` Word boundary
+# -- `i` In-word expansion
+# -- `b` Beginning of line
+# -- `A` Autotrigger
 
-snippet i "Integral" Al
+
+snippet le "Aligned Equals" Ali
+	&= $1 \\\\ $0
+
+snippet fle "Log base e" Alw
+	\ln ($1) $0
+
+# snippet aw "Aligned" Al
+# 	$$
+# 	\begin{aligned}
+# 		$1
+# 	\end{aligned}
+# 	$$
+# 	$0
+
+snippet aw "Aligned" Al
+	$\displaystyle
+	\begin{aligned}
+		$1 &= $2 \\
+		$3
+	\end{aligned}$
+
+snippet ci "Integral" Al
 	\int $1 \mathrm{d} $2 $0
 
 snippet cz "Calculs Evaluate Range" Al
 	\left. \right|
 
-snippet op "Power" Al
+snippet oe "Power" Ali
 	^{$1} $0
 
-snippet os "Subscript" Alw
+snippet op "Power" Ali
+	+ $1 $0
+
+snippet ds "Subscript" Ali
 	_{$1} $0
 
-snippet om "Minus" Al
+snippet om "Minus" Ali
 	- $0
 
 snippet bp "Parentheses" Al
@@ -47,10 +69,36 @@ snippet tx "Text / Normal" Al
 	\text{$1} $0
 
 snippet tr "Text / Roman" Al
-	\mathrm{$1} $0
+	\mathrm{$1}$0
 
-snippet tb "Text / Roman" Alw
-	\mathbf{$1} $0
+snippet tb "Text / Roman" Ali
+	\mathbf{$1}$0
 
 snippet of "Fraction" Al
-	\frac{$1}{$2} $0
+	\frac{$1}{$2}$0
+
+
+snippet cd "Derivative" l
+	\frac{\mathrm{d}$1}{\mathrm{d}$2}$0
+
+snippet cdo "Derivative" l
+	\frac{\mathrm{d}}{\mathrm{d}$2} \left( $3($2) \right)$0
+
+snippet cdox "Derivative" lA
+	\frac{\mathrm{d}}{\mathrm{d}x} \left( $3(x) \right)$0
+
+snippet os "Operator Sum" lAi
+	\sum^{$1}_{$2} \left[ $3 \right]$0
+
+snippet li "Implies" lAi
+	\implies $0
+
+snippet tB "mathBB" lAi
+	\mathbb{$1}$0
+
+snippet R "Reals" lAi
+	\mathbb{R}$0
+
+snippet Z "Integers" lAi
+	\mathbb{Z}$0
+
