@@ -6,19 +6,19 @@ cd "$(dirname "${0}")"
 ## Set Variables
 notebooks="$HOME/Notes/Notebooks"
 
-# Set the location of things (for ordinary Distro)
-# This lets me move venvs around without changing the script
-jupyter=$($HOME/.local/bin/get_venv)/bin/jupyter
+# # Set the location of things (for ordinary Distro)
+# # This lets me move venvs around without changing the script
+# jupyter=$($HOME/.local/bin/get_venv)/bin/jupyter
 
-For base Jupyter
-rm log_stdout log_stderr
-exec  "${jupyter}" lab "${notebooks}" --ip 0.0.0.0 --port 8962 --no-browser  \
-    >> log_stdout 2>> log_stderr
-
-
-# # For Distrobox Jupyter (convenient for R)
-# container_name="r"
-# jupyter=$(/home/ryan/.local/bin/get_venv "${container_name}")/bin/jupyter
+# For base Jupyter
 # rm log_stdout log_stderr
-# exec podman container exec -it "${container_name}" "${jupyter}" lab "${notebooks}" --ip 0.0.0.0 --port 8962 --no-browser --allow-root \
+# exec  "${jupyter}" lab "${notebooks}" --ip 0.0.0.0 --port 8962 --no-browser  \
 #     >> log_stdout 2>> log_stderr
+
+
+# For Distrobox Jupyter (convenient for R)
+container_name="r"
+jupyter=$(/home/ryan/.local/bin/get_venv "${container_name}")/bin/jupyter
+rm log_stdout log_stderr
+exec podman container exec -it "${container_name}" "${jupyter}" lab "${notebooks}" --ip 0.0.0.0 --port 8962 --no-browser --allow-root \
+    >> log_stdout 2>> log_stderr
