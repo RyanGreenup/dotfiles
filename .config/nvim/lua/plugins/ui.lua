@@ -139,9 +139,12 @@ local colorbuddy = { 'tjdevries/colorbuddy.vim', opts = {} }
 local focus =
 { 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
 
+local floating_term = { "numToStr/FTerm.nvim" }
+
 return {
   -- Neotree is disabled as it blocks oil
   --   neotree
+  floating_term,
   which_key,
   git_signs,
   bookmarks,
