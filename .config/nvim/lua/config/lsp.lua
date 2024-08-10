@@ -3,7 +3,7 @@ local lsp = vim.lsp
 
 -- Imports
 local lspconfig = require('lspconfig')
-local servers = require('plugins/lsp_server_list').servers
+local servers = require('config/lsp_server_list').servers
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_nvim_lsp_available = pcall(require, "cmp_nvim_lsp")

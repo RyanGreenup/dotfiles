@@ -59,7 +59,7 @@ use({
 
 -- Snippets
 use { 'dcampos/nvim-snippy', dependencies = { 'honza/vim-snippets' },
-  config = function() require('plugins/snippy') end }
+  config = function() require('config/snippy') end }
 
 use { 'is0n/fm-nvim' }
 use({

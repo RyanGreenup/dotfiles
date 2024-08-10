@@ -143,7 +143,7 @@ function Which_key_modal_bind()
   end
   if Which_key_mode == "none" then
     -- TODO is there a way to make this more dynamic?
-    vim.cmd [[source ~/.config/nvim/lua/plugins/which-key.lua]]
+    vim.cmd [[source ~/.config/nvim/lua/config/which-key.lua]]
   elseif Which_key_mode == "latex" then
     wk.add({
       { "q", function() Which_key_mode = "normal" end, desc = "Quit" },
@@ -245,7 +245,7 @@ wk.add({
     desc = "Testing"
   },
   -- The old approach of using a symlink
-  { "<leader>tsL", require('plugins/snippy_symlink_toggle').toggle,     desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>tsL", require('config/snippy_symlink_toggle').toggle,     desc = "Toggle Auto LaTeX Snippets", mode = "n" },
   { "<leader>tsa", function() My_snippy_state.toggles.contextual() end, desc = "Contextual LaTeX" },
   { "<leader>tsl", function() My_snippy_state.toggles.latex() end,      desc = "LaTeX Mode" }
 })
