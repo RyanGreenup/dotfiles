@@ -144,7 +144,13 @@ local colorbuddy = { 'tjdevries/colorbuddy.vim', opts = {} }
 local focus =
 { 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
 
-local floating_term = { "numToStr/FTerm.nvim" }
+local floating_term = {
+  "numToStr/FTerm.nvim",
+  config = function()
+    require('config/fterm')
+    require('keymaps').fterm()
+  end
+}
 
 return {
   neotree,
