@@ -82,7 +82,27 @@ local lualine = {
     require("lualine").setup({
       sections = {
         lualine_x = { { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = { fg = "#ff9e64" }, }, },
-        lualine_c = { { 'filename', path = 1, } }
+        lualine_y = {
+          { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+          { "location", padding = { left = 0, right = 1 } },
+          function()
+            return os.date("%a %d %H:%M")
+          end,
+        },
+        lualine_c = { { 'filename', path = 1, } },
+        lualine_a = { "mode",
+          function()
+            local state = " "
+            if My_snippy_state ~= nil then
+              if My_snippy_state.Mode.latex then
+                state = state .. "$$"
+              else
+                state = state .. "󰄗"
+              end
+            end
+            return state
+          end,
+        },
       },
     })
   end

@@ -19,6 +19,7 @@ My_snippy_state = {
   toggles = {
     latex = function()
       My_snippy_state.Mode.latex = not My_snippy_state.Mode.latex
+      require('lualine').refresh()
     end,
     contextual = function()
       My_snippy_state.contextual = not My_snippy_state.contextual
