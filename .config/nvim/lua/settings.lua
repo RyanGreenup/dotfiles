@@ -41,7 +41,7 @@ opt.ignorecase = true      -- ignore case letters when search
 opt.smartcase = true       -- ignore lowercase for the whole pattern
 opt.linebreak = true       -- wrap on word boundary
 opt.autoread = true        -- Automatically reload files
-opt.relativenumber = true  -- Relative numbers
+opt.relativenumber = false -- Relative numbers
 cmd [[ set modelineexpr ]] -- See vim modeline vulnerability 2019
 
 -- Folding
@@ -69,7 +69,7 @@ exec([[
 -----------------------------------------------------------
 opt.hidden = true     -- enable background buffers
 opt.history = 100     -- remember n lines in history
-opt.lazyredraw = true -- faster scrolling
+opt.lazyredraw = false -- faster scrolling
 opt.synmaxcol = 240   -- max column for syntax highlight
 
 -----------------------------------------------------------

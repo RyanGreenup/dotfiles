@@ -74,49 +74,6 @@ local outline = {
 
 local search_highlighting = { 'kevinhwang91/nvim-hlslens', opts = {} }
 
-local telescope = {
-  'nvim-telescope/telescope.nvim',
-  config = function()
-    require('telescope').load_extension('file_browser')
-    -- if the fzf native extension is installed, load it
-    if pcall(require, 'telescope._extensions.fzf') then
-      require('telescope').load_extension('fzf')
-    end
-
-
-    if pcall(require, 'telescope._extensions.lazy') then
-      require("telescope").load_extension "lazy"
-    end
-    require("telescope").setup({
-      pickers = {
-        colorscheme = {
-          enable_preview = true
-        }
-      }
-    })
-    -- require('telescope').load_extension('dap')
-  end
-}
-
-local native_fzf_build_command = [[
-  sh -c '
-  set -e
-  if command -v cmake &> /dev/null; then
-    cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-    cmake --build build --config Release
-    cmake --install build --prefix build
-  else
-    echo "You need to install cmake to build the fzf native extension"
-    echo "Install cmake and then run :Lazy build fzf-native-extension"
-    exit 1
-  fi
-  '
-  ]]
-
-local telescope_fzf = {
-  'nvim-telescope/telescope-fzf-native.nvim',
-  build = native_fzf_build_command
-}
 
 local lualine = {
   'nvim-lualine/lualine.nvim',
@@ -152,6 +109,40 @@ local floating_term = {
   end
 }
 
+local noice_opts = {
+  lsp = {
+    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+    },
+  },
+  -- you can enable a preset for easier configuration
+  presets = {
+    bottom_search = true,         -- use a classic bottom cmdline for search
+    command_palette = true,       -- position the cmdline and popupmenu together
+    long_message_to_split = true, -- long messages will be sent to a split
+    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false,       -- add a border to hover docs and signature help
+  },
+}
+
+local noice = {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  opts = noice_opts,
+  dependencies = {
+    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    "MunifTanjim/nui.nvim",
+    -- OPTIONAL:
+    --   `nvim-notify` is only needed, if you want to use the notification view.
+    --   If not available, we use `mini` as the fallback
+    "rcarriga/nvim-notify",
+  },
+  enabled = vim.g.my_use_noice_ui or false,
+}
+
 return {
   neotree,
   floating_term,
@@ -166,17 +157,5 @@ return {
   colorbuddy,
   indent_blankline,
   focus,
-  -- telescope
-  telescope,
-  telescope_fzf,
-  { "nvim-telescope/telescope-file-browser.nvim" },
-  { 'https://github.com/kyazdani42/nvim-web-devicons' },
-  { 'https://github.com/camgraff/telescope-tmux.nvim' },
-
-  { 'nvim-telescope/telescope-file-browser.nvim' },
-  { 'https://github.com/camgraff/telescope-tmux.nvim' },
-  { 'https://github.com/kyazdani42/nvim-web-devicons' },
-  { 'nvim-telescope/telescope-symbols.nvim' },
-  { 'nvim-telescope/telescope-file-browser.nvim' },
-  { 'tsakirist/telescope-lazy.nvim' },
+  noice,
 }
