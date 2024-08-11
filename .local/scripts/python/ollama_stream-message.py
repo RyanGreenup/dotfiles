@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
 from ollama import Client
 import sys
+import os
+import notify2
 
+# pip install dbus-python notify2
+notify2.init("Ollama Streaming")
 
 if len(sys.argv) <= 1:
-    raise ValueError("Please provide a message to send to the model.")
+    if sys.stdin:
+        # Collect stdin
+        message = ""
+        for line in sys.stdin:
+            message += line
+    else:
+        raise ValueError(" No STDIN Please provide a message to send to the model.")
 else:
     message = sys.argv[1]
 
@@ -28,5 +38,18 @@ stream = client.chat(
     stream=True,
 )
 
+current_line = ""
+notification = notify2.Notification("Ollama", "Started Stream")
+notification_id = notification.show()  # Show the notification and get its ID
+the_message = ""
 for chunk in stream:
-    print(chunk["message"]["content"], end="", flush=True)
+    current_chunk = chunk["message"]["content"]  # type:ignore
+    the_message += current_chunk
+    current_line += current_chunk
+    if "\n" in current_line:
+        # os.system('notify-send "Ollama" "{}"'.format(current_line))
+        current_line = ""
+        notification.close()  # This will close the notification
+        notification = notify2.Notification("Ollama", the_message)
+        notification_id = notification.show()  # Show the notification and get its ID
+    print(current_chunk, end="", flush=True)

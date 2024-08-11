@@ -16,3 +16,8 @@ else
   -- Load keymap last
   require('keymaps')
 end
+
+
+vim.cmd([[vmap <F1> <cmd>'<,'>! /home/ryan/.local/scripts/python/ollama_stream-message.py<CR>]])
+
+
