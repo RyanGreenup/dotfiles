@@ -218,36 +218,8 @@ if vim.g.neovide then
   ]]
 end
 
-------------------------------------------------------------
--- Autosave ------------------------------------------------
-------------------------------------------------------------
-
--- TODO dead code
--- -- Enable Autosave using CursorHold
--- vim.cmd [[
---     :set updatetime=300
---     :au CursorHold * :silent! wa
--- ]]
---
--- -- Write a function to toggle it
--- local auto_save = true
--- function ToggleAutoSave()
---   if auto_save then
---     vim.cmd [[ :au! ]]
---     auto_save = false
---     vim.cmd("echo 'Auto-save is OFF'")
---   else
---     vim.cmd [[ :au CursorHold * :silent! wa ]]
---     auto_save = true
---     vim.cmd("echo 'Auto-save is ON'")
---   end
--- end
---
---
--- vim.cmd [[
--- set conceallevel=0
--- ]]
---
+-- Enable Autosave (one toggle is enable)
+require('utils/toggle_autosave').toggle()
 
 ------------------------------------------------------------
 -- File Extensions -----------------------------------------
