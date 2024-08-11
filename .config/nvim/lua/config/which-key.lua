@@ -8,11 +8,6 @@ local wk = require("which-key")
 local n = require('notify')
 
 local theme = "ivy" -- Allowed: dropdown, ivy, ...
-function telescope_command(s, s2)
-  local command = "<cmd>" .. s .. " theme=" .. theme .. "<cr>"
-  return { command, s2 }
-end
-
 wk.add({
   { "<leader><leader>", require('telescope.builtin').find_files, desc = "fzf" },
   { "<leader>'",        require('telescope.builtin').resume,     desc = "fzf" },
