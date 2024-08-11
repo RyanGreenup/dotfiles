@@ -34,10 +34,13 @@ client = Client(host=f"http://{host}:11434")
 
 stream = client.chat(
     model=model,
-    messages=[{"role": "user", "content": message}],
+    messages=[{"role": "user", "content": "you will be given some text and you are tasked with continuing it on, here is the text: " + message}],
     stream=True,
 )
 
+# Print the message so it isn't lost after calling vim replace with :'<,'>!
+# vmap <F1> <cmd>'<,'>! /home/ryan/.local/scripts/python/ollama_stream-message.py<CR>
+print(message)
 current_line = ""
 notification = notify2.Notification("Ollama", "Started Stream")
 notification_id = notification.show()  # Show the notification and get its ID
