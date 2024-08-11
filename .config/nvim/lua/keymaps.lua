@@ -11,13 +11,11 @@ local function mp(mode, key, command)
   vim.api.nvim_set_keymap(mode, key, command, default_opts)
 end
 
--- TODO to match which key and lazy, the third argument
--- needs a key for desc =
 local function nmap(keymap_table)
   for _, table in pairs(keymap_table) do
     local key = table[1]
     local func = table[2]
-    local desc = table[3]
+    local desc = table.desc
     local opts = { noremap = default_opts.nnoremap, silent = default_opts.nnoremap, callback = func, desc = desc }
     vim.api.nvim_set_keymap('n', key, '', opts)
   end
@@ -84,8 +82,6 @@ map('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
 map('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
 map('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
 
--- nvim-tree
-map('n', '<C-n>', '<cmd>Neotree toggle<CR>', default_opts) -- open/close
 
 -- Vista tag-viewer
 map('n', '<C-m>', ':Outline<CR>', default_opts) -- open/close
@@ -350,29 +346,31 @@ local M = {} -- define a table to hold our module
 
 -- Define the function we want to export
 
-
+function M.neotree()
+  nmap({ { '<C-n>', function() vim.cmd([[Neotree toggle]]) end, desc = "Toggle Neotree" } })
+end
 
 function M.dap_keymaps()
   nmap({
-    { "<F4>",  require('dapui').toggle,          "Toggle DapUI" },
-    { "<F9>",  require('dap').toggle_breakpoint, "Toggle Dap Breakpoint" },
-    { "<F5>",  require('dap').continue,          "Dap Continue" },
-    { "<F10>", require('dap').step_over,         "Step over" },
-    { "<F11>", require('dap').step_into,         "Step into" },
-    { "<F23>", require('dap').step_out,          "Step Out" },
+    { "<F4>",  require('dapui').toggle,          desc="Toggle DapUI" },
+    { "<F9>",  require('dap').toggle_breakpoint, desc="Toggle Dap Breakpoint" },
+    { "<F5>",  require('dap').continue,          desc="Dap Continue" },
+    { "<F10>", require('dap').step_over,         desc="Step over" },
+    { "<F11>", require('dap').step_into,         desc="Step into" },
+    { "<F23>", require('dap').step_out,          desc="Step Out" },
   })
 end
 
 function M.fold_cycle()
   nmap(
-    { { '<tab>', require('fold-cycle').open,      'Fold-cycle: open folds' },
-      { '<s-tab>', require('fold-cycle').close,     'Fold-cycle: close folds' },
-      { 'zC',      require('fold-cycle').close_all, 'Fold-cycle: close all folds' } })
+    { { '<tab>', require('fold-cycle').open,        desc='Fold-cycle: open folds' },
+      { '<s-tab>', require('fold-cycle').close,     desc='Fold-cycle: close folds' },
+      { 'zC',      require('fold-cycle').close_all, desc='Fold-cycle: close all folds' } })
 end
 
 function M.outline_plugin()
   nmap(
-    { { '<-m>', function() vim.cmd [[Outline]] end, "Outline Toggle" },
+    { { '<-m>', function() vim.cmd [[Outline]] end, desc="Outline Toggle" },
     })
 end
 
@@ -383,7 +381,7 @@ function M.yazi()
       function()
         require("yazi").yazi()
       end,
-      "Open the file manager",
+      desc="Open the file manager",
     },
     {
       -- Open in the current working directory
@@ -391,7 +389,7 @@ function M.yazi()
       function()
         require("yazi").yazi(nil, vim.fn.getcwd())
       end,
-      "Open the file manager in nvim's working directory",
+      desc="Open the file manager in nvim's working directory",
     },
   })
 end
