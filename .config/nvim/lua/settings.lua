@@ -76,7 +76,7 @@ opt.synmaxcol = 240   -- max column for syntax highlight
 -- Colorscheme
 -----------------------------------------------------------
 opt.termguicolors = true -- enable 24-bit RGB colors
-require('config.themes').setup({auto=true})
+require('config.themes').setup()
 
 -----------------------------------------------------------
 -- Tabs, indent
