@@ -52,6 +52,9 @@ local cmp = {
       dependencies = {
         {
           "dcampos/nvim-snippy",
+          dependencies = {
+            "honza/vim-snippets"
+          },
           config = function()
             require("config/snippy").run_setup()
           end,

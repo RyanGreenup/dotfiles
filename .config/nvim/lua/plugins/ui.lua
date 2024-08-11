@@ -4,7 +4,12 @@ local neotree =
   dependencies = {
     "MunifTanjim/nui.nvim",
   },
-  opts = {},
+  opts = {
+    hijack_netrw_behavior = "disabled"
+  },
+  config = function()
+    require('keymaps').neotree()
+  end
 }
 
 local which_key = {
@@ -139,9 +144,17 @@ local colorbuddy = { 'tjdevries/colorbuddy.vim', opts = {} }
 local focus =
 { 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
 
+local floating_term = {
+  "numToStr/FTerm.nvim",
+  config = function()
+    require('config/fterm')
+    require('keymaps').fterm()
+  end
+}
+
 return {
-  -- Neotree is disabled as it blocks oil
-  --   neotree
+  neotree,
+  floating_term,
   which_key,
   git_signs,
   bookmarks,
