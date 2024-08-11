@@ -42,12 +42,15 @@
 ;;;; Open Tasks
 ;; (global-set-key (kbd "<f1> j") 'my/open_todays_journal)
 ;; (global-set-key (kbd "<f1> t") 'my/open_tasks)
+;; (map! :leader
+;;       :desc "Open Todays journal" "<f2> t" 'my/open_tasks)
+;; (map! :leader
+;;       :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
+;; (map! :leader
+;;       :desc "Open Todays journal" "<f2> n" 'my/notes-find)
 (map! :leader
-      :desc "Open Todays journal" "<f2> t" 'my/open_tasks)
-(map! :leader
-      :desc "Open Todays journal" "<f2> j" 'my/open_todays_journal)
-(map! :leader
-      :desc "Open Todays journal" "<f2> n" 'my/notes-find)
+      :desc "Open Todays journal" "<f2> j" #'open-latest-journal-page)
+
 ;;; General
 ;;;; Open in Vim
 (defun my/open-current-file-in-vim ()

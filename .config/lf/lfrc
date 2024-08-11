@@ -213,3 +213,7 @@ map - ${{
     filename="${f##*/}"
     new_file=$(task_manager reschedule time "${filename}" -- -30)
 }}
+
+map of ${{
+/home/ryan/.config/lf/open.py "${f}"
+    }}

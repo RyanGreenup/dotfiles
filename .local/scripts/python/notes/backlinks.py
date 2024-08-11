@@ -4,15 +4,15 @@
 
 
 import argparse
-import re
-from collections import defaultdict
-import subprocess
-from subprocess import PIPE
 import os
+import re
+import subprocess
 import sys
-from utils import fzf_select
+from collections import defaultdict
+from subprocess import PIPE
 
 from config import Config
+from utils import fzf_select
 
 
 def main(file: str, notes_dir: str, editor: str, relative: bool) -> None:

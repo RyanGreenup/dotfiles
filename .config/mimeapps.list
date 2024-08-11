@@ -63,3 +63,4 @@ application/vnd.openxmlformats-officedocument.presentationml.presentation=libreo
 application/epub+zip=zathura-usercreated-1.desktop;
 application/pdf=zathura-usercreated-1.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=org.libreoffice.LibreOffice.writer.desktop;
+x-scheme-handler/ferdium=ferdium.desktop

@@ -11,3 +11,34 @@ snippet template
 	    main()
 
 
+snippet isympy "Isympy Imports" A
+	import sympy as sp
+	from sympy import *
+	x, y, z, t = sp.symbols('x y z t')
+	k, m, n = sp.symbols('k m n', integer=True)
+	f, g, h = sp.symbols('f g h', cls=sp.Function)
+	sp.init_printing()
+	$0
+
+# A snippet for the # %% Cell Marker
+snippet pcl "Cell Marker" A
+	# %%
+	$0
+
+snippet imports "Import Typical Packages" A
+	import numpy as np
+	import matplotlib.pyplot as plt
+	import seaborn as sns
+	import polars as pl
+	import sympy as sp
+	import duckdb
+	$0
+
+snippet eg_plot
+	import numpy as np
+	import seaborn as sns
+	import matplotlib.pyplot as plt
+	sns.histplot(np.random.randn(100))# %% [markdown]
+	plt.show()                        # If I start writing in here
+	plt.hist(np.random.randn(100))    #
+	plt.show()

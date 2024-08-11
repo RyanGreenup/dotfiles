@@ -9,19 +9,21 @@ snippet mk "inline Math" A
 	$$1$ $0
 
 # Math Zone Snippets............................................................
-snippet 8// "Fraction" A
+snippet // "Fraction" A
 	\frac{$1}{$2} $3
 
 snippet == "Aligned Equals" A
-	&= $1 \\
+	&= $1 \\\\
 	$0
 
-snippet 8ali "Aligned Environment" A
+snippet ali "Aligned Environment" A
+	$$
 	\begin{aligned}
-	$1 &= $2 \\
+	$1 &= $2 \\\\
 	$3
 	\end{aligned}
 	$0
+	$$
 
 
 snippet 8sr "Squared" A
@@ -57,6 +59,9 @@ snippet rm "Roman" Aw
 snippet lrp "Parenthesis" Aw
 	\left($1\right)$0
 
+snippet lr| "Absolute" Aw
+	\left|$1\right|$0
+
 snippet lr{ "Brace" Aw
 	\left\{$1\right\\}$0
 
@@ -75,6 +80,14 @@ snippet mcl "Mathcal" A
 
 snippet `s "sigma" A
 	\sigma$0
+
+snippet `l "sigma" A
+	\lambda$0
+
+snippet `L "sigma" A
+	\Lambda$0
+snippet `a "alpha" A
+	\alpha$0
 
 snippet `O "Omega" A
 	\Omega$0
@@ -102,3 +115,48 @@ snippet imp "Implies" Aw
 
 snippet ddx "Derivative" A
 	\frac{\mathrm{d}}{\mathrm{d}x} \left( $1 \right) $0
+
+snippet mat "Matrix" A
+	\begin{bmatrix}
+	$1 & $2 \\\\
+	$3 & $4
+	\end{bmatrix}
+	$0
+
+snippet vec "Vector" A
+	\vec{$1}$0
+
+snippet sum "Summation" A
+	\sum_{${1:i} = 1}^{${2:n}} \left[ $3 \right] $0
+
+snippet isum "Summation" A
+	\sum_{${1:i \\in X}} \left[ $2 \right] $0
+
+snippet fun
+	function ${1:name}(${2:params})
+		${0:$VISUAL}
+	end
+
+snippet sr "Square" Ai
+	^{${1:2}} $0
+
+snippet ddx "Derivative of X" Ai
+	\frac{\mathrm{d}}{\mathrm{d}x}\left( $1 \right) $0
+
+snippet ddt "Derivative of t" Ai
+	\frac{\mathrm{d}}{\mathrm{d}t}\left( $1 \right) $0
+
+snippet 8p "Power" Ai
+	^{$1} $0
+
+# :snippy help
+# - `w` Word boundary - The word expands only when the trigger is on a word
+#     boundary. This is the default behavior.
+# - `i` In-word expansion - The snippet gets expanded even if the trigger is
+#     only part of the word, up to the cursor.
+# - `b` Beginning of line - The snippet is only expanded if its trigger is
+#     the first word on the line, only preceded by whitespace.
+# - `A` Autotrigger - The snippet is expanded automatically when the trigger
+#     is typed. Requires the `enable_auto` option to be `true`. Note that
+#     this feature, because it checks every key pressed, may theoretically
+#     affect the performance of your editor when used.

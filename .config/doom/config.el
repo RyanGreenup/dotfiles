@@ -82,3 +82,30 @@
   (async-shell-command
    (format "local-scripts notes sub-page --source %s"
            (shell-quote-argument buffer-file-name))))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `(markdown-mode . ,(eglot-alternatives
+                                   '(("markdown-oxide"))))))
+
+(with-eval-after-load 'lsp
+  (add-to-list 'lsp-language-id-configuration
+               '(markdown-mode . "markdown"))
+  (lsp-register-client (make-lsp-client
+                        :new-connection (lsp-stdio-connection "markdown-oxide")
+                        :activation-fn (lsp-activate-on "markdown")
+                        :server-id 'markdown)))
+;; (message (format "%s" lsp-language-id-configuration))
+
+(defun open-latest-journal-page ()
+  "Open the latest journal page."
+  (interactive)
+  (let* ((journal-dir "~/Notes/slipbox/journals/")
+         (journal-files (directory-files journal-dir t "\\.org\\'"))
+         (latest-journal-file
+          (car (sort journal-files
+                     (lambda (a b)
+                       (time-less-p (nth 5 (file-attributes b))
+                                    (nth 5 (file-attributes a))))))))
+    (when latest-journal-file
+      (find-file latest-journal-file))))

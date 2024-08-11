@@ -10,7 +10,8 @@ _qb_version='1.0.4'
 _proto_version=1
 _ipc_socket="${XDG_RUNTIME_DIR}/qutebrowser/ipc-$(echo -n "$USER" | md5sum | cut -d' ' -f1)"
 _qute_bin() {
-    /opt/qutebrowser/.venv/bin/python -m qutebrowser ${@}
+    # /opt/qutebrowser/.venv/bin/python -m qutebrowser ${@}
+    ${HOME}/Applications/python/qutebrowser/.venv/bin/python -m qutebrowser ${@}
 }
 
 

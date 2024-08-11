@@ -29,7 +29,7 @@ end
 if status is-interactive
     if command -v python 1>/dev/null 2>&1
         set distro (__get_distro)
-        set venv_dir /usr/local/venv/default/$distro
+        set venv_dir ($HOME/.local/bin/get_venv)
         # Check if the directory exists
         if test -d $venv_dir
             source $venv_dir/bin/activate.fish
@@ -40,12 +40,22 @@ if status is-interactive
             echo ""
             echo "    python -m venv $venv_dir"
             echo ""
-            echo "chgrp (id -u) " $venv_dir
-            echo "chmod 775 "     $venv_dir
+            echo "The default dependencies are tracked here:"
+            echo ""
+            echo "pip install -r ~/.local/share/virtualenvs/requirements_default.txt"
         end
     end
 end
 #+end_src
+
+if using something not under HOME, which is probably unwise as it will be lost on rollback of root, prompt the user to set:
+
+#+begin_example
+            echo "chgrp (id -u) " $venv_dir
+            echo "chmod 775 "     $venv_dir
+            echo ""
+#+end_example
+
 
 
 ** Void Specific
@@ -100,12 +110,15 @@ end
 #+end_src
 
 ** Clipboard
+Use a python script, [[file:~/.local/scripts/python/wm__clipboard.py][~/.local/scripts/python/wm__clipboard.py]], to detect X11 or Wayland and set the clipboard.
 #+begin_src fish
-## Easier Xclip
-function x --wraps='xclip -selection clipboard' --description 'Alias for xclip'
-    xclip -selection clipboard $argv
+function x --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for copy xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py copy $argv
 end
 
+function xp --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Alias for paste xclip or wl-clipboard depending (fallback to pyperclip)'
+    ~/.local/scripts/python/wm__clipboard.py paste $argv
+end
 #+end_src
 ** File Rename
 An simple way to bulk-rename files without relying on =vimv=, =brn= or =ranger=:
@@ -243,7 +256,7 @@ if status is-interactive
 end
 #+end_src
 ** LF
-*** Cd
+*** CD
 #+begin_src fish
 function lfcd
     set tmp (mktemp)
@@ -257,6 +270,18 @@ function lfcd
             end
         end
     end
+end
+#+end_src
+** Yzi
+*** CD
+#+begin_src fish
+function yy
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	yazi $argv --cwd-file="$tmp"
+	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+		cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
 end
 #+end_src
 * Notetaking
@@ -319,6 +344,8 @@ end
 
 function nl
     $HOME/.config/fish/note_aliases.py --nl --notes_dir $__notes_dir
+    $HOME/.local/scripts/python/notes/make_link_fzf.py --notes-dir $__notes_dir
+
 end
 
 # *** Search ALL notes
@@ -556,6 +583,20 @@ bind \co '
         sed "s/^cd //g" < $tmp | sed "s/\"//g")
     rm $tmp
     commandline -f repaint'
+#+end_src
+* Experimental
+** Shell out for Aliases?
+Maybe something like hoard would be simpler though hmmm
+
+
+#+begin_src fish
+bind -k f1 '
+    ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
+    commandline -f repaint'
+
+function g
+    ~/.local/scripts/python/shell__alias.py --alias $argv
+end
 #+end_src
 
 

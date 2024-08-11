@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# Yeah babe; in POSIX shell you can't have empty functions like this
-# See this <https://unix.stackexchange.com/questions/349632/can-a-function-in-sh-have-zero-statements>
-# Basically you can use `:` to represent true or `pass` in python
+# TODO change the 'where' depending on what OS I'm on. Cause ugh.
 
 notes_write() {
     # I don't know why nvim won't open
@@ -12,24 +10,38 @@ notes_write() {
     cd ~/Notes/slipbox
     LATEST_JOURNAL="$(ls -t journals/*.md | head -n1)"
     Neovide.AppImage "$LATEST_JOURNAL" & disown
-    Obsidian.AppImage & disown
+    # Obsidian.AppImage & disown
+    /usr/bin/obsidian & disown
 }
 
 notes_read() {
-    com.brave.Browser http:://home.eir http://flarum.eir http://wikijs.eir --new-window & disown
-    com.brave.Browser http://pixie:3818 --new-window & disown
+    /usr/bin/brave http:://home.eir http://flarum.eir http://wikijs.eir --new-window & disown
+    /usr/bin/brave http://pixie:3877 --new-window & disown
 }
 
+# agenda() {
+#     emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Agenda/clockreport.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
+#     # emacs --eval '(load-theme "doom-badger" t)'
+# }
+
+# agenda() {
+#     emacs --eval '(progn (open-latest-journal-page) (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
+#     # emacs --eval '(load-theme "doom-badger" t)'
+# }
+
+# TODO decide!
 agenda() {
-    emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Agenda/clockreport.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
+    emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Notes/slipbox/journals/months/2024-july.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
     # emacs --eval '(load-theme "doom-badger" t)'
 }
 
 messages() {
     # TODO I forgot which ones I'm using
-    org.signal.Signal & disown
+    # org.signal.Signal & disown
+    /usr/bin/signal-desktop & disown
     /usr/bin/element-desktop & disown
-    org.ferdium.Ferdium & disown
+    # org.ferdium.Ferdium & disown
+    /usr/bin/ferdium
 }
 
 options() {

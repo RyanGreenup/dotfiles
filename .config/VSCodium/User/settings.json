@@ -2,17 +2,32 @@
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
-    "foam.files.ignore": ["readme.md", "SUMMARY.md"],
-    "foam.openDailyNote.directory": "journals",
+    "foam.files.ignore": [
+        
+        "readme.md", "SUMMARY.md"],
+    "foam.openDailyNote.directory": "",
     "markdown.preview.openMarkdownLinks": "inEditor",
     "workbench.colorTheme": "Default High Contrast",
     "files.autoSave": "onFocusChange",
-    "files.autoSaveDelay": 300,
     "editor.mouseWheelZoom": true,
     "security.workspace.trust.untrustedFiles": "open",
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
-    "python.defaultInterpreterPath": "/usr/local/venv/default/fedora",
+    "python.defaultInterpreterPath": "/home/ryan/.local/share/virtualenvs/default/bin/python",
+    "foam.openDailyNote.filenameFormat": "j_yyyy-mm-dd",
+    "foam.openDailyNote.titleFormat": "yyyy-mm-dd",
+    "markdown.updateLinksOnFileMove.enabled": "always",
+    "scm.experimental.showHistoryGraph": true,
+    "markdown.styles": [
+        "assets/simple.css",
+        "../slipbox/assets/simple.css"
+    ],
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    "python.autoComplete.extraPaths": [
+
+    ],
+    "python.interpreter.infoVisibility": "always",
+    "python.testing.pytestEnabled": true,
     // "foam.openDailyNote.filenameFormat": "'daily-note'-yyyy-mm-dd",
     // "foam.openDailyNote.fileExtension":  "mdx",
     // "foam.openDailyNote.titleFormat": "  'Journal Entry, ' dddd, mmmm d",

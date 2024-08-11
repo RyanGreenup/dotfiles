@@ -6,6 +6,7 @@
 require("utils/increment_time_stamps")
 require("utils/open_journal_files")
 require("utils/paths")
+require("utils/lists")
 
 
 function File_exists(path)
@@ -37,7 +38,6 @@ function Build_markdown_link(title, path)
   return "[" .. title .. "](" .. path .. ")"
 end
 
-
 --[[
 Create a markdown link to a sub page
 
@@ -52,8 +52,12 @@ sub-page
 - `_` represents heirarchy (not dot because wikijs doesn't support that)
     - otherwise consistent with dendron.
 
+@param subpage bool (optional) whether the new page should be a subpage
 --]]
-function Create_markdown_link()
+function Create_markdown_link(subpage)
+  if subpage == nil then
+    subpage = false
+  end
   -- Get the current buffer name
   local path = vim.api.nvim_buf_get_name(0)
 
@@ -65,14 +69,21 @@ function Create_markdown_link()
   local title = vim.api.nvim_get_current_line()
 
   -- Adjust the title a little bit
-  sub_page = Kebab_case(title)
+  local sub_page = Kebab_case(title)
 
+  local link
+  local new_path
   -- Insert the sub_page before the extension
-  local new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
-  local link = Build_markdown_link('➡️ /' .. title, new_path)
+  if subpage then
+    new_path = filename .. '_' .. Kebab_case(sub_page) .. '.md'
+    link = Build_markdown_link('/' .. title, new_path)
+  else
+    new_path = sub_page .. ".md"
+    link = Build_markdown_link(title, new_path)
+  end
 
   -- Set the new line as the link
-  vim.api.nvim_set_current_line(link)
+  vim.api.nvim_set_current_line(string.format("- %s", link))
 
 
   if File_exists(new_path) then
@@ -109,8 +120,6 @@ function Format_url_markdown()
   -- Set the new line as the link
   vim.api.nvim_set_current_line(link)
 end
-
-
 
 --[[
 Creates a mermaid diagram using a python script from the system
@@ -162,6 +171,39 @@ function Insert_notes_link()
   vim.api.nvim_put({ current_link }, "l", true, true)
 end
 
+function Insert_notes_link_alacritty_fzf()
+  -- Make a temp file
+  local tmp = Shell("mktemp")
+  if tmp == nil then
+    return
+  end
+  tmp = string.sub(tmp, 1, -2)
+
+  local start_dir = Dirname(vim.api.nvim_buf_get_name(0))
+
+  -- Run the script in alacritty
+  local cmd = "~/.local/scripts/python/notes/make_link_fzf.py "
+  cmd = cmd .. "--output-file " .. "'" .. tmp .. "'"
+  cmd = cmd .. " --start-dir " .. "'" .. start_dir .. "'"
+  local _ = Shell("alacritty -T popup -e " .. cmd)
+
+  -- Read the output of the file
+  vim.cmd([[ r ]] .. tmp)
+
+  -- remove the tmp file
+  Shell("rm " .. tmp)
+end
+
+-- Search Notes using ai-tools with fzf
+-- and open note in neovim
+-- TODO thoughts, how to make open in vim as well?
+--      caching to disk is not very elegant
+function Search_notes_fzf()
+  -- Run the script in alacritty
+  local cmd = "ai-tools live-search --fzf --editor 'code'"
+  local _ = Shell("alacritty -T popup -e " .. cmd)
+end
+
 --------------------------------------------------------------------------------
 -- Generate a Navigation Tree --------------------------------------------------
 --------------------------------------------------------------------------------
@@ -171,7 +213,7 @@ function Generate_navigation_tree()
   local current_file_path = vim.api.nvim_buf_get_name(0)
   local notes_dir = Get_dirname_buffer()
 
-  local cmd = HOME .. "/.local/scripts/python/notes/generate-navigation.py "
+  local cmd = "~/.local/scripts/python/notes/generate-navigation.py "
   cmd = cmd .. current_file_path .. " "
   cmd = cmd .. notes_dir
 
@@ -195,7 +237,6 @@ function Generate_navigation_tree()
   vim.api.nvim_put(lines, "l", true, true)
 end
 
-
 --------------------------------------------------------------------------------
 -- Insert an image from the clipboard --------------------------------------
 --------------------------------------------------------------------------------
@@ -205,15 +246,21 @@ end
 This function takes an image from the clipboard and aves it to ./assets
 --]]
 function Paste_png_image()
-  local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
-  -- strip trailing
-  if md_link == nil then
-    print("No image found in clipboard")
-  end
-  md_link = string.gsub(md_link, "\n", "")
-  vim.api.nvim_put({ md_link }, "l", true, true)
-end
+  -- local md_link = Shell("~/.local/scripts/python/wm__image-save.py assets")
+  -- -- strip trailing
+  -- if md_link == nil then
+  --   print("No image found in clipboard")
+  -- end
+  -- md_link = string.gsub(md_link, "\n", "")
+  -- require('notify')("Image saved to assets" .. md_link)
+  -- vim.api.nvim_put({ md_link }, "l", true, true)
 
+  -- TODO the above doesn't work for some reason
+  -- maybe the command is returning after the text is inserted??
+  -- I have no clue, this does work though:
+  vim.cmd [[cd %:p:h]]
+  vim.cmd [[r! ~/.local/scripts/python/wm__image-save.py assets]]
+end
 
 --------------------------------------------------------------------------------
 -- Attach a File Into a Markdown Note ------------------------------------------
@@ -238,4 +285,23 @@ function Attach_file()
   local line = dir .. basename
   line = "[" .. basename .. "](" .. line .. ")"
   vim.api.nvim_put({ line }, "l", true, true)
+end
+
+-- TODO candidate for making a module
+function Send_visual_to_ai_tools_math()
+  local indices = require('utils/stream_ollama').get_visual_start_end()
+  local start_line, end_line = indices[1], indices[2]
+  local content = require('utils/stream_ollama').get_lines_as_string(start_line, end_line)
+  --replace new lines for spaces
+  content = string.gsub(content, "\n", " ")
+
+  -- consider simply
+  -- local content = vim.fn.input('Enter your name: ')
+
+  local command = "r! ai-tools --ollama-host 'http://vale:11434' -c codestral math "
+  command = command .. "'" .. content .. "'"
+  print(command)
+  vim.cmd [[normal! j]]
+  vim.cmd(command)
+  -- Add a new line
 end

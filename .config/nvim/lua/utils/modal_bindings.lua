@@ -14,6 +14,7 @@ ModalLayer = {
   Split = "Split",       -- Splitting windows
   Move = "Move",         -- Normal movement
   Buffer = "Buffer",
+  Tabs = "Tabs",
   Git = "Git",
   Search = "Search",
   None = "None",
@@ -75,6 +76,12 @@ ModalCommands = {
     [ModalKey.Down] = function() vim.cmd("resize -5") end,
     [ModalKey.Up] = function() vim.cmd("resize +5") end,
   },
+  [ModalLayer.Tabs] = {
+    [ModalKey.Up] = function() vim.cmd("tabnew") end,
+    [ModalKey.Down] = function() vim.cmd("tabclose") end,
+    [ModalKey.Left] = function() vim.cmd("tabprev") end,
+    [ModalKey.Right] = function() vim.cmd("tabnext") end,
+  },
   [ModalLayer.Buffer] = {
     [ModalKey.Up] = function() vim.cmd("bn") end,
     [ModalKey.Down] = function() vim.cmd("bp") end,
@@ -87,6 +94,7 @@ ModalCommands = {
     [ModalKey.Left] = function() print("TODO git left") end,
     [ModalKey.Right] = function() print("TODO git right") end,
   },
+  -- TODO unmap keybindings
   [ModalLayer.None] = {
     [ModalKey.Up] = function() print("TODO none up") end,
     [ModalKey.Down] = function() print("TODO none down") end,

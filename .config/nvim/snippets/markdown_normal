@@ -101,5 +101,31 @@ snippet `el
 	\`\`\`
 	$0
 
+snippet `p "Python Code Block" A
+	\`\`\`python
+	$1
+	\`\`\`
+	$0
+
+snippet `n "Empty Code block" A
+	\`\`\`
+	$1
+	\`\`\`
+	$0
+
 snippet [[ "Wikilink to MD Link" A
 	[$2]($1) $0
+
+
+snippet test "Testing things" lA
+    Today is `!lua os.date('%Y-%m-%d')`
+
+snippet ci "Integral" lA
+	$$
+	\int_{a}^{b} f(x) \, dx
+	$$
+	$0
+
+snippet dv "Vector" lAi
+	\vec{$1}$0
+
