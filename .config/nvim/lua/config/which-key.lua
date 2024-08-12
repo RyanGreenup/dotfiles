@@ -8,6 +8,11 @@ local wk = require("which-key")
 local n = require('notify')
 
 local theme = "ivy" -- Allowed: dropdown, ivy, ...
+function telescope_command(s, s2)
+  local command = "<cmd>" .. s .. " theme=" .. theme .. "<cr>"
+  return { command, s2 }
+end
+
 wk.add({
   { "<leader><leader>", require('telescope.builtin').find_files, desc = "fzf" },
   { "<leader>'",        require('telescope.builtin').resume,     desc = "fzf" },
@@ -194,7 +199,7 @@ wk.add({
     {
       "<leader>fj",
       function()
-        vim.cmd("e " .. "~/Notes/slipbox/" .. "j_" .. os.date("%Y-%m-%d") .. ".md")
+        vim.cmd("e " .. "~/Notes/slipbox/" .. "/journals/" .. os.date("%Y-%m-%d") .. ".md")
       end,
       desc = "Edit Config"
     }
@@ -240,7 +245,7 @@ wk.add({
     desc = "Testing"
   },
   -- The old approach of using a symlink
-  { "<leader>tsL", require('config/snippy_symlink_toggle').toggle,      desc = "Toggle Auto LaTeX Snippets", mode = "n" },
+  { "<leader>tsL", require('config/snippy_symlink_toggle').toggle,     desc = "Toggle Auto LaTeX Snippets", mode = "n" },
   { "<leader>tsa", function() My_snippy_state.toggles.contextual() end, desc = "Contextual LaTeX" },
   { "<leader>tsl", function() My_snippy_state.toggles.latex() end,      desc = "LaTeX Mode" }
 })
@@ -251,7 +256,6 @@ wk.add({
   { "<leader>t", group = "Toggle" }, -- group
   {
     { "<leader>ta", function() require('utils/toggle_autosave').toggle() end, desc = "Autosave",              mode = "n" },
-    { "<leader>td", function() require('config.themes').toggle() end, desc = "Toggle Dark", mode = "n" },
     { "<leader>tn", require('notify').dismiss,                                desc = "Dismiss notifications", mode = "n" },
     { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes,                   desc = "Filetype",              mode = "n" },
@@ -265,13 +269,13 @@ wk.add({
   {
     { "<leader>tmo", function() ChangeMode(ModalLayer.Organize) end, desc = "Organize", mode = "n" },
     { "<leader>tmr", "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Resize",   mode = "n" },
-    { "<M-2>",       "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<M-2>", "<cmd>lua ChangeMode(ModalLayer.Resize)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmm", "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",     desc = "Move",     mode = "n" },
-    { "<M-4>",       "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",     desc = "Buffer",   mode = "n" },
+    { "<M-4>", "<cmd>lua ChangeMode(ModalLayer.Move)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmb", "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
-    { "<M-3>",       "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
-    { "<leader>tmt", "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",     desc = "Buffer",   mode = "n" },
-    { "<M-1>",       "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",     desc = "Buffer",   mode = "n" },
+    { "<M-3>", "<cmd>lua ChangeMode(ModalLayer.Buffer)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<leader>tmt", "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",   desc = "Buffer",   mode = "n" },
+    { "<M-1>", "<cmd>lua ChangeMode(ModalLayer.Tabs)<CR>",   desc = "Buffer",   mode = "n" },
     { "<leader>tmg", "<cmd>lua ChangeMode(ModalLayer.Git)<CR>",      desc = "Git",      mode = "n" },
     { "<leader>tms", "<cmd>lua ChangeMode(ModalLayer.Search)<CR>",   desc = "Search",   mode = "n" },
     { "<leader>tmn", "<cmd>lua ChangeMode(ModalLayer.None)<CR>",     desc = "None",     mode = "n" },
@@ -367,7 +371,7 @@ wk.add({
 })
 
 wk.add({
-  { "<leader>" }
+  {"<leader>"}
 })
 
 
