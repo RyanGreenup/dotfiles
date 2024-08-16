@@ -6,6 +6,7 @@ if vim.g.vscode then
   require('settings')
   require('keymaps')
 else
+  vim.g.my_use_noice_ui = true
   require('config.lazy')
   require('autocommands') -- Put these before lsp
   require('utils')
@@ -15,3 +16,8 @@ else
   -- Load keymap last
   require('keymaps')
 end
+
+
+vim.cmd([[vmap <F1> <cmd>'<,'>! /home/ryan/.local/scripts/python/ollama_stream-message.py<CR>]])
+
+

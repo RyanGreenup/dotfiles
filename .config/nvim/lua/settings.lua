@@ -41,7 +41,7 @@ opt.ignorecase = true      -- ignore case letters when search
 opt.smartcase = true       -- ignore lowercase for the whole pattern
 opt.linebreak = true       -- wrap on word boundary
 opt.autoread = true        -- Automatically reload files
-opt.relativenumber = true  -- Relative numbers
+opt.relativenumber = false -- Relative numbers
 cmd [[ set modelineexpr ]] -- See vim modeline vulnerability 2019
 
 -- Folding
@@ -69,14 +69,14 @@ exec([[
 -----------------------------------------------------------
 opt.hidden = true     -- enable background buffers
 opt.history = 100     -- remember n lines in history
-opt.lazyredraw = true -- faster scrolling
+opt.lazyredraw = false -- faster scrolling
 opt.synmaxcol = 240   -- max column for syntax highlight
 
 -----------------------------------------------------------
 -- Colorscheme
 -----------------------------------------------------------
 opt.termguicolors = true -- enable 24-bit RGB colors
-cmd [[colorscheme rose-pine ]]
+require('config.themes').setup()
 
 -----------------------------------------------------------
 -- Tabs, indent
@@ -218,36 +218,8 @@ if vim.g.neovide then
   ]]
 end
 
-------------------------------------------------------------
--- Autosave ------------------------------------------------
-------------------------------------------------------------
-
--- TODO dead code
--- -- Enable Autosave using CursorHold
--- vim.cmd [[
---     :set updatetime=300
---     :au CursorHold * :silent! wa
--- ]]
---
--- -- Write a function to toggle it
--- local auto_save = true
--- function ToggleAutoSave()
---   if auto_save then
---     vim.cmd [[ :au! ]]
---     auto_save = false
---     vim.cmd("echo 'Auto-save is OFF'")
---   else
---     vim.cmd [[ :au CursorHold * :silent! wa ]]
---     auto_save = true
---     vim.cmd("echo 'Auto-save is ON'")
---   end
--- end
---
---
--- vim.cmd [[
--- set conceallevel=0
--- ]]
---
+-- Enable Autosave (one toggle is enable)
+require('utils/toggle_autosave').toggle()
 
 ------------------------------------------------------------
 -- File Extensions -----------------------------------------
