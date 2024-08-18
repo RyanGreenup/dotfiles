@@ -4,15 +4,38 @@ local function get_month(date)
   return date:sub(1, 7)
 end
 
+local function comment(text)
+  return "<!-- " .. text .. " -->"
+end
+
+local function make_macro(text, start)
+  if start == nil then
+    start = false
+  end
+  local token = "END"
+  if start then
+    token = "BEGIN"
+  end
+  local marker = "#+"..token.."_".. text
+  return comment(marker)
+end
+
 local function build_table(before_date, after_date)
+
+  local macro_name = "JRNL_TBL"
   return {
+    make_macro(macro_name, true),
     "| [Yesterday]  |  [Month]  |  [Tomorrow] |",
     "|-------------|---------|------------|",
     "",
     "[Yesterday]: " .. "j_" .. before_date .. ".md",
     "[Tomorrow]: " .. "j_" .. after_date .. ".md",
     "[Month]: " .. "j_" .. get_month(before_date) .. ".md",
+    make_macro(macro_name, false),
   }
+
+
+
 end
 
 -- Define the function we want to export
