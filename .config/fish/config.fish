@@ -69,7 +69,7 @@ function xp --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Al
 end
 
 function bn
-    bulk_rename.py
+    $HOME/.local/scripts/python/os__utils__bulk_rename.py
 end
 
 ## Easy weather
@@ -449,3 +449,18 @@ set PATH $HOME/.local/share/gem/ruby/3.2.0/bin $PATH
 set PATH $HOME/go/bin               $PATH
 set PATH $PATH $HOME/.local/share/gem/ruby/3.0.0/bin
 set PATH $PATH /usr/lib/rstudio
+
+# Add AppImages
+set PATH $PATH $HOME/Applications/AppImages/bin/
+
+# Add Flatpak
+set PATH $PATH /var/lib/flatpak/exports/bin/
+set XDG_DATA_DIRS $XDG_DATA_DIRS:/var/lib/flatpak/exports/share/
+
+# Add Flatpak
+set PATH $PATH $HOME/.nix-profile/bin/
+
+set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
+
+export QT_XCB_GL_INTEGRATION=none
+# <https://github.com/NixOS/nixpkgs/issues/169630>

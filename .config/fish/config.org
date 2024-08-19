@@ -125,7 +125,7 @@ An simple way to bulk-rename files without relying on =vimv=, =brn= or =ranger=:
 
 #+begin_src fish
 function bn
-    bulk_rename.py
+    $HOME/.local/scripts/python/os__utils__bulk_rename.py
 end
 #+end_src
 ** Weather
