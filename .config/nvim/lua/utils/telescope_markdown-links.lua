@@ -109,10 +109,10 @@ local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
----Test if a path is a subdirectory based on the precence of a directory separator
+---Replace a directory with a relative path using python if needed
 ---@param path string
 ---@return string
-local function is_subdir(dir, path)
+local function get_relpath(dir, path)
   local mod_dir_path = "%:p:h"
   local abspath = expanduser(dir.."/"..path)
   local left = vim.fn.expand(mod_dir_path)
@@ -144,7 +144,7 @@ local function telescope_attach_insert_text(prompt_bufnr, map, dir)
     local selection = action_state.get_selected_entry()
     print(vim.inspect(selection))
     -- todo use dir here
-    local file = is_subdir(dir, selection[1])
+    local file = get_relpath(dir, selection[1])
     local link = make_markdown_link(file)
     vim.api.nvim_put({ link }, "", false, true)
   end)
