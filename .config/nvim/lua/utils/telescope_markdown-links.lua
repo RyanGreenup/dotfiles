@@ -109,21 +109,48 @@ local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
+---Test if a path is a subdirectory based on the precence of a directory separator
+---@param path string
+---@return string
+local function is_subdir(dir, path)
+  local mod_dir_path = "%:p:h"
+  local abspath = expanduser(dir.."/"..path)
+  local left = vim.fn.expand(mod_dir_path)
+  local right = vim.fn.fnamemodify(abspath, mod_dir_path)
+  print(left.." == "..right)
+  if  left == right then
+    return path
+  else
+    -- transform the path to a relative path
+    local file_dir = vim.fn.expand("%:p:h")
+    local cmd = "/home/ryan/.config/nvim/lua/utils/relpath.py ".."--path "..abspath.." --start_directory "..file_dir
+    print(cmd)
+    local relpath = Shell(cmd)
+    if relpath == nil then
+      return abspath
+    else
+      return relpath
+    end
+  end
+end
+
 ---Boilerplate telescope function to insert the selected item
 ---Default is to go to that buffer
 ---@param prompt_bufnr number
 ---@param map table
-local function telescope_attach_insert_text(prompt_bufnr, map)
+local function telescope_attach_insert_text(prompt_bufnr, map, dir)
   actions.select_default:replace(function()
     actions.close(prompt_bufnr)
     local selection = action_state.get_selected_entry()
     print(vim.inspect(selection))
-    local file = selection[1]
+    -- todo use dir here
+    local file = is_subdir(dir, selection[1])
     local link = make_markdown_link(file)
     vim.api.nvim_put({ link }, "", false, true)
   end)
   return true
 end
+
 
 ---Boilerplate telescope function to insert the selected item
 ---Default is to go to that buffer
@@ -150,7 +177,9 @@ local pick_notes = function(opts)
   pickers.new(opts, {
     prompt_title = "Notes",
     sorter = conf.generic_sorter(opts),
-    attach_mappings = telescope_attach_insert_text,
+    attach_mappings = function(prompt_bufnr, map) telescope_attach_insert_text(prompt_bufnr, map, notes_dir)
+      return true
+    end,
     previewer = conf.file_previewer(opts),
     finder = finders.new_table {
       results = get_note_paths(notes_dir),
