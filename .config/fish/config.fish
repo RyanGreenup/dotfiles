@@ -72,7 +72,7 @@ function xp --wraps='~/.local/scripts/python/wm__clipboard.py' --description 'Al
 end
 
 function bn
-    bulk_rename.py
+    $HOME/.local/scripts/python/os__utils__bulk_rename.py
 end
 
 ## Easy weather

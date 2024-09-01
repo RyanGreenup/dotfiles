@@ -207,21 +207,29 @@ wk.add({
 -- Notes
 wk.add({
   {
-    { "<leader>n",   group = "Notes" }, -- group
-    { "<leader>nc",  require("utils/markdown_babel").send_code,                   desc = "Execute a markdown cell and include output" },
-    { "<leader>nb",  require('utils/telescope_markdown-links').open_backlink,     desc = "Insert Notes Link" },
-    { "<leader>nl",  require('utils/telescope_markdown-links').insert_notes_link, desc = "Insert Notes Link" },
-    { "<leader>nL",  function() Insert_notes_link_alacritty_fzf() end,            desc = "Insert Notes Link" },
+    { "<leader>n",  group = "Notes" }, -- group
+    { "<leader>nc", require("utils/markdown_babel").send_code,               desc = "Execute a markdown cell and include output" },
+    { "<leader>nb", require('utils/telescope_markdown-links').open_backlink, desc = "Insert Notes Link" },
+    {
+      "<leader>nl",
+      function()
+        require('utils/telescope_markdown-links').insert_notes_link({ dir = vim.fn.getcwd()
+        })
+      end,
+      desc = "Insert Notes Link"
+    },
+    { "<leader>nL",  function() Insert_notes_link_alacritty_fzf() end,              desc = "Insert Notes Link" },
     -- { "<leader>nL", Insert_notes_link,                                desc = "Insert Notes Link" },
-    { "<leader>ns",  function() Create_markdown_link(true) end,                   desc = "Create a Subpage Link and Open Buffer" },
-    { "<leader>nS",  function() Create_markdown_link() end,                       desc = "Create a Link From text and Open Buffer" },
-    { "<leader>nu",  Format_url_markdown,                                         desc = "Format a URL as a Markdown Link" },
-    { "<leader>nv",  function() Generate_navigation_tree() end,                   desc = "Generate Navigation Tree" },
-    { "<leader>nr",  require('render-markdown').toggle,                           desc = "Render Markdown Toggle" },
-    { "<leader>nip", function() Paste_png_image() end,                            desc = "Paste Image from Clipboard" },
-    { "<leader>nic", require('utils/markdown_notes').make_cite_page,              desc = "Make a Citation Page" },
-    { "<leader>na",  Attach_file,                                                 desc = "Prompt User to attach file under ./assets" },
-    { "<leader>nz",  Search_notes_fzf,                                            desc = "Search Notes using Embeddings" },
+    { "<leader>ns",  function() Create_markdown_link(true) end,                     desc = "Create a Subpage Link and Open Buffer" },
+    { "<leader>nS",  function() Create_markdown_link() end,                         desc = "Create a Link From text and Open Buffer" },
+    { "<leader>nu",  Format_url_markdown,                                           desc = "Format a URL as a Markdown Link" },
+    { "<leader>nv",  function() Generate_navigation_tree() end,                     desc = "Generate Navigation Tree" },
+    { "<leader>nr",  require('render-markdown').toggle,                             desc = "Render Markdown Toggle" },
+    { "<leader>nip", function() Paste_png_image() end,                              desc = "Paste Image from Clipboard" },
+    { "<leader>nic", require('utils/markdown_notes').make_cite_page,                desc = "Make a Citation Page" },
+    -- { "<leader>na",  Attach_file,                                      desc = "Prompt User to attach file under ./assets" },
+    { "<leader>na",  function() require("utils/markdown_attach").attach_file() end, desc = "Prompt User to attach file under ./assets" },
+    { "<leader>nz",  Search_notes_fzf,                                              desc = "Search Notes using Embeddings" },
     { "<leader>nj",  group = "Notes" }, -- group
   }
 })
@@ -251,7 +259,7 @@ wk.add({
   { "<leader>t", group = "Toggle" }, -- group
   {
     { "<leader>ta", function() require('utils/toggle_autosave').toggle() end, desc = "Autosave",              mode = "n" },
-    { "<leader>td", function() require('config.themes').toggle() end, desc = "Toggle Dark", mode = "n" },
+    { "<leader>td", function() require('config.themes').toggle() end,         desc = "Toggle Dark",           mode = "n" },
     { "<leader>tn", require('notify').dismiss,                                desc = "Dismiss notifications", mode = "n" },
     { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes,                   desc = "Filetype",              mode = "n" },
