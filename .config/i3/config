@@ -74,6 +74,7 @@ floating_modifier $mod
 	# remember alt is mod1
 set $my_term alacritty
 bindsym $mod+Return exec alacritty -e distrobox enter base -- fish
+bindsym $mod+Shift+Return exec "$my_term"
 bindsym Control+mod1+t exec "$my_term"
 
 # kill focused window
@@ -162,16 +163,27 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:🐊"
-set $ws2 "2:🌏"
-set $ws3 "3:📓"
-set $ws4 "4💊"
-set $ws5 "5:💻"
-set $ws6 "6:📚"
-set $ws7 "7:📑"
-set $ws8 "8:📭"
-set $ws9 "9:🔩"
-set $ws10 "10:∫"
+# set $ws1 "1:🐊"
+# set $ws2 "2:"
+# set $ws3 "3:📓"
+# set $ws4 "4💊"
+# set $ws5 "5:💻"
+# set $ws6 "6:📚"
+# set $ws7 "7:📑"
+# set $ws8 "8:📭"
+# set $ws9 "9:🔩"
+# set $ws10 "10:∫"
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 set $ws11 "11"
 set $ws12 "12"
 set $ws13 "13"
@@ -253,6 +265,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+
+bindsym $mod+Shift+Ctrl+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Shift+Ctrl+j resize grow height 10 px or 10 ppt
+bindsym $mod+Shift+Ctrl+k resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+Ctrl+l resize grow width 10 px or 10 ppt
 
 
 
@@ -521,6 +538,14 @@ bindsym $mod+x [urgent=latest] focus
   #left|right|down|up|current|primary|<output>
 bindsym $mod+Ctrl+greater move workspace to output right
 bindsym $mod+Ctrl+less move workspace to output left
+set $fn_swap_mon                  exec ~/.config/i3/swap_first_two_monitors.py
+set $fn_focus_other_mon           exec ~/.config/i3/move_window_to_other_monitor.py focus
+set $fn_move_container_other_mon  exec ~/.config/i3/move_window_to_other_monitor.py move
+
+
+bindsym $mod+i $fn_swap_mon
+bindsym $mod+o $fn_focus_other_mon
+bindsym $mod+Shift+o $fn_move_container_other_mon
 
 
 
@@ -567,6 +592,7 @@ bindsym $mod+Shift+u exec --no-startup-id  firefox ~/Notes/calendar.html
 # bindsym $mod+Shift+u exec --no-startup-id "cat ~/Sync/reminders.rem | remind -p3 - | rem2ps | zathura -"
 
 
+
 ## Popup terminal..........................................
 # Set your preferred terminal emulator# Give it a title
 set $title scratchpad
@@ -575,8 +601,7 @@ set $scratch_term alacritty -t $title
 exec $scratch_term
 for_window [title="$title"] move container to scratchpad; border none; floating enable; opacity 0.5
 # Bind your preferred shortcut to show / hide the terminal
-bindsym $mod+o scratchpad show
-
+bindsym $mod+grave scratchpad show
 
 
 
@@ -607,13 +632,16 @@ for_window [title="Desktop - Plasma"] kill, floating enable, border none
 
 ## Auto layout
 ## Requires cargo install --git https://github.com/chmln/i3-auto-layout
-exec_always --no-startup-id i3-auto-layout
+# exec_always --no-startup-id i3-auto-layout
 
 ## Requires xdotool and i3-auto-layout (pip)
 # Reroute STDERR so you can see if it fails
 bindsym $mod+Escape exec "i3-instant-layout --list 2>&1 | dmenu | i3-instant-layout -"
+# This could be made more performant with python maybe.
+# e.g. track last layout and just cycle to the next one
 bindsym $mod+Shift+Escape exec "bash ~/.config/i3/rofi_layout.sh"
-bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
+bindsym $mod+Ctrl+k exec "bash ~/.config/i3/rofi_layout.sh"
+# bindsym $mod+grave exec "emacsclient --create-frame /tmp/scratch.org & disown"
 
 # Open dokuwiki note
 bindsym $mod+BackSpace exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
@@ -622,5 +650,41 @@ bindsym $mod+BackSpace exec "dash /home/ryan/.local/bin/dokuwiki_dmenu.sh"
 bindsym $mod+b exec "unset c; c=$(distrobox list | awk -F '|' '{print $2}' | grep -iv name | dmenu | tr -d ' ') && if ! [ -z $c ]; then $my_term -e distrobox enter $c; fi"
 
 
+
+# Emulating Hyprland Scratchpads ..............................................
+
+# Tasks
+assign [class = "Emacs"]    $ws2
+# Notes
+assign [class = "VSCodium"] $ws3
+assign [class = "obsidian"] $ws3
+# Messages
+assign [class = "Signal"]  $ws8
+assign [class = "Element"] $ws8
+exec --no-startup-id ~/.fehbg
+exec /usr/bin/distrobox-enter  -n text_editors                       --   emacs
+exec /usr/bin/distrobox-enter  -n r                                  --   codium
+exec /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop  --   signal-desktop
+exec /usr/bin/distrobox-enter  -n containerized_apps-signal-desktop  --   element-desktop
+# bindsym $mod+y workspace number $ws3
+bindsym $mod+alt+n workspace number $ws2
+
+
+
+# Emulating Hyprland Scratchpads ..............................................
+set $w_messages "Messages"
+bindsym $mod+y            workspace $w_messages
+bindsym $mod+Shift+y move workspace $w_messages
+
+set $w_chat "Chat"
+bindsym $mod+F2            workspace $w_chat
+bindsym $mod+Shift+F2 move workspace $w_chat
+
+set $w_qutebrowser "Qutebrowser"
+bindsym $mod+F1            workspace $w_qutebrowser
+bindsym $mod+Shift+F1 move workspace $w_qutebrowser
+
 ## vim:fdm=expr:fdl=0
 ## vim:fde=getline(v\:lnum)=~'^##'?'>'.(matchend(getline(v\:lnum),'##*')-2)\:'='
+
+
