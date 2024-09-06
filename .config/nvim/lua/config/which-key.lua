@@ -194,7 +194,7 @@ wk.add({
     {
       "<leader>fj",
       function()
-        vim.cmd("e " .. "~/Notes/slipbox/" .. "j_" .. os.date("%Y-%m-%d") .. ".md")
+        vim.cmd("e " .. "~/Notes/slipbox/journals/" .. os.date("%Y-%m-%d") .. ".md")
       end,
       desc = "Edit Config"
     }
@@ -229,7 +229,9 @@ wk.add({
     { "<leader>nic", require('utils/markdown_notes').make_cite_page,                desc = "Make a Citation Page" },
     -- { "<leader>na",  Attach_file,                                      desc = "Prompt User to attach file under ./assets" },
     { "<leader>na",  function() require("utils/markdown_attach").attach_file() end, desc = "Prompt User to attach file under ./assets" },
-    { "<leader>nz",  Search_notes_fzf,                                              desc = "Search Notes using Embeddings" },
+    -- { "<leader>nz",  Search_notes_fzf,                                              desc = "Search Notes using Embeddings" },
+    { "<leader>nz",  function() require("config/fterm").note_search:toggle() end,                                              desc = "Search Notes using Embeddings" },
+
     { "<leader>nj",  group = "Notes" }, -- group
   }
 })
