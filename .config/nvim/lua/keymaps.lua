@@ -420,7 +420,7 @@ function M.fterm()
     noremap = true,
     callback = function()
       terminal_escape()
-      require("config.fterm").tmux:toggle()
+      require("Fterm").toggle()
     end
   })
 end
