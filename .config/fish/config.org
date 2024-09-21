@@ -14,7 +14,19 @@
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 export VISUAL=nvim
 export EDITOR=nvim
+export MY_DOKU_BASE=$HOME/Notes/dokuwiki/config/dokuwiki/data/pages
 #+end_src
+
+The MY_DOKU_BASE var is accessed in:
+
+  - ~/.config/qutebrowser/userscripts/edit_dw.sh
+  - ~/.config/nvim/lua/dokuwiki/utils.lua
+
+The directory
+
+  - /Applications/Docker/dokuwiki/data/pages
+    - Symlinks back to $MY_DOKU_BASE
+    - When opening in  Vim, i.e. from qutebrowser this will be resolved to the source file, so use the source file in scripts.
 
 Virtual Environments:
 
@@ -323,18 +335,31 @@ end
 ** Searching
 #+begin_src fish
 # ** Searching .................................................................
+# function _private_search
+#     set notes_dir $argv
+#     cd $notes_dir
+
+#         sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
+#             --bind pgup:preview-page-up,pgdn:preview-page-down      \
+#             --preview "bat --style grid --color=always              \
+#                             --terminal-width 80 $notes_dir/{+}      \
+#                             --italic-text=always                    \
+#                             --decorations=always"                |  \
+#         sed "s#^#$notes_dir/#"
+# end
+
 function _private_search
-    set notes_dir $argv
+    set bat_opts "--terminal-width=80"
+    set bat_opts $bat_opts "--decorations=always"
+    set bat_opts $bat_opts "--color=always"
+
+    set notes_dir ~/Notes/slipbox
     cd $notes_dir
 
-        sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
-            --bind pgup:preview-page-up,pgdn:preview-page-down      \
-            --preview "bat --style grid --color=always              \
-                            --terminal-width 80 $notes_dir/{+}      \
-                            --italic-text=always                    \
-                            --decorations=always"                |  \
-        sed "s#^#$notes_dir/#"
+    set note (sk -m -i -c  "note_taking search -d ~/Notes/slipbox {}"  --preview "bat  {+} $bat_opts")
+    # sed "s#^#$notes_dir/#"
 end
+
 
 
 # *** Search New notes

@@ -18,7 +18,10 @@ end
 
 ---@return string The path to Dokuwiki's directory containing pages.
 function M.dokuwiki_directory()
-  local dir = get_home() .. "/Applications/Docker/dokuwiki/data/pages"
+  local dir = os.getenv("MY_DOKU_BASE")
+  if dir == nil then
+    dir = get_home() .. "/Notes/dokuwiki/config/dokuwiki/data/pages/"
+  end
   -- Resolve symlinks
   return vim.fn.resolve(dir)
 end
