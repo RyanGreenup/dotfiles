@@ -20,7 +20,7 @@ local get_link_under_cursor = function()
   end
 
   for i = x, line_length + 1 do
-    if current_line:sub(i, i) == "]" then
+    if current_line:sub(i, i) == "]" or current_line:sub(i, i) == "|" then
       -- One less than the ]
       bounds[2] = i - 1
       break
