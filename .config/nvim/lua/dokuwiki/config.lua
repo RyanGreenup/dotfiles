@@ -1,46 +1,35 @@
 local M = {} -- define a table to hold our module
 
-local get_link_under_cursor = function()
-  local pos = vim.api.nvim_win_get_cursor(0)
-  -- local y = pos[1]
-  local x = pos[2]
-  local current_line = vim.api.nvim_get_current_line()
-  local line_length = vim.fn.strdisplaywidth(vim.api.nvim_get_current_line())
+-- TODO Find a place to store all config settings
+-- TODO refactor this into a plugin
+---@return string The path to Dokuwiki's directory containing pages.
+function M.dokuwiki_directory()
+  local dir = get_home() .. "/Applications/Docker/dokuwiki/data/pages"
+  -- Resolve symlinks
+  return vim.fn.resolve(dir)
+end
 
-
-  -- Where is the first square bracket
-  local bounds = { 0, 0 }
-  for i = x, 1, -1 do
-    if current_line:sub(i, i) == "[" then
-      -- One more than the [
-      bounds[1] = i + 1
-      break
+---@return string The path to the user's home directory.
+local function get_home()
+  local home = os.getenv("HOME")
+  if home == nil then
+    -- check if plenary is available
+    if pcall(function() require("plenary.path") end) then
+      home = require("plenary.path").new({ "~" }):expand()
+    else
+      home = "~"
     end
   end
-
-  for i = x, line_length + 1 do
-    if current_line:sub(i, i) == "]" then
-      -- One less than the ]
-      bounds[2] = i - 1
-      break
-    end
-  end
-  local link = current_line:sub(bounds[1], bounds[2])
-
-
-  link = link:gsub(":", "/")
-  if link:sub(1, 1) == "/" then
-    link = link:sub(2)
-  end
-  link = M.dokuwiki_directory() .. "/" .. link .. ".txt"
-  return link
+  return home
 end
 
 -- TODO Find a place to store all config settings
 -- TODO refactor this into a plugin
 ---@return string The path to Dokuwiki's directory containing pages.
 function M.dokuwiki_directory()
-  return "~/Applications/Docker/dokuwiki/data/pages"
+  local dir = get_home() .. "/Applications/Docker/dokuwiki/data/pages"
+  -- Resolve symlinks
+  return vim.fn.resolve(dir)
 end
 
 function M.edit_link_under_cursor()
