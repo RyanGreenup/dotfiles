@@ -16,9 +16,11 @@ local function sidebar_popup(cmd)
   })
 end
 
+-- Use these like so:
+-- require("config.fterm").tmux:toggle()
 M.tmux = fterm:new({ cmd = "tmux" })
 M.gitui = sidebar_popup("tmux a")
-M.note_search = sidebar_popup([[ai-tools --ollama-host "http://vale:11434" live-search --no-fzf]])
+M.note_search = sidebar_popup([[ai-tools --ollama-host "http://vale:11434" live-search --fzf]])
 
 
 

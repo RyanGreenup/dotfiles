@@ -23,7 +23,7 @@ M.servers = {
   "racket_langserver",
   "rust_analyzer",
   "texlab",
-  "tsserver",
+  "ts_ls",
   "stylelint_lsp",
   "vala_ls",
   "vls",

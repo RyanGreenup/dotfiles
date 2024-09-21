@@ -415,15 +415,18 @@ function M.fterm()
       require("config.fterm").gitui:toggle()
     end
   })
-  map('n', '<A-i>', '', { noremap = true, callback = function() require("config.fterm").tmux:toggle() end })
-  map('t', '<A-i>', '', {
-    noremap = true,
-    callback = function()
-      terminal_escape()
-      require("config.fterm").tmux:toggle()
-    end
-  })
+  -- map('n', '<A-i>', '', { noremap = true, callback = function() require("config.fterm").tmux:toggle() end })
+  -- map('t', '<A-i>', '', {
+  --   noremap = true,
+  --   callback = function()
+  --     terminal_escape()
+  --     require("Fterm").toggle()
+  --   end
+  -- })
 end
+
+map('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
+map('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
 
 -- Return the module table so that it can be required by other scripts
 return M
