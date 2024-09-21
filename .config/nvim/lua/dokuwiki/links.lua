@@ -54,11 +54,11 @@ local get_link_under_cursor = function()
   -- If it's a relativee link, instead consider this approach
   local current_dir = vim.fn.expand("%:p:h")
   vim.fn.resolve(current_dir)
-  if not is_abs and current_dir:find(require('dokuwiki/config').dokuwiki_directory()) then
+  if not is_abs and current_dir:find(require('dokuwiki/config').dokuwiki_directory) then
     link = create_file_path(current_dir, link)
   else
     -- get the link by concatenating the dokuwiki directory and the link
-    link = create_file_path(require('dokuwiki/config').dokuwiki_directory(), link)
+    link = create_file_path(require('dokuwiki/config').dokuwiki_directory, link)
 
   end
 
