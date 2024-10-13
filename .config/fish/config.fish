@@ -2,6 +2,7 @@
 # set VISUAL 'emacs -nw --eval "(add-hook \'emacs-startup-hook #\'sh-mode)"'
 export VISUAL=nvim
 export EDITOR=nvim
+export MY_DOKU_BASE=$HOME/Notes/dokuwiki/config/dokuwiki/data/pages
 
 function __get_distro
     cat /etc/os-release | grep -e '^ID=' | cut -d '=' -f 2 | sed 's/"//g'
@@ -213,18 +214,31 @@ function _private_open
 end
 
 # ** Searching .................................................................
+# function _private_search
+#     set notes_dir $argv
+#     cd $notes_dir
+
+#         sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
+#             --bind pgup:preview-page-up,pgdn:preview-page-down      \
+#             --preview "bat --style grid --color=always              \
+#                             --terminal-width 80 $notes_dir/{+}      \
+#                             --italic-text=always                    \
+#                             --decorations=always"                |  \
+#         sed "s#^#$notes_dir/#"
+# end
+
 function _private_search
-    set notes_dir $argv
+    set bat_opts "--terminal-width=80"
+    set bat_opts $bat_opts "--decorations=always"
+    set bat_opts $bat_opts "--color=always"
+
+    set notes_dir ~/Notes/slipbox
     cd $notes_dir
 
-        sk -m -i -c "note_taking search -d "$notes_dir"  {}"        \
-            --bind pgup:preview-page-up,pgdn:preview-page-down      \
-            --preview "bat --style grid --color=always              \
-                            --terminal-width 80 $notes_dir/{+}      \
-                            --italic-text=always                    \
-                            --decorations=always"                |  \
-        sed "s#^#$notes_dir/#"
+    set note (sk -m -i -c  "note_taking search -d ~/Notes/slipbox {}"  --preview "bat  {+} $bat_opts")
+    # sed "s#^#$notes_dir/#"
 end
+
 
 
 # *** Search New notes
