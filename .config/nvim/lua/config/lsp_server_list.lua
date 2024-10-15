@@ -1,8 +1,14 @@
-local M = {}  -- define a table to hold our module
+local M = {} -- define a table to hold our module
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+-- local python_server_choices = {
+--   Popups = { 'pylyzer', 'pylsp', 'pyright' },
+--   Formatting = { 'ruff', 'pylsp', 'black' },
+--   Linting = { 'ruff', 'pyright' },
+--   Type_Checking = { 'pylyzer', 'pyright', 'mypy', 'pytype', 'pyre' }
+-- }
 
 -- TODO consider creating a config module?
-
-
 M.servers = {
   "bashls",
   "clangd",
@@ -36,11 +42,10 @@ M.servers = {
   "html",
   "denols",
   "markdown_oxide", -- 'marksman'
+  'qmlls',
 
-  -- Python Servers
-  "pylsp",        -- This is the main one, formatting requires it
-  "ruff_lsp",     -- This is like pyright but with less Microsoft + black
-  "basedpyright", -- This performs type checking and static analysis
+  "basedpyright",
+  "ruff",
 }
 
 -- Return the module table so that it can be required by other scripts
