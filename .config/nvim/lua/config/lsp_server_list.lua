@@ -43,6 +43,7 @@ M.servers = {
   "denols",
   "markdown_oxide", -- 'marksman'
   'qmlls',
+  'typst_lsp',
 
   "basedpyright",
   "ruff",
