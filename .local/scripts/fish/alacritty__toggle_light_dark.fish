@@ -2,8 +2,9 @@
 set CONFIG_PATH ~/.config/alacritty/alacritty.toml
 
 # change light and dark themes
-set light "ayu_light"
-set dark "ayu_dark"
+set light "github_light"
+# set dark "ayu_dark"
+set dark "citylights"
 
 set THEMES_PATH ~/.config/alacritty/themes/themes/
 set light_theme "$THEMES_PATH$light.toml"
