@@ -12,6 +12,7 @@ application/x-extension-xhtml=userapp-Firefox-KLC881.desktop;
 application/x-extension-xht=userapp-Firefox-KLC881.desktop;
 video/x-matroska=vlc.desktop;
 text/plain=r-codium.desktop;
+application/pdf=org.gnome.Evince.desktop;
 
 [Default Applications]
 application/ogg=vlc
@@ -61,7 +62,7 @@ inode/mount-point=thunar.desktop;
 x-scheme-handler/obsidian=obsidian.desktop
 application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-usercreated-2.desktop;
 application/epub+zip=zathura-usercreated-1.desktop;
-application/pdf=zathura-usercreated-1.desktop;
+application/pdf=org.gnome.Evince.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=org.libreoffice.LibreOffice.writer.desktop;
 <<<<<<< Updated upstream
 x-scheme-handler/ferdium=ferdium.desktop

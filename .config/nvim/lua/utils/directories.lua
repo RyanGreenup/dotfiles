@@ -18,6 +18,8 @@ function Shell(cmd)
   end
   local result = handle:read("*a")
   handle:close()
+  -- Remove trailing new line
+  result = string.gsub(result, "\n$", "")
   return result
 end
 

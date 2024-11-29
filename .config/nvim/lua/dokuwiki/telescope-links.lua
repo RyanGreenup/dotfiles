@@ -19,30 +19,31 @@ end
 --------------------------------------------------------------------------------
 -- Get Notes -------------------------------------------------------------------
 --------------------------------------------------------------------------------
-local notes_dir = "~/Notes/slipbox"
 
 ---Creates a title from a file path
 ---@param path string
 ---@return string
 local function make_title(path)
-  local title ---@type string: The title to return
-  local base_no_ext ---@type string: Base name without extension
-  -- basename
-  base_no_ext = vim.fn.fnamemodify(path, ":t:r")
-  -- Change extensions etc.
-  title = base_no_ext:gsub("-", " "):gsub("_", " / ")
-  -- title case
-  title = title:gsub("(%a)([%w_']*)", function(first, rest)
-    return first:upper() .. rest:lower()
-  end)
-  return title
+  -- local title ---@type string: The title to return
+  -- local base_no_ext ---@type string: Base name without extension
+  -- -- basename
+  -- base_no_ext = vim.fn.fnamemodify(path, ":t:r")
+  -- -- Change extensions etc.
+  -- title = base_no_ext:gsub("-", " "):gsub("_", " / ")
+  -- -- title case
+  -- title = title:gsub("(%a)([%w_']*)", function(first, rest)
+  --   return first:upper() .. rest:lower()
+  -- end)
+  -- return title
+  -- return '[[' .. path .. ']]'
+  return path
 end
 
 ---Creates a markdown link from a file path
 ---@param path string: the target path to the file
 ---@return string: A markdown link with a formatted title
-local function make_markdown_link(path)
-  return "[" .. make_title(path) .. "](" .. path .. ")"
+local function make_link(path)
+  return '[[' .. path .. ']]'
 end
 
 
@@ -69,9 +70,11 @@ local function clean_links(files, current_dir)
   end
   local new_files = {}
   for _, file in ipairs(files) do
+    -- This requires us to be in that directory see [note_cd_here]
+    -- Gives relative path
     file = file:gsub(current_dir .. "/", "")
     local ext = vim.fn.fnamemodify(file, ":e")
-    if ext == "md" then
+    if ext == "txt" then
       table.insert(new_files, file)
     end
   end
@@ -98,7 +101,7 @@ end
 function create_files_and_link_pairs(files)
   local files_and_links = {}
   for _, file in ipairs(files) do
-    table.insert(files_and_links, { file, make_markdown_link(file) })
+    table.insert(files_and_links, { file, make_link(file) })
   end
   return files_and_links
 end
@@ -113,25 +116,11 @@ local action_state = require "telescope.actions.state"
 ---@param path string
 ---@return string
 local function get_relpath(dir, path)
-  local mod_dir_path = "%:p:h"
-  local abspath = expanduser(dir.."/"..path)
-  local left = vim.fn.expand(mod_dir_path)
-  local right = vim.fn.fnamemodify(abspath, mod_dir_path)
-  print(left.." == "..right)
-  if  left == right then
-    return path
-  else
-    -- transform the path to a relative path
-    local file_dir = vim.fn.expand("%:p:h")
-    local cmd = "/home/ryan/.config/nvim/lua/utils/relpath.py ".."--path "..abspath.." --start_directory "..file_dir
-    print(cmd)
-    local relpath = Shell(cmd)
-    if relpath == nil then
-      return abspath
-    else
-      return relpath
-    end
-  end
+  local path = path:gsub(dir, "")
+  path = path:gsub("/", ":")
+  path = path:gsub([[\]], ":")
+  path = path:gsub([[.txt]], "")
+  return path
 end
 
 ---Boilerplate telescope function to insert the selected item
@@ -145,7 +134,7 @@ local function telescope_attach_insert_text(prompt_bufnr, map, dir)
     print(vim.inspect(selection))
     -- todo use dir here
     local file = get_relpath(dir, selection[1])
-    local link = make_markdown_link(file)
+    local link = make_link(file)
     vim.api.nvim_put({ link }, "", false, true)
   end)
   return true
@@ -177,12 +166,13 @@ local pick_notes = function(opts)
   pickers.new(opts, {
     prompt_title = "Notes",
     sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, map) telescope_attach_insert_text(prompt_bufnr, map, notes_dir)
+    attach_mappings = function(prompt_bufnr, map)
+      telescope_attach_insert_text(prompt_bufnr, map, opts['my_keys_notes_dir'])
       return true
     end,
     previewer = conf.file_previewer(opts),
     finder = finders.new_table {
-      results = get_note_paths(notes_dir),
+      results = get_note_paths(opts['my_keys_notes_dir']),
     },
   }):find()
 end
@@ -249,8 +239,16 @@ end
 
 
 -- Define the function we want to export
-function M.insert_notes_link()
-  pick_notes()
+function M.insert_notes_link(opts)
+  opts = opts or {
+    my_keys_notes_dir = "~/Applications/Docker/dokuwiki/data/pages"
+  }
+  -- Change directory see [note_cd_here]
+  local current_dir = vim.fn.getcwd()
+  vim.fn.chdir(opts['my_keys_notes_dir'])
+  pick_notes(opts)
+  -- Runs async, no need to change back in this case
+  -- vim.fn.chdir(current_dir)
 end
 
 function M.open_backlink()

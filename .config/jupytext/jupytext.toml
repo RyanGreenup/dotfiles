@@ -1,0 +1,3 @@
+# [tool.jupytext]
+# This has a lot of false pos, set to 100 days
+outdated_text_notebook_margin=8640000

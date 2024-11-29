@@ -321,7 +321,51 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
       '<M-l>',
       require('utils/markdown_headings').demote_all_headings_below)
   end,
+
 })
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'dokuwiki' },
+  callback = function()
+    normal_map_current_buf(
+      "Use Treesitter to Insert a Dokuwiki Heading of the right level",
+      '<C-CR>', require('dokuwiki/headings').insert_subheading_below
+    )
+    normal_map_current_buf(
+      "Insert a Dokuwiki Heading of the right level",
+      '<A-CR>',
+      require('dokuwiki/headings').insert_heading_below)
+
+    -- TODO this no longer works :(
+    normal_map_current_buf(
+      "demote a Dokuwiki Heading",
+      '<M-Left>',
+      require('dokuwiki/headings').demote_heading)
+
+    normal_map_current_buf(
+      "Promote a Dokuwiki Heading",
+      '<M-Right>',
+      require('dokuwiki/headings').promote_heading)
+
+    normal_map_current_buf(
+      "Promote a Dokuwiki Heading",
+      '<M-h>',
+      require('dokuwiki/headings').promote_all_headings_below)
+
+    normal_map_current_buf(
+      "Promote a Dokuwiki Heading",
+      '<M-l>',
+      require('dokuwiki/headings').demote_all_headings_below)
+
+    normal_map_current_buf(
+      "Follow Link",
+      '<CR>',
+      function()
+        require('dokuwiki/config').edit_link_under_cursor()
+      end)
+  end,
+})
+
 
 
 
@@ -416,15 +460,18 @@ function M.fterm()
       require("config.fterm").gitui:toggle()
     end
   })
-  map('n', '<A-i>', '', { noremap = true, callback = function() require("config.fterm").tmux:toggle() end })
-  map('t', '<A-i>', '', {
-    noremap = true,
-    callback = function()
-      terminal_escape()
-      require("config.fterm").tmux:toggle()
-    end
-  })
+  -- map('n', '<A-i>', '', { noremap = true, callback = function() require("config.fterm").tmux:toggle() end })
+  -- map('t', '<A-i>', '', {
+  --   noremap = true,
+  --   callback = function()
+  --     terminal_escape()
+  --     require("Fterm").toggle()
+  --   end
+  -- })
 end
+
+map('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
+map('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
 
 -- Return the module table so that it can be required by other scripts
 return M
