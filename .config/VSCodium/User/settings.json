@@ -7,12 +7,13 @@
         "readme.md", "SUMMARY.md"],
     "foam.openDailyNote.directory": "",
     "markdown.preview.openMarkdownLinks": "inEditor",
-    "workbench.colorTheme": "Default High Contrast",
+    "workbench.colorTheme": "Default Light Modern",
     "files.autoSave": "onFocusChange",
     "editor.mouseWheelZoom": true,
     "security.workspace.trust.untrustedFiles": "open",
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
+<<<<<<< Updated upstream
     "python.defaultInterpreterPath": "/home/ryan/.local/share/virtualenvs/default/bin/python",
     "foam.openDailyNote.filenameFormat": "j_yyyy-mm-dd",
     "foam.openDailyNote.titleFormat": "yyyy-mm-dd",
@@ -28,6 +29,10 @@
     ],
     "python.interpreter.infoVisibility": "always",
     "python.testing.pytestEnabled": true,
+=======
+    "python.defaultInterpreterPath": "/usr/local/venv/default/fedora",
+    "git.enableSmartCommit": true,
+>>>>>>> Stashed changes
     // "foam.openDailyNote.filenameFormat": "'daily-note'-yyyy-mm-dd",
     // "foam.openDailyNote.fileExtension":  "mdx",
     // "foam.openDailyNote.titleFormat": "  'Journal Entry, ' dddd, mmmm d",

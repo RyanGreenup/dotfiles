@@ -54,41 +54,17 @@ local function configure_slime(filetype, cell_delimiter)
 end
 
 local function autocmd_slime(filetype)
-  -- Add *. before ext
-  for i, _ in ipairs(filetype.exts) do
-    filetype.exts[i] = "*."..filetype.exts[i]
-  end
-  vim.api.nvim_create_autocmd({"BufWinEnter"}, {
-    pattern = filetype.exts,
-    callback = function(ev)
-      _ = ev
-      configure_slime(filetype.name, percent_cell)
+  vim.api.nvim_create_autocmd({ 'FileType' }, {
+    pattern = filetype,
+    callback = function()
+      configure_slime(filetype, percent_cell)
     end,
   })
 end
 
-local langs = {
-  {name="lua", exts = {"lua"}},
-  {name="python", exts = {"py", "python"}},
-  {name="rust", exts = {"rs"}},
-  {name="julia", exts = {"jl"}},
-  {name="bash", exts = {"bash"}},
-  {name="sh", exts = {"sh"}},
-  {name="fish", exts = {"fish"}},
-  {name="r", exts = {"R", "r"}},
-}
-
-for _, lang in pairs(langs) do
+for _, lang in ipairs({ 'lua', 'py', 'python', 'rust', 'julia', 'sh', 'fish', 'jl', 'r' }) do
   autocmd_slime(lang)
-  -- print("name: "..lang.name)
-  -- for _, ext in ipairs(lang.exts) do
-  --   print("    "..ext)
-  -- end
 end
-
--- for _, lang in ipairs({ 'lua', 'py', 'python', 'rust', 'julia', 'sh', 'fish', 'jl', 'r' }) do
---   autocmd_slime(lang)
--- end
 
 -- [ARCHIVE] Zellij ------------------------------------------------------------
 --[[

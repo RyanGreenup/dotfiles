@@ -192,6 +192,7 @@ vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :nnoremap <silent> <Tab> @=(foldlev
 vim.cmd [[ autocmd BufRead,BufNewFile *.txt  :vnoremap <Space> zf<CR>  ]]
 map('n', '<leader>tw', ':lua IS_WIDE=toggle_full(IS_WIDE)<CR>', default_opts)
 map('n', '<leader>dd', ':lua dokuwiki_headings_list()<CR>', default_opts)
+map('n', '<leader>td', ':lua Toggle_dark()<CR>', default_opts)
 
 -- Copilot
 local copilot_enabled = false

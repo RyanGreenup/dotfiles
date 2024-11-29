@@ -10,8 +10,9 @@ local map = cmp.mapping
 local lspkind = require("lspkind")
 
 lspkind.init({
-	mode = "symbol",
-	preset = "codicons",
+	mode = "symbol_text",
+	preset = "default",
+	-- preset = "codicons",
 })
 
 --- @param entry any

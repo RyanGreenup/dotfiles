@@ -7,7 +7,7 @@ Parse_curl_args_func = function(opts, code_opts)
     },
     body = {
       model = opts.model,
-      messages = require("avante.providers").copilot.parse_message(code_opts), -- you can make your own message, but this is very advanced
+      messages = require("avante.providers").copilot.parse_messages(code_opts), -- you can make your own message, but this is very advanced
       max_tokens = 2048,
       stream = true,
     },
@@ -18,11 +18,9 @@ Parse_response_data_func = function(data_stream, event_state, opts)
   require("avante.providers").openai.parse_response(data_stream, event_state, opts)
 end
 
-
-local create_ollama_config = function(host, model)
-  local url = string.format("http://%s:11434/v1", host)
+local create_avante_config = function(model, url)
   return {
-    ["local"] = true,
+    ["api_key_name"] = '',
     endpoint = url,
     model = model,
     parse_curl_args = Parse_curl_args_func,
@@ -30,17 +28,36 @@ local create_ollama_config = function(host, model)
   }
 end
 
+local create_ollama_config = function(host, model)
+  return create_avante_config(model, string.format("http://%s:11434/v1", host))
+end
+
+local create_openai_config = function(model)
+  local oai = create_avante_config(model, "https://api.openai.com/v1/")
+  oai['api_key_name'] = "OPENAI_API_KEY"
+  return oai
+end
+
+
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   lazy = false,
   version = false, -- set this if you want to always pull the latest change
   opts = {
-    provider = "codestral",
+    provider = "qwen",
+    openai = {
+      model = "o1-preview",
+    },
     vendors = {
       ---@type AvanteProvider
+      qwen = create_ollama_config("vale", "qwen2.5-coder:32b"),
       codestral = create_ollama_config("vale", "codestral"),
       commandR = create_ollama_config("vale", "command-r"),
+      yi = create_ollama_config("vale", "yi:34b"),
+      ---@type AvanteProvider
+      o1 = create_openai_config("o1-preview"),
+
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

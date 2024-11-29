@@ -8,7 +8,7 @@ To use these dotfiles:
 ```bash
 # make sure to install rsync
 
-git_repo="https://gitlab.com/ryangreenup/dotfiles"
+git_repo="https://github.com/ryangreenup/dotfiles"
 tmp_dot_dir="$(mktemp -d)"
 dot_dir="$HOME/.local/share/dotfiles"
 git clone --separate-git-dir="${dot_dir}" "${git_repo}" "${tmp_dot_dir}"
