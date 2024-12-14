@@ -1,0 +1,3 @@
+#!/bin/sh
+
+~/.local/share/opt/draftsmith_textual/venv/bin/python3 $HOME/.local/share/opt/draftsmith_textual/main.py $@

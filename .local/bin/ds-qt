@@ -1,0 +1,3 @@
+#!/bin/sh
+
+~/.local/share/opt/ds_rs_qt/venv/bin/python3 /home/ryan/.local/share/opt/ds_rs_qt/main.py $@
