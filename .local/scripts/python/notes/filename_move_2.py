@@ -21,7 +21,7 @@ def main(old: Path, new: Path):
 
 def get_all_files(directory: Path) -> list[str]:
     files = [
-        [os.path.join(root, file) for file in files if file.endswith(".md")]
+        [os.path.join(root, file) for file in files]
         for root, _, files in os.walk(directory)
     ]
     # Flatten the list
@@ -31,7 +31,8 @@ def get_all_files(directory: Path) -> list[str]:
 
 def move(old_file: Path, new_file: Path):
     # Get all the files
-    all_notes = [s for s in get_all_files(Path(".")) if s.endswith(".md")]
+    all_files = get_all_files(Path("."))
+    all_notes = [s for s in all_files if s.endswith(".md")]
 
     print(all_notes)
 
@@ -69,10 +70,10 @@ def move(old_file: Path, new_file: Path):
     # Update the links within the file
     target_links_map = {
         os.path.relpath(note, os.path.dirname(old_file)): os.path.relpath(note, os.path.dirname(new_file))
-        for note in all_notes
+        for note in all_files
     }
 
-    assert len(target_links_map) == len(all_notes), "A note was incorrectly dropped or added"
+    assert len(target_links_map) == len(all_files), "A note was incorrectly dropped or added"
 
     pprint(target_links_map)
 
@@ -97,6 +98,7 @@ def move(old_file: Path, new_file: Path):
 
     # Print the result
     print(f"Moved {old_file} to {new_file}")
+
 
 
 if __name__ == "__main__":
