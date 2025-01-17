@@ -90,6 +90,8 @@ wk.add({
     { "<leader>gi",  vim.lsp.buf.implementation,                         desc = "LSP Type Implementation" },
     { "<leader>gr",  vim.lsp.buf.references,                             desc = "LSP Type Implementation" },
     -- vim.lsp.buf.references()
+    { "<leader>si",  require('telescope.builtin').lsp_document_symbols,        desc = "Document Symbols" },
+    { "<leader>sI",  require('telescope.builtin').lsp_workspace_symbols,        desc = "Document Symbols" },
     { "<leader>sr",  require('telescope.builtin').lsp_references,        desc = "LSP Declaration" },
     -- vim.lsp.buf.document_symbol()
     { "<leader>lG",  require('telescope.builtin').lsp_workspace_symbols, desc = "Workspace Symbols" },
