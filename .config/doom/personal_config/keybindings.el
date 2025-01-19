@@ -3,7 +3,12 @@
 ;;; Org Mode
 ;;;; Agenda
 (map!
- "C-c a" 'org-agenda)
+ "C-c a" 'org-agenda
+ "S-C-<left>" 'shrink-window-horizontally
+ "S-C-<right>" 'enlarge-window-horizontally
+ "S-C-<down>" 'shrink-window
+ "S-C-<up>" 'enlarge-window)
+;;resizing windows
 
 ;; https://github.com/doomemacs/doomemacs/issues/2192
 (map! :after evil-org-agenda
@@ -80,3 +85,4 @@
  :map ess-mode-map
  "<M-return>" #'ess-eval-region-or-function-or-paragraph
  "<S-return>" #'ess-eval-region-or-function-or-paragraph-and-step)
+;;
