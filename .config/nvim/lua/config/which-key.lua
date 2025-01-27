@@ -28,10 +28,50 @@ wk.add({
 })
 
 
+
+---comment
+---@return string
+local avante_complete_code = function()
+  return 'Complete the following codes written in ' .. vim.bo.filetype
+end
+
+
+-- prefil edit window with common scenarios to avoid repeating query and submit immediately
+local prefill_edit_window = function(request)
+  require('avante.api').edit()
+  local code_bufnr = vim.api.nvim_get_current_buf()
+  local code_winid = vim.api.nvim_get_current_win()
+  if code_bufnr == nil or code_winid == nil then
+    return
+  end
+  vim.api.nvim_buf_set_lines(code_bufnr, 0, -1, false, { request })
+  -- Optionally set the cursor position to the end of the input
+  vim.api.nvim_win_set_cursor(code_winid, { 1, #request + 1 })
+  -- Simulate Ctrl+S keypress to submit
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-s>', true, true, true), 'v', true)
+end
+
 wk.add({
+  mode = { 'n', 'v' },
   { "<leader>a", group = "LLM" }, -- group
   {
-    { "<leader>ac", function() require('utils/telescope_stream_ollama_model').choose_model() end, desc = "Choose model for Ollama Completion with <Insert>" },
+    { "<leader>az", function() require('utils/telescope_stream_ollama_model').choose_model() end, desc = "Choose model for Ollama Completion with <Insert>" },
+    -- https://github.com/yetone/avante.nvim/wiki/Recipe-and-Tricks#advanced-shortcuts-for-frequently-used-queries-756
+    {
+      '<leader>ac',
+      function()
+        require('avante.api').ask { question = avante_complete_code() }
+      end,
+      desc = 'Complete Code(ask)',
+    },
+
+    {
+      '<leader>aC',
+      function()
+        prefill_edit_window(avante_complete_code())
+      end,
+      desc = 'Complete Code(edit)',
+    },
 
   }
 })
@@ -90,8 +130,8 @@ wk.add({
     { "<leader>gi",  vim.lsp.buf.implementation,                         desc = "LSP Type Implementation" },
     { "<leader>gr",  vim.lsp.buf.references,                             desc = "LSP Type Implementation" },
     -- vim.lsp.buf.references()
-    { "<leader>si",  require('telescope.builtin').lsp_document_symbols,        desc = "Document Symbols" },
-    { "<leader>sI",  require('telescope.builtin').lsp_workspace_symbols,        desc = "Document Symbols" },
+    { "<leader>si",  require('telescope.builtin').lsp_document_symbols,  desc = "Document Symbols" },
+    { "<leader>sI",  require('telescope.builtin').lsp_workspace_symbols, desc = "Document Symbols" },
     { "<leader>sr",  require('telescope.builtin').lsp_references,        desc = "LSP Declaration" },
     -- vim.lsp.buf.document_symbol()
     { "<leader>lG",  require('telescope.builtin').lsp_workspace_symbols, desc = "Workspace Symbols" },
@@ -213,14 +253,15 @@ wk.add({
     { "<leader>nc", require("utils/markdown_babel").send_code,               desc = "Execute a markdown cell and include output" },
     { "<leader>nb", require('utils/telescope_markdown-links').open_backlink, desc = "Insert Notes Link" },
     {
-      "<leader>nl",
+      "<leader>nL",
       function()
         require('utils/telescope_markdown-links').insert_notes_link({ dir = vim.fn.getcwd()
         })
       end,
       desc = "Insert Notes Link"
     },
-    { "<leader>nL",  function() Insert_notes_link_alacritty_fzf() end,              desc = "Insert Notes Link" },
+    -- { "<leader>nL",  function() Insert_notes_link_alacritty_fzf() end,              desc = "Insert Notes Link" },
+    { "<leader>nl",  function() Insert_chalsedony_link_egui() end,              desc = "Insert Notes Link" },
     -- { "<leader>nL", Insert_notes_link,                                desc = "Insert Notes Link" },
     { "<leader>ns",  function() Create_markdown_link(true) end,                     desc = "Create a Subpage Link and Open Buffer" },
     { "<leader>nS",  function() Create_markdown_link() end,                         desc = "Create a Link From text and Open Buffer" },
@@ -245,6 +286,7 @@ wk.add({
   {
     "<leader>tg",
     function()
+      -- nvim-focus/focus.nvim
       vim.cmd([[FocusToggle]])
     end,
     desc = "Testing"
