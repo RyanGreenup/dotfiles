@@ -97,7 +97,7 @@ local function make_mason_table(ensure_installed)
 end
 
 
-local ensure_installed_treesitter = { 'org', 'markdown', 'sql', 'python', 'rust' }
+local ensure_installed_treesitter = {'markdown', 'sql', 'python', 'rust', 'typst' }
 local ensure_installed_lsp = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "marksman", "dockerls" }
 
 
