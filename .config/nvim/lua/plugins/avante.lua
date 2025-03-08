@@ -1,41 +1,11 @@
-Parse_curl_args_func = function(opts, code_opts)
-  return {
-    url = opts.endpoint .. "/chat/completions",
-    headers = {
-      ["Accept"] = "application/json",
-      ["Content-Type"] = "application/json",
-    },
-    body = {
-      model = opts.model,
-      messages = require("avante.providers").copilot.parse_messages(code_opts), -- you can make your own message, but this is very advanced
-      max_tokens = 2048,
-      stream = true,
-    },
-  }
-end
-
-Parse_response_data_func = function(data_stream, event_state, opts)
-  require("avante.providers").openai.parse_response(data_stream, event_state, opts)
-end
-
-local create_avante_config = function(model, url)
-  return {
-    ["api_key_name"] = '',
-    endpoint = url,
-    model = model,
-    parse_curl_args = Parse_curl_args_func,
-    parse_response_data = Parse_response_data_func,
-  }
-end
-
 local create_ollama_config = function(host, model)
-  return create_avante_config(model, string.format("http://%s:11434/v1", host))
-end
-
-local create_openai_config = function(model)
-  local oai = create_avante_config(model, "https://api.openai.com/v1/")
-  oai['api_key_name'] = "OPENAI_API_KEY"
-  return oai
+  return {
+    __inherited_from = "openai",
+    api_key_name = "",
+    endpoint = string.format("http://%s:11434/v1", host),
+    model = model,
+    max_tokens = 4096,
+  }
 end
 
 
@@ -45,25 +15,58 @@ return {
   lazy = false,
   version = false, -- set this if you want to always pull the latest change
   opts = {
+    auto_suggestions_provider = "qwen",
     provider = "qwen",
     openai = {
       model = "o1-preview",
     },
     vendors = {
       ---@type AvanteProvider
-      qwen = create_ollama_config("vale", "qwen2.5-coder:32b"),
+      qwen = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__16384"),
       codestral = create_ollama_config("vale", "codestral"),
       commandR = create_ollama_config("vale", "command-r"),
       yi = create_ollama_config("vale", "yi:34b"),
       ---@type AvanteProvider
-      o1 = create_openai_config("o1-preview"),
-
+      claude = {
+        endpoint = "https://api.anthropic.com",
+        model = "claude-3-5-sonnet-20241022",
+        temperature = 0,
+        max_tokens = 4096,
+      },
+      gpt4o = {
+        endpoint = "https://api.openai.com/v1",
+        model = "o1",
+        timeout = 30000,
+        temperature = 0,
+        max_tokens = 4096,
+        reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
+      },
+      o1 = {
+        endpoint = "https://api.openai.com/v1",
+        model = "gpt-4o",
+        timeout = 30000,
+        temperature = 0,
+        max_tokens = 4096,
+      },
+      r1 = {
+        __inherited_from = "openai",
+        api_key_name = "DEEPSEEK_API_KEY",
+        endpoint = "https://api.deepseek.com",
+        model = "deepseek-reasoner",
+      },
+      deepseek = {
+        __inherited_from = "openai",
+        api_key_name = "DEEPSEEK_API_KEY",
+        endpoint = "https://api.deepseek.com",
+        model = "deepseek-coder",
+      },
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
   dependencies = {
+    "nvim-treesitter/nvim-treesitter",
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",

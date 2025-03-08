@@ -143,9 +143,19 @@ local function configure_lsp_servers()
     -- cmd = {"sql-language-server", "up", "--method", "stdio"};
   }
 
+  local tynimist_opts = {
+    settings = {
+      formatterMode = "typstyle",
+      exportPdf = "onType",
+      semanticTokens = "disable"
+    }
+  }
+
   for _, s in pairs(servers) do
     if lsp == "sqlls" then
       require("lspconfig")[s].setup(sqlls_opts)
+    elseif lsp == "tinymist" then
+      require("lspconfig")[s].setup(tynimist_opts)
     else
       require("lspconfig")[s].setup(opts)
     end
