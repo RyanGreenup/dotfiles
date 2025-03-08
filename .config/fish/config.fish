@@ -485,3 +485,6 @@ set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
 
 export QT_XCB_GL_INTEGRATION=none
 # <https://github.com/NixOS/nixpkgs/issues/169630>
+
+# uv
+fish_add_path "/home/shai/.local/bin"
