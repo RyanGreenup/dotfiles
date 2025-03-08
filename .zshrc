@@ -98,6 +98,25 @@ if [ -f "${key_file}" ]; then
     export OPENAI_API_KEY
 fi
 
+key_file=$HOME/.local/keys/anthropic.key
+if [ -f "${key_file}" ]; then
+    read -r ANTHROPIC_API_KEY < "${key_file}"
+    export ANTHROPIC_API_KEY
+fi
+
+
+key_file=$HOME/.local/keys/deepseek.key
+if [ -f "${key_file}" ]; then
+    read -r DEEPSEEK_API_KEY  < "${key_file}"
+    export  DEEPSEEK_API_KEY
+fi
+
+key_file=$HOME/.local/keys/typesense.key
+if [ -f "${key_file}" ]; then
+    read -r TYPESENSE_API_KEY  < "${key_file}"
+    export  TYPESENSE_API_KEY
+fi
+
 
 # Use fish in place of bash/zsh
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
