@@ -1,0 +1,53 @@
+/*
+Context expressions can contain the following syntax:
+
+    X && Y, X || Y to and/or two conditions
+    !X to negate a condition
+    (X) for grouping
+    X > Y to match if a parent in the tree matches X and this layer matches Y.
+*/
+
+[
+  {
+    "bindings": {
+      "ctrl-right": "editor::SelectLargerSyntaxNode",
+      "ctrl-left": "editor::SelectSmallerSyntaxNode",
+      "shift shift": "file_finder::Toggle", // matches pressing and releasing shift twice
+      "cmd-k": null,
+      "ctrl-k ctrl-s": "zed::OpenKeymap"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "o": "project_panel::Open"
+    }
+  },
+
+  {
+    "bindings": {
+      "alt-down": ["workspace::SendKeystrokes", "down down down down"],
+      "cmd-alt-c": [
+        "workspace::SendKeystrokes",
+        "cmd-shift-p copy relative path enter"
+      ],
+      "cmd-alt-r": ["workspace::SendKeystrokes", "cmd-p README enter"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "space space": ["workspace::SendKeystrokes", "ctrl-p"],
+      "space w v": ["workspace::SendKeystrokes", "ctrl-w v"],
+      "space w s": ["workspace::SendKeystrokes", "ctrl-w s"],
+      "space w l": ["workspace::SendKeystrokes", "ctrl-w l"],
+      "space w j": ["workspace::SendKeystrokes", "ctrl-w j"],
+      "space w h": ["workspace::SendKeystrokes", "ctrl-w h"],
+      "space w k": ["workspace::SendKeystrokes", "ctrl-w k"],
+      "space l f": ["workspace::SendKeystrokes", "ctrl-shift-i"],
+      "space w q": ["workspace::SendKeystrokes", "ctrl-w q"],
+      "space w d": ["workspace::SendKeystrokes", "ctrl-w q"],
+      "space r n": ["workspace::SendKeystrokes", "F2"]
+    }
+  }
+]
