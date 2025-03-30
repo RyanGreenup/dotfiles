@@ -101,13 +101,13 @@ snippet `el
 	\`\`\`
 	$0
 
-snippet `p "Python Code Block" A
+snippet ``p "Python Code Block" A
 	\`\`\`python
 	$1
 	\`\`\`
 	$0
 
-snippet `n "Empty Code block" A
+snippet ``n "Empty Code block" A
 	\`\`\`
 	$1
 	\`\`\`

@@ -40,5 +40,10 @@ git clone https://github.com/domtronn/all-the-icons.el    && \
 
 fc-cache -f -v
 
-
-
+# Font Awesome (good for e.g. Typst with Codly template)
+npm install @tabler/icons-webfont
+mv node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.ttf \
+    node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons-filled.ttf \
+    node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons-outline.ttf  \
+    .
+rm -rf node_modules

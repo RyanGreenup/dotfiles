@@ -26,12 +26,13 @@ snippet pcl "Cell Marker" A
 	$0
 
 snippet imports "Import Typical Packages" A
-	import numpy as np
-	import matplotlib.pyplot as plt
-	import seaborn as sns
-	import polars as pl
-	import sympy as sp
 	import duckdb
+	import matplotlib.pyplot as plt
+	import numpy as np
+	import polars as pl
+	import seaborn as sns
+	import sympy as sp
+	pl.Config(tbl_cols=int(80 / 5), tbl_rows=6)
 	$0
 
 snippet eg_plot

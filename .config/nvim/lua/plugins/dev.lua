@@ -104,7 +104,13 @@ local dadbod = {
 -- LLM -------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local copilot = { "https://github.com/github/copilot.vim", opt = {} }
+local copilot = {
+  "https://github.com/github/copilot.vim",
+  opt = {},
+  config = function()
+    vim.cmd([[Copilot disable]])
+  end
+}
 
 local tabby = { "TabbyML/vim-tabby", opt = {} }
 

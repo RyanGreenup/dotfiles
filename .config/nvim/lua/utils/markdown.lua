@@ -305,3 +305,41 @@ function Send_visual_to_ai_tools_math()
   vim.cmd(command)
   -- Add a new line
 end
+
+local function insert_shell_command_output(command)
+  -- Run the shell command
+  local handle = io.popen(command)
+  if not handle then
+    print("Error: Failed to run command.")
+    return
+  end
+
+  -- Capture the command output
+  local result = handle:read("*a")
+  handle:close()
+
+  -- Get the current buffer and position of the cursor
+  local bufnr = vim.api.nvim_get_current_buf()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+  -- Convert the command output into a list of lines
+  local lines = {}
+  for line in result:gmatch("([^\n]*)\n?") do
+    table.insert(lines, line)
+  end
+
+  -- Insert the lines into the buffer at the current cursor position
+  vim.api.nvim_buf_set_lines(bufnr, row, row, false, lines)
+
+  -- Optional: Move the cursor to the end of the inserted text
+  vim.api.nvim_win_set_cursor(0, { row + #lines, 0 })
+end
+
+-- Example usage:
+-- RunShellCommandAndInsertOutput("ls -l")
+
+function Insert_chalsedony_link_egui()
+  local command = "chalsedony_selector --database ~/.config/joplin-desktop/database.sqlite"
+  insert_shell_command_output(command)
+end
+
