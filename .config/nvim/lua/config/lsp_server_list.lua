@@ -29,7 +29,8 @@ M.servers = {
   "racket_langserver",
   "rust_analyzer",
   "texlab",
-  "ts_ls",
+  -- "ts_ls",
+  "vtsls",
   "stylelint_lsp",
   "vala_ls",
   "vls",
@@ -40,13 +41,14 @@ M.servers = {
   "rome",
   "jsonls",
   "html",
-  "denols",
+  -- "denols",
   "markdown_oxide", -- 'marksman'
   'qmlls',
   'tinymist', -- typst
 
   "basedpyright",
   "ruff",
+  "svelte",
 }
 
 -- Return the module table so that it can be required by other scripts
