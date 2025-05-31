@@ -22,7 +22,9 @@ return {
     },
     vendors = {
       ---@type AvanteProvider
-      qwen = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__16384"),
+      qwen = create_ollama_config("vale", "qwen2.5:32b"),
+      qwen16 = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__16384"),
+      qwen8 = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__8192"),
       codestral = create_ollama_config("vale", "codestral"),
       commandR = create_ollama_config("vale", "command-r"),
       yi = create_ollama_config("vale", "yi:34b"),

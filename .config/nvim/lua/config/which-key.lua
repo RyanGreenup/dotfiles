@@ -125,7 +125,7 @@ wk.add({
     { "<leader>loa", require('otter').activate,                          desc = "Deactivate",             cond = pcall(require, 'otter') },
     { "<leader>lod", require('otter').deactivate,                        desc = "Deactivate",             cond = pcall(require, 'otter') },
     { "<leader>gD",  vim.lsp.buf.declaration,                            desc = "LSP Declaration" },
-    { "<leader>gD",  vim.lsp.buf.definition,                             desc = "LSP Declaration" },
+    { "<leader>gd",  vim.lsp.buf.definition,                             desc = "LSP Declaration" },
     { "<leader>gy",  vim.lsp.buf.type_definition,                        desc = "LSP Type Definition" },
     { "<leader>gi",  vim.lsp.buf.implementation,                         desc = "LSP Type Implementation" },
     { "<leader>gr",  vim.lsp.buf.references,                             desc = "LSP Type Implementation" },

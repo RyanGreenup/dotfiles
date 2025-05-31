@@ -111,10 +111,15 @@ if [ -f "${key_file}" ]; then
     export  DEEPSEEK_API_KEY
 fi
 
+key_file=$HOME/.local/keys/typesense.key
+if [ -f "${key_file}" ]; then
+    read -r TYPESENSE_API_KEY  < "${key_file}"
+    export  TYPESENSE_API_KEY
+fi
+
 
 # Use fish in place of bash/zsh
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
-# [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
-  [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && fish
+  [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
 # [ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
 if [ -f "/home/ryan/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/ryan/.config/fabric/fabric-bootstrap.inc"; fi
