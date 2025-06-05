@@ -20,7 +20,7 @@ return {
     openai = {
       model = "o1-preview",
     },
-    vendors = {
+    providers = {
       ---@type AvanteProvider
       qwen = create_ollama_config("vale", "qwen2.5:32b"),
       qwen16 = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__16384"),
@@ -32,23 +32,29 @@ return {
       claude = {
         endpoint = "https://api.anthropic.com",
         model = "claude-3-5-sonnet-20241022",
-        temperature = 0,
-        max_tokens = 4096,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 4096,
+        },
       },
       gpt4o = {
         endpoint = "https://api.openai.com/v1",
         model = "o1",
         timeout = 30000,
-        temperature = 0,
-        max_tokens = 4096,
-        reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 4096,
+          reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
+        }
       },
       o1 = {
         endpoint = "https://api.openai.com/v1",
         model = "gpt-4o",
         timeout = 30000,
-        temperature = 0,
-        max_tokens = 4096,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 4096,
+        },
       },
       r1 = {
         __inherited_from = "openai",
