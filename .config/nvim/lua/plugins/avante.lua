@@ -17,10 +17,10 @@ return {
   opts = {
     auto_suggestions_provider = "qwen",
     provider = "qwen",
-    openai = {
-      model = "o1-preview",
-    },
     providers = {
+      openai = {
+        model = "o1-preview",
+      },
       ---@type AvanteProvider
       qwen = create_ollama_config("vale", "qwen2.5:32b"),
       qwen16 = create_ollama_config("vale", "ai_tools/qwen2.5-coder:32b__16384"),
