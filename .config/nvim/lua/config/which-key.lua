@@ -224,6 +224,7 @@ wk.add({
     { "<leader>fo",  group = "Open" }, -- group
     { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,    desc = "Clipboard",      mode = "n" },
     { "<leader>fon", require('utils/misc').open_notes,                        desc = "Clipboard",      mode = "n" },
+    { "<leader>foz", "<cmd>lua vim.fn.jobstart({ 'zeditor.sh' }, { noremap = true, silent = false })<CR>",                        desc = "Zed Editor",     mode = "n" },
     { "<leader>fs",  function() vim.cmd [[w]] end,                            desc = "Save",           mode = "n" },
     { "<leader>fe",  function() vim.cmd [[e!]] end,                           desc = "Revert",         mode = "n" },
     { "<leader>fE",  function() Revert_all_buffers() end,                     desc = "Revert",         mode = "n" },
