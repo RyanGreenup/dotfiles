@@ -2,7 +2,6 @@ local M = {} -- define a table to hold our module
 local lsp = vim.lsp
 
 -- Imports
-local lspconfig = require('lspconfig')
 local servers = require('config/lsp_server_list').servers
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -86,41 +85,14 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local function configure_lua_ls()
-  lspconfig.lua_ls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = { "vim" },
-        },
-      },
-    },
-  })
-end
-
-
---- Configure the Julia LSP the JIT makes this a pain
-local function configure_julia_lsp_server()
-  lspconfig.julials.setup({
-    on_new_config = function(new_config, _)
-      local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-      new_config.cmd[1] = julia
-    end,
-    -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
-    root_dir = function(fname)
-      local util = require("lspconfig.util")
-      return util.root_pattern("Project.toml")(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
-    end,
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
-end
 
 --- Configure the LSP Servers, this is the important function
 local function configure_lsp_servers()
-  local opts = {
+  -- Enable the defined servers
+  vim.lsp.enable(servers)
+
+  -- Set the Default Options
+  vim.lsp.config('*', {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -131,9 +103,15 @@ local function configure_lsp_servers()
         typeCheckingMode = "standard",
       }
     }
-  }
+  })
 
-  local sqlls_opts = {
+  -- Extend specific options
+  vim.lsp.config('tynimist', {
+    formatterMode = "typstyle",
+    exportPdf = "onType",
+    semanticTokens = "disable"
+  })
+  vim.lsp.config('sqlls', {
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "sql", "mysql", ".pgsql" },
@@ -141,25 +119,26 @@ local function configure_lsp_servers()
       return vim.loop.cwd()
     end,
     -- cmd = {"sql-language-server", "up", "--method", "stdio"};
-  }
+  })
 
-  local tynimist_opts = {
-    settings = {
-      formatterMode = "typstyle",
-      exportPdf = "onType",
-      semanticTokens = "disable"
-    }
-  }
-
-  for _, s in pairs(servers) do
-    if lsp == "sqlls" then
-      require("lspconfig")[s].setup(sqlls_opts)
-    elseif lsp == "tinymist" then
-      require("lspconfig")[s].setup(tynimist_opts)
-    else
-      require("lspconfig")[s].setup(opts)
-    end
+  local function find_git_ancestor(name)
+    return vim.fs.dirname(vim.fs.find('.git', { path = name, upward = true })[1])
   end
+
+  vim.lsp.config('julials', {
+    on_new_config = function(new_config, _)
+      local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+      new_config.cmd[1] = julia
+    end,
+
+    -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
+    root_dir = function(fname)
+      local util = require("lspconfig.util")
+      return util.root_pattern("Project.toml")(fname) or find_git_ancestor(fname) or vim.fs.dirname(fname)
+    end,
+    on_attach = on_attach,
+    capabilities = capabilities,
+  })
 end
 
 -- .............................................................................
@@ -168,24 +147,24 @@ end
 
 --- Fix the hover in Pyright to remove HTML [^fn_tx40m2]
 local clean_hover = function(_, result, ctx, config)
-	if not (result and result.contents) then
-		return vim.lsp.handlers.hover(_, result, ctx, config)
-	end
-	if type(result.contents) == "string" then
-		local s = string.gsub(result.contents or "", "&nbsp;", " ")
-		s = string.gsub(s, [[\\\n]], [[\n]])
-		s = string.gsub(s, [[\\\_]], [[_]])
-		s = string.gsub(s, [[\\*]], [[]])
-		result.contents = s
-		return vim.lsp.handlers.hover(_, result, ctx, config)
-	else
-		local s = string.gsub((result.contents or {}).value or "", "&nbsp;", " ")
-		s = string.gsub(s, "\\\n", "\n")
-		s = string.gsub(s, "\\_", "_")
-		s = string.gsub(s, [[\\*]], [[]])
-		result.contents.value = s
-		return vim.lsp.handlers.hover(_, result, ctx, config)
-	end
+  if not (result and result.contents) then
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  end
+  if type(result.contents) == "string" then
+    local s = string.gsub(result.contents or "", "&nbsp;", " ")
+    s = string.gsub(s, [[\\\n]], [[\n]])
+    s = string.gsub(s, [[\\\_]], [[_]])
+    s = string.gsub(s, [[\\*]], [[]])
+    result.contents = s
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  else
+    local s = string.gsub((result.contents or {}).value or "", "&nbsp;", " ")
+    s = string.gsub(s, "\\\n", "\n")
+    s = string.gsub(s, "\\_", "_")
+    s = string.gsub(s, [[\\*]], [[]])
+    result.contents.value = s
+    return vim.lsp.handlers.hover(_, result, ctx, config)
+  end
 end
 
 local my_border = {
@@ -248,9 +227,6 @@ end
 
 -- Define the function we want to export
 function M.run_setup()
-  -- Configgure the servers
-  configure_lua_ls()
-  configure_julia_lsp_server()
   configure_lsp_servers()
   -- Configure the Hover, signature and diagnostic display
   lsp.handlers["textDocument/hover"] = lsp.with(clean_hover, document_hover_opts)

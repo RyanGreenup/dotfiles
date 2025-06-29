@@ -88,17 +88,17 @@ end
 
 local function make_mason_table(ensure_installed)
   return {
-    'williamboman/mason-lspconfig.nvim',
+    'mason-org/mason-lspconfig.nvim',
     dependencies = {
-      { 'williamboman/mason.nvim', opts = {} },
+      { 'mason-org/mason.nvim', opts = {} },
     },
-    opts = { ensure_installed = ensure_installed }
+    opts = {
+      ensure_installed = ensure_installed,
+      automatic_enable = false
+    }
   }
 end
 
-
-local ensure_installed_treesitter = {'markdown', 'sql', 'python', 'rust', 'typst' }
-local ensure_installed_lsp = { "lua_ls", "rust_analyzer", "pylsp", "pyright", "bashls", "marksman", "dockerls" }
 
 
 return {
@@ -112,10 +112,10 @@ return {
   cmp,
 
   -- Treesitter
-  make_tresitter_table(ensure_installed_treesitter),
+  make_tresitter_table(require('config/treesitter_list').servers),
 
   -- Mason
-  make_mason_table(ensure_installed_lsp)
+  make_mason_table(require('config/lsp_server_list').servers)
 
 }
 
