@@ -67,7 +67,7 @@ fi
 
 # Toolbox
 # Added by Toolbox App
-__jetpack_toolbox_directory="/home/ryan/.local/share/JetBrains/Toolbox/scripts"
+__jetpack_toolbox_directory="$HOME/.local/share/JetBrains/Toolbox/scripts"
 
 if [ -d "${__jetpack_toolbox_directory}" ]; then
     export PATH="$PATH:${__jetpack_toolbox_directory}"
@@ -83,8 +83,8 @@ fi
 # PATH
 # Nix
 # added by Nix installer
-if [ -e /home/ryan/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /home/ryan/.nix-profile/etc/profile.d/nix.sh
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+    . $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
 export QT_XCB_GL_INTEGRATION=none # Needed for nix QT apps (breaks anki)
 
@@ -117,9 +117,27 @@ if [ -f "${key_file}" ]; then
     export  TYPESENSE_API_KEY
 fi
 
+key_file=$HOME/.local/keys/sambanova.key
+if [ -f "${key_file}" ]; then
+    read -r SAMBANOVA_API_KEY  < "${key_file}"
+    export  SAMBANOVA_API_KEY
+fi
+
+key_file=$HOME/.local/keys/clickhouse
+if [ -f "${key_file}" ]; then
+    read -r CLICKHOUSE_PASSWORD  < "${key_file}"
+    export  CLICKHOUSE_PASSWORD
+fi
+
+
+key_file=$HOME/.local/keys/lambda_ai.key
+if [ -f "${key_file}" ]; then
+    read -r LAMBDA_API_KEY  < "${key_file}"
+    export  LAMBDA_API_KEY
+fi
 
 # Use fish in place of bash/zsh
 # keep this line at the bottom of ~/.bashrc / ~/.zshrc
   [ -x /bin/fish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/fish exec fish
 # [ -x /bin/elvish ] && [ -z "$IN_NIX_SHELL" ] && SHELL=/bin/elvish elvish
-if [ -f "/home/ryan/.config/fabric/fabric-bootstrap.inc" ]; then . "/home/ryan/.config/fabric/fabric-bootstrap.inc"; fi
+if [ -f "$HOME/.config/fabric/fabric-bootstrap.inc" ]; then . "$HOME/.config/fabric/fabric-bootstrap.inc"; fi
