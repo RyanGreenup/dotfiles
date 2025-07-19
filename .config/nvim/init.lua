@@ -6,7 +6,7 @@ if vim.g.vscode then
   require('settings')
   require('keymaps')
 else
-  vim.g.my_use_noice_ui = true
+  vim.g.my_use_noice_ui = false
   require('config.lazy')
   require('autocommands') -- Put these before lsp
   require('utils')
