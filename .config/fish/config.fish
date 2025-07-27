@@ -43,6 +43,10 @@ function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;
 end
 
+function vv --wraps=nvim --description 'alias v=neovide'
+  neovide . > /dev/null 2>&1 & disown
+end
+
 function f --wraps='cd ; exa -RGL 3' --description 'alias f=cd; exa -RGL 3'
     cd $argv
     exa -TL 2

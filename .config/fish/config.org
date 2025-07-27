@@ -98,6 +98,11 @@ end
 function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;
 end
+
+function vv --wraps=nvim --description 'alias v=neovide'
+  neovide . > /dev/null 2>&1 & disown
+end
+
 #+end_src
 
 ** Shorter Coreutils
