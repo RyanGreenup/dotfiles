@@ -230,6 +230,9 @@ end
 -- Enable Autosave (one toggle is enable)
 require('utils/toggle_autosave').toggle()
 
+-- Setup Outshine folding
+require('utils.outshine_folding').setup()
+
 ------------------------------------------------------------
 -- File Extensions -----------------------------------------
 ------------------------------------------------------------

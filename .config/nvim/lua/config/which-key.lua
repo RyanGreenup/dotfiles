@@ -303,12 +303,13 @@ wk.add({
 wk.add({
   { "<leader>t", group = "Toggle" }, -- group
   {
-    { "<leader>ta", function() require('utils/toggle_autosave').toggle() end, desc = "Autosave",              mode = "n" },
-    { "<leader>td", function() require('config.themes').toggle() end,         desc = "Toggle Dark",           mode = "n" },
-    { "<leader>tn", require('notify').dismiss,                                desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tf", require('telescope.builtin').filetypes,                   desc = "Filetype",              mode = "n" },
-    { "<leader>th", require('utils/misc').conceal_toggle,                     desc = "Conceal",               mode = "n" },
+    { "<leader>ta", function() require('utils/toggle_autosave').toggle() end,   desc = "Autosave",              mode = "n" },
+    { "<leader>td", function() require('config.themes').toggle() end,           desc = "Toggle Dark",           mode = "n" },
+    { "<leader>tn", require('notify').dismiss,                                  desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                       desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tf", require('telescope.builtin').filetypes,                     desc = "Filetype",              mode = "n" },
+    { "<leader>tz", '<cmd>:lua require("utils.outshine_folding").toggle()<CR>', desc = "Filetype",              mode = "n" },
+    { "<leader>th", require('utils/misc').conceal_toggle,                       desc = "Conceal",               mode = "n" },
   },
 })
 
