@@ -20,8 +20,8 @@ wk.add({
   {
     { "<leader>wte", "<cmd>tabedit<CR>",                  desc = "Edit Tab",           mode = "n" },
     { "<leader>wtx", "<cmd>tabclose<CR>",                 desc = "Close Tab",          mode = "n" },
-    { "<leader>wtp", "<cmd>tabprevious<CR>",              desc = "Previous Tab",       mode = "n" },
-    { "<leader>wtn", "<cmd>tabnext<CR>",                  desc = "Next Tab",           mode = "n" },
+    { "<leader>wtp", "<cmd>tabnext<CR>",                  desc = "Previous Tab",       mode = "n" },
+    { "<leader>wtn", "<cmd>tabprevious<CR>",              desc = "Next Tab",           mode = "n" },
     { "<leader>wto", "<cmd>tabedit<CR>",                  desc = "Open Tab",           mode = "n" },
     { "<leader>wtm", "<cmd>lua Move_window_to_tab()<CR>", desc = "Move Window to Tab", mode = "n" }
   },

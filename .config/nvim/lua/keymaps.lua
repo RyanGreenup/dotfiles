@@ -51,6 +51,9 @@ map('n', '<A-j>', '<cmd>:resize -5<CR>', default_opts)
 -- Docview Plugin
 map('n', '<F3>', ':DocsViewToggle<CR>', default_opts)
 
+-- Format File
+map('n', '<BS>', ':!npx prettier --write "%"<CR>', default_opts)
+
 -----------------------------------------------------------
 -- Tabs
 -----------------------------------------------------------
