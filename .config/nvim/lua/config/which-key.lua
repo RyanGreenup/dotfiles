@@ -408,6 +408,13 @@ wk.add({
     { "<leader>ht", require('telescope.builtin').colorscheme, desc = "Theme" },
     { "<leader>hp", "<cmd>Telescope lazy<CR>",                desc = "Packages" },
     { "<leader>hu", "<cmd>Lazy update<CR>",                   desc = "Lazy Update" },
+    { "<leader>hr", group = "Reload" },
+    {
+      { "<leader>hrr", function()
+          vim.cmd("source " .. vim.fn.stdpath("config") .. "/init.lua")
+          vim.notify("Neovim config reloaded!", vim.log.levels.INFO)
+        end, desc = "Reload Config" },
+    }
   }
 })
 
