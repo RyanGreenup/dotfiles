@@ -1,6 +1,9 @@
 local oil = {
   'stevearc/oil.nvim',
-  opts = {},
+  opts = {
+    -- Disable netrw hijacking to allow :Nread to work
+    default_file_explorer = false,
+  },
   -- Optional dependencies
   dependencies = { "nvim-tree/nvim-web-devicons" },
 }
