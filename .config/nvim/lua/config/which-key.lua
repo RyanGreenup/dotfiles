@@ -310,7 +310,6 @@ wk.add({
     { "<leader>tn", require('notify').dismiss,                                  desc = "Dismiss notifications", mode = "n" },
     { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                       desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes,                     desc = "Filetype",              mode = "n" },
-    { "<leader>tz", '<cmd>:lua require("utils.outshine_folding").toggle()<CR>', desc = "Filetype",              mode = "n" },
     { "<leader>th", require('utils/misc').conceal_toggle,                       desc = "Conceal",               mode = "n" },
   },
 })
@@ -361,6 +360,27 @@ wk.add({
     { "<leader>jvj", function() vim.cmd [[:vsplit %:r.jl]] end, desc = "Julia" },
     { "<leader>jvs", function() vim.cmd [[:vsplit %:r.rs]] end, desc = "Rust" },
     { "<leader>jvi", function() vim.cmd [[:vsplit %:r.ipynb]] end, desc = "⚠ ipynb" },
+  }
+})
+
+-- Folding
+wk.add({
+  { "<leader>z", group = "Folding" }, -- group
+  {
+    { "<leader>zz", require('utils.outshine_folding').toggle,                      desc = "Toggle Outshine Mode",        mode = "n" },
+    { "<leader>ze", require('utils.outshine_folding').enable,                      desc = "Enable Outshine",             mode = "n" },
+    { "<leader>zd", require('utils.outshine_folding').disable,                     desc = "Disable Outshine (Use LSP)",  mode = "n" },
+    { "<leader>za", require('utils.outshine_folding').add_markers,                 desc = "Add Fold Marker (Level 1)",   mode = { "n", "v" } },
+    { "<leader>zA", require('utils.outshine_folding').add_markers_with_end,        desc = "Add Fold Markers with End",   mode = { "n", "v" } },
+    { "<leader>zp", require('utils.outshine_folding').add_markers_prompt,          desc = "Add Fold Marker (Prompt)",    mode = { "n", "v" } },
+    { "<leader>z1", function() require('utils.outshine_folding').add_markers(1) end, desc = "Add Level 1 Marker",        mode = { "n", "v" } },
+    { "<leader>z2", function() require('utils.outshine_folding').add_markers(2) end, desc = "Add Level 2 Marker",        mode = { "n", "v" } },
+    { "<leader>z3", function() require('utils.outshine_folding').add_markers(3) end, desc = "Add Level 3 Marker",        mode = { "n", "v" } },
+    { "<leader>z4", function() require('utils.outshine_folding').add_markers(4) end, desc = "Add Level 4 Marker",        mode = { "n", "v" } },
+    { "<leader>z5", function() require('utils.outshine_folding').add_markers(5) end, desc = "Add Level 5 Marker",        mode = { "n", "v" } },
+    { "<leader>z6", function() require('utils.outshine_folding').add_markers(6) end, desc = "Add Level 6 Marker",        mode = { "n", "v" } },
+    { "<leader>z7", function() require('utils.outshine_folding').add_markers(7) end, desc = "Add Level 7 Marker",        mode = { "n", "v" } },
+    { "<leader>z8", function() require('utils.outshine_folding').add_markers(8) end, desc = "Add Level 8 Marker",        mode = { "n", "v" } },
   }
 })
 
