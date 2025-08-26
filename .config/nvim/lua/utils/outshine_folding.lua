@@ -120,6 +120,40 @@ function M.add_markers_with_end(level)
     M.add_markers(level or 1, true)
 end
 
+--- Finds the fold level of the nearest marker above the current position
+--- @return number|nil The fold level of the marker above, or nil if not found
+local function find_level_above()
+    local current_line = vim.fn.line('.')
+    local pattern = "{{{(%d+)"
+    
+    -- Search backwards from current line
+    for lnum = current_line - 1, 1, -1 do
+        local line = vim.fn.getline(lnum)
+        local level = line:match(pattern)
+        if level then
+            return tonumber(level)
+        end
+    end
+    
+    return nil
+end
+
+--- Adds a marker at the same level as the marker above (or level 1 if none found)
+--- @param include_end boolean|nil Whether to include the closing marker (default: false)
+function M.add_marker_equal(include_end)
+    local level_above = find_level_above()
+    local level = level_above or 1
+    M.add_markers(level, include_end)
+end
+
+--- Adds a marker at one level below the marker above (or level 1 if none found)
+--- @param include_end boolean|nil Whether to include the closing marker (default: false)
+function M.add_marker_below(include_end)
+    local level_above = find_level_above()
+    local level = level_above and math.min(level_above + 1, 9) or 1
+    M.add_markers(level, include_end)
+end
+
 --- Prompts for fold level and adds markers
 function M.add_markers_prompt()
     vim.ui.input({

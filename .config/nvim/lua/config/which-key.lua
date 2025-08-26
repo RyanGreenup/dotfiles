@@ -1,5 +1,7 @@
 local wk = require("which-key")
 
+
+
 -- TODO decide on autocommand keymaps
 -- for markdown and slime
 -- Keybindings aim for some degree of consistency with
@@ -372,6 +374,8 @@ wk.add({
     { "<leader>zd", require('utils.outshine_folding').disable,                     desc = "Disable Outshine (Use LSP)",  mode = "n" },
     { "<leader>za", require('utils.outshine_folding').add_markers,                 desc = "Add Fold Marker (Level 1)",   mode = { "n", "v" } },
     { "<leader>zA", require('utils.outshine_folding').add_markers_with_end,        desc = "Add Fold Markers with End",   mode = { "n", "v" } },
+    { "<leader>z=", require('utils.outshine_folding').add_marker_equal,            desc = "Add Marker (Equal Level)",    mode = { "n", "v" } },
+    { "<leader>z+", require('utils.outshine_folding').add_marker_below,            desc = "Add Marker (Level Below)",    mode = { "n", "v" } },
     { "<leader>zp", require('utils.outshine_folding').add_markers_prompt,          desc = "Add Fold Marker (Prompt)",    mode = { "n", "v" } },
     { "<leader>z1", function() require('utils.outshine_folding').add_markers(1) end, desc = "Add Level 1 Marker",        mode = { "n", "v" } },
     { "<leader>z2", function() require('utils.outshine_folding').add_markers(2) end, desc = "Add Level 2 Marker",        mode = { "n", "v" } },
