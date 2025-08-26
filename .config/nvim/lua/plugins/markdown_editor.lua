@@ -2,7 +2,11 @@ return {
   "ryangreenup/markdown_editor.nvim", -- Replace with actual plugin path
   config = function()
     require("markdown_editor").setup({
-      -- Your plugin configuration here
+      -- Configure list indentation (2 for CommonMark, 4 for some variants)
+      list_indent = 2, -- Default: 2 spaces
+      
+      -- Enable auto-indentation when pressing Enter in lists
+      auto_indent_lists = true, -- Default: true
     })
 
     -- Create autocmd for markdown keybindings
@@ -10,6 +14,9 @@ return {
       pattern = { "markdown", "rmd" },
       callback = function()
         local opts = { buffer = true, silent = true }
+        
+        -- Setup auto-indentation for lists
+        require("markdown_editor.lists").setup_auto_indent()
 
         -- Heading Creation
         vim.keymap.set({"n", "i"}, "<C-CR>", function()
@@ -45,6 +52,15 @@ return {
         vim.keymap.set("n", "<C-h>", function()
           require("markdown_editor.headings").promote_heading()
         end, vim.tbl_extend("force", opts, { desc = "Promote current heading only" }))
+
+        -- Alt+Arrow keys for single item promotion/demotion
+        vim.keymap.set({"n", "i"}, "<M-Left>", function()
+          require("markdown_editor.headings").promote_heading()
+        end, vim.tbl_extend("force", opts, { desc = "Promote current item only" }))
+
+        vim.keymap.set({"n", "i"}, "<M-Right>", function()
+          require("markdown_editor.headings").demote_heading()
+        end, vim.tbl_extend("force", opts, { desc = "Demote current item only" }))
 
 
 
