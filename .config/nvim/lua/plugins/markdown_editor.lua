@@ -12,11 +12,11 @@ return {
         local opts = { buffer = true, silent = true }
 
         -- Heading Creation
-        vim.keymap.set("n", "<C-CR>", function()
+        vim.keymap.set({"n", "i"}, "<C-CR>", function()
           require("markdown_editor.headings").insert_child_heading()
         end, vim.tbl_extend("force", opts, { desc = "Create child heading" }))
 
-        vim.keymap.set("n", "<M-CR>", function()
+        vim.keymap.set({"n", "i"}, "<M-CR>", function()
           require("markdown_editor.headings").insert_sibling_heading()
         end, vim.tbl_extend("force", opts, { desc = "Create sibling heading" }))
 
