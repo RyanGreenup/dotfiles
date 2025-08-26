@@ -377,6 +377,11 @@ wk.add({
     { "<leader>z=", require('utils.outshine_folding').add_marker_equal,            desc = "Add Marker (Equal Level)",    mode = { "n", "v" } },
     { "<leader>z+", require('utils.outshine_folding').add_marker_below,            desc = "Add Marker (Level Below)",    mode = { "n", "v" } },
     { "<leader>zp", require('utils.outshine_folding').add_markers_prompt,          desc = "Add Fold Marker (Prompt)",    mode = { "n", "v" } },
+    -- Navigation
+    { "<leader>zj", require('utils.outshine_folding').goto_next_sibling,           desc = "Go to Next Sibling",          mode = "n" },
+    { "<leader>zk", require('utils.outshine_folding').goto_prev_sibling,           desc = "Go to Previous Sibling",      mode = "n" },
+    { "<leader>zh", require('utils.outshine_folding').goto_parent,                 desc = "Go to Parent",                mode = "n" },
+    -- Level markers
     { "<leader>z1", function() require('utils.outshine_folding').add_markers(1) end, desc = "Add Level 1 Marker",        mode = { "n", "v" } },
     { "<leader>z2", function() require('utils.outshine_folding').add_markers(2) end, desc = "Add Level 2 Marker",        mode = { "n", "v" } },
     { "<leader>z3", function() require('utils.outshine_folding').add_markers(3) end, desc = "Add Level 3 Marker",        mode = { "n", "v" } },

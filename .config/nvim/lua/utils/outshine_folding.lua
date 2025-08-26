@@ -154,6 +154,102 @@ function M.add_marker_below(include_end)
     M.add_markers(level, include_end)
 end
 
+--- Finds the current fold level at the cursor position
+--- @return number|nil The fold level of the current section
+local function get_current_level()
+    local current_line = vim.fn.line('.')
+    local pattern = "{{{(%d+)"
+    
+    -- First check current line
+    local line = vim.fn.getline(current_line)
+    local level = line:match(pattern)
+    if level then
+        return tonumber(level)
+    end
+    
+    -- If not on a marker, find the level above
+    return find_level_above()
+end
+
+--- Jump to the next sibling marker (same level)
+function M.goto_next_sibling()
+    local current_level = get_current_level()
+    if not current_level then
+        vim.notify("No fold marker found", vim.log.levels.WARN)
+        return
+    end
+    
+    local current_line = vim.fn.line('.')
+    local last_line = vim.fn.line('$')
+    local pattern = "{{{(" .. current_level .. ")%s*$"
+    
+    -- Search forward for same level marker
+    for lnum = current_line + 1, last_line do
+        local line = vim.fn.getline(lnum)
+        if line:match(pattern) then
+            vim.fn.cursor(lnum, 1)
+            vim.cmd('normal! ^')
+            return
+        end
+    end
+    
+    vim.notify("No next sibling found (level " .. current_level .. ")", vim.log.levels.INFO)
+end
+
+--- Jump to the previous sibling marker (same level)
+function M.goto_prev_sibling()
+    local current_level = get_current_level()
+    if not current_level then
+        vim.notify("No fold marker found", vim.log.levels.WARN)
+        return
+    end
+    
+    local current_line = vim.fn.line('.')
+    local pattern = "{{{(" .. current_level .. ")%s*$"
+    
+    -- Search backward for same level marker
+    for lnum = current_line - 1, 1, -1 do
+        local line = vim.fn.getline(lnum)
+        if line:match(pattern) then
+            vim.fn.cursor(lnum, 1)
+            vim.cmd('normal! ^')
+            return
+        end
+    end
+    
+    vim.notify("No previous sibling found (level " .. current_level .. ")", vim.log.levels.INFO)
+end
+
+--- Jump to the parent marker (one level up)
+function M.goto_parent()
+    local current_level = get_current_level()
+    if not current_level then
+        vim.notify("No fold marker found", vim.log.levels.WARN)
+        return
+    end
+    
+    if current_level == 1 then
+        vim.notify("Already at top level", vim.log.levels.INFO)
+        return
+    end
+    
+    local parent_level = current_level - 1
+    local current_line = vim.fn.line('.')
+    local pattern = "{{{(" .. parent_level .. ")%s*$"
+    
+    -- Search backward for parent level marker
+    for lnum = current_line - 1, 1, -1 do
+        local line = vim.fn.getline(lnum)
+        if line:match(pattern) then
+            vim.fn.cursor(lnum, 1)
+            vim.cmd('normal! ^')
+            return
+        end
+    end
+    
+    vim.notify("No parent found (level " .. parent_level .. ")", vim.log.levels.INFO)
+end
+
 --- Prompts for fold level and adds markers
 function M.add_markers_prompt()
     vim.ui.input({
