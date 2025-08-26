@@ -19,7 +19,19 @@ local md_in_buffer_preview = {
 
 local femaco = {
   'AckslD/nvim-FeMaco.lua',
-  opts = {}
+  opts = {
+    -- Preserve indentation for code blocks (e.g., in markdown lists)
+    normalize_indent = function(base_filetype)
+      -- Return false for markdown to preserve original indentation
+      return true
+    end,
+    ensure_newline = function(base_filetype)
+      -- Ensure proper newlines for markdown code blocks
+      -- return base_filetype == 'markdown'
+      -- Nah always add a newline
+      return true
+    end
+  }
 }
 
 local table_mode = { 'dhruvasagar/vim-table-mode' }
