@@ -123,3 +123,32 @@ snippet `` "Quick Code Block" A
 	\`\`\`
 	$0
 
+
+
+snippet is-warning
+	> [!WARNING]
+	> $1
+
+	$0
+
+snippet is-tip
+	> [!TIP]
+	> $1
+
+	$0
+
+snippet is-caution
+	> [!CAUTION]
+	> $1
+
+	$0
+
+snippet is-danger
+	> [!DANGER]
+	> $1
+
+	$0
+
+snippet is-info "Information Admonition" b
+	> [!INFO]
+	> $1
