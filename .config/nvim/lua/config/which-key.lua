@@ -1,5 +1,7 @@
 local wk = require("which-key")
 
+
+
 -- TODO decide on autocommand keymaps
 -- for markdown and slime
 -- Keybindings aim for some degree of consistency with
@@ -20,8 +22,8 @@ wk.add({
   {
     { "<leader>wte", "<cmd>tabedit<CR>",                  desc = "Edit Tab",           mode = "n" },
     { "<leader>wtx", "<cmd>tabclose<CR>",                 desc = "Close Tab",          mode = "n" },
-    { "<leader>wtp", "<cmd>tabprevious<CR>",              desc = "Previous Tab",       mode = "n" },
-    { "<leader>wtn", "<cmd>tabnext<CR>",                  desc = "Next Tab",           mode = "n" },
+    { "<leader>wtp", "<cmd>tabnext<CR>",                  desc = "Previous Tab",       mode = "n" },
+    { "<leader>wtn", "<cmd>tabprevious<CR>",              desc = "Next Tab",           mode = "n" },
     { "<leader>wto", "<cmd>tabedit<CR>",                  desc = "Open Tab",           mode = "n" },
     { "<leader>wtm", "<cmd>lua Move_window_to_tab()<CR>", desc = "Move Window to Tab", mode = "n" }
   },
@@ -222,13 +224,15 @@ wk.add({
     { "<leader>fQ",  function() Revert_all_buffers("q!") end,                 desc = "Auto Revert",    mode = "n" },
     { "<leader>ff",  require('yazi').yazi,                                    desc = "Find File",      mode = "n" },
     { "<leader>fo",  group = "Open" }, -- group
-    { "<leader>foc", function() vim.cmd('edit' .. vim.fn.getreg('+')) end,    desc = "Clipboard",      mode = "n" },
+    { "<leader>foc", require('utils.change_directory').change_to_clipboard_file,    desc = "Clipboard",      mode = "n" },
+    { "<leader>foC", require('utils.change_directory').change_to_clipboard_file_git_root,    desc = "Clipboard",      mode = "n" },
     { "<leader>fon", require('utils/misc').open_notes,                        desc = "Clipboard",      mode = "n" },
     { "<leader>foz", "<cmd>lua vim.fn.jobstart({ 'zeditor.sh' }, { noremap = true, silent = false })<CR>",                        desc = "Zed Editor",     mode = "n" },
     { "<leader>fs",  function() vim.cmd [[w]] end,                            desc = "Save",           mode = "n" },
     { "<leader>fe",  function() vim.cmd [[e!]] end,                           desc = "Revert",         mode = "n" },
     { "<leader>fE",  function() Revert_all_buffers() end,                     desc = "Revert",         mode = "n" },
-    { "<leader>fg",  function() vim.cmd [[:cd %:p:h]] end,                    desc = "Go to File Dir", mode = "n" },
+    { "<leader>fg",  require('utils.change_directory').change_to_file_dir,                    desc = "Go to File Dir", mode = "n" },
+    { "<leader>fG",  require('utils.change_directory').change_to_git_root,                    desc = "Go to Project Dir", mode = "n" },
     { "<leader>fr",  function() require('telescope.builtin').oldfiles() end,  desc = "Recent" },
     { "<leader>ft",  function() require('telescope.builtin').filetypes() end, desc = "File Types" },
     { "<leader>fy",  require('utils/misc').copy_path,                         desc = "Copy Path" },
@@ -303,12 +307,12 @@ wk.add({
 wk.add({
   { "<leader>t", group = "Toggle" }, -- group
   {
-    { "<leader>ta", function() require('utils/toggle_autosave').toggle() end, desc = "Autosave",              mode = "n" },
-    { "<leader>td", function() require('config.themes').toggle() end,         desc = "Toggle Dark",           mode = "n" },
-    { "<leader>tn", require('notify').dismiss,                                desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                     desc = "Dismiss notifications", mode = "n" },
-    { "<leader>tf", require('telescope.builtin').filetypes,                   desc = "Filetype",              mode = "n" },
-    { "<leader>th", require('utils/misc').conceal_toggle,                     desc = "Conceal",               mode = "n" },
+    { "<leader>ta", function() require('utils/toggle_autosave').toggle() end,   desc = "Autosave",              mode = "n" },
+    { "<leader>td", function() require('config.themes').toggle() end,           desc = "Toggle Dark",           mode = "n" },
+    { "<leader>tn", require('notify').dismiss,                                  desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                       desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tf", require('telescope.builtin').filetypes,                     desc = "Filetype",              mode = "n" },
+    { "<leader>th", require('utils/misc').conceal_toggle,                       desc = "Conceal",               mode = "n" },
   },
 })
 
@@ -361,6 +365,34 @@ wk.add({
   }
 })
 
+-- Folding
+wk.add({
+  { "<leader>z", group = "Folding" }, -- group
+  {
+    { "<leader>zz", require('utils.outshine_folding').toggle,                      desc = "Toggle Outshine Mode",        mode = "n" },
+    { "<leader>ze", require('utils.outshine_folding').enable,                      desc = "Enable Outshine",             mode = "n" },
+    { "<leader>zd", require('utils.outshine_folding').disable,                     desc = "Disable Outshine (Use LSP)",  mode = "n" },
+    { "<leader>za", require('utils.outshine_folding').add_markers,                 desc = "Add Fold Marker (Level 1)",   mode = { "n", "v" } },
+    { "<leader>zA", require('utils.outshine_folding').add_markers_with_end,        desc = "Add Fold Markers with End",   mode = { "n", "v" } },
+    { "<leader>z=", require('utils.outshine_folding').add_marker_equal,            desc = "Add Marker (Equal Level)",    mode = { "n", "v" } },
+    { "<leader>z+", require('utils.outshine_folding').add_marker_below,            desc = "Add Marker (Level Below)",    mode = { "n", "v" } },
+    { "<leader>zp", require('utils.outshine_folding').add_markers_prompt,          desc = "Add Fold Marker (Prompt)",    mode = { "n", "v" } },
+    -- Navigation
+    { "<leader>zj", require('utils.outshine_folding').goto_next_sibling,           desc = "Go to Next Sibling",          mode = "n" },
+    { "<leader>zk", require('utils.outshine_folding').goto_prev_sibling,           desc = "Go to Previous Sibling",      mode = "n" },
+    { "<leader>zh", require('utils.outshine_folding').goto_parent,                 desc = "Go to Parent",                mode = "n" },
+    -- Level markers
+    { "<leader>z1", function() require('utils.outshine_folding').add_markers(1) end, desc = "Add Level 1 Marker",        mode = { "n", "v" } },
+    { "<leader>z2", function() require('utils.outshine_folding').add_markers(2) end, desc = "Add Level 2 Marker",        mode = { "n", "v" } },
+    { "<leader>z3", function() require('utils.outshine_folding').add_markers(3) end, desc = "Add Level 3 Marker",        mode = { "n", "v" } },
+    { "<leader>z4", function() require('utils.outshine_folding').add_markers(4) end, desc = "Add Level 4 Marker",        mode = { "n", "v" } },
+    { "<leader>z5", function() require('utils.outshine_folding').add_markers(5) end, desc = "Add Level 5 Marker",        mode = { "n", "v" } },
+    { "<leader>z6", function() require('utils.outshine_folding').add_markers(6) end, desc = "Add Level 6 Marker",        mode = { "n", "v" } },
+    { "<leader>z7", function() require('utils.outshine_folding').add_markers(7) end, desc = "Add Level 7 Marker",        mode = { "n", "v" } },
+    { "<leader>z8", function() require('utils.outshine_folding').add_markers(8) end, desc = "Add Level 8 Marker",        mode = { "n", "v" } },
+  }
+})
+
 -- Go
 wk.add({
   { "<leader>g",  group = "Go" }, -- group
@@ -376,6 +408,13 @@ wk.add({
     { "<leader>ht", require('telescope.builtin').colorscheme, desc = "Theme" },
     { "<leader>hp", "<cmd>Telescope lazy<CR>",                desc = "Packages" },
     { "<leader>hu", "<cmd>Lazy update<CR>",                   desc = "Lazy Update" },
+    { "<leader>hr", group = "Reload" },
+    {
+      { "<leader>hrr", function()
+          vim.cmd("source " .. vim.fn.stdpath("config") .. "/init.lua")
+          vim.notify("Neovim config reloaded!", vim.log.levels.INFO)
+        end, desc = "Reload Config" },
+    }
   }
 })
 

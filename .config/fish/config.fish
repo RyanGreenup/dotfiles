@@ -39,6 +39,10 @@ if test -d /opt/libtorch
     export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
 end
 
+function vv --wraps=neovide --description 'alias vv=neovide'
+  neovide . > /dev/null 2>&1 & disown
+end
+
 function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;
 end

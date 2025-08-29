@@ -28,6 +28,9 @@ cmd [[
       let g:markdown_folding=1   " Default Markdown Folding
       ]] --
 
+-- This is required for some FUSE and NFS stuff, see <https://github.com/RyanGreenup/joplin_sqlite_fuse/commit/6d03b93a26f645c76129b809161a34bddf2452b7>
+vim.cmd([[set backupcopy=yes]])
+
 --------------------------------------------------------------------------------
 -- Custom Vim Commands ---------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -254,6 +257,9 @@ end
 -- set conceallevel=0
 -- ]]
 --
+
+-- Setup Outshine folding
+require('utils.outshine_folding').setup()
 
 ------------------------------------------------------------
 -- File Extensions -----------------------------------------
