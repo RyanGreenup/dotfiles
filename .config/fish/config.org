@@ -93,16 +93,18 @@ if test -d /opt/libtorch
 end
 #+end_src
 * Alias
+** Neovide
+#+begin_src fish
+function vv --wraps=neovide --description 'alias vv=neovide'
+  neovide . > /dev/null 2>&1 & disown
+end
+#+end_src
+
 ** Vim
 #+begin_src fish
 function v --wraps=nvim --description 'alias v=nvim'
   nvim $argv;
 end
-
-function vv --wraps=nvim --description 'alias v=neovide'
-  neovide . > /dev/null 2>&1 & disown
-end
-
 #+end_src
 
 ** Shorter Coreutils
