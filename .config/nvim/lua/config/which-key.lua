@@ -456,6 +456,8 @@ wk.add({
   -- todo this is worth doing with a vmap
   -- look at ollama codestral
   { "<leader>it", "<cmd>! /home/ryan/.local/scripts/python/text_to_latex.py<CR>", desc = "Text to Latex",                     mode = "v" },
+  -- Org-Cliplink for Markdown
+  { "<leader>mlc", function() Insert_markdown_link() end, desc = "Insert Clipboard URL as Markdown",                     mode = "n" },
 })
 
 wk.add({

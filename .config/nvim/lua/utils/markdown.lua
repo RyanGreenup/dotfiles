@@ -343,3 +343,47 @@ function Insert_chalsedony_link_egui()
   insert_shell_command_output(command)
 end
 
+-- Create a Markdown Link
+function Insert_markdown_link()
+  local script_path = "~/.config/nvim/scripts/createMarkdownLink.ts"
+  local cmd = string.format("deno run --allow-net --allow-run %s", script_path)
+
+  -- Execute the command and capture output
+  local handle = io.popen(cmd)
+  if not handle then
+    vim.notify("Failed to execute deno command", vim.log.levels.ERROR)
+    return
+  end
+
+  local result = handle:read("*a")
+  handle:close()
+
+  -- Check if we got a result
+  if not result or result == "" then
+    vim.notify("No output from markdown link script", vim.log.levels.ERROR)
+    return
+  end
+
+  -- Trim whitespace from result
+  local markdown_link = result:gsub("^%s+", ""):gsub("%s+$", "")
+
+  if markdown_link == "" then
+    vim.notify("No markdown link generated", vim.log.levels.WARN)
+    return
+  end
+
+  -- Get current cursor position
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local row, col = cursor[1], cursor[2]
+
+  -- Insert the markdown link at cursor position
+  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { markdown_link })
+
+  -- Move cursor to end of inserted text
+  vim.api.nvim_win_set_cursor(0, { row, col + #markdown_link })
+
+  vim.notify("Markdown link inserted: " .. markdown_link, vim.log.levels.INFO)
+end
+
+-- Create a command to call the function
+vim.api.nvim_create_user_command('MarkdownLink', Insert_markdown_link, {})
