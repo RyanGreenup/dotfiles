@@ -95,26 +95,8 @@ snippet is-info
 
 	$0
 
-snippet `el
-	\`\`\`elisp
-	$1
-	\`\`\`
-	$0
-
-snippet ``p "Python Code Block" A
-	\`\`\`python
-	$1
-	\`\`\`
-	$0
-
-snippet ``n "Empty Code block" A
-	\`\`\`
-	$1
-	\`\`\`
-	$0
-
-snippet [[ "Wikilink to MD Link" A
-	[$2]($1) $0
+# snippet [[ "Wikilink to MD Link" A
+# 	[$2]($1) $0
 
 
 snippet test "Testing things" lA
@@ -129,3 +111,44 @@ snippet ci "Integral" lA
 snippet dv "Vector" lAi
 	\vec{$1}$0
 
+snippet cb "Code Block" b
+	\`\`\`${1:language}
+	${2:code}
+	\`\`\`
+	$0
+
+snippet `` "Quick Code Block" A
+	\`\`\`${1:}
+	$2
+	\`\`\`
+	$0
+
+
+
+snippet is-warning
+	> [!WARNING]
+	> $1
+
+	$0
+
+snippet is-tip
+	> [!TIP]
+	> $1
+
+	$0
+
+snippet is-caution
+	> [!CAUTION]
+	> $1
+
+	$0
+
+snippet is-danger
+	> [!DANGER]
+	> $1
+
+	$0
+
+snippet is-info "Information Admonition" b
+	> [!INFO]
+	> $1

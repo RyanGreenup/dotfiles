@@ -12,7 +12,7 @@ end
 if status is-interactive
     if command -v python 1>/dev/null 2>&1
         set distro (__get_distro)
-        set venv_dir /usr/local/venv/default/$distro
+        set venv_dir ($HOME/.local/bin/get_venv)
         # Check if the directory exists
         if test -d $venv_dir
             source $venv_dir/bin/activate.fish
@@ -22,9 +22,6 @@ if status is-interactive
             echo "Create one with:"
             echo ""
             echo "    python -m venv $venv_dir"
-            echo ""
-            echo "chgrp (id -u) " $venv_dir
-            echo "chmod 775 "     $venv_dir
             echo ""
             echo "The default dependencies are tracked here:"
             echo ""
@@ -40,6 +37,10 @@ export PKG_CONFIG_PATH="/usr/lib64/pkgconfig/"
 if test -d /opt/libtorch
     export LIBTORCH=/opt/libtorch
     export LD_LIBRARY_PATH="$LIBTORCH"/lib:"$LD_LIBRARY_PATH"
+end
+
+function vv --wraps=neovide --description 'alias vv=neovide'
+  neovide . > /dev/null 2>&1 & disown
 end
 
 function v --wraps=nvim --description 'alias v=nvim'
@@ -123,14 +124,10 @@ function dokuwiki_nvim
 end
 
 # Toggle Alacritty theme
-# function tt
-#     # If the colors: line is found, use sed to change it to dark or light
-#     grep 'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i 's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
-#     grep 'colors: \*dark' ~/.config/alacritty/alacritty.yml && sed -i 's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
-# end
-
 function tt
-    ~/.local/scripts/fish/alacritty__toggle_light_dark.fish
+    # If the colors: line is found, use sed to change it to dark or light
+    grep  'colors: \*light' ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*light!colors: *dark!' ~/.config/alacritty/alacritty.yml && return 0
+    grep  'colors: \*dark'  ~/.config/alacritty/alacritty.yml && sed -i  's!colors:\ \*dark!colors: *light!' ~/.config/alacritty/alacritty.yml && return 0
 end
 
 function ws
@@ -485,6 +482,3 @@ set PATH $HOME/.local/share/nvim/mason/bin/  $PATH
 
 export QT_XCB_GL_INTEGRATION=none
 # <https://github.com/NixOS/nixpkgs/issues/169630>
-
-# uv
-fish_add_path "/home/shai/.local/bin"
