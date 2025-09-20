@@ -17,10 +17,19 @@
 (setq org-directory my/tasks_dir)
 ;;(setq org-agenda-files (list my/tasks_dir)) ; NOTE clocking in will open ALL org-agenda-files
                                         ; ;; https://github.com/doomemacs/doomemacs/issues/5317
+;; (setq org-agenda-files (list
+;;                         "~/Sync/Agenda/logseq_Agenda/pages/todo.org"
+;;                         "~/Sync/Agenda/logseq_Agenda/pages/habits.org"
+;;                         "~/Sync/Agenda/logseq_Agenda/pages/projects.org"
+;;                         "~/Sync/Notes/rs_wiki/calendar.org"
+;;                         "~/Sync/Agenda/logseq_Agenda/pages/calendar.org"
+;;                         "~/Sync/Agenda/logseq_Agenda/pages/work.org"
+;;                         ))
+
+;; Will regret this :)
+
 (setq org-agenda-files (list
-                        "~/Sync/Agenda/todo.org"
-                        "~/Sync/Agenda/habits.org"
-                        "~/Sync/Agenda/projects.org"
-                        "~/Sync/Notes/rs_wiki/calendar.org"
-                        "~/Sync/Agenda/calendar.org"
-                        ))
+                         "~/Sync/Agenda/logseq_Agenda/pages"
+                         "~/Sync/Agenda/logseq_Agenda/journals"
+                         ))
+
