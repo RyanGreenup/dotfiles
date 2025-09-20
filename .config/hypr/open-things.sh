@@ -15,8 +15,8 @@ notes_write() {
 }
 
 notes_read() {
-    /usr/bin/brave http:://home.eir http://flarum.eir http://wikijs.eir --new-window & disown
-    /usr/bin/brave http://pixie:3877 --new-window & disown
+    /usr/bin/brave https://home.vidar/ --new-window & disown
+    /usr/bin/firefox -P webApp & disown
 }
 
 # agenda() {
@@ -31,8 +31,9 @@ notes_read() {
 
 # TODO decide!
 agenda() {
-    emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Notes/slipbox/journals/months/2024-july.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
+    # emacs ~/Agenda/clockreport.org --eval '(progn (find-file "~/Notes/slipbox/journals/months/2024-july.org") (split-window-horizontally) (other-window 1) (org-agenda-list nil "a") (other-window 1))' & disown
     # emacs --eval '(load-theme "doom-badger" t)'
+    emacs --eval '(org-agenda-list nil "a")' & disown
 }
 
 messages() {
