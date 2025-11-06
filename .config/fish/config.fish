@@ -429,18 +429,18 @@ end
 function fish_user_key_bindings
 	fzf_key_bindings
 end
-bind \en '
+bind alt-n '
     set tmp (mktemp)       && \
     lf -last-dir-path=$tmp && \
     z (cat $tmp)
     rm $tmp
     commandline -f repaint'
 
-bind \ex '
+bind alt-x '
     echo dash
     dashboard'
 
-bind \co '
+bind ctrl-o '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
     z (
@@ -448,7 +448,7 @@ bind \co '
     rm $tmp
     commandline -f repaint'
 
-bind -k f1 '
+bind f1 '
     ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
     commandline -f repaint'
 
