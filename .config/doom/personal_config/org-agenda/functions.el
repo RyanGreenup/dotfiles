@@ -1,6 +1,11 @@
 ;;; personal_config/org-agenda/functions.el -*- lexical-binding: t; -*-
 
 
+;;;; Org Behaviour
+;; This changes =org-store-link= to create a UUID and use that to link to instead
+;; default behaviour uses the title name.
+;; Storing a link with a =CUSTOM_ID= gives you both options on =org-insert-link=
+(setq org-id-link-to-org-use-id t)
 ;;;; Functions
 ;; Journal
 (defun my/open_todays_journal ()
@@ -17,12 +22,12 @@
   (find-file)
   )
 (defun my/notes-find ()
- (interactive)
+  (interactive)
   ;; Built in way
- (find-file "~/Notes/slipbox/pages/" )
- (+default/find-file-under-here)
+  (find-file "~/Notes/slipbox/pages/" )
+  (+default/find-file-under-here)
   ;; Projectile way
- (projectile-find-file-in-directory "~/Notes/slipbox/pages"))
+  (projectile-find-file-in-directory "~/Notes/slipbox/pages"))
 
 
 
@@ -36,20 +41,20 @@
   (evil-window-vsplit nil nil)
   (evil-goto-first-line nil)
 ;;;; Agenda Custom Commands
-;; https://stackoverflow.com/questions/17003338/emacs-org-mode-how-to-find-all-todos-that-dont-have-a-deadline-specified
-(setq org-agenda-custom-commands
-`(;; match those tagged with :inbox:, are not scheduled, are not DONE.
-        ("is" "Unscheduled tasks" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
-        ("id" "No Deadline" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
+  ;; https://stackoverflow.com/questions/17003338/emacs-org-mode-how-to-find-all-todos-that-dont-have-a-deadline-specified
+  (setq org-agenda-custom-commands
+        `(;; match those tagged with :inbox:, are not scheduled, are not DONE.
+          ("is" "Unscheduled tasks" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
+          ("id" "No Deadline" tags "-SCHEDULED={.+}/!+TODO|+STARTED|+WAITING")
+          )
         )
-)
   ;; (org-agenda-toggle-time-grid)
   (require 'follow)
   (follow-redraw))
 ;;;;; Calfw
 (defun my/org-calendar ()
   (interactive)
-        (require 'calfw)
-        (require 'calfw-cal)
-        (require 'calfw-org)
-        (cfw:open-org-calendar))
+  (require 'calfw)
+  (require 'calfw-cal)
+  (require 'calfw-org)
+  (cfw:open-org-calendar))
