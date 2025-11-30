@@ -111,3 +111,13 @@ desc = "open with duckdb ui"
 on = ["g", "e", "z"]
 run = 'shell --confirm "zeditor $0 &"'
 desc = "Open in Zed"
+
+[[mgr.prepend_keymap]]
+on = ["g", "e", "n"]
+run = 'shell --confirm "neovide $0 &"'
+desc = "Open in Neovide"
+
+[[mgr.prepend_keymap]]
+on = ["g", "e", "e"]
+run = 'shell --confirm "emacs $0 &"'
+desc = "Open in Emacs"
