@@ -121,3 +121,8 @@ desc = "Open in Neovide"
 on = ["g", "e", "e"]
 run = 'shell --confirm "emacs $0 &"'
 desc = "Open in Emacs"
+
+[[mgr.prepend_keymap]]
+on = ["g", "e", "c"]
+run = 'shell --confirm "codium $0 &"'
+desc = "Open in Codium"
