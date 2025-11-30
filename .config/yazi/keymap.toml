@@ -126,3 +126,14 @@ desc = "Open in Emacs"
 on = ["g", "e", "c"]
 run = 'shell --confirm "codium $0 &"'
 desc = "Open in Codium"
+
+# Journal operations
+[[mgr.prepend_keymap]]
+on = ["g", "j", "g"]
+run = "plugin journal"
+desc = "Go to today's journal"
+
+[[mgr.prepend_keymap]]
+on = ["g", "j", "p"]
+run = "plugin symlink-paste"
+desc = "Paste relative symlink in journal"
