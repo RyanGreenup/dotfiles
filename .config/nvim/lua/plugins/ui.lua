@@ -57,10 +57,10 @@ local flash =
   },
 }
 
-local fold_cycle = {
-  'jghauser/fold-cycle.nvim',
-  opts = {},
-}
+-- local fold_cycle = {
+--   'jghauser/fold-cycle.nvim',
+--   opts = {},
+-- }
 
 --- Like Vista, side bar with LSP componentes
 local outline = {
@@ -68,7 +68,7 @@ local outline = {
   config = function()
     -- Does not supports opts, must use configure
     require("outline").setup({})
-    require('keymaps').fold_cycle()
+    -- require('keymaps').fold_cycle()
   end,
 }
 
@@ -159,7 +159,7 @@ return {
   git_signs,
   bookmarks,
   flash,
-  fold_cycle,
+  -- fold_cycle,
   outline,
   lualine,
   search_highlighting,

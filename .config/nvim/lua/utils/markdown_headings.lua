@@ -26,20 +26,12 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 ```
 --]]
 
-local function get_tresitter_type()
-  -- local current_location = vim.api.nvim_win_get_cursor(0)
-  -- local current_line = current_location[1]
-  -- local current_col = current_location[2]
-  -- local lang_tree = vim.treesitter.get_parser(buf_num) -- Defaults to current filetype
-  -- local root_node = ts_utils.get_root_for_position(current_line, current_col, lang_tree)
-
-  local ts_utils = require('nvim-treesitter.ts_utils')
-  local buf_num = 0 -- your buffer number (replace with appropriate value)
-  local root_node = ts_utils.get_node_at_cursor(0)
-  if root_node == nil then
+local function get_treesitter_type()
+  local node = vim.treesitter.get_node()
+  if node == nil then
     return nil
   end
-  local type = root_node:type()
+  local type = node:type()
   print(type)
   return type
 end
@@ -48,7 +40,7 @@ local function get_heading_level()
   local current_location = vim.api.nvim_win_get_cursor(0)
   -- Move cursor to the beginning of the line
   vim.api.nvim_win_set_cursor(0, { current_location[1], 0 })
-  local ts_type = get_tresitter_type()
+  local ts_type = get_treesitter_type()
   -- Move cursor back
   vim.api.nvim_win_set_cursor(0, current_location)
   if ts_type ~= nil then
@@ -224,7 +216,7 @@ function M.insert_subheading_below()
 end
 
 function M.get_treesitter_type()
-  print(get_tresitter_type())
+  print(get_treesitter_type())
 end
 
 ---Creates a title from a file path

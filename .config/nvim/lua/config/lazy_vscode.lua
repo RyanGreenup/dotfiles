@@ -50,22 +50,25 @@ use {
 -- Tree Sitter -- needed by flash
 use({
   'nvim-treesitter/nvim-treesitter',
+  branch = 'main', -- Use new main branch API
+  lazy = false,
   build = ':TSUpdate',
-  config = function()
-    require 'nvim-treesitter.configs'.setup({
-      -- A list of parser names, or "all" (the five listed parsers should always be installed)
-      ensure_installed = { 'org', 'markdown', 'sql', 'python', 'rust' },
-
-      highlight = {
-        enable = true,
-
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlihts.
-        -- Instead of true it can also be a list of languages
-        -- additional_vim_regex_highlighting = { 'markdown' }
-      },
+  init = function()
+    -- init runs at startup before plugin loads - safe for autocmds
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+      end,
     })
+  end,
+  config = function()
+    -- Defer install to ensure plugin is fully loaded
+    vim.defer_fn(function()
+      local ok, ts = pcall(require, 'nvim-treesitter')
+      if ok and ts.install then
+        ts.install({ 'org', 'markdown', 'sql', 'python', 'rust' })
+      end
+    end, 0)
   end
 })
 

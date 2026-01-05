@@ -177,6 +177,15 @@ function yy
 	rm -f -- "$tmp"
 end
 
+# https://gist.github.com/nikoheikkila/dd4357a178c8679411566ba2ca280fcc
+function envsource
+      for line in (cat .env | grep -v '^#')
+            set item (string split -m 1 '=' $line)
+            set -gx $item[1] $item[2]
+            echo "Exported key $item[1]"
+      end
+end
+
 # ..............................................................................
 # * Notetaking Stuff ...........................................................
 # ..............................................................................
@@ -429,18 +438,18 @@ end
 function fish_user_key_bindings
 	fzf_key_bindings
 end
-bind \en '
+bind alt-n '
     set tmp (mktemp)       && \
     lf -last-dir-path=$tmp && \
     z (cat $tmp)
     rm $tmp
     commandline -f repaint'
 
-bind \ex '
+bind alt-x '
     echo dash
     dashboard'
 
-bind \co '
+bind ctrl-o '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
     z (
@@ -448,7 +457,7 @@ bind \co '
     rm $tmp
     commandline -f repaint'
 
-bind -k f1 '
+bind f1 '
     ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
     commandline -f repaint'
 

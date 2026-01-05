@@ -75,6 +75,11 @@ local function clone_plugins()
       dir = "~/.config/yazi/plugins/full-border.yazi",
       method = "curl"
     },
+    {
+      repo = "https://github.com/wylie102/duckdb.yazi",
+      dir = "~/.config/yazi/plugins/duckdb.yazi/",
+      method="git"
+    }
   }
 
   for _, plugin in ipairs(plugins) do
@@ -92,7 +97,9 @@ local function main()
 
   -- Configure Bookmarks
   config_yamb()
-  -- config_full_border()
+
+  -- Setup Duckdb
+  require("duckdb"):setup()
 end
 
 

@@ -270,8 +270,8 @@ if status is-interactive
     end
 
     # bind to ctrl-r in normal and insert mode, add any other bindings you want here too
-    bind \cr _atuin_search
-    bind -M insert \cr _atuin_search
+    bind ctrl-r _atuin_search
+    bind -M insert ctrl-r _atuin_search
 end
 #+end_src
 ** LF
@@ -301,6 +301,17 @@ function yy
 		cd -- "$cwd"
 	end
 	rm -f -- "$tmp"
+end
+#+end_src
+** Environment
+#+begin_src fish
+# https://gist.github.com/nikoheikkila/dd4357a178c8679411566ba2ca280fcc
+function envsource
+      for line in (cat .env | grep -v '^#')
+            set item (string split -m 1 '=' $line)
+            set -gx $item[1] $item[2]
+            echo "Exported key $item[1]"
+      end
 end
 #+end_src
 * Notetaking
@@ -597,18 +608,18 @@ end
 function fish_user_key_bindings
 	fzf_key_bindings
 end
-bind \en '
+bind alt-n '
     set tmp (mktemp)       && \
     lf -last-dir-path=$tmp && \
     z (cat $tmp)
     rm $tmp
     commandline -f repaint'
 
-bind \ex '
+bind alt-x '
     echo dash
     dashboard'
 
-bind \co '
+bind ctrl-o '
     set tmp (mktemp)    && \
     broot --outcmd $tmp && \
     z (
@@ -622,7 +633,7 @@ Maybe something like hoard would be simpler though hmmm
 
 
 #+begin_src fish
-bind -k f1 '
+bind f1 '
     ~/.local/scripts/python/shell__alias.py --alias (~/.local/scripts/python/shell__alias.py --list-keys)
     commandline -f repaint'
 

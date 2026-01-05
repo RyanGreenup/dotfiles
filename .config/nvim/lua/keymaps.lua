@@ -52,7 +52,16 @@ map('n', '<A-j>', '<cmd>:resize -5<CR>', default_opts)
 map('n', '<F3>', ':DocsViewToggle<CR>', default_opts)
 
 -- Format File
-map('n', '<BS>', ':!npx prettier --write "%"<CR>', default_opts)
+vim.keymap.set('n', '<BS>', function()
+  local file = vim.fn.expand('%')
+  local cmd
+  if vim.bo.filetype == 'sql' then
+    cmd = string.format([[!npx sql-formatter --fix --config='{ "language": "postgresql", "tabWidth": 2, "keywordCase": "upper", "linesBetweenQueries": 2 }' "%s"]], file)
+  else
+    cmd = string.format('!npx prettier --write "%s"', file)
+  end
+  vim.cmd(cmd)
+end, { noremap = true, silent = true, desc = "Format file" })
 
 -----------------------------------------------------------
 -- Tabs

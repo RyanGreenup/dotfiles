@@ -160,7 +160,7 @@ let carapace_completer = {|spans: list<string>|
 let external_completer = {|spans|
     let expanded_alias = scope aliases
     | where name == $spans.0
-    | get -i 0.expansion
+    | get -o 0.expansion
 
     let spans = if $expanded_alias != null {
         $spans
@@ -252,10 +252,6 @@ $env.config = {
         use_ls_colors: true # set this to true to enable file/path/directory completions using LS_COLORS
     }
 
-    filesize: {
-        metric: false # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
-    }
 
     cursor_shape: {
         emacs: line # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (line is the default)
@@ -953,4 +949,5 @@ $env.config = {
 
 source ~/.zoxide.nu
 
-use '/home/ryan/.config/broot/launcher/nushell/br' *
+# TODO: Decide whether to keep broot integration
+# use '/home/ryan/.config/broot/launcher/nushell/br' *

@@ -111,15 +111,6 @@ local function configure_lsp_servers()
     exportPdf = "onType",
     semanticTokens = "disable"
   })
-  vim.lsp.config('sqlls', {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "sql", "mysql", ".pgsql" },
-    root_dir = function()
-      return vim.loop.cwd()
-    end,
-    -- cmd = {"sql-language-server", "up", "--method", "stdio"};
-  })
 
   local function find_git_ancestor(name)
     return vim.fs.dirname(vim.fs.find('.git', { path = name, upward = true })[1])

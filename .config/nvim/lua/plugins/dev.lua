@@ -26,7 +26,7 @@ local docs_view = {
   end,
 }
 
-local neotest = { "https://github.com/nvim-neotest/neotest", opts = {} }
+local neotest = { "https://github.com/nvim-neotest/neotest", opts = {}, dependencies = "nvim-neotest/nvim-nio" }
 
 local bqf = { 'kevinhwang91/nvim-bqf' }
 

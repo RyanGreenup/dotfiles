@@ -25,14 +25,12 @@ local function get_lang(fence_line)
   return nil
 end
 
-local function get_tresitter_type()
-  local ts_utils = require('nvim-treesitter.ts_utils')
-  local buf_num = 0 -- your buffer number (replace with appropriate value)
-  local root_node = ts_utils.get_node_at_cursor(0)
-  if root_node == nil then
+local function get_treesitter_type()
+  local node = vim.treesitter.get_node()
+  if node == nil then
     return nil
   end
-  local type = root_node:type()
+  local type = node:type()
   print(type)
   return type
 end
@@ -50,7 +48,7 @@ local function is_code_fence(lines, i, use_treesitter)
     vim.api.nvim_win_set_cursor(0, {i, 0 })
     -- Move cursor forward to first non-whitespace character
     vim.cmd("normal! ^")
-    local ts_type = get_tresitter_type()
+    local ts_type = get_treesitter_type()
     -- Move cursor back
     vim.api.nvim_win_set_cursor(0, current_location)
     if ts_type ~= nil then
