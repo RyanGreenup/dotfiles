@@ -48,8 +48,8 @@ M.servers = {
   -- NOTE MUST NOT have a deno.json anywhere above, it will override current dir
   'vtsls',
   'qmlls',
+  'slint_lsp',
   'sqlls',
-  'slint_lsp'
 }
 
 -- Return the module table so that it can be required by other scripts
