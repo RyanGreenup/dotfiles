@@ -29,7 +29,6 @@ M.servers = {
   "vtsls", -- This is used by Zed, so probably a safe bet
   "stylelint_lsp",
   -- "vala_ls",
-  "vls",
   "zls",
   "ols",
   "spectral",
@@ -44,6 +43,13 @@ M.servers = {
   "basedpyright",
   "ruff",
   "svelte",
+
+  -- jsx (vtsls is default for Zed, so stick with that <https://zed.dev/docs/languages/typescript>)
+  -- NOTE MUST NOT have a deno.json anywhere above, it will override current dir
+  'vtsls',
+  'qmlls',
+  'sqlls',
+  'slint_lsp'
 }
 
 -- Return the module table so that it can be required by other scripts
