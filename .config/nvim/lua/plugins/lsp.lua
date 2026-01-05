@@ -80,6 +80,11 @@ local function make_tresitter_table(ensure_installed)
   return {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    -- TODO this has changed upstream
+    -- branch="main",
+    -- TODO fix this, it'sa work around
+    branch="master",
+
     config = function()
       require 'nvim-treesitter.configs'.setup(make_treesitter_opts(ensure_installed))
     end
