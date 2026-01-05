@@ -4,7 +4,12 @@
 
 local md_preview = {
   "iamcco/markdown-preview.nvim",
-  build = function() vim.fn["mkdp#util#install"]() end,
+  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  ft = { "markdown" },
+  build = "cd app && yarn install",
+  init = function()
+    vim.g.mkdp_filetypes = { "markdown" }
+  end,
 }
 
 local md_in_buffer_preview = {
@@ -45,7 +50,7 @@ local vimtex = { 'lervag/vimtex' }
 -- Dokuwiki --------------------------------------------------------------------
 --------------------------------------------------------------------------------
 local dokuwiki = { 'nblock/vim-dokuwiki' }
-local firenvim = { 'glacambre/firenvim', build = function() vim.fn['firenvim#install'](0) end }
+local firenvim = { 'glacambre/firenvim', build = ":call firenvim#install(0)" }
 
 --------------------------------------------------------------------------------
 -- Org Mode---------------------------------------------------------------------
