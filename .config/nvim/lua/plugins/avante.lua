@@ -20,6 +20,10 @@ return {
     providers = {
       openai = {
         model = "o1-preview",
+        extra_request_body = {
+          max_completion_tokens = 4096,
+          reasoning_effort = "high",
+        },
       },
       ---@type AvanteProvider
       qwen = create_ollama_config("vale", "qwen2.5:32b"),
@@ -30,6 +34,7 @@ return {
       yi = create_ollama_config("vale", "yi:34b"),
       ---@type AvanteProvider
       claude = {
+        __inherited_from = "claude",
         endpoint = "https://api.anthropic.com",
         model = "claude-3-5-sonnet-20241022",
         extra_request_body = {
@@ -38,16 +43,17 @@ return {
         },
       },
       gpt4o = {
+        __inherited_from = "openai",
         endpoint = "https://api.openai.com/v1",
         model = "o1",
         timeout = 30000,
         extra_request_body = {
-          temperature = 0,
-          max_tokens = 4096,
+          max_completion_tokens = 4096,
           reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
         }
       },
       o1 = {
+        __inherited_from = "openai",
         endpoint = "https://api.openai.com/v1",
         model = "gpt-4o",
         timeout = 30000,
@@ -61,6 +67,9 @@ return {
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "https://api.deepseek.com",
         model = "deepseek-reasoner",
+        extra_request_body = {
+          max_tokens = 8192,  -- DeepSeek uses max_tokens, not max_completion_tokens
+        },
       },
       deepseek = {
         __inherited_from = "openai",
