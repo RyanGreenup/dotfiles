@@ -59,6 +59,32 @@ Again this isn't as clean as using:
 but the tex snippets are that good, difficult to reimplement and i'm familiar with the ultisnips package so
 I'll leave well enough alone there for the moment.
 
+### SQL Language Server (sqlls)
+
+For SQL completions, sqlls requires a `.sqllsrc.json` config file in your project root:
+
+```json
+{
+  "name": "my-project",
+  "adapter": "sqlite3",
+  "filename": "./database.sqlite"
+}
+```
+
+**Important:** Tables must have aliases to get column completions:
+
+```sql
+-- This works (column completions appear):
+SELECT i.sepal_width FROM iris i;
+
+-- This does NOT show column completions:
+SELECT sepal_width FROM iris;
+```
+
+Adapters: `sqlite3`, `mysql`, `postgres`, `bigquery`
+
+**Limitation:** sqlls does NOT support SSL for PostgreSQL connections. The `ssl` config option is ignored - the source code doesn't pass it to the pg client. For managed databases requiring SSL, you'll need an SSH tunnel or local proxy.
+
 ### Treesitter and VimTex
 
 ### Why Snippy
