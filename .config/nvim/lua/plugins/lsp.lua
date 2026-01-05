@@ -64,29 +64,28 @@ local cmp = {
   },
 }
 
-local function make_treesitter_opts(ensure_installed)
-  return {
-    -- A list of parser names, or "all" (the five listed parsers should always be installed)
-    ensure_installed = ensure_installed,
-
-    highlight = {
-      -- [fn_ts_highlight]
-      enable = true,
-    },
-  }
-end
-
-local function make_tresitter_table(ensure_installed)
+local function make_treesitter_table(parsers_to_install)
   return {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main', -- Use new main branch API
+    lazy = false,    -- Required: cannot lazy-load treesitter
     build = ':TSUpdate',
-    -- TODO this has changed upstream
-    -- branch="main",
-    -- TODO fix this, it'sa work around
-    branch="master",
-
+    init = function()
+      -- init runs at startup before plugin loads - safe for autocmds
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
+    end,
     config = function()
-      require 'nvim-treesitter.configs'.setup(make_treesitter_opts(ensure_installed))
+      -- Defer install to ensure plugin is fully loaded
+      vim.defer_fn(function()
+        local ok, ts = pcall(require, 'nvim-treesitter')
+        if ok and ts.install then
+          ts.install(parsers_to_install)
+        end
+      end, 0)
     end
   }
 end
@@ -117,7 +116,7 @@ return {
   cmp,
 
   -- Treesitter
-  make_tresitter_table(require('config/treesitter_list').servers),
+  make_treesitter_table(require('config/treesitter_list').servers),
 
   -- Mason
   make_mason_table(require('config/lsp_server_list').servers)

@@ -2,6 +2,32 @@
 
 It's Lua Based
 
+## Setup
+
+This should work out of the box, just start neovim and it will self-configure. Below are some Exceptions:
+
+
+1. ***R***
+    1. Open R
+    2. Install Deps
+        ```r
+        install.packages(stringi)
+        # This probably is not necessary, however, it serves as a nice checkhealth
+        install.packages(tidyverse)
+        ```
+    3. Open Neovim
+        ```
+        :LSPInstall r_language_server
+        ```
+
+        This will take a while ~10 minutes on a slow machine.
+
+
+
+
+
+
+
 
 ## Considerations
 

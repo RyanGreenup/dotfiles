@@ -60,7 +60,7 @@ local autocmds = {
       {
         pattern = "markdown",
         group = markdown_group,
-        command = "set foldexpr=nvim_treesitter#foldexpr()",
+        command = "set foldexpr=v:lua.vim.treesitter.foldexpr()",
         desc = "Set Fold Expression to Treesitter",
       },
       {
