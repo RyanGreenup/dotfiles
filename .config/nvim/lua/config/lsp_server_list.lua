@@ -13,6 +13,7 @@ M.servers = {
   "bashls",
   "clangd",
   "clojure_lsp",
+  -- NOTE depends on Python3.13 (build in docker while waiting)
   "cmake",
   "dockerls",
   "dotls",
@@ -31,19 +32,20 @@ M.servers = {
   -- "vala_ls",
   "zls",
   "ols",
-  "spectral",
   "ansiblels",
+  "qmlls",
   -- "rome",
   "jsonls",
   "html",
   -- "denols",
   "markdown_oxide", -- 'marksman'
+  -- "marksman",
   'tinymist', -- typst
+  'tailwindcss',
 
   "basedpyright",
   "ruff",
   "svelte",
-
   -- jsx (vtsls is default for Zed, so stick with that <https://zed.dev/docs/languages/typescript>)
   -- NOTE MUST NOT have a deno.json anywhere above, it will override current dir
   'vtsls',
