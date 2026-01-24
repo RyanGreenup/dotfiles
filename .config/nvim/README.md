@@ -119,8 +119,8 @@ crontab -e
 
 ```
 
-# Update neovim every hour
-0 * * * * nvim --headless "+Lazy! sync" +qa
+# Update neovim daily at 1am
+0 1 * * * nvim --headless "+Lazy! sync" +qa
 
 ```
 
