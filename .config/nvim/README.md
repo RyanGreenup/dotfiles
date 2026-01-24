@@ -22,6 +22,20 @@ This should work out of the box, just start neovim and it will self-configure. B
 
       This will take a while ~10 minutes on a slow machine.
 
+## Dependencies
+
+- `tree-sitter-cli` - Required by nvim-treesitter (main branch) to compile parsers. Without it, parsers will re-download and fail to compile on every startup.
+  ```sh
+  # Arch Linux
+  sudo pacman -S tree-sitter-cli
+
+  # or via npm
+  npm install -g tree-sitter-cli
+
+  # or via cargo
+  cargo install tree-sitter-cli
+  ```
+
 ## Considerations
 
 ### Julia
