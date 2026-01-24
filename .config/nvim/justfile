@@ -1,0 +1,4 @@
+# Use podman to compile all the lsp and treesitter artifacts
+# Ideal for testing or systems that don't want makedepends
+init:
+    podman build -t neovim-python . && podman run -it --rm -v $(pwd):/workspace -v ~/.config/nvim:/root/.config/nvim -v ~/.local/share/nvim:/root/.local/share/nvim neovim-python nvim
