@@ -25,6 +25,7 @@ This should work out of the box, just start neovim and it will self-configure. B
 ## Dependencies
 
 - `tree-sitter-cli` - Required by nvim-treesitter (main branch) to compile parsers. Without it, parsers will re-download and fail to compile on every startup.
+
   ```sh
   # Arch Linux
   sudo pacman -S tree-sitter-cli
@@ -98,6 +99,30 @@ SELECT sepal_width FROM iris;
 Adapters: `sqlite3`, `mysql`, `postgres`, `bigquery`
 
 **Limitation:** sqlls does NOT support SSL for PostgreSQL connections. The `ssl` config option is ignored - the source code doesn't pass it to the pg client. For managed databases requiring SSL, you'll need an SSH tunnel or local proxy.
+
+### Building
+
+#### TODO
+
+provide a docker container that can build it to save the user insalling all the deps
+
+### Updating
+
+Add this to the `crontab`
+
+```bash
+pacman -S cronie
+systemctl enable --now cronie
+crontab -e
+
+```
+
+```
+
+# Update neovim every hour
+0 * * * * nvim --headless "+Lazy! sync" +qa
+
+```
 
 ### Treesitter and VimTex
 
