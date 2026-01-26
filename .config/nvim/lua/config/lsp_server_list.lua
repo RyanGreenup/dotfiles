@@ -52,6 +52,7 @@ M.servers = {
   'qmlls',
   'slint_lsp',
   'sqlls',
+  'yamlls',
 }
 
 -- Return the module table so that it can be required by other scripts
