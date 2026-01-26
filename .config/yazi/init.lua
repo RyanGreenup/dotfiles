@@ -92,8 +92,8 @@ end
 
 
 local function main()
-  -- Clone down any plugins
-  clone_plugins()
+  -- Clone down any plugins (disabled - plugins already installed)
+  -- clone_plugins()
 
   -- Configure Bookmarks
   config_yamb()

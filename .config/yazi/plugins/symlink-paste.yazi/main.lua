@@ -177,6 +177,6 @@ return {
     end
 
     -- Refresh Yazi to show new symlinks
-    ya.manager_emit("refresh", {})
+    ya.emit("refresh", {})
   end
 }
