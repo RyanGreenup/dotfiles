@@ -1,0 +1,47 @@
+{
+  "term": {
+    "command": [
+      "alacritty",
+      "--class",
+      "scratch-term",
+      "-e",
+      "/home/shai/.local/scripts/fish/tmux__scratch.fish"
+    ],
+    "app_id": "scratch-term"
+  },
+
+  "signal": {
+    "command": [
+      "/usr/bin/signal-desktop",
+      "--password-store=kwallet6"
+    ],
+    "app_id": "signal"
+  },
+
+  "agenda": {
+    "command": [
+      "emacs",
+      "--eval",
+      "(org-agenda-list nil \"a\")"
+    ],
+    "app_id": "Emacs"
+  },
+
+  "notes": {
+    "command": [
+      "/usr/bin/brave",
+      "https://home.vidar/",
+      "--new-window"
+    ],
+    "app_id": "brave-browser"
+  },
+
+  "webapp": {
+    "command": [
+      "/usr/bin/firefox",
+      "-P",
+      "webApp"
+    ],
+    "app_id": "firefox"
+  }
+}

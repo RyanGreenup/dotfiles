@@ -1,0 +1,38 @@
+// 1. Define your named workspaces at the top level
+
+workspace "agenda"
+workspace "notes"
+workspace "communication"
+workspace "scratch"
+
+// 2. Combine or separate your window rules
+// Rule for your scratchpad file manager
+window-rule {
+    match app-id="pcmanfm"
+    open-on-workspace "scratch"
+    open-floating true
+}
+
+// Rules for messaging apps
+window-rule {
+    // You can use a regex match if you're unsure of the exact ID
+    match app-id=r"signal.*"
+    open-on-workspace "communication"
+}
+
+window-rule {
+    match app-id=r"[Ee]lement.*"
+    open-on-workspace "communication"
+}
+
+// 3. Keybindings
+binds {
+    // Your existing scratchpad spawn command
+    Mod+Ctrl+S { spawn "sh" "-c" "nscratch --title pcmanfm -s pcmanfm"; }
+
+    // Quick jump to messaging
+    Mod+Z { focus-workspace "communication"; }
+    Mod+A { focus-workspace "agenda"; }
+    Mod+Grave { focus-workspace "scratch"; }
+    Mod+G { focus-workspace "notes"; }
+}
