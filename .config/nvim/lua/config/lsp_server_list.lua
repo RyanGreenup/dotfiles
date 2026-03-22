@@ -23,7 +23,7 @@ M.servers = {
   "kotlin_language_server",
   -- "nimls",
   "quick_lint_js",
-  "r_language_server",
+-- "r_language_server",
   "rust_analyzer",
   "texlab",
   -- "ts_ls",
@@ -40,7 +40,7 @@ M.servers = {
   -- "denols",
   "markdown_oxide", -- 'marksman'
   -- "marksman",
-  'tinymist', -- typst
+  'tinymist',       -- typst
   'tailwindcss',
 
   "basedpyright",
@@ -49,10 +49,14 @@ M.servers = {
   -- jsx (vtsls is default for Zed, so stick with that <https://zed.dev/docs/languages/typescript>)
   -- NOTE MUST NOT have a deno.json anywhere above, it will override current dir
   'vtsls',
+  'oxlint',
   'qmlls',
   'slint_lsp',
   'sqlls',
   'yamlls',
+  'just',
+  'mdx_analyzer',
+
 }
 
 -- Return the module table so that it can be required by other scripts

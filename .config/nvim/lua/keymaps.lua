@@ -52,15 +52,39 @@ map('n', '<A-j>', '<cmd>:resize -5<CR>', default_opts)
 map('n', '<F3>', ':DocsViewToggle<CR>', default_opts)
 
 -- Format File
+local function ensure_oxfmtrc()
+  local path = vim.fn.expand('~/.oxfmtrc.json')
+  if vim.fn.filereadable(path) == 0 then
+    vim.fn.writefile({ '{ "ignorePatterns": [] }' }, path)
+  end
+end
+
+local oxfmt_filetypes = {
+  javascript = true, javascriptreact = true,
+  typescript = true, typescriptreact = true,
+  json = true, jsonc = true, json5 = true,
+  yaml = true, toml = true,
+  html = true, vue = true,
+  css = true, scss = true, less = true,
+  markdown = true, mdx = true,
+  graphql = true,
+}
+
 vim.keymap.set('n', '<BS>', function()
   local file = vim.fn.expand('%')
+  local ft = vim.bo.filetype
   local cmd
-  if vim.bo.filetype == 'sql' then
+  if ft == 'sql' then
     cmd = string.format([[!npx sql-formatter --fix --config='{ "language": "postgresql", "tabWidth": 2, "keywordCase": "upper", "linesBetweenQueries": 2 }' "%s"]], file)
-  else
-    cmd = string.format('!npx prettier --write "%s"', file)
+  elseif ft == 'python' then
+    cmd = string.format('!ruff format "%s"', file)
+  elseif oxfmt_filetypes[ft] then
+    ensure_oxfmtrc()
+    cmd = string.format('!bunx oxfmt --write "%s"', file)
   end
-  vim.cmd(cmd)
+  if cmd then
+    vim.cmd(cmd)
+  end
 end, { noremap = true, silent = true, desc = "Format file" })
 
 -----------------------------------------------------------
