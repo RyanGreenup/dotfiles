@@ -99,7 +99,7 @@ local function main()
   config_yamb()
 
   -- Setup Duckdb
-  require("duckdb"):setup()
+  -- require("duckdb"):setup()
 end
 
 
