@@ -20,4 +20,7 @@ end
 
 vim.cmd([[vmap <F1> <cmd>'<,'>! /home/ryan/.local/scripts/python/ollama_stream-message.py<CR>]])
 
+vim.opt.rtp:prepend(vim.fn.stdpath('config') .. '/markdown-editing')
+require('md_fold').setup()
+
 
