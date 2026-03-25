@@ -1,4 +1,4 @@
-# Automatically updates Neovim before Starting
-function nv --wraps='nvim --headless -c "lua vim.pack.update()" -c "quitall"; and nvim' --description 'alias nv=nvim --headless -c "lua vim.pack.update()" -c "quitall"; and nvim'
-    nvim --headless -c "lua vim.pack.update()" -c quitall; and nvim $argv
+# Automatically updates Neovim plugins with lazy.nvim before starting
+function nv --wraps=nvim --description 'Update lazy.nvim plugins then start nvim'
+    nvim --headless "+Lazy! sync" +qa; and nvim $argv
 end
