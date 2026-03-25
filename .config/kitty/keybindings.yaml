@@ -1,0 +1,181 @@
+categories:
+  - name: Tabs
+    icon: "󰓩"
+    bindings:
+      - key: Alt+t
+        action: New tab
+        description: Open a new tab in the current kitty window.
+        kitty_action: new_tab
+
+      - key: Alt+w
+        action: Close tab
+        description: Close the current tab. If it's the last tab, closes the OS window.
+        kitty_action: close_tab
+
+      - key: Alt+1…9
+        action: Jump to tab N
+        description: Switch directly to tab 1–9 by number. Mirrors tmux Alt+N window switching.
+        kitty_action: goto_tab N
+
+      - key: Alt+o
+        action: Previous tab
+        description: Move to the previous tab (wraps around). Same as tmux Alt+o.
+        kitty_action: previous_tab
+
+      - key: Alt+i
+        action: Next tab
+        description: Move to the next tab (wraps around). Same as tmux Alt+i.
+        kitty_action: next_tab
+
+  - name: Splits
+    icon: ""
+    bindings:
+      - key: Alt+\
+        action: Vertical split
+        description: >
+          Split the current pane vertically (side by side). Opens a new shell
+          in the current working directory. Mirrors tmux prefix+|.
+        kitty_action: launch --location vsplit --cwd current
+
+      - key: Alt+-
+        action: Horizontal split
+        description: >
+          Split the current pane horizontally (top/bottom). Opens a new shell
+          in the current working directory. Mirrors tmux prefix+-.
+        kitty_action: launch --location hsplit --cwd current
+
+      - key: Alt+x
+        action: Close split
+        description: Close the current split pane. Same as tmux prefix+x but without confirmation.
+        kitty_action: close_window
+
+  - name: Navigate
+    icon: ""
+    bindings:
+      - key: Alt+h
+        action: Focus left
+        description: Move focus to the split pane on the left. Mirrors tmux Alt+h.
+        kitty_action: neighboring_window left
+
+      - key: Alt+j
+        action: Focus down
+        description: Move focus to the split pane below. Mirrors tmux Alt+j.
+        kitty_action: neighboring_window bottom
+
+      - key: Alt+k
+        action: Focus up
+        description: Move focus to the split pane above. Mirrors tmux Alt+k.
+        kitty_action: neighboring_window top
+
+      - key: Alt+l
+        action: Focus right
+        description: Move focus to the split pane on the right. Mirrors tmux Alt+l.
+        kitty_action: neighboring_window right
+
+  - name: Resize
+    icon: "󰩨"
+    bindings:
+      - key: Alt+Shift+h
+        action: Shrink width
+        description: Make the current pane narrower by 4 cells.
+        kitty_action: resize_window narrower 4
+
+      - key: Alt+Shift+l
+        action: Grow width
+        description: Make the current pane wider by 4 cells.
+        kitty_action: resize_window wider 4
+
+      - key: Alt+Shift+k
+        action: Grow height
+        description: Make the current pane taller by 4 cells.
+        kitty_action: resize_window taller 4
+
+      - key: Alt+Shift+j
+        action: Shrink height
+        description: Make the current pane shorter by 4 cells.
+        kitty_action: resize_window shorter 4
+
+      - key: Alt+`
+        action: Zoom toggle
+        description: >
+          Toggle the current pane between fullscreen (stack layout) and split view.
+          Same as tmux Alt+` / prefix+z.
+        kitty_action: toggle_layout stack
+
+  - name: Scrollback
+    icon: ""
+    bindings:
+      - key: Alt+s
+        action: Scrollback in nvim
+        description: >
+          Open the current pane's scrollback buffer in a minimal nvim overlay.
+          Cursor starts at the bottom. Use vim motions to navigate and yank text
+          to the system clipboard. Press q or :q to dismiss.
+        kitty_action: launch --stdin-source=@screen_scrollback --type=overlay nvim …
+
+      - key: Alt+z
+        action: Scrollback in Zed
+        description: >
+          Dump the current pane's scrollback to a temp file and open it in
+          Zed Preview. Useful for searching or editing long output.
+        kitty_action: launch --stdin-source=@screen_scrollback --type=background sh …
+
+  - name: Hints
+    icon: ""
+    bindings:
+      - key: Ctrl+Shift+P → u
+        action: Pick URL
+        description: >
+          Highlight all URLs in the visible screen. Type the hint character(s)
+          to copy the URL to the clipboard. Two-step chord: press Ctrl+Shift+P,
+          release, then press u.
+        kitty_action: kitten hints --type url --program @
+
+      - key: Ctrl+Shift+P → f
+        action: Pick file path
+        description: >
+          Highlight all file paths in the visible screen. Type the hint to copy
+          the path to the clipboard.
+        kitty_action: kitten hints --type path --program @
+
+      - key: Ctrl+Shift+P → l
+        action: Pick line
+        description: Highlight lines for selection. Type the hint to copy the line.
+        kitty_action: kitten hints --type line --program @
+
+      - key: Ctrl+Shift+P → w
+        action: Pick word
+        description: Highlight words for selection. Type the hint to copy the word.
+        kitty_action: kitten hints --type word --program @
+
+  - name: Claude Code
+    icon: "󰅬"
+    bindings:
+      - key: Ctrl+Shift+C → h
+        action: Claude (hsplit)
+        description: >
+          Launch a Claude Code session in a new horizontal split.
+          Two-step chord: press Ctrl+Shift+C, release, then press h.
+        kitty_action: launch --type window --location hsplit -- claude code
+
+      - key: Ctrl+Shift+C → v
+        action: Claude (vsplit)
+        description: >
+          Launch a Claude Code session in a new vertical split.
+          Two-step chord: press Ctrl+Shift+C, release, then press v.
+        kitty_action: launch --type window --location vsplit -- claude code
+
+  - name: Misc
+    icon: ""
+    bindings:
+      - key: Ctrl+C
+        action: Copy / Interrupt
+        description: >
+          If text is selected, copies it to the clipboard. Otherwise sends the
+          interrupt signal (SIGINT) to the running process. Kitty's smart default.
+        kitty_action: copy_or_interrupt
+
+      - key: Alt+?
+        action: Show keybindings
+        description: Open this keybinding cheat sheet in a fuzzy finder overlay.
+        kitty_action: launch --type overlay kitty-keys
