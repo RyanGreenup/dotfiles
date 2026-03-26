@@ -57,7 +57,7 @@
         "editor.rulers": [
             79,
             120
-        ],
+        ]
     },
     "editor.rulers": [
         79,
@@ -79,5 +79,17 @@
     "quarto.mathjax.theme": "dark",
     "redhat.telemetry.enabled": false,
     "git.autofetch": true,
-    "window.zoomLevel": 4
+    "window.zoomLevel": 4,
+    "vscode-neovim.NVIM_APPNAME": "vscode-nvim",
+    "vscode-neovim.compositeKeys": {
+        "jk": {
+            "command": "vscode-neovim.escape"
+        }
+    },
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "editor.lineNumbers": "relative",
+    "editor.cursorSurroundingLines": 8,
+    "editor.scrollBeyondLastLine": false
 }

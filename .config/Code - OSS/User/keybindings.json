@@ -128,5 +128,25 @@
 		"key": "ctrl+shift+enter",
 		"command": "python.execInTerminal",
 		"when": "editorTextFocus && !findInputFocussed && !notebookEditorFocused && editorLangId == 'python'"
+	},
+	{
+		"key": "ctrl+h",
+		"command": "workbench.action.navigateLeft",
+		"when": "neovim.mode != insert && editorTextFocus"
+	},
+	{
+		"key": "ctrl+l",
+		"command": "workbench.action.navigateRight",
+		"when": "neovim.mode != insert && editorTextFocus"
+	},
+	{
+		"key": "ctrl+k",
+		"command": "workbench.action.navigateUp",
+		"when": "neovim.mode != insert && editorTextFocus"
+	},
+	{
+		"key": "ctrl+j",
+		"command": "workbench.action.navigateDown",
+		"when": "neovim.mode != insert && editorTextFocus"
 	}
 ]

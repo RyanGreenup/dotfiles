@@ -1,6 +1,5 @@
 -- Create Groups --------------------------------------------------------------
 local python_group = vim.api.nvim_create_augroup("Python", { clear = true })
-local markdown_group = vim.api.nvim_create_augroup("Markdown", { clear = true })
 
 
 -- Keymaps --------------------------------------------------------------------
@@ -57,24 +56,7 @@ local autocmds = {
   {
     events = { "FileType" },
     attrs = {
-      {
-        pattern = "markdown",
-        group = markdown_group,
-        command = "set foldexpr=v:lua.vim.treesitter.foldexpr()",
-        desc = "Set Fold Expression to Treesitter",
-      },
-      {
-        pattern = "markdown",
-        group = markdown_group,
-        command = "set foldmethod=expr",
-        desc = "Set Fold Method to Expression",
-      },
-      {
-        pattern = "markdown",
-        group = markdown_group,
-        command = "set nocindent",
-        desc = "Set No C Indent -- This causes auto indent on new lines",
-      },
+      -- Markdown fold/indent settings are now handled by orgmark (lua/orgmark/)
 
       {
         pattern = "python",

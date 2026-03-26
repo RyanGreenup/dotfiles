@@ -309,7 +309,7 @@ end
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown', 'rmd' },
   callback = function()
-    -- Slime
+    -- Slime / REPL keybindings (kept here; orgmark handles the rest)
     normal_map_current_buf(
       "Evaluate Markdown Cell with Slime and tmux",
       '<M-S-CR>', require("utils/slime_utils").send_slime_markdown_cell
@@ -326,35 +326,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
       "Evaluate Previous Code Cell with Slime and tmux",
       '<M-C-p>', require("utils/slime_utils").send_prev_markdown_cell
     )
-    normal_map_current_buf(
-      "Use Treesitter to Insert a Markdown Heading of the right level",
-      '<C-CR>', require('utils/markdown_headings').insert_subheading_below
-    )
-    normal_map_current_buf(
-      "Use Treesitter to Insert a Markdown Heading of the right level",
-      '<A-CR>',
-      require('utils/markdown_headings').insert_heading_below)
-
-    -- TODO this no longer works :(
-    normal_map_current_buf(
-      "Use Treesitter to demote a Markdown Heading",
-      '<M-Left>',
-      require('utils/markdown_headings').demote_heading)
-
-    normal_map_current_buf(
-      "Use Treesitter to promote a Markdown Heading",
-      '<M-Right>',
-      require('utils/markdown_headings').promote_heading)
-
-    normal_map_current_buf(
-      "Use Treesitter to promote a Markdown Heading",
-      '<M-h>',
-      require('utils/markdown_headings').promote_all_headings_below)
-
-    normal_map_current_buf(
-      "Use Treesitter to promote a Markdown Heading",
-      '<M-l>',
-      require('utils/markdown_headings').demote_all_headings_below)
+    -- Heading and list keybindings are now handled by orgmark (lua/orgmark/keymaps.lua)
   end,
 
 })

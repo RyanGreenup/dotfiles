@@ -14,12 +14,44 @@ local md_preview = {
 
 local md_in_buffer_preview = {
   'MeanderingProgrammer/markdown.nvim',
-  name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+  name = 'render-markdown',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  ft = { 'markdown', 'mdx' },
   opts = {
-    -- Configure whether Markdown should be rendered by default or not
-    start_enabled = false
-  }
+    start_enabled = true,
+    heading = {
+      enabled = true,
+      icons = { '◉ ', '○ ', '✸ ', '✿ ', '◆ ', '◇ ' },
+      position = 'inline',
+      width = 'full',
+      backgrounds = {
+        'RenderMarkdownH1Bg',
+        'RenderMarkdownH2Bg',
+        'RenderMarkdownH3Bg',
+        'RenderMarkdownH4Bg',
+        'RenderMarkdownH5Bg',
+        'RenderMarkdownH6Bg',
+      },
+    },
+    bullet = {
+      enabled = true,
+      icons = { '●', '○', '◆', '◇' },
+    },
+    checkbox = {
+      enabled = true,
+      unchecked = { icon = '☐ ' },
+      checked = { icon = '☑ ' },
+      custom = {
+        in_progress = { raw = '[-]', rendered = '◐ ', highlight = 'RenderMarkdownWarn' },
+      },
+    },
+    code = {
+      enabled = true,
+      sign = false,
+      width = 'full',
+      border = 'thin',
+    },
+  },
 }
 
 local femaco = {
