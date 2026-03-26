@@ -107,6 +107,15 @@ function v --wraps=nvim --description 'alias v=nvim'
 end
 #+end_src
 
+** Neovim Update
+Automatically sync lazy.nvim plugins before starting nvim.
+#+begin_src fish :tangle functions/nv.fish
+# Automatically updates Neovim plugins with lazy.nvim before starting
+function nv --wraps=nvim --description 'Update lazy.nvim plugins then start nvim'
+    nvim --headless "+Lazy! sync" +qa; and nvim $argv
+end
+#+end_src
+
 ** Shorter Coreutils
 #+begin_src fish
 function f --wraps='cd ; exa -RGL 3' --description 'alias f=cd; exa -RGL 3'
@@ -257,7 +266,39 @@ if status is-interactive
     end
 end
 #+end_src
+** Mise
+Polyglot tool/env/task manager. Interactive mode gets full activation (hooks into cd/prompt for auto-switching). Non-interactive gets shims only (for IDEs, scripts, cron).
+
+#+begin_src fish :tangle mise-config.fish
+# mise — polyglot tool/env/task manager
+# Interactive: full activation (hooks into cd/prompt for auto-switching)
+# Non-interactive: shims only (for IDEs, scripts, cron, etc.)
+# mise activate will remove shims from PATH, so both can coexist safely.
+if status is-interactive
+    mise activate fish | source
+    mise completions fish | source
+else
+    mise activate fish --shims | source
+end
+#+end_src
+
+Per-project keybindings via mise tasks. Define =[tasks.key-<x>]= in your project's =mise.toml= to override per-directory.
+
+#+begin_src fish :tangle conf.d/keybindings.fish
+# Per-project keybindings via mise tasks
+# Define [tasks.key-<x>] in your project's mise.toml to override per-directory.
+# Keys map to task names: ctrl-g → key-g, alt-backspace → key-alt-backspace, etc.
+
+bind ctrl-g         "mise run key-g             2>/dev/null; or echo 'no key-g task';             commandline -f repaint"
+bind ctrl-i         "mise run key-g             2>/dev/null; or echo 'no key-g task';             commandline -f repaint"
+bind alt-g          "mise run key-alt-g         2>/dev/null; or echo 'no key-alt-g task';         commandline -f repaint"
+bind alt-backspace  "mise run key-alt-backspace 2>/dev/null; or echo 'no key-alt-backspace task'; commandline -f repaint"
+#+end_src
 ** Atuin
+:PROPERTIES:
+:CUSTOM_ID: atuin
+:ID:       4702aaff-8eba-4ccc-869a-132ebbd06c9d
+:END:
 Atuin is not used as it caused the shell to stutter and lag. Atuin is very slow
 to initialize and fish will auto-suggest history. The suspicion arises, that
 this history suggestion, with Atuin, induces stutter.
@@ -568,6 +609,51 @@ function gdui
     gitui -w $HOME -d $dotfiles_dir
 end
 #+end_src
+** Worktree Manager
+Fish wrapper for =worktree_manager=. Intercepts =wm cd=, =wm e=, and =wm dir= to cd in the current shell instead of printing the path.
+#+begin_src fish :tangle functions/wm.fish
+# Fish shell wrapper for worktree_manager
+#
+# Intercepts `wm cd`, `wm e`, and `wm dir` to cd in the current shell
+# instead of printing the path. All other subcommands pass through.
+#
+# Handles stacked aliases: `wm cd e a` works the same as `wm cd a`
+
+function wm
+    switch "$argv[1]"
+        case cd e dir
+            # Strip any additional cd/e/dir aliases from remaining args
+            set -l args $argv[2..]
+            while test (count $args) -gt 0
+                switch "$args[1]"
+                    case cd e dir
+                        set args $args[2..]
+                    case '*'
+                        break
+                end
+            end
+            set -l dir (command worktree_manager dir $args)
+            and cd $dir
+        case '*'
+            command worktree_manager $argv
+    end
+end
+#+end_src
+** Branch Last Commit Times
+List branches sorted by last commit time (oldest first).
+#+begin_src fish :tangle functions/branch_last_commit_times.fish
+function branch_last_commit_times --description 'List branches by last commit time (oldest first, newest last)'
+    git for-each-ref \
+      --sort=committerdate \
+      --format='%(committerdate:format:%Y-%m-%d %H:%M %a)|%(refname:short)' \
+      refs/heads | while read -l line
+        set -l parts (string split -m 1 '|' -- $line)
+        set -l ts $parts[1]
+        set -l branch $parts[2]
+        printf '%s %s\n' $ts $branch
+    end
+end
+#+end_src
 * Containers
 #+begin_src fish
 function start_podman_containers
@@ -595,7 +681,11 @@ end
 #+end_src
 
 * Status Line
-#+begin_src fish
+Starship is disabled, it was causing some awful lag when starting the shell.
+See Also [[#atuin][Atuin]].
+
+
+#+begin_src fish :tangle no
 if status is-interactive
     if command -v starship > /dev/null 2>&1
         starship init fish --print-full-init | source
@@ -645,6 +735,125 @@ end
 
 
 
+
+* AI
+** Claude Code
+Wrapper that auto-generates a session ID for each invocation. =cl= is the short alias, =claude= wraps the binary directly.
+
+#+begin_src fish :tangle functions/claude.fish
+function claude --wraps=claude --description 'Run Claude Code with a session ID exported as $id'
+    set -gx id (uuidgen)
+    command claude --session-id $id $argv
+    set -e id
+end
+#+end_src
+
+#+begin_src fish :tangle functions/cl.fish
+function cl --wraps=claude --description 'Run Claude Code with a session ID exported as $id'
+    set -gx id (uuidgen)
+    command claude --session-id $id $argv
+    set -e id
+end
+#+end_src
+
+#+begin_src fish :tangle functions/cl-whereis.fish
+function cl-whereis --description 'Show where claude and cl resolve to'
+    echo "cl function: "(status filename 2>/dev/null; or echo ~/.config/fish/functions/cl.fish)
+    echo "claude binary: "(command -s claude)
+    echo "mise shim: "(test -e ~/.local/share/mise/shims/claude; and echo "EXISTS (problem!)"; or echo "none (good)")
+end
+#+end_src
+
+Connect Claude Code to the Electron Terminal IDE socket.
+
+#+begin_src fish :tangle functions/claude-ide.fish
+function claude-ide --description 'Start Claude Code connected to the Electron Terminal IDE socket'
+    set -l lockfiles ~/.claude/ide/*.lock
+    if test (count $lockfiles) -eq 0
+        echo "No IDE socket lock file found in ~/.claude/ide/"
+        echo "Start the Electron Terminal app first."
+        return 1
+    end
+
+    # Use the most recent lock file
+    set -l lockfile $lockfiles[-1]
+    set -l port (string replace -r '.*/(\d+)\.lock' '$1' $lockfile)
+
+    set -x CLAUDE_CODE_SSE_PORT $port
+    set -x ENABLE_IDE_INTEGRATION true
+    set -x FORCE_CODE_TERMINAL true
+
+    set -l session_id (uuidgen)
+    echo "Session ID: $session_id"
+
+    claude --session-id $session_id $argv
+end
+#+end_src
+
+Run Claude with an alternate config directory (e.g. for API-focused work).
+
+#+begin_src fish :tangle functions/claude-api.fish
+function claude-api --wraps='CLAUDE_CONFIG_DIR=~/.claude-api claude' --description 'alias claude-api=CLAUDE_CONFIG_DIR=~/.claude-api claude'
+    CLAUDE_CONFIG_DIR=~/.claude-api claude $argv
+end
+#+end_src
+
+** GPT Quick Answer
+#+begin_src fish
+function ai! --description 'Ask GPT-5-mini a question and copy answer to clipboard'
+    set -l question (string join ' ' $argv)
+
+    if test -z "$question"
+        echo "Usage: ai! <question>"
+        return 1
+    end
+
+    if test -z "$OPENAI_API_KEY"
+        echo "Error: OPENAI_API_KEY is not set"
+        return 1
+    end
+
+    set -l payload (jq -n --arg q "$question" '{
+        model: "gpt-5-mini",
+        messages: [{role: "user", content: $q}]
+    }')
+
+    set -l response (curl -s https://api.openai.com/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -d "$payload")
+
+    set -l answer (echo "$response" | jq -r '.choices[0].message.content')
+
+    if test "$answer" = "null" -o -z "$answer"
+        echo "Error: No response from API"
+        echo "$response" | jq -r '.error.message // .'
+        return 1
+    end
+
+    echo "$answer"
+    echo -n "$answer" | x
+end
+#+end_src
+
+* Data Utilities
+** Memory Usage
+Summarize memory usage by process using duckdb.
+#+begin_src fish :tangle functions/mem-duckdb.fish
+function mem-duckdb
+    ps -aux | awk '{print $6/1024/1024", "$11}' | sort -nr  > /tmp/mem.csv # && vd /tmp/mem.csv
+    rm /tmp/mem.duckdb || true
+    duckdb /tmp/mem.duckdb -c "create table raw_mem as select column0 AS usage, column1 AS process FROM read_csv('/tmp/mem.csv');"
+    duckdb /tmp/mem.duckdb -c "create table mem as select sum(usage) as total_usage, process  FROM raw_mem group by process;"
+    duckdb /tmp/mem.duckdb -c "show tables; select * FROM mem ORDER BY total_usage DESC LIMIT 20;"
+end
+#+end_src
+** CSV to XML
+#+begin_src fish :tangle functions/csv-to-xml.fish
+function csv-to-xml
+    python3 -c "import pandas as pd; import sys; df = pd.read_csv(sys.argv[1]); df.to_xml(sys.argv[2], index=False, root_name='rows', row_name='row')" $argv[1] $argv[2]
+end
+#+end_src
 
 * Set Path Variables
 Set path variables at the end because python venv seems to overwrite them for some reason

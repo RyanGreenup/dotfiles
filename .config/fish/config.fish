@@ -428,12 +428,6 @@ function start_podman_containers
      end
 end
 
-if status is-interactive
-    if command -v starship > /dev/null 2>&1
-        starship init fish --print-full-init | source
-    end
-end
-
 # Create keybindings
 function fish_user_key_bindings
 	fzf_key_bindings
@@ -463,6 +457,41 @@ bind f1 '
 
 function g
     ~/.local/scripts/python/shell__alias.py --alias $argv
+end
+
+function ai! --description 'Ask GPT-5-mini a question and copy answer to clipboard'
+    set -l question (string join ' ' $argv)
+
+    if test -z "$question"
+        echo "Usage: ai! <question>"
+        return 1
+    end
+
+    if test -z "$OPENAI_API_KEY"
+        echo "Error: OPENAI_API_KEY is not set"
+        return 1
+    end
+
+    set -l payload (jq -n --arg q "$question" '{
+        model: "gpt-5-mini",
+        messages: [{role: "user", content: $q}]
+    }')
+
+    set -l response (curl -s https://api.openai.com/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -d "$payload")
+
+    set -l answer (echo "$response" | jq -r '.choices[0].message.content')
+
+    if test "$answer" = "null" -o -z "$answer"
+        echo "Error: No response from API"
+        echo "$response" | jq -r '.error.message // .'
+        return 1
+    end
+
+    echo "$answer"
+    echo -n "$answer" | x
 end
 
 # Set PATH
