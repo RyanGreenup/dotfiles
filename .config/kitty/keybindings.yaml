@@ -165,6 +165,34 @@ categories:
           Two-step chord: press Ctrl+Shift+C, release, then press v.
         kitty_action: launch --type window --location vsplit -- claude code
 
+  - name: Naming
+    icon: "󰏫"
+    bindings:
+      - key: Alt+n
+        action: Rename window
+        description: >
+          Set a custom title on the current split/window. The title appears in
+          list-windows output and can be used as a match expression (title:name)
+          to target the window from Claude via mcp-kitty.
+        kitty_action: set_window_title
+
+      - key: Alt+Shift+n
+        action: Rename tab
+        description: >
+          Set a custom title on the current tab. Shows in the tab bar and in
+          list-windows output.
+        kitty_action: set_tab_title
+
+      - key: Alt+f
+        action: Window picker
+        description: >
+          Open an fzf overlay listing all kitty windows across all tabs. Shows
+          window ID, tab, title, cwd, and running process. Press Enter to focus
+          the selected window, or Ctrl-Y to copy its match expression (e.g.
+          id:3) to the clipboard — useful for telling Claude which window to
+          target via mcp-kitty.
+        kitty_action: launch --type overlay kitty-window-picker
+
   - name: Misc
     icon: ""
     bindings:
