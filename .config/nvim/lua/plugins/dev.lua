@@ -112,7 +112,30 @@ local copilot = {
   end
 }
 
-local tabby = { "TabbyML/vim-tabby", opt = {} }
+local tabby = {
+  "TabbyML/vim-tabby",
+  config = function()
+    -- Fix: vim-tabby calls make_position_params() without position_encoding,
+    -- which triggers a deprecation warning on Neovim 0.11+.
+    -- Upstream: https://github.com/TabbyML/vim-tabby
+    local ok, tabby_lsp = pcall(require, "tabby.lsp.nvim_lsp")
+    if not ok then return end
+
+    tabby_lsp.request_inline_completion = function(params)
+      local client = vim.lsp.get_clients({ name = "tabby" })[1]
+      if client == nil then
+        return 0
+      end
+      local lsp_params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+      lsp_params.context = { triggerKind = params.trigger_kind }
+      local request_id
+      _, request_id = client.request("textDocument/inlineCompletion", lsp_params, function(_, result)
+        vim.fn["tabby#lsp#nvim_lsp#CallInlineCompletionCallback"](request_id, result)
+      end)
+      return request_id
+    end
+  end,
+}
 
 return {
   comments,
