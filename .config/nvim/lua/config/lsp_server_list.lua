@@ -53,6 +53,7 @@ M.servers = {
   'qmlls',
   'slint_lsp',
   'sqlls',
+  'taplo',    -- TOML (mise schema configured in lsp.lua)
   'yamlls',
   'just',
   'mdx_analyzer',

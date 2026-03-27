@@ -116,6 +116,22 @@ local function configure_lsp_servers()
     return vim.fs.dirname(vim.fs.find('.git', { path = name, upward = true })[1])
   end
 
+  -- Taplo: TOML LSP with mise schema for mise config files
+  vim.lsp.config('taplo', {
+    settings = {
+      evenBetterToml = {
+        schema = {
+          enabled = true,
+          repositoryEnabled = true,
+          associations = {
+            [".*mise.*\\.toml$"] = "https://mise.jdx.dev/schema/mise.json",
+            [".*\\.mise/config\\.toml$"] = "https://mise.jdx.dev/schema/mise.json",
+          },
+        },
+      },
+    },
+  })
+
   vim.lsp.config('julials', {
     on_new_config = function(new_config, _)
       local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
