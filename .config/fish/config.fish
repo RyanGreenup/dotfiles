@@ -494,6 +494,11 @@ function ai! --description 'Ask GPT-5-mini a question and copy answer to clipboa
     echo -n "$answer" | x
 end
 
+# Mise activation
+if command -v mise 1>/dev/null 2>&1
+    mise activate fish | source
+end
+
 # Set PATH
 set PATH /usr/local/bin/            $PATH
 set PATH $HOME/.local/bin           $PATH
