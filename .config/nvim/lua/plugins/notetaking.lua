@@ -2,18 +2,8 @@
 -- Markdown---------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local md_preview = {
-  "iamcco/markdown-preview.nvim",
-  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-  ft = { "markdown" },
-  build = "cd app && yarn install",
-  init = function()
-    vim.g.mkdp_filetypes = { "markdown" }
-  end,
-}
-
 local md_in_buffer_preview = {
-  'MeanderingProgrammer/markdown.nvim',
+  'MeanderingProgrammer/render-markdown.nvim',
   name = 'render-markdown',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   ft = { 'markdown', 'mdx' },
@@ -54,8 +44,17 @@ local md_in_buffer_preview = {
   },
 }
 
+local md_browser_preview = {
+  'brianhuster/live-preview.nvim',
+  cmd = 'LivePreview',
+  ft = { 'markdown' },
+  opts = {
+    sync_scroll = true,
+  },
+}
+
 local femaco = {
-  'AckslD/nvim-FeMaco.lua',
+  'gen4438/nvim-FeMaco.lua',
   opts = {
     -- Preserve indentation for code blocks (e.g., in markdown lists)
     normalize_indent = function(base_filetype)
@@ -98,9 +97,9 @@ local org_mode = {
 
 return {
   table_mode,
-  md_preview,
   org_mode,
   md_in_buffer_preview,
+  md_browser_preview,
   femaco,
   dokuwiki,
   firenvim,

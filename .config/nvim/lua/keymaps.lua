@@ -309,6 +309,10 @@ end
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'markdown', 'rmd' },
   callback = function()
+    normal_map_current_buf(
+      "Live Preview in Browser",
+      '<leader>vv', function() vim.cmd('LivePreview start') end
+    )
     -- Slime / REPL keybindings (kept here; orgmark handles the rest)
     normal_map_current_buf(
       "Evaluate Markdown Cell with Slime and tmux",
