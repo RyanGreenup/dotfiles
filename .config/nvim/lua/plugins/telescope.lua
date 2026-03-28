@@ -19,6 +19,10 @@ local telescope = {
       }
     })
     -- require('telescope').load_extension('dap')
+
+    if pcall(require, 'telescope._extensions.luasnip') then
+      require('telescope').load_extension('luasnip')
+    end
   end
 }
 
@@ -56,4 +60,5 @@ return {
   { 'nvim-telescope/telescope-symbols.nvim' },
   { 'nvim-telescope/telescope-file-browser.nvim' },
   { 'tsakirist/telescope-lazy.nvim' },
+  { 'benfowler/telescope-luasnip.nvim' },
 }

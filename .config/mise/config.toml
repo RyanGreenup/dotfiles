@@ -7,14 +7,14 @@ experimental = true
 [settings.age]
 key_file = "~/.config/age/keys.txt"
 
-[tasks.claude-fork-h]
-description = "Fork Claude Code into a new horizontal split"
-run = "kitten @ launch --type window --location hsplit -- claude code"
-
-[tasks.claude-fork-v]
-description = "Fork Claude Code into a new vertical split"
-run = "kitten @ launch --type window --location vsplit -- claude code"
-
-[tasks.cc]
-description = "Start Claude Code"
-run = "claude code"
+# [tasks.claude-fork-h]
+# description = "Fork Claude Code into a new horizontal split"
+# run = "kitten @ launch --type window --location hsplit -- claude code"
+#
+# [tasks.claude-fork-v]
+# description = "Fork Claude Code into a new vertical split"
+# run = "kitten @ launch --type window --location vsplit -- claude code"
+#
+# [tasks.cc]
+# description = "Start Claude Code"
+# run = "claude code"

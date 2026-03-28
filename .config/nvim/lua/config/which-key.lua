@@ -167,7 +167,8 @@ wk.add({
     { "<leader>sD", function() require('telescope.builtin').lsp_workspace_symbols() end,     desc = "LSP workspace symbols",          mode = "n" },
     { "<leader>se", function() require('telescope.builtin').quickfix() end,                  desc = "Errors",                         mode = "n" },
     { "<leader>sr", function() require('telescope.builtin').lsp_references() end,            desc = "LSP References",                 mode = "n" },
-    { "<leader>sm", function() require('telescope.builtin').marks() end,                     desc = "Marks",                          mode = "n" }
+    { "<leader>sm", function() require('telescope.builtin').marks() end,                     desc = "Marks",                          mode = "n" },
+    { "<leader>sn", "<cmd>Telescope luasnip<CR>",                                              desc = "Snippets",                       mode = "n" }
   }
 })
 
