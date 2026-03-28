@@ -54,7 +54,7 @@ M.servers = {
   'slint_lsp',
   'sqlls',
   'taplo',    -- TOML (mise schema configured in lsp.lua)
-  'yamlls',
+  -- yamlls: managed by lua/plugins/kubernetes/ (yaml-companion)
   'just',
   'mdx_analyzer',
 
