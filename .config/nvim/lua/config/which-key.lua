@@ -279,6 +279,7 @@ wk.add({
     -- { "<leader>na",  Attach_file,                                      desc = "Prompt User to attach file under ./assets" },
     { "<leader>na",  function() require("utils/markdown_attach").attach_file() end, desc = "Prompt User to attach file under ./assets" },
     { "<leader>nz",  Search_notes_fzf,                                              desc = "Search Notes using Embeddings" },
+    { "<leader>nm",  function() require("utils.markdown_move").pick_and_move() end,  desc = "Move File to Directory" },
     { "<leader>nj",  group = "Notes" }, -- group
   }
 })
