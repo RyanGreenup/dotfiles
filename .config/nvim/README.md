@@ -2,6 +2,10 @@
 
 It's Lua Based
 
+## Configuration
+
+All tuneable settings live in [`lua/config.lua`](lua/config.lua). This is the single source of truth for vim options, theme choices, and plugin preferences. `lua/settings.lua` reads from it and applies the values — edit `config.lua`, restart Neovim, and the changes take effect.
+
 ## Setup
 
 This should work out of the box, just start neovim and it will self-configure. Below are some Exceptions:
