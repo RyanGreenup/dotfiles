@@ -13,11 +13,18 @@ RUN apt-get update && apt-get install -y \
     && tar -xzf nvim-linux-x86_64.tar.gz -C /usr/local --strip-components=1 \
     && rm nvim-linux-x86_64.tar.gz
 
-## NOTE install additional deps here till it works
+# Clipboard provider (xclip for neovim's +/* registers)
+RUN apt-get -y install xclip
+
 # Required for native-fzf in Telescope
 RUN apt-get -y install cmake gcc clang
-RUN apt-get -y install npm && npm install -g tree-sitter-cli
-RUN npm install -g yarn
+
+# Tree-sitter, TypeScript, and frontend tooling
+RUN apt-get -y install npm \
+    && npm install -g tree-sitter-cli yarn typescript typescript-language-server \
+    && npm install -g @vue/language-server @vue/typescript-plugin
+
+# R
 RUN apt-get -y install unzip r-base
 RUN apt-get -y install r-cran-tidyverse r-cran-stringr libxml2-dev libcurl4-openssl-dev libssl-dev
 
@@ -25,9 +32,16 @@ RUN apt-get -y install r-cran-tidyverse r-cran-stringr libxml2-dev libcurl4-open
 # RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/noble/latest"))' >> /etc/R/Rprofile.site \
 #     && Rscript -e 'install.packages("languageserver")'
 
-
 # LuaSnip jsregexp build dependency
 RUN apt-get -y install luajit libluajit-5.1-dev
+
+# Bun (used by conform.nvim for bunx oxfmt)
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
+
+# uv (Python LSP servers: basedpyright, ruff)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"
 
 RUN rm -rf /var/lib/apt/lists/*
 
