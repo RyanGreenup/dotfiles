@@ -96,7 +96,6 @@ local providers = {
   },
 }
 
--- Usage tracker: calls bun-minuet-tracker for session cost summaries
 local session_start = tostring(os.time())
 local tracker_dir = vim.fn.stdpath("config") .. "/scripts/bun-minuet-tracker"
 
@@ -105,8 +104,9 @@ local M = {}
 function M.run_setup()
   local provider = providers[cfg.provider] or providers.cerebras
 
-  -- Use the curl wrapper that logs token usage
-  local curl_wrapper = vim.fn.stdpath("config") .. "/scripts/minuet-curl"
+  -- Curl wrapper writes usage directly to SQLite. Pass model via env.
+  local curl_wrapper = tracker_dir .. "/curl-wrapper.ts"
+  vim.env.MINUET_MODEL = provider.model
 
   require("minuet").setup({
     provider = "openai_compatible",
@@ -242,28 +242,37 @@ function M.run_setup()
     require("minuet.virtualtext").action.toggle_auto_trigger()
   end, { desc = "Minuet: toggle auto-suggest" })
 
-  -- Cost display: runs bun-minuet-tracker and shows the result
-  local function show_usage()
-    vim.fn.jobstart({
-      "bun", "run", tracker_dir .. "/index.ts",
-      "--since", session_start,
-      "--input-rate", tostring(cfg.cost_per_million_input),
-      "--output-rate", tostring(cfg.cost_per_million_output),
-    }, {
-      stdout_buffered = true,
-      on_stdout = function(_, data)
-        local output = vim.trim(table.concat(data, "\n"))
-        if #output > 0 then
-          vim.schedule(function()
-            vim.notify("[minuet] " .. output, vim.log.levels.INFO)
-          end)
-        end
-      end,
-    })
-  end
+  vim.keymap.set("n", cfg.cost_display, M.show_session_usage, { desc = "Minuet: show session cost" })
+  vim.api.nvim_create_user_command("MinuetUsage", M.show_session_usage, { desc = "Show minuet session token usage and cost" })
+end
 
-  vim.keymap.set("n", cfg.cost_display, show_usage, { desc = "Minuet: show session cost" })
-  vim.api.nvim_create_user_command("MinuetUsage", show_usage, { desc = "Show minuet session token usage and cost" })
+--- Run the tracker CLI with the given extra args and notify with the output.
+local function run_tracker(args)
+  local cmd = { "bun", "run", tracker_dir .. "/index.ts" }
+  for _, a in ipairs(args) do
+    table.insert(cmd, a)
+  end
+  vim.fn.jobstart(cmd, {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      local output = vim.trim(table.concat(data, "\n"))
+      if #output > 0 then
+        vim.schedule(function()
+          vim.notify(output, vim.log.levels.INFO)
+        end)
+      end
+    end,
+  })
+end
+
+--- Show session + today usage card.
+function M.show_session_usage()
+  run_tracker({ "--since", session_start })
+end
+
+--- Show today's usage only.
+function M.show_daily_usage()
+  run_tracker({ "--today" })
 end
 
 return M

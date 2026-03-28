@@ -170,3 +170,6 @@ requires a `CEREBRAS_API_KEY` configured in your environment variables.
 
 one can get the token usage with the keybinding `<leader>au` or with the
 command `:MinuetUsage<CR>`. This is implemented in `./scripts/bun-minuet-tracker/`.
+
+
+one could do it manually by calling the API endpoint directly, but using the built-in command is recommended for convenience and accuracy. - The plugin leverages lazy loading to ensure minimal startup impact. i t only loads when you invoke a Minuet command or open a relevant file.

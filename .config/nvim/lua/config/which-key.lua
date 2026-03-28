@@ -73,6 +73,8 @@ wk.add({
       desc = 'Complete Code(edit)',
     },
 
+    { '<leader>aU', function() require("plugins.minuet.settings").show_daily_usage() end, desc = "LLM daily cost" },
+
   }
 })
 -- D Debug

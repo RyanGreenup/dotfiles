@@ -1,49 +1,45 @@
 /**
  * CLI for the minuet token usage tracker.
  *
+ * Reads directly from the SQLite database populated by `curl-wrapper.ts`.
+ *
  * Usage:
- *   bun run index.ts                     # all-time summary
+ *   bun run index.ts                     # session (last hour) + today
  *   bun run index.ts --since 1774686000  # since unix timestamp
- *   bun run index.ts --session           # since current hour (rough session proxy)
- *   bun run index.ts --log /path/to.jsonl
- *   bun run index.ts --input-rate 0.10 --output-rate 0.10  # llama3.1-8b pricing
+ *   bun run index.ts --today             # today only
+ *   bun run index.ts --all               # all time
  *   bun run index.ts --json              # machine-readable output
  */
 
 import { defineCommand, runMain } from "citty";
-import { readSessionUsage, formatSummary, DEFAULT_LOG_PATH, DEFAULT_PRICING } from "./tracker.ts";
+import { openDb, DEFAULT_DB_PATH } from "./db.ts";
+import { querySince, queryToday, formatSummary, formatCard } from "./tracker.ts";
 
 const main = defineCommand({
   meta: {
     name: "minuet-tracker",
     description: "Show minuet LLM completion token usage and cost",
-    version: "1.0.0",
+    version: "3.0.0",
   },
   args: {
     since: {
-      description: "Unix timestamp to start counting from (0 = all time)",
+      description: "Unix timestamp to start counting from",
       type: "string",
-      default: "0",
     },
-    session: {
-      description: "Scope to the last hour (approximate session)",
+    today: {
+      description: "Show today's usage only",
       type: "boolean",
       default: false,
     },
-    log: {
-      description: "Path to the JSONL usage log",
-      type: "string",
-      default: DEFAULT_LOG_PATH,
+    all: {
+      description: "Show all-time usage",
+      type: "boolean",
+      default: false,
     },
-    "input-rate": {
-      description: "USD per million input tokens",
+    db: {
+      description: "Path to the SQLite database",
       type: "string",
-      default: String(DEFAULT_PRICING.input),
-    },
-    "output-rate": {
-      description: "USD per million output tokens",
-      type: "string",
-      default: String(DEFAULT_PRICING.output),
+      default: DEFAULT_DB_PATH,
     },
     json: {
       description: "Output as JSON",
@@ -51,24 +47,38 @@ const main = defineCommand({
       default: false,
     },
   },
-  async run({ args }) {
-    const since = args.session
-      ? Math.floor(Date.now() / 1000) - 3600
-      : Number(args.since);
+  run({ args }) {
+    const db = openDb(args.db);
 
-    const pricing = {
-      input: Number(args["input-rate"]),
-      output: Number(args["output-rate"]),
-    };
-
-    const summary = await readSessionUsage(args.log, since, pricing);
-
-    if (args.json) {
-      console.log(JSON.stringify(summary, null, 2));
+    if (args.all) {
+      print("all-time", querySince(db, 0), args.json);
+    } else if (args.today) {
+      print("today", queryToday(db), args.json);
+    } else if (args.since) {
+      print("session", querySince(db, Number(args.since)), args.json);
     } else {
-      console.log(formatSummary(summary));
+      // Default: session (last hour) + today
+      const hour = Math.floor(Date.now() / 1000) - 3600;
+      const session = querySince(db, hour);
+      const today = queryToday(db);
+
+      if (args.json) {
+        console.log(JSON.stringify({ session, today }, null, 2));
+      } else {
+        console.log(formatCard(session, today));
+      }
     }
+
+    db.close();
   },
 });
+
+function print(label: string, summary: ReturnType<typeof querySince>, json: boolean): void {
+  if (json) {
+    console.log(JSON.stringify({ [label]: summary }, null, 2));
+  } else {
+    console.log(formatSummary(label, summary));
+  }
+}
 
 runMain(main);

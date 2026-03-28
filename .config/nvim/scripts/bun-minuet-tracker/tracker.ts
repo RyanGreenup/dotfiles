@@ -1,31 +1,15 @@
 /**
- * Minuet token usage tracker.
+ * Minuet token usage tracker backed by SQLite.
  *
- * Reads the JSONL log written by `scripts/minuet-curl` and computes
- * session-scoped token counts and costs. Each log line is a JSON object:
- *
- *   {"ts": <unix_seconds>, "prompt": <n>, "completion": <n>, "total": <n>}
- *
- * The tracker filters lines by a start timestamp so callers can scope
- * to the current Neovim session or any arbitrary time window.
+ * Queries aggregate token counts and costs from the `v_usage_cost` view,
+ * scoped by time range (session, daily, all-time). Rows are inserted by
+ * `curl-wrapper.ts` at request time, so this module is read-only.
  */
 
-/** A single usage record from the JSONL log. */
-export interface UsageEntry {
-  ts: number;
-  prompt: number;
-  completion: number;
-  total: number;
-}
+import type { Database } from "bun:sqlite";
 
-/** Per-million-token pricing in USD. */
-export interface Pricing {
-  input: number;
-  output: number;
-}
-
-/** Aggregated usage and cost for a session. */
-export interface SessionSummary {
+/** Aggregated usage and cost returned by query functions. */
+export interface UsageSummary {
   requests: number;
   promptTokens: number;
   completionTokens: number;
@@ -35,88 +19,62 @@ export interface SessionSummary {
   totalCost: number;
 }
 
-/** Default log path, matches the bash wrapper's default. */
-export const DEFAULT_LOG_PATH = "/tmp/minuet-usage.jsonl";
-
-/** Default pricing for Cerebras qwen-3-235b (USD per million tokens). */
-export const DEFAULT_PRICING: Pricing = { input: 0.6, output: 1.2 };
-
 /**
- * Parse a single JSONL line into a UsageEntry.
- * Returns null if the line is empty or malformed.
+ * Query usage aggregated since `since` (unix seconds).
+ * Costs are computed by the `v_usage_cost` view using the `model_pricing` table.
  */
-export function parseEntry(line: string): UsageEntry | null {
-  const trimmed = line.trim();
-  if (!trimmed) return null;
-  try {
-    const obj = JSON.parse(trimmed) as Record<string, unknown>;
-    if (typeof obj.ts !== "number" || typeof obj.total !== "number") return null;
-    return {
-      ts: obj.ts as number,
-      prompt: (obj.prompt as number) ?? 0,
-      completion: (obj.completion as number) ?? 0,
-      total: (obj.total as number) ?? 0,
-    };
-  } catch {
-    return null;
-  }
+export function querySince(db: Database, since: number = 0): UsageSummary {
+  const row = db.query(`
+    SELECT
+      COUNT(*)                                AS requests,
+      COALESCE(SUM(prompt_tokens), 0)         AS promptTokens,
+      COALESCE(SUM(completion_tokens), 0)     AS completionTokens,
+      COALESCE(SUM(total_tokens), 0)          AS totalTokens,
+      COALESCE(SUM(input_cost), 0)            AS inputCost,
+      COALESCE(SUM(output_cost), 0)           AS outputCost,
+      COALESCE(SUM(total_cost), 0)            AS totalCost
+    FROM v_usage_cost
+    WHERE ts >= $since
+  `).get({ $since: since }) as UsageSummary | undefined;
+
+  return row ?? { requests: 0, promptTokens: 0, completionTokens: 0, totalTokens: 0, inputCost: 0, outputCost: 0, totalCost: 0 };
 }
 
 /**
- * Calculate cost in USD for a given token count and per-million rate.
+ * Query usage for today (since midnight UTC).
  */
-export function tokenCost(tokens: number, perMillion: number): number {
-  return (tokens / 1_000_000) * perMillion;
+export function queryToday(db: Database): UsageSummary {
+  const now = new Date();
+  const midnightUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 1000;
+  return querySince(db, midnightUtc);
 }
 
 /**
- * Read the usage log and aggregate entries since `since` (unix seconds).
- * Pass `since = 0` to include all entries.
+ * Format a single section (session/today/all-time) as two lines.
  */
-export async function readSessionUsage(
-  logPath: string = DEFAULT_LOG_PATH,
-  since: number = 0,
-  pricing: Pricing = DEFAULT_PRICING,
-): Promise<SessionSummary> {
-  const file = Bun.file(logPath);
-  if (!(await file.exists())) {
-    return { requests: 0, promptTokens: 0, completionTokens: 0, totalTokens: 0, inputCost: 0, outputCost: 0, totalCost: 0 };
-  }
-
-  const text = await file.text();
-  const lines = text.split("\n");
-
-  let promptTokens = 0;
-  let completionTokens = 0;
-  let totalTokens = 0;
-  let requests = 0;
-
-  for (const line of lines) {
-    const entry = parseEntry(line);
-    if (!entry || entry.ts < since) continue;
-    promptTokens += entry.prompt;
-    completionTokens += entry.completion;
-    totalTokens += entry.total;
-    requests++;
-  }
-
-  const inputCost = tokenCost(promptTokens, pricing.input);
-  const outputCost = tokenCost(completionTokens, pricing.output);
-
-  return {
-    requests,
-    promptTokens,
-    completionTokens,
-    totalTokens,
-    inputCost,
-    outputCost,
-    totalCost: inputCost + outputCost,
-  };
+function formatSection(icon: string, label: string, s: UsageSummary, last: boolean): string {
+  const branch = last ? "╰─" : "├─";
+  const pipe = last ? "  " : "│ ";
+  const cost = `$${s.totalCost.toFixed(4)}`;
+  return `${branch} ${icon} ${label}: ${cost}\n${pipe}  ${s.requests} reqs  ⬇ ${s.promptTokens}  ⬆ ${s.completionTokens}`;
 }
 
 /**
- * Format a SessionSummary as a human-readable single-line string.
+ * Format a full display card with session and today summaries.
  */
-export function formatSummary(s: SessionSummary): string {
-  return `${s.requests} requests | ${s.promptTokens} in / ${s.completionTokens} out tokens | $${s.totalCost.toFixed(4)} ($${s.inputCost.toFixed(4)} in + $${s.outputCost.toFixed(4)} out)`;
+export function formatCard(session: UsageSummary, today: UsageSummary): string {
+  const lines = [
+    "   🎵 minuet",
+    formatSection("🕐", "session", session, false),
+    formatSection("📅", "today", today, true),
+  ];
+  return lines.join("\n");
+}
+
+/**
+ * Format a single summary with label (for --today, --all, etc.).
+ */
+export function formatSummary(label: string, s: UsageSummary): string {
+  const cost = `$${s.totalCost.toFixed(4)}`;
+  return `🎵 minuet\n   ${label}: ${cost}\n   ${s.requests} reqs  ⬇ ${s.promptTokens}  ⬆ ${s.completionTokens}`;
 }
