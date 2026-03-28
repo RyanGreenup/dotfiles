@@ -9,7 +9,22 @@ local M = {}
 
 local script_path = vim.fn.stdpath("config") .. "/scripts/bun-markdown-link/index.ts"
 
-local markdown_filetypes = {
+--- Canonical set of markdown-like file extensions (lowercase, without dot).
+M.markdown_extensions = {
+  md = true,
+  mdx = true,
+  mdoc = true,
+  rmd = true,
+  qmd = true,
+  Rmd = true,
+  mdown = true,
+  mkd = true,
+  mkdn = true,
+  markdown = true,
+}
+
+--- Canonical set of markdown-like vim filetypes (lowercase).
+M.markdown_filetypes = {
   markdown = true,
   mdx = true,
   mdoc = true,
@@ -20,10 +35,29 @@ local markdown_filetypes = {
   vimwiki = true,
 }
 
+--- Check if a filename has a markdown-like extension.
+---@param filename string
 ---@return boolean
-local function is_markdown_like()
+function M.is_markdown_ext(filename)
+  local ext = vim.fn.fnamemodify(filename, ":e"):lower()
+  return M.markdown_extensions[ext] or false
+end
+
+--- Check if the current buffer's filetype is markdown-like.
+---@return boolean
+function M.is_markdown_filetype()
   local ft = vim.bo.filetype:lower()
-  return markdown_filetypes[ft] or false
+  return M.markdown_filetypes[ft] or false
+end
+
+--- Build a glob string for find_files to filter markdown extensions.
+---@return string[]
+local function markdown_globs()
+  local globs = {}
+  for ext in pairs(M.markdown_extensions) do
+    table.insert(globs, "*." .. ext)
+  end
+  return globs
 end
 
 --- Move the current file to a target directory using the bun script,
@@ -85,15 +119,22 @@ function M.generate_link(target, callback)
   end)
 end
 
+---@class PickAndInsertLinkOpts
+---@field markdown_only? boolean Only show markdown files (default: true)
+
 --- Insert a markdown link at cursor by picking a file from cwd via Telescope.
-function M.pick_and_insert_link()
-  if not is_markdown_like() then
+---@param opts? PickAndInsertLinkOpts
+function M.pick_and_insert_link(opts)
+  if not M.is_markdown_filetype() then
     vim.notify("Not a markdown-like filetype (current: " .. vim.bo.filetype .. ")", vim.log.levels.WARN)
     return
   end
 
+  opts = opts or {}
+  local markdown_only = opts.markdown_only ~= false
+
   local cwd = vim.fn.getcwd()
-  require("telescope.builtin").find_files({
+  local find_opts = {
     prompt_title = "Insert markdown link",
     cwd = cwd,
     attach_mappings = function(prompt_bufnr)
@@ -108,7 +149,20 @@ function M.pick_and_insert_link()
       end)
       return true
     end,
-  })
+  }
+
+  if markdown_only then
+    find_opts.find_command = { "rg", "--files", "--glob" }
+    -- rg --files only takes one --glob, so build with multiple --glob flags
+    local cmd = { "rg", "--files" }
+    for _, glob in ipairs(markdown_globs()) do
+      table.insert(cmd, "--glob")
+      table.insert(cmd, glob)
+    end
+    find_opts.find_command = cmd
+  end
+
+  require("telescope.builtin").find_files(find_opts)
 end
 
 ---@param root string
@@ -152,7 +206,7 @@ end
 
 --- Open a Telescope picker to choose a directory, then move the current file there.
 function M.pick_and_move()
-  if not is_markdown_like() then
+  if not M.is_markdown_filetype() then
     vim.notify("Not a markdown-like filetype (current: " .. vim.bo.filetype .. ")", vim.log.levels.WARN)
     return
   end
