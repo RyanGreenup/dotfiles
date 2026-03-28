@@ -13,55 +13,58 @@ local lazydev = {
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
   {                                        -- optional completion source for require statements and module annotations
-    "hrsh7th/nvim-cmp",
-    opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      table.insert(opts.sources, {
-        name = "lazydev",
-        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-      })
-    end,
+    "saghen/blink.cmp",
+    opts = {
+      sources = {
+        default = { "lazydev" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
+        },
+      },
+    },
   },
 }
 
 --- Main LSP configuration
 local main_lsp = {
   "neovim/nvim-lspconfig",
-  dependencies = { "hrsh7th/cmp-nvim-lsp" },
+  dependencies = { "saghen/blink.cmp" },
   config = function()
     require("config/lsp").run_setup()
   end,
 }
 
---- cmp plugin to present prompts
---- (could also use omnifunc, see require('config/lsp+omnifunc'))
+--- Completion (blink.cmp)
 local cmp = {
-  "hrsh7th/nvim-cmp",
-  config = function()
-    require("config/cmp").run_setup()
-  end,
+  "saghen/blink.cmp",
+  version = "1.*",
   dependencies = {
-    "onsails/lspkind.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
-    "hrsh7th/cmp-nvim-lsp-signature-help",
+    "L3MON4D3/LuaSnip",
     {
-      "saadparwaiz1/cmp_luasnip",
-      dependencies = {
-        {
-          "L3MON4D3/LuaSnip",
-          version = "v2.*",
-          build = "make install_jsregexp",
-          dependencies = { "honza/vim-snippets" },
-          config = function()
-            require("config/luasnip").run_setup()
-          end,
-        },
-      },
+      "saghen/blink.compat",
+      version = "*",
+      lazy = true,
+      opts = {},
     },
   },
+  config = function()
+    require("config/blink-cmp").run_setup()
+  end,
+}
+
+--- Snippets
+local luasnip = {
+  "L3MON4D3/LuaSnip",
+  version = "v2.*",
+  build = "make install_jsregexp",
+  dependencies = { "honza/vim-snippets" },
+  config = function()
+    require("config/luasnip").run_setup()
+  end,
 }
 
 local function make_treesitter_table(parsers_to_install)
@@ -114,6 +117,9 @@ return {
 
   -- Completion
   cmp,
+
+  -- Snippets
+  luasnip,
 
   -- Treesitter
   make_treesitter_table(require('config/treesitter_list').servers),

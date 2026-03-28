@@ -1,86 +1,132 @@
-# My Vim Config
+# Neovim Config
 
-It's Lua Based
+Lua-based Neovim configuration managed via a bare git dotfiles repo.
 
 ## Configuration
 
 All tuneable settings live in [`lua/config.lua`](lua/config.lua). This is the single source of truth for vim options, theme choices, and plugin preferences. `lua/settings.lua` reads from it and applies the values — edit `config.lua`, restart Neovim, and the changes take effect.
 
+## Structure
+
+```
+init.lua                  Entry point
+lua/
+  config.lua              User-tuneable settings
+  settings.lua            Applies settings from config.lua
+  keymaps.lua             All keybindings (plugin and built-in)
+  config/                 Plugin configuration modules
+    blink-cmp.lua         blink.cmp completion setup
+    luasnip.lua           LuaSnip snippet engine
+    lsp.lua               LSP client configuration
+    lsp_server_list.lua   LSP servers for mason to install
+    which-key.lua         Keybinding hints and leader menus
+    org-mode.lua          Orgmode setup
+    themes.lua            Colorscheme configuration
+    ...
+  plugins/                Lazy.nvim plugin specs
+    lsp.lua               LSP, blink.cmp, treesitter, mason
+    ui.lua                Lualine, neo-tree, flash, focus, etc.
+    telescope.lua         Telescope and extensions
+    formatting.lua        Conform.nvim (stylua, ruff, oxfmt, etc.)
+    notetaking.lua        Orgmode, markdown preview, femaco
+    avante.lua            LLM integration
+    dap.lua               Debug adapter protocol
+    ...
+  utils/                  Utility modules (slime, math zone, etc.)
+snippets/                 Snipmate-format snippets
+LuaSnip/                  Native Lua snippets (markdown, dokuwiki)
+Dockerfile                Container for testing dependencies
+justfile                  Task runner (podman test, format, etc.)
+```
+
 ## Setup
 
-This should work out of the box, just start neovim and it will self-configure. Below are some Exceptions:
+This should work out of the box — start Neovim and it will self-configure. Mason auto-installs LSP servers on first launch.
 
-1. **_R_**
-   1. Open R
-   2. Install Deps
-      ```r
-      install.packages(stringi)
-      # This probably is not necessary, however, it serves as a nice checkhealth
-      install.packages(tidyverse)
-      ```
-   3. Open Neovim
+### R Language Server
 
-      ```
-      :LSPInstall r_language_server
-      ```
+R requires manual setup:
 
-      This will take a while ~10 minutes on a slow machine.
+```r
+install.packages("stringi")
+install.packages("tidyverse")  # optional, good checkhealth
+```
+
+Then in Neovim: `:LspInstall r_language_server` (~10 min on slow machines).
 
 ## Dependencies
 
-- `tree-sitter-cli` - Required by nvim-treesitter (main branch) to compile parsers. Without it, parsers will re-download and fail to compile on every startup.
+The [`Dockerfile`](Dockerfile) serves as the canonical list of system dependencies. Key requirements:
 
-  ```sh
-  # Arch Linux
-  sudo pacman -S tree-sitter-cli
+| Dependency | Purpose |
+|---|---|
+| `neovim` >= 0.11 | Editor |
+| `git` | Plugin management (lazy.nvim) |
+| `uv` | Python LSP servers (basedpyright, ruff) via `uvx` |
+| `tree-sitter-cli` | Treesitter parser compilation |
+| `cmake`, `gcc`/`clang` | Native telescope-fzf, treesitter parsers |
+| `npm` | Tree-sitter CLI, LSP servers via mason |
+| `luajit`, `libluajit-5.1-dev` | LuaSnip jsregexp build |
+| `unzip` | Mason LSP server extraction |
 
-  # or via npm
-  npm install -g tree-sitter-cli
+Python LSP servers (basedpyright, ruff) are managed by `uv` rather than Mason's venvs — see [`lua/config/lsp.lua`](lua/config/lsp.lua). On first use, `uvx` auto-downloads and caches the tools.
 
-  # or via cargo
-  cargo install tree-sitter-cli
-  ```
+Install on Arch Linux:
 
-## Considerations
-
-### Julia
-
-See [Julia Sys Images](./julia_images.md).
-
-### Snippets
-
-I went with:
-
-- [SerVer/ultisnips]](https://github.com/SirVer/ultisnips)
-- [Honza/vim-snippets](https://github.com/honza/vim-snippets/tree/master/UltiSnips)
-- [Castel Dev's Snippets](https://github.com/gillescastel/latex-snippets)
-
-because the CastelDev snippets are really good and I didn't
-want to reimplement them, these have just been copied in and I'll check the repo ocassionally for any updates.
-
-To get additional snippets I did something like:
-
-```fish
-cd (mktemp -d)
-git clone https://github.com/honza/vim-snippets/
-cp ~/.config/nvim/Ultisnips/tex.snippets /tmp/
-cp vim-snippets/UltiSnips/* ~/.config/nvim/UltiSnips/
-cp /tmp/tex.snippets ~/.config/nvim/Ultisnips/
+```sh
+sudo pacman -S neovim git uv tree-sitter-cli cmake gcc npm python luajit unzip
 ```
 
-Again this isn't as clean as using:
+Install on Ubuntu/Debian (see Dockerfile for exact versions):
 
-- 'L3MON4D3/LuaSnip'
-- "rafamadriz/friendly-snippets"
-- 'saadparwaiz1/cmp_luasnip'
-- 'hrsh7th/nvim-cmp'
+```sh
+apt install git cmake gcc clang npm unzip luajit libluajit-5.1-dev
+# Neovim: download from https://github.com/neovim/neovim/releases
+# uv: curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-but the tex snippets are that good, difficult to reimplement and i'm familiar with the ultisnips package so
-I'll leave well enough alone there for the moment.
+## Testing with Podman
 
-### SQL Language Server (sqlls)
+The [`justfile`](justfile) provides container-based testing:
 
-For SQL completions, sqlls requires a `.sqllsrc.json` config file in your project root:
+```sh
+# Test local (working tree) config in a container
+just podman-run
+
+# Test committed config from the dotfiles bare repo
+just podman-run-committed
+
+# Clean build (no layer cache)
+NO_CACHE=1 just podman-run
+```
+
+The container skips mason LSP auto-install (`NVIM_SKIP_MASON=1`) since mason downloads platform-specific binaries that may not work in the container.
+
+## Formatting
+
+```sh
+just fmt  # Runs stylua on all Lua files
+```
+
+Formatting config per filetype is defined in [`lua/plugins/formatting.lua`](lua/plugins/formatting.lua) (conform.nvim).
+
+## Snippets
+
+Uses [LuaSnip](https://github.com/L3MON4D3/LuaSnip) with two snippet sources:
+
+- **`snippets/`** — Snipmate-format snippets (python, typescript, yaml, markdown, dokuwiki)
+- **`LuaSnip/`** — Native Lua snippets (markdown autosnippets, dokuwiki)
+- **[vim-snippets](https://github.com/honza/vim-snippets)** — Community snippets (bundled as dependency)
+
+Browse available snippets with `<leader>sn` (Telescope LuaSnip picker).
+
+### Archived snippet infrastructure
+
+Complex contextual/modal snippet systems (math zone detection, latex mode toggling, symlink swapping) are archived in `lua/archived_plugins/snippy/todo/` with a README documenting how to recreate them with LuaSnip conditions.
+
+## SQL Language Server (sqlls)
+
+Requires a `.sqllsrc.json` in your project root:
 
 ```json
 {
@@ -90,52 +136,28 @@ For SQL completions, sqlls requires a `.sqllsrc.json` config file in your projec
 }
 ```
 
-**Important:** Tables must have aliases to get column completions:
+Tables must have aliases for column completions:
 
 ```sql
--- This works (column completions appear):
-SELECT i.sepal_width FROM iris i;
-
--- This does NOT show column completions:
-SELECT sepal_width FROM iris;
+SELECT i.sepal_width FROM iris i;  -- works
+SELECT sepal_width FROM iris;      -- no completions
 ```
 
 Adapters: `sqlite3`, `mysql`, `postgres`, `bigquery`
 
-**Limitation:** sqlls does NOT support SSL for PostgreSQL connections. The `ssl` config option is ignored - the source code doesn't pass it to the pg client. For managed databases requiring SSL, you'll need an SSH tunnel or local proxy.
+**Limitation:** sqlls does NOT support SSL for PostgreSQL. For managed databases requiring SSL, use an SSH tunnel or local proxy.
 
-### Building
+## Updating
 
-#### TODO
+```sh
+# Manual
+nvim --headless "+Lazy! sync" +qa
 
-provide a docker container that can build it to save the user insalling all the deps
-
-### Updating
-
-Add this to the `crontab`
-
-```bash
-pacman -S cronie
-systemctl enable --now cronie
-crontab -e
-
-```
-
-```
-
-# Update neovim daily at 1am
+# Cron (daily at 1am)
+# crontab -e
 0 1 * * * nvim --headless "+Lazy! sync" +qa
-
 ```
 
-### Treesitter and VimTex
+## Julia
 
-### Why Snippy
-
-### Problems with LuaSnip
-
-### Ultisnips and vimtex
-
-in theory could be done with snippy (or luasnip) and lua based config.
-
-using ultisnips means vim+nvim are fine and no need to rewrite config.
+See [Julia Sys Images](./julia_images.md).

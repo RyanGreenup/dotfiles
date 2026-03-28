@@ -256,7 +256,7 @@ end
 
 -- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
 
--- LuaSnip Tab/S-Tab handled in cmp.lua (super tab pattern)
+-- LuaSnip Tab/S-Tab handled by blink.cmp keymap (snippet_forward/snippet_backward)
 
 -- Tabby
 -- /home/ryan/.tabby-client/agent/config.toml

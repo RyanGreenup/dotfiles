@@ -5,9 +5,9 @@ local lsp = vim.lsp
 local servers = require('config/lsp_server_list').servers
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local cmp_nvim_lsp_available = pcall(require, "cmp_nvim_lsp")
-if cmp_nvim_lsp_available then
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+local blink_available, blink = pcall(require, "blink.cmp")
+if blink_available then
+  capabilities = blink.get_lsp_capabilities(capabilities)
 else
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 end
@@ -80,7 +80,7 @@ end
 local on_attach = function(client, bufnr)
   enable_inlay_hints_if_provided(client)
   set_lsp_keymaps(bufnr)
-  if not cmp_nvim_lsp_available then
+  if not blink_available then
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
   end
 end
@@ -103,6 +103,15 @@ local function configure_lsp_servers()
         typeCheckingMode = "standard",
       }
     }
+  })
+
+  -- Use uv to manage Python LSP tools instead of Mason's venvs
+  vim.lsp.config('basedpyright', {
+    cmd = { "uvx", "--from", "basedpyright", "basedpyright-langserver", "--stdio" },
+  })
+
+  vim.lsp.config('ruff', {
+    cmd = { "uvx", "ruff", "server" },
   })
 
   -- Extend specific options
