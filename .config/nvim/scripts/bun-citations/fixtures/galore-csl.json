@@ -1,0 +1,41 @@
+[
+  {
+    "type": "article",
+    "id": "https://doi.org/10.48550/arxiv.2403.03507",
+    "author": [
+      {
+        "family": "Zhao",
+        "given": "Jiawei"
+      },
+      {
+        "family": "Zhang",
+        "given": "Zhenyu"
+      },
+      {
+        "family": "Chen",
+        "given": "Beidi"
+      },
+      {
+        "family": "Wang",
+        "given": "Zhangyang"
+      },
+      {
+        "family": "Anandkumar",
+        "given": "Anima"
+      },
+      {
+        "family": "Tian",
+        "given": "Yuandong"
+      }
+    ],
+    "issued": {
+      "date-parts": [[2024]]
+    },
+    "abstract": "Training Large Language Models (LLMs) presents significant memory challenges, predominantly due to the growing size of weights and optimizer states. Common memory-reduction approaches, such as low-rank adaptation (LoRA), add a trainable low-rank matrix to the frozen pre-trained weight in each layer, reducing trainable parameters and optimizer states. However, such approaches typically underperform training with full-rank weights in both pre-training and fine-tuning stages since they limit the parameter search to a low-rank subspace and alter the training dynamics, and further, may require full-rank warm start. In this work, we propose Gradient Low-Rank Projection (GaLore), a training strategy that allows full-parameter learning but is more memory-efficient than common low-rank adaptation methods such as LoRA. Our approach reduces memory usage by up to 65.5% in optimizer states while maintaining both efficiency and performance for pre-training on LLaMA 1B and 7B architectures with C4 dataset with up to 19.7B tokens, and on fine-tuning RoBERTa on GLUE tasks. Our 8-bit GaLore further reduces optimizer memory by up to 82.5% and total training memory by 63.3%, compared to a BF16 baseline. Notably, we demonstrate, for the first time, the feasibility of pre-training a 7B model on consumer GPUs with 24GB memory (e.g., NVIDIA RTX 4090) without model parallel, checkpointing, or offloading strategies.",
+    "DOI": "10.48550/ARXIV.2403.03507",
+    "publisher": "arXiv",
+    "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection",
+    "URL": "https://arxiv.org/abs/2403.03507",
+    "version": "2"
+  }
+]

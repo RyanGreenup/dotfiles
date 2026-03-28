@@ -62,6 +62,9 @@ podman-run-committed:
 fmt:
     stylua lua/ LuaSnip/ init.lua
 
+test-citations:
+    cd scripts/bun-citations && bun build --compile index.ts --outfile cite && bun --bun test
+
 backup-local:
     mv ~/.local/share/nvim ~/.local/share/nvim_bak
 

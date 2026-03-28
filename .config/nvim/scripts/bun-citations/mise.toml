@@ -1,0 +1,20 @@
+[tasks.check]
+description = "Format, lint, and typecheck"
+run = """
+npx oxfmt .
+npx oxlint -c .oxlintrc.json .
+npx tsgo --noEmit
+"""
+
+[tasks.test]
+description = "Run tests"
+run = "bun --bun test"
+
+[tasks.build]
+description = "Compile to standalone binary"
+run = "bun build --compile --bytecode index.ts --outfile cite"
+
+[tasks.test-binary]
+description = "Run integration tests against compiled binary"
+depends = ["build"]
+run = "bun --bun test integration.test.ts"

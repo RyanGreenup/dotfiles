@@ -1,0 +1,30 @@
+[
+  {
+    "id": "https://en.wikipedia.org/wiki/Octopussy_and_The_Living_Daylights",
+    "type": "webpage",
+    "title": "Octopussy and The Living Daylights - Wikipedia",
+    "author": [
+      {
+        "literal": "en.wikipedia.org"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    },
+    "URL": "https://en.wikipedia.org/wiki/Octopussy_and_The_Living_Daylights",
+    "accessed": {
+      "date-parts": [
+        [
+          2026,
+          3,
+          28
+        ]
+      ]
+    },
+    "_scraped": true
+  }
+]
