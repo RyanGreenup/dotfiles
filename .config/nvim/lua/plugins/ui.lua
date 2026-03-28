@@ -149,6 +149,18 @@ local noice = {
   enabled = vim.g.my_use_noice_ui or false,
 }
 
+local autopairs = {
+  "windwp/nvim-autopairs",
+  event = "InsertEnter",
+  opts = {},
+}
+
+local autotag = {
+  "windwp/nvim-ts-autotag",
+  event = "InsertEnter",
+  opts = {},
+}
+
 return {
   neotree,
   snacks,
@@ -161,4 +173,6 @@ return {
   lualine,
   focus,
   noice,
+  autopairs,
+  autotag,
 }
