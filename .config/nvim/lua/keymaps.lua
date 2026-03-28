@@ -258,11 +258,6 @@ end
 
 -- LuaSnip Tab/S-Tab handled by blink.cmp keymap (snippet_forward/snippet_backward)
 
--- Tabby
--- /home/ryan/.tabby-client/agent/config.toml
-vim.g.tabby_trigger_mode = 'auto'
-vim.g.tabby_keybinding_accept = '<Tab>'
-vim.g.tabby_keybinding_trigger_or_dismiss = '<C-\\>'
 
 -- Modal Keybindings
 map('n', '<Up>', '<cmd>lua ModalCommands[Mode][ModalKey.Up]()<CR>', default_opts)
