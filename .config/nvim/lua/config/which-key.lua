@@ -53,6 +53,11 @@ end
 
 wk.add({
   mode = { 'n', 'v' },
+  { "<leader>o", group = "Opencode" },
+})
+
+wk.add({
+  mode = { 'n', 'v' },
   { "<leader>a", group = "LLM" }, -- group
   {
     { "<leader>az", function() require('utils/telescope_stream_ollama_model').choose_model() end, desc = "Choose model for Ollama Completion with <Insert>" },

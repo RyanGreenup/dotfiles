@@ -82,4 +82,29 @@ return {
     debug = true, -- log request lifecycle to :messages
     cost_display = '<leader>au', -- show session token usage and cost (pricing in SQLite)
   },
+  opencode = {
+    -- Panel
+    toggle = '<leader>oo',       -- liberal permissions (auto-approve all)
+    toggle_safe = '<leader>oO', -- safe mode (asks before running commands)
+    focus = '<F6>',             -- toggle focus between opencode and last window (opens if closed)
+    ask = '<leader>oa',
+    ask_file = '<leader>oA',
+    new_session = '<leader>on',
+    -- Prompts (normal mode)
+    explain = '<leader>oe',
+    review = '<leader>or',
+    fix = '<leader>of',
+    -- Prompts (visual mode)
+    optimize = '<leader>op',
+    document = '<leader>od',
+    test = '<leader>ot',
+    -- Behavior
+    auto_reload = true,
+    auto_focus = false,
+    position = 'right', -- 'right', 'left', 'bottom', 'top'
+    -- Experimental LSP integration (hover + code actions from opencode).
+    -- Works for basic hover and diagnostic code actions, but may conflict
+    -- with existing language servers. Toggle at runtime with :OpencodeLspToggle
+    lsp = false,
+  },
 }

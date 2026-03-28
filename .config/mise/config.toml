@@ -1,4 +1,5 @@
 [tools]
+opencode = "1.3.3"
 usage = "latest"
 
 [settings]
