@@ -51,6 +51,7 @@ local providers = {
     stream = true,
     optional = {
       max_tokens = 256,
+      stream_options = { include_usage = true },
     },
   },
   cerebras_llama = {
@@ -61,6 +62,7 @@ local providers = {
     stream = true,
     optional = {
       max_tokens = 256,
+      stream_options = { include_usage = true },
     },
   },
   -- gpt-oss-120b is a reasoning model: streaming sends delta.reasoning chunks
@@ -94,13 +96,21 @@ local providers = {
   },
 }
 
+-- Usage tracker: calls bun-minuet-tracker for session cost summaries
+local session_start = tostring(os.time())
+local tracker_dir = vim.fn.stdpath("config") .. "/scripts/bun-minuet-tracker"
+
 local M = {}
 
 function M.run_setup()
   local provider = providers[cfg.provider] or providers.cerebras
 
+  -- Use the curl wrapper that logs token usage
+  local curl_wrapper = vim.fn.stdpath("config") .. "/scripts/minuet-curl"
+
   require("minuet").setup({
     provider = "openai_compatible",
+    curl_cmd = curl_wrapper,
     n_completions = 3,
     context_window = 512,
     request_timeout = 15,
@@ -231,6 +241,26 @@ function M.run_setup()
   vim.keymap.set("n", cfg.toggle, function()
     require("minuet.virtualtext").action.toggle_auto_trigger()
   end, { desc = "Minuet: toggle auto-suggest" })
+
+  -- Cost display: runs bun-minuet-tracker and shows the result
+  vim.keymap.set("n", cfg.cost_display, function()
+    vim.fn.jobstart({
+      "bun", "run", tracker_dir .. "/index.ts",
+      "--since", session_start,
+      "--input-rate", tostring(cfg.cost_per_million_input),
+      "--output-rate", tostring(cfg.cost_per_million_output),
+    }, {
+      stdout_buffered = true,
+      on_stdout = function(_, data)
+        local output = vim.trim(table.concat(data, "\n"))
+        if #output > 0 then
+          vim.schedule(function()
+            vim.notify("[minuet] " .. output, vim.log.levels.INFO)
+          end)
+        end
+      end,
+    })
+  end, { desc = "Minuet: show session cost" })
 end
 
 return M

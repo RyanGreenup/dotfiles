@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Wrapper around curl that logs token usage from OpenAI-compatible API responses.
+# Used as minuet's curl_cmd to track consumption without patching the plugin.
+#
+# Logs each response's usage to $MINUET_USAGE_LOG (default: /tmp/minuet-usage.jsonl).
+# Each line is a JSON object: {"ts":..., "prompt":..., "completion":..., "total":...}
+
+LOGFILE="${MINUET_USAGE_LOG:-/tmp/minuet-usage.jsonl}"
+
+# Run real curl, capture output
+output=$(command curl "$@")
+exit_code=$?
+
+# Print output for minuet to consume (this is what plenary.job reads)
+printf '%s' "$output"
+
+# Extract top-level token counts from the usage object.
+# These fields are always flat integers, so simple grep works even when
+# the usage object contains nested sub-objects.
+prompt=$(printf '%s' "$output" | grep -o '"prompt_tokens":[0-9]*' | tail -1 | grep -o '[0-9]*')
+completion=$(printf '%s' "$output" | grep -o '"completion_tokens":[0-9]*' | tail -1 | grep -o '[0-9]*')
+total=$(printf '%s' "$output" | grep -o '"total_tokens":[0-9]*' | tail -1 | grep -o '[0-9]*')
+
+if [ -n "$total" ]; then
+  printf '{"ts":%d,"prompt":%s,"completion":%s,"total":%s}\n' \
+    "$(date +%s)" "${prompt:-0}" "${completion:-0}" "${total:-0}" >> "$LOGFILE"
+fi
+
+exit $exit_code

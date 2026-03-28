@@ -1,0 +1,17 @@
+{
+  "name": "bun-minuet-tracker",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "dependencies": {
+    "citty": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript/native-preview": "^7.0.0-dev.20260327.2",
+    "oxfmt": "^0.42.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
