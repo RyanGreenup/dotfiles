@@ -63,6 +63,39 @@ local found = citations._find_references_json(tmpdir)
 assert_eq(found, tmpdir .. "/references.json", "find_references_json should find references.json")
 vim.fn.delete(tmpdir, "rf")
 
+-- Test parse_fetched_id extracts ID from bun stdout
+local sample_stdout = [==[Added "LoRA" to /tmp/references.json
+[
+  {
+    "type": "article",
+    "id": "https://doi.org/10.48550/arxiv.2106.09685",
+    "title": "LoRA"
+  }
+]]==]
+assert_eq(
+  citations._parse_fetched_id(sample_stdout),
+  "https://doi.org/10.48550/arxiv.2106.09685",
+  "parse_fetched_id extracts id from stdout"
+)
+
+-- parse_fetched_id returns nil on garbage
+assert_eq(citations._parse_fetched_id("no json here"), nil, "parse_fetched_id returns nil on non-JSON")
+
+-- parse_fetched_id handles scraped webpage output
+local scraped_stdout = [==[Added "Wikipedia" to /tmp/references.json
+[
+  {
+    "id": "https://en.wikipedia.org/wiki/Test",
+    "type": "webpage",
+    "title": "Test - Wikipedia"
+  }
+]]==]
+assert_eq(
+  citations._parse_fetched_id(scraped_stdout),
+  "https://en.wikipedia.org/wiki/Test",
+  "parse_fetched_id works with scraped webpage"
+)
+
 --------------------------------------------------------------------------------
 -- Smoke tests: verify the module works inside Neovim runtime
 --------------------------------------------------------------------------------
@@ -72,44 +105,26 @@ assert_truthy(type(citations.fetch_and_insert) == "function", "fetch_and_insert 
 assert_truthy(type(citations.pick_citation) == "function", "pick_citation is a function")
 assert_truthy(type(citations.fetch_from_clipboard) == "function", "fetch_from_clipboard is a function")
 
--- vim.system exists (used for async fetch)
+-- Neovim APIs used by the module exist
 assert_truthy(type(vim.system) == "function", "vim.system is available")
-
--- vim.ui.input exists (used for URL prompt)
 assert_truthy(type(vim.ui.input) == "function", "vim.ui.input is available")
-
--- vim.notify exists (used for progress/error feedback)
+assert_truthy(type(vim.ui.select) == "function", "vim.ui.select is available")
 assert_truthy(type(vim.notify) == "function", "vim.notify is available")
-
--- vim.api.nvim_put exists (used to insert citation at cursor)
 assert_truthy(type(vim.api.nvim_put) == "function", "vim.api.nvim_put is available")
+assert_truthy(type(vim.fn.getreg) == "function", "vim.fn.getreg is available")
 
--- vim.json.decode works (used in parse_csl_json)
+-- vim.json.decode works (used in parse_csl_json and parse_fetched_id)
 local decoded = vim.json.decode('[{"id":"test"}]')
 assert_eq(decoded[1].id, "test", "vim.json.decode works for CSL-JSON")
 
--- vim.fn.getreg exists (used for clipboard in fetch_from_clipboard)
-assert_truthy(type(vim.fn.getreg) == "function", "vim.fn.getreg is available")
-
--- Telescope modules load (these are needed by pick_citation)
-local tel_ok, _ = pcall(require, "telescope.pickers")
-assert_truthy(tel_ok, "telescope.pickers loads")
-local find_ok, _ = pcall(require, "telescope.finders")
-assert_truthy(find_ok, "telescope.finders loads")
-local act_ok, _ = pcall(require, "telescope.actions")
-assert_truthy(act_ok, "telescope.actions loads")
-local state_ok, _ = pcall(require, "telescope.actions.state")
-assert_truthy(state_ok, "telescope.actions.state loads")
-
 -- bun binary is reachable
-local bun_check = vim.fn.executable("bun")
-assert_eq(bun_check, 1, "bun is executable on PATH")
+assert_eq(vim.fn.executable("bun"), 1, "bun is executable on PATH")
 
 -- The bun-citations script exists
 local script = vim.fn.stdpath("config") .. "/scripts/bun-citations/index.ts"
 assert_eq(vim.fn.filereadable(script), 1, "scripts/bun-citations/index.ts exists")
 
--- pick_citation with no references.json in /tmp doesn't crash (just notifies)
+-- pick_citation with no references.json warns gracefully
 local old_notify = vim.notify
 local notified_msg = nil
 vim.notify = function(msg, _) notified_msg = msg end
@@ -120,28 +135,37 @@ vim.cmd("cd " .. vim.fn.fnameescape(saved_cwd))
 vim.notify = old_notify
 assert_truthy(notified_msg and notified_msg:find("No CSL%-JSON"), "pick_citation warns when no references file found")
 
--- pick_citation with a valid references.json opens without error
--- (Telescope picker will fail headless but we verify it gets past parsing)
+-- insert_cite_key inserts text and leaves cursor after it
+vim.cmd("enew!")
+vim.api.nvim_buf_set_lines(0, 0, -1, false, { "before after" })
+vim.api.nvim_win_set_cursor(0, { 1, 7 }) -- cursor on 'a' of 'after'
+citations._insert_cite_key("https://example.com")
+local line = vim.api.nvim_get_current_line()
+assert_truthy(line:find("%[@https://example%.com%]"), "insert_cite_key inserts [@id] into buffer")
+local cursor = vim.api.nvim_win_get_cursor(0)
+-- nvim_put with last arg true places cursor after inserted text
+-- cursor[2] is 0-indexed byte offset; find the ] and check cursor is past it
+-- cursor[2] is 0-indexed; Lua find is 1-indexed
+-- After inserting "[@https://example.com]" (22 chars) at col 7, cursor should be at 7+22=29
+local expected_col = 7 + #"[@https://example.com]"
+assert_eq(cursor[2], expected_col, "cursor is positioned after the closing ]")
+
+-- pick_citation with valid references.json calls vim.ui.select with correct items
 local tmp2 = vim.fn.tempname()
 vim.fn.mkdir(tmp2, "p")
 local rf = io.open(tmp2 .. "/references.json", "w")
-rf:write('[{"id":"https://example.com","title":"Test","author":[{"literal":"Auth"}],"issued":{"date-parts":[[2024]]}}]')
+rf:write('[{"id":"https://example.com","title":"Test","author":[{"literal":"Auth"}],"issued":{"date-parts":[  [2024]]}}]')
 rf:close()
-local pick_err = nil
+local select_items = nil
+local old_select = vim.ui.select
+vim.ui.select = function(items_arg, _, _) select_items = items_arg end
 vim.cmd("cd " .. vim.fn.fnameescape(tmp2))
--- Telescope may error in headless, but parsing should succeed
-local pick_ok, pick_result = pcall(citations.pick_citation)
+citations.pick_citation()
 vim.cmd("cd " .. vim.fn.fnameescape(saved_cwd))
+vim.ui.select = old_select
 vim.fn.delete(tmp2, "rf")
--- If it errors, it should be a Telescope display issue, not a parse issue
-if not pick_ok then
-  assert_truthy(
-    not tostring(pick_result):find("JSON parse error"),
-    "pick_citation failure is not a parse error (Telescope headless limitation is OK)"
-  )
-else
-  pass = pass + 1 -- it worked fully, great
-end
+assert_truthy(select_items and #select_items == 1, "pick_citation passes items to vim.ui.select")
+assert_eq(select_items[1].id, "https://example.com", "pick_citation passes correct id")
 
 -- Summary
 print(string.format("\n%d passed, %d failed", pass, fail))

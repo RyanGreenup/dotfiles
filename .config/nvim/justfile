@@ -65,6 +65,9 @@ fmt:
 test-citations:
     cd scripts/bun-citations && bun build --compile index.ts --outfile cite && bun --bun test
 
+test-minuet:
+    python3 tests/test_minuet.py
+
 backup-local:
     mv ~/.local/share/nvim ~/.local/share/nvim_bak
 

@@ -56,7 +56,32 @@ local function csl_to_display(item)
   return string.format("[@%s] — %s (%s, %s)", key, title, author, year)
 end
 
---- Open Telescope picker for existing citations
+--- Insert [@id] at cursor and move cursor after it
+---@param id string
+local function insert_cite_key(id)
+  local text = "[@" .. id .. "]"
+  vim.api.nvim_put({ text }, "", false, true)
+end
+
+--- Extract the citation ID from bun stdout (parses the "Added ... to ..." line)
+---@param stdout string
+---@return string|nil
+local function parse_fetched_id(stdout)
+  -- CSL-JSON output: Added "Title" to path — re-read the file to get the ID
+  -- The stdout contains the JSON of new items after the "Added" line
+  local json_start = stdout:find("%[%s*{")
+  if not json_start then
+    return nil
+  end
+  local json_str = stdout:sub(json_start)
+  local ok, items = pcall(vim.json.decode, json_str)
+  if ok and type(items) == "table" and items[1] and items[1].id then
+    return items[1].id
+  end
+  return nil
+end
+
+--- Select a citation from existing references via vim.ui.select and insert it
 function M.pick_citation()
   local cwd = vim.fn.getcwd()
   local json_path = find_references_json(cwd)
@@ -75,46 +100,22 @@ function M.pick_citation()
     return
   end
 
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local conf = require("telescope.config").values
-  local actions = require("telescope.actions")
-  local action_state = require("telescope.actions.state")
-
-  local results = {}
+  local display_items = {}
   for _, item in ipairs(items) do
-    table.insert(results, { display = csl_to_display(item), key = item.id })
+    table.insert(display_items, { display = csl_to_display(item), id = item.id })
   end
 
-  pickers
-    .new({}, {
-      prompt_title = "Citations",
-      sorter = conf.generic_sorter({}),
-      finder = finders.new_table({
-        results = results,
-        entry_maker = function(entry)
-          return {
-            value = entry.key,
-            display = entry.display,
-            ordinal = entry.display,
-          }
-        end,
-      }),
-      attach_mappings = function(prompt_bufnr)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          if selection then
-            vim.api.nvim_put({ "[@" .. selection.value .. "]" }, "", false, true)
-          end
-        end)
-        return true
-      end,
-    })
-    :find()
+  vim.ui.select(display_items, {
+    prompt = "Insert citation:",
+    format_item = function(entry) return entry.display end,
+  }, function(choice)
+    if choice then
+      insert_cite_key(choice.id)
+    end
+  end)
 end
 
---- Run the bun citation fetcher and handle results
+--- Run the bun citation fetcher, insert the key directly on success
 ---@param url string
 local function fetch_citation(url)
   local cwd = vim.fn.getcwd()
@@ -134,8 +135,13 @@ local function fetch_citation(url)
         vim.notify(msg, vim.log.levels.ERROR)
         return
       end
-      vim.notify("Citation added!", vim.log.levels.INFO)
-      M.pick_citation()
+      local id = parse_fetched_id(result.stdout or "")
+      if id then
+        insert_cite_key(id)
+        vim.notify("Citation inserted: [@" .. id .. "]", vim.log.levels.INFO)
+      else
+        vim.notify("Citation added but could not extract ID from output", vim.log.levels.WARN)
+      end
     end)
   end)
 end
@@ -166,5 +172,7 @@ end
 M._find_references_json = find_references_json
 M._parse_csl_json = parse_csl_json
 M._csl_to_display = csl_to_display
+M._insert_cite_key = insert_cite_key
+M._parse_fetched_id = parse_fetched_id
 
 return M
