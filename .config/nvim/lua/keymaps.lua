@@ -27,7 +27,7 @@ end
 -----------------------------------------------------------
 
 -- clear search highlighting
-mp('n', '<C-/>', ':nohl<CR>')
+mp('n', '<Esc>', ':nohl<CR>')
 
 
 -- map Esc to kk
@@ -442,34 +442,14 @@ end
 
 function M.fterm()
   local repl_key = '<C-`>'
-  map('n', repl_key, '', {
-    noremap = true,
-    callback = function()
-      local win_id = vim.api.nvim_get_current_win()
-      require("config.fterm").gitui:toggle()
-      -- move focus back to current window
-      -- vim.api.nvim_set_current_win(win_id)
-    end
-  })
-  map('t', repl_key, '', {
-    noremap = true,
-    callback = function()
-      terminal_escape()
-      require("config.fterm").gitui:toggle()
-    end
-  })
-  -- map('n', '<A-i>', '', { noremap = true, callback = function() require("config.fterm").tmux:toggle() end })
-  -- map('t', '<A-i>', '', {
-  --   noremap = true,
-  --   callback = function()
-  --     terminal_escape()
-  --     require("Fterm").toggle()
-  --   end
-  -- })
+  vim.keymap.set({ 'n', 't' }, repl_key, function()
+    Snacks.terminal.toggle("tmux a", { win = { position = "right", width = 0.5 } })
+  end, { desc = "Toggle gitui sidebar" })
 end
 
-map('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
-map('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { noremap = true })
+vim.keymap.set({ 'n', 't' }, '<C-/>', function()
+  Snacks.terminal.toggle()
+end, { noremap = true, desc = "Toggle terminal" })
 
 -- Return the module table so that it can be required by other scripts
 return M

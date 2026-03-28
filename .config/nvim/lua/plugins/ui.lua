@@ -12,11 +12,21 @@ local neotree =
   end
 }
 
+local snacks = {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  ---@type snacks.Config
+  opts = {
+    notifier = { enabled = true },
+    terminal = { enabled = true },
+    indent   = { enabled = true },
+    words    = { enabled = true },
+  },
+}
+
 local which_key = {
   "folke/which-key.nvim",
-  dependencies = {
-    { "rcarriga/nvim-notify" }
-  },
   opts = function()
     return {
       preset = "modern"
@@ -72,8 +82,6 @@ local outline = {
   end,
 }
 
-local search_highlighting = { 'kevinhwang91/nvim-hlslens', opts = {} }
-
 
 local lualine = {
   'nvim-lualine/lualine.nvim',
@@ -104,26 +112,9 @@ local lualine = {
   end
 }
 
-local indent_blankline = {
-  'lukas-reineke/indent-blankline.nvim',
-  config = function()
-    require("ibl").setup()
-  end,
-}
-
-local colorbuddy = { 'tjdevries/colorbuddy.vim', opts = {} }
-
 --- Automatically resize windows
 local focus =
 { 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
-
-local floating_term = {
-  "numToStr/FTerm.nvim",
-  config = function()
-    require('config/fterm')
-    require('keymaps').fterm()
-  end
-}
 
 local noice_opts = {
   lsp = {
@@ -154,14 +145,13 @@ local noice = {
     -- OPTIONAL:
     --   `nvim-notify` is only needed, if you want to use the notification view.
     --   If not available, we use `mini` as the fallback
-    "rcarriga/nvim-notify",
   },
   enabled = vim.g.my_use_noice_ui or false,
 }
 
 return {
   neotree,
-  floating_term,
+  snacks,
   which_key,
   git_signs,
   bookmarks,
@@ -169,9 +159,6 @@ return {
   -- fold_cycle,
   outline,
   lualine,
-  search_highlighting,
-  colorbuddy,
-  indent_blankline,
   focus,
   noice,
 }
