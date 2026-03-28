@@ -7,6 +7,7 @@
 ------------------------------------------------------------
 
 
+local cfg = require('config')
 local map = vim.api.nvim_set_keymap -- set global keymap
 local cmd = vim.cmd                 -- execute Vim commands
 local exec = vim.api.nvim_exec      -- execute Vimscript
@@ -42,14 +43,14 @@ require('utils/insert_journal_table').setup()
 opt.number = true          -- show line number
 opt.showmatch = true       -- highlight matching parenthesis
 opt.foldlevelstart = 99    -- Open everything up at first
-opt.colorcolumn = '80'     -- line lenght marker at 80 columns
-opt.splitright = true      -- vertical split to the right
-opt.splitbelow = true      -- horizontal split to the bottom
+opt.colorcolumn = cfg.ui.colorcolumn
+opt.splitright = cfg.ui.splitright
+opt.splitbelow = cfg.ui.splitbelow
 opt.ignorecase = true      -- ignore case letters when search
 opt.smartcase = true       -- ignore lowercase for the whole pattern
 opt.linebreak = true       -- wrap on word boundary
 opt.autoread = true        -- Automatically reload files
-opt.relativenumber = false -- Relative numbers
+opt.relativenumber = cfg.ui.relativenumber
 cmd [[ set modelineexpr ]] -- See vim modeline vulnerability 2019
 
 -- Folding
@@ -60,14 +61,16 @@ opt.foldlevel = 99                   -- Start with everything unfolded
 opt.fillchars:append({ fold = " " }) -- Don't show fold icons
 
 -- remove whitespace on save
-cmd [[au BufWritePre * :%s/\s\+$//e]]
+if cfg.behavior.trim_whitespace then
+  cmd [[au BufWritePre * :%s/\s\+$//e]]
+end
 
 
 -- highlight on yank
 exec([[
     augroup YankHighlight
       autocmd!
-      autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+      autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=]] .. cfg.ui.yank_highlight_timeout .. [[}
     augroup end
   ]], false)
 
@@ -90,8 +93,8 @@ require('config.themes').setup()
 -- Tabs, indent
 -----------------------------------------------------------
 opt.expandtab = true   -- use spaces instead of tabs
-opt.shiftwidth = 4     -- shift 4 spaces when tab
-opt.tabstop = 4        -- 1 tab == 4 spaces
+opt.shiftwidth = cfg.indentation.width
+opt.tabstop = cfg.indentation.width
 opt.smartindent = true -- autoindent new lines
 
 -- don't auto commenting new lines
@@ -210,7 +213,7 @@ endif
 ]]
 
 if vim.g.neovide then
-  vim.o.guifont = "FiraCode Nerd Font:h14"
+  vim.o.guifont = cfg.ui.gui_font
   vim.g.neovide_cursor_vfx_mode = "railgun"
   vim.g.neovide_floating_blur_amount_x = 200.0
   vim.g.neovide_floating_blur_amount_y = 200.0

@@ -1,7 +1,7 @@
 -- See ~/.config/nvim/docs/slime.md for more details
 
 -- Global Settings -------------------------------------------------------------
-vim.g.slime_target = "tmux"
+vim.g.slime_target = require('config').slime.target
 vim.g.slime_bracketed_paste = 1
 vim.g.slime_preserve_curpos = 0
 vim.g.slime_no_mappings = 1

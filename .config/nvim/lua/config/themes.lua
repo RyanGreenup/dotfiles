@@ -1,6 +1,7 @@
 local M = {} -- define a table to hold our module
 
-local themes = { "catppuccin-macchiato", "catppuccin-latte" }
+local user_cfg = require('config')
+local themes = { user_cfg.themes.dark, user_cfg.themes.light }
 
 --- Check if gsettings reports
 local function is_system_light_mode(opts)

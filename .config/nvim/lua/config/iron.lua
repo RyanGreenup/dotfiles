@@ -1,4 +1,5 @@
 local iron = require("iron.core")
+local user_cfg = require('config')
 
 iron.setup {
   config = {
@@ -23,7 +24,7 @@ iron.setup {
     -- Repl position. Check `iron.view` for more options,
     -- currently there are four positions: left, right, bottom, top,
     -- the param is the width/height of the float window
-    repl_open_cmd = 'belowright 15 split',
+    repl_open_cmd = user_cfg.iron.repl_open_cmd,
     -- Alternatively, pass a function, which is evaluated when a repl is open.
     --     repl_open_cmd = require('iron.view').curry.right(function()
     --         return vim.o.columns / 3
@@ -40,7 +41,7 @@ iron.setup {
       -- bracketed paste. ptpython drops a new line requiring an additional
       -- <C-w>l<CR>
       python = {
-        command = { "ipython" },
+        command = user_cfg.iron.python_command,
         format = require("iron.fts.common").bracketed_paste,
       },
       sh = {

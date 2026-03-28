@@ -15,6 +15,8 @@ function M.setup(opts)
     opts = {
       folding = {
         startup_folded = user_cfg.markdown.startup_folded,
+        ellipsis = user_cfg.markdown.fold_ellipsis,
+        show_line_count = user_cfg.markdown.fold_show_line_count,
       },
     }
   end
