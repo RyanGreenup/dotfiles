@@ -42,9 +42,63 @@ local function spinner_stop()
   end)
 end
 
+local providers = {
+  cerebras = {
+    api_key = "CEREBRAS_API_KEY",
+    end_point = "https://api.cerebras.ai/v1/chat/completions",
+    model = "qwen-3-235b-a22b-instruct-2507",
+    name = "cerebras",
+    stream = true,
+    optional = {
+      max_tokens = 256,
+    },
+  },
+  cerebras_llama = {
+    api_key = "CEREBRAS_API_KEY",
+    end_point = "https://api.cerebras.ai/v1/chat/completions",
+    model = "llama3.1-8b",
+    name = "cerebras",
+    stream = true,
+    optional = {
+      max_tokens = 256,
+    },
+  },
+  -- gpt-oss-120b is a reasoning model: streaming sends delta.reasoning chunks
+  -- that minuet can't parse. Use stream=false so the full content field is returned.
+  cerebras_reasoning = {
+    api_key = "CEREBRAS_API_KEY",
+    end_point = "https://api.cerebras.ai/v1/chat/completions",
+    model = "gpt-oss-120b",
+    name = "cerebras",
+    stream = false,
+    optional = {
+      max_tokens = 512,
+      reasoning_effort = "low",
+    },
+  },
+  openai = {
+    api_key = function()
+      local f = io.open(vim.fn.expand("~/.local/keys/openai.key"), "r")
+      if not f then return "" end
+      local key = f:read("*l")
+      f:close()
+      return key
+    end,
+    end_point = "https://api.openai.com/v1/chat/completions",
+    model = "gpt-4.1-mini",
+    name = "openai",
+    stream = true,
+    optional = {
+      max_tokens = 256,
+    },
+  },
+}
+
 local M = {}
 
 function M.run_setup()
+  local provider = providers[cfg.provider] or providers.cerebras
+
   require("minuet").setup({
     provider = "openai_compatible",
     n_completions = 3,
@@ -63,24 +117,20 @@ function M.run_setup()
       },
     },
     provider_options = {
-      openai_compatible = {
-        api_key = function()
-          local f = io.open(vim.fn.expand("~/.local/keys/openai.key"), "r")
-          if not f then return "" end
-          local key = f:read("*l")
-          f:close()
-          return key
-        end,
-        end_point = "https://api.openai.com/v1/chat/completions",
-        model = "gpt-4.1-mini",
-        name = "gpt-4.1-mini",
-        stream = true,
-        optional = {
-          max_tokens = 256,
-        },
-      },
+      openai_compatible = provider,
     },
   })
+
+  local function log(msg)
+    if cfg.debug then
+      vim.notify("[minuet] " .. msg, vim.log.levels.INFO)
+    end
+  end
+
+  log("provider=" .. cfg.provider
+    .. " model=" .. provider.model
+    .. " endpoint=" .. provider.end_point
+    .. " api_key_type=" .. type(provider.api_key))
 
   -- Spinner autocmds
   local group = vim.api.nvim_create_augroup("MinuetSpinner", { clear = true })
@@ -96,6 +146,86 @@ function M.run_setup()
     group = group,
     callback = spinner_stop,
   })
+
+  -- Debug: log request lifecycle (gated by config.minuet.debug)
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MinuetRequestStartedPre",
+    group = group,
+    callback = function(ev)
+      local d = ev.data or {}
+      log("request PRE: provider=" .. tostring(d.name)
+        .. " model=" .. tostring(d.model)
+        .. " n_requests=" .. tostring(d.n_requests))
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MinuetRequestStarted",
+    group = group,
+    callback = function(ev)
+      local d = ev.data or {}
+      log("request STARTED: idx=" .. tostring(d.request_idx))
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MinuetRequestFinished",
+    group = group,
+    callback = function(ev)
+      local d = ev.data or {}
+      log("request FINISHED: idx=" .. tostring(d.request_idx))
+    end,
+  })
+
+  -- :MinuetTestCurl -- always available, sends a simple request to verify the endpoint
+  vim.api.nvim_create_user_command("MinuetTestCurl", function()
+    local key
+    if type(provider.api_key) == "function" then
+      key = provider.api_key()
+    else
+      key = vim.env[provider.api_key] or ""
+    end
+    vim.notify("[minuet-test] key length=" .. #key .. " first4=" .. key:sub(1, 4), vim.log.levels.INFO)
+
+    local body = vim.json.encode({
+      model = provider.model,
+      messages = { { role = "user", content = "Say hello in 5 words." } },
+      max_tokens = 32,
+      stream = false,
+    })
+    local tmp = vim.fn.tempname()
+    local f = io.open(tmp, "w")
+    if not f then
+      vim.notify("[minuet-test] failed to create temp file", vim.log.levels.ERROR)
+      return
+    end
+    f:write(body)
+    f:close()
+
+    vim.fn.jobstart({
+      "curl", "-s", "-w", "\n%{http_code}",
+      "-H", "Content-Type: application/json",
+      "-H", "Authorization: Bearer " .. key,
+      "-d", "@" .. tmp,
+      provider.end_point,
+    }, {
+      stdout_buffered = true,
+      on_stdout = function(_, data)
+        local output = table.concat(data, "\n")
+        vim.schedule(function()
+          vim.notify("[minuet-test] response:\n" .. output:sub(1, 500), vim.log.levels.INFO)
+        end)
+      end,
+      on_stderr = function(_, data)
+        local err = table.concat(data, "\n")
+        if #err > 0 then
+          vim.schedule(function()
+            vim.notify("[minuet-test] stderr: " .. err:sub(1, 300), vim.log.levels.WARN)
+          end)
+        end
+      end,
+    })
+  end, { desc = "Test minuet provider with a simple curl request" })
 
   -- Toggle auto-suggest on/off
   vim.keymap.set("n", cfg.toggle, function()

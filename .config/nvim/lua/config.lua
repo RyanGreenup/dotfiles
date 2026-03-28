@@ -73,5 +73,12 @@ return {
     next = '<A-o>',
     prev = '<A-i>',
     debounce = 50, -- ms after cursor settles before auto-requesting
+    -- Provider: 'cerebras', 'cerebras_llama', 'cerebras_reasoning', or 'openai'
+    --   cerebras:           qwen-3-235b, best coding quality ($0.60/$1.20/M), env CEREBRAS_API_KEY
+    --   cerebras_llama:     llama3.1-8b, cheapest ($0.10/M), env CEREBRAS_API_KEY
+    --   cerebras_reasoning: gpt-oss-120b, non-streaming only ($0.35/$0.75/M)
+    --   openai:             gpt-4.1-mini, key at ~/.local/keys/openai.key
+    provider = 'cerebras',
+    debug = true, -- log request lifecycle to :messages
   },
 }
