@@ -101,8 +101,36 @@ local tracker_dir = vim.fn.stdpath("config") .. "/scripts/bun-minuet-tracker"
 
 local M = {}
 
+--- Resolve the API key value (string env var name or function).
+--- Returns the key string, or nil if unavailable.
+local function resolve_api_key(provider)
+  if type(provider.api_key) == "function" then
+    local key = provider.api_key()
+    if key and #key > 0 then return key end
+    return nil
+  end
+  -- It's an env-var name (e.g. "CEREBRAS_API_KEY")
+  local val = vim.env[provider.api_key]
+  if val and #val > 0 then return val end
+  return nil
+end
+
 function M.run_setup()
   local provider = providers[cfg.provider] or providers.cerebras
+
+  -- Validate API key before setup. Without a key every completion request
+  -- would throw a noisy concatenation error inside openai_base.lua.
+  if not resolve_api_key(provider) then
+    local key_hint = type(provider.api_key) == "string"
+      and ("set $" .. provider.api_key)
+      or "configure the API key"
+    vim.notify(
+      "Minuet: no API key found for provider \"" .. cfg.provider .. "\". "
+        .. "Completions are disabled until you " .. key_hint .. ".",
+      vim.log.levels.WARN
+    )
+    return
+  end
 
   -- Curl wrapper writes usage directly to SQLite. Pass model via env.
   local curl_wrapper = tracker_dir .. "/curl-wrapper.ts"
