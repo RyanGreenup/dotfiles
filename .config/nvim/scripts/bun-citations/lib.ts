@@ -131,6 +131,40 @@ export interface CslItem {
   [key: string]: unknown;
 }
 
+// --- Shared CSL helpers ---
+
+function nameFromCslAuthor(author: CslName): string {
+  return author.literal ?? author.family ?? "Unknown";
+}
+
+function cslYear(item: CslItem): number {
+  return item.issued?.["date-parts"]?.[0]?.[0] ?? new Date().getFullYear();
+}
+
+// --- Cite key generation (BibLaTeX convention: AuthorYearKeyword) ---
+
+function authorSlug(item: CslItem): string {
+  const first = item.author?.[0];
+  const name = first ? nameFromCslAuthor(first) : "anon";
+  return name.replaceAll(/[^a-zA-Z]/g, "").toLowerCase();
+}
+
+function keywordSlug(title: string): string {
+  const stopWords = new Set(["a", "an", "the", "of", "for", "and", "in", "on", "to", "with", "by"]);
+  const word = title
+    .split(/\s+/)
+    .map((w) => w.replaceAll(/[^a-zA-Z]/g, "").toLowerCase())
+    .find((w) => w.length > 0 && !stopWords.has(w));
+  return word ?? "untitled";
+}
+
+export function citeKey(item: CslItem): string {
+  const author = authorSlug(item);
+  const year = cslYear(item);
+  const keyword = keywordSlug(item.title);
+  return `${author}${year}${keyword}`;
+}
+
 // --- Fetching citations ---
 
 export function arxivToDoi(url: string): string | undefined {
@@ -140,14 +174,18 @@ export function arxivToDoi(url: string): string | undefined {
 
 export async function fetchCsl(input: string): Promise<CslItem[]> {
   const cite = await Cite.async(input);
-  return cite.format("data", { format: "object" }) as unknown as CslItem[];
+  const items = cite.format("data", { format: "object" }) as unknown as CslItem[];
+  for (const item of items) {
+    item.id = citeKey(item);
+  }
+  return items;
 }
 
 export async function buildWebCsl(url: string, html: string): Promise<CslItem> {
   const meta = await scrapePage(html, url);
   const today = new Date().toISOString().slice(0, 10).split("-").map(Number);
-  return {
-    id: url,
+  const item: CslItem = {
+    id: "",
     type: "webpage",
     title: meta.title,
     author: [{ literal: meta.author }],
@@ -156,6 +194,8 @@ export async function buildWebCsl(url: string, html: string): Promise<CslItem> {
     accessed: { "date-parts": [today] },
     _scraped: true,
   };
+  item.id = citeKey(item);
+  return item;
 }
 
 async function fetchFromHtml(url: string): Promise<CslItem[]> {
@@ -165,18 +205,18 @@ async function fetchFromHtml(url: string): Promise<CslItem[]> {
   }
   const meta = await scrapeResponse(resp, url);
   const today = new Date().toISOString().slice(0, 10).split("-").map(Number);
-  return [
-    {
-      id: url,
-      type: "webpage",
-      title: meta.title,
-      author: [{ literal: meta.author }],
-      issued: { "date-parts": [[meta.year]] },
-      URL: url,
-      accessed: { "date-parts": [today] },
-      _scraped: true,
-    },
-  ];
+  const item: CslItem = {
+    id: "",
+    type: "webpage",
+    title: meta.title,
+    author: [{ literal: meta.author }],
+    issued: { "date-parts": [[meta.year]] },
+    URL: url,
+    accessed: { "date-parts": [today] },
+    _scraped: true,
+  };
+  item.id = citeKey(item);
+  return [item];
 }
 
 async function tryFetchCsl(input: string): Promise<CslItem[] | undefined> {
@@ -210,17 +250,9 @@ function cslToBibtex(items: CslItem[]): string {
   return cite.format("bibtex").trim();
 }
 
-function nameFromCslAuthor(author: CslName): string {
-  return author.literal ?? author.family ?? "Unknown";
-}
-
 function cslAuthorName(item: CslItem): string {
   const first = item.author?.[0];
   return first ? nameFromCslAuthor(first) : "Unknown";
-}
-
-function cslYear(item: CslItem): number {
-  return item.issued?.["date-parts"]?.[0]?.[0] ?? new Date().getFullYear();
 }
 
 function formatDateParts(parts: number[] | undefined): string {
@@ -230,29 +262,14 @@ function formatDateParts(parts: number[] | undefined): string {
   return parts.map((n) => String(n).padStart(2, "0")).join("-");
 }
 
-function domainSlug(url: string): string {
-  return url ? new URL(url).hostname.replaceAll(/[^a-zA-Z]/g, "") : "unknown";
-}
-
-function titleSlug(title: string): string {
-  return title
-    .split(/\s+/)
-    .slice(0, 2)
-    .join("")
-    .replaceAll(/[^a-zA-Z]/g, "");
-}
-
 function buildWebBibtex(item: CslItem): string {
   const author = cslAuthorName(item);
-  const { title } = item;
   const year = cslYear(item);
   const url = item.URL ?? "";
   const accessed = formatDateParts(item.accessed?.["date-parts"]?.[0]);
-  const domain = domainSlug(url);
-  const slug = titleSlug(title);
   return [
-    `@misc{${domain}${year}${slug},`,
-    `\ttitle = {${escapeLatex(title)}},`,
+    `@misc{${item.id},`,
+    `\ttitle = {${escapeLatex(item.title)}},`,
     `\tauthor = {${escapeLatex(author)}},`,
     `\tyear = {${year}},`,
     `\turl = {${url}},`,
