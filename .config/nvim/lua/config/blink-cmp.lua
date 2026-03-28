@@ -21,17 +21,34 @@ function M.run_setup()
       nerd_font_variant = "mono",
     },
 
+    signature = { enabled = true },
+
     completion = {
+      ghost_text = { enabled = true },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 200,
       },
-      menu = { border = "rounded" },
+      menu = {
+        border = "rounded",
+        draw = {
+          treesitter = { "lsp" },
+        },
+      },
+    },
+
+    fuzzy = {
+      use_typo_resistance = true,
+      sorts = { "exact", "score", "sort_text" },
     },
 
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
+      per_filetype = {
+        lua = { inherit_defaults = true, "lazydev" },
+      },
       providers = {
+        lsp = { fallbacks = { "buffer" } },
         otter = {
           name = "otter",
           module = "blink.compat.source",
@@ -48,6 +65,8 @@ function M.run_setup()
       keymap = { preset = "cmdline" },
       sources = { "buffer", "cmdline" },
     },
+
+    term = { sources = { "buffer", "path" } },
   })
 end
 
