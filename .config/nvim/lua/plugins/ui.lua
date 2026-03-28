@@ -121,7 +121,7 @@ local lualine = {
 
 --- Automatically resize windows
 local focus =
-{ 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = true } } }
+{ 'nvim-focus/focus.nvim', version = '*', opts = { autoresize = { enable = false } } }
 
 local noice_opts = {
   lsp = {
@@ -168,6 +168,15 @@ local autotag = {
   opts = {},
 }
 
+local tailwind_tools = {
+  "luckasRanarison/tailwind-tools.nvim",
+  name = "tailwind-tools",
+  build = ":UpdateRemotePlugins",
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  ft = { "html", "css", "javascriptreact", "typescriptreact", "svelte", "vue", "mdx" },
+  opts = {},
+}
+
 return {
   neotree,
   snacks,
@@ -182,4 +191,5 @@ return {
   noice,
   autopairs,
   autotag,
+  tailwind_tools,
 }

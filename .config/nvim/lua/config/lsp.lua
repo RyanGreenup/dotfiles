@@ -140,6 +140,19 @@ local function configure_lsp_servers()
     end,
   })
 
+  -- jsonls: use SchemaStore.nvim for auto-matching JSON schemas
+  local schemastore_ok, schemastore = pcall(require, "schemastore")
+  if schemastore_ok then
+    vim.lsp.config('jsonls', {
+      settings = {
+        json = {
+          schemas = schemastore.json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    })
+  end
+
   -- Taplo: mise schema managed by lua/plugins/mise/
 
   vim.lsp.config('julials', {

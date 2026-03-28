@@ -35,7 +35,6 @@ M.servers = {
   "ansiblels",
   "qmlls",
   -- "rome",
-  "jsonls",
   "html",
   -- "denols",
   "markdown_oxide", -- 'marksman'
