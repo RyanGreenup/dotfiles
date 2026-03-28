@@ -1,6 +1,9 @@
-local M = {}
+--- Minuet setup: provider config, spinner, and keybindings.
+--- Keybindings are read from lua/config.lua so colleagues can override them.
 
--- Loading indicator: shows a spinner at the cursor while waiting for completions
+local cfg = require("config").minuet
+
+-- Loading spinner: animates at end of cursor line during API requests
 local spinner = {
   frames = { ".", "..", "..." },
   ns = vim.api.nvim_create_namespace("minuet_spinner"),
@@ -39,6 +42,8 @@ local function spinner_stop()
   end)
 end
 
+local M = {}
+
 function M.run_setup()
   require("minuet").setup({
     provider = "openai_compatible",
@@ -46,15 +51,15 @@ function M.run_setup()
     context_window = 512,
     request_timeout = 15,
     throttle = 1500,
-    debounce = 600,
+    debounce = cfg.debounce,
     virtualtext = {
-      -- Start disabled. Toggle with <leader>ai, trigger manually with <A-o>.
+      -- Starts disabled. Toggle with the keybinding in config.lua.
       auto_trigger_ft = {},
       keymap = {
-        accept = "<A-y>",
-        dismiss = "<A-n>",
-        next = "<A-o>",
-        prev = "<A-i>",
+        accept = cfg.accept,
+        dismiss = cfg.dismiss,
+        next = cfg.next,
+        prev = cfg.prev,
       },
     },
     provider_options = {
@@ -77,7 +82,7 @@ function M.run_setup()
     },
   })
 
-  -- Loading spinner driven by minuet's request events
+  -- Spinner autocmds
   local group = vim.api.nvim_create_augroup("MinuetSpinner", { clear = true })
 
   vim.api.nvim_create_autocmd("User", {
@@ -92,8 +97,8 @@ function M.run_setup()
     callback = spinner_stop,
   })
 
-  -- Toggle auto-suggest on/off (safe for sensitive documents)
-  vim.keymap.set("n", "<leader>ai", function()
+  -- Toggle auto-suggest on/off
+  vim.keymap.set("n", cfg.toggle, function()
     require("minuet.virtualtext").action.toggle_auto_trigger()
   end, { desc = "Minuet: toggle auto-suggest" })
 end

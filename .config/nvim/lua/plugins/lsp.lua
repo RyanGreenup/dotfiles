@@ -108,14 +108,6 @@ end
 
 
 
-local minuet = {
-  "milanglacier/minuet-ai.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  config = function()
-    require("config/minuet").run_setup()
-  end,
-}
-
 return {
   -- Neovim Config LSP
   lazydev,
@@ -128,9 +120,6 @@ return {
 
   -- Snippets
   luasnip,
-
-  -- LLM completions
-  minuet,
 
   -- Treesitter
   make_treesitter_table(require('config/treesitter_list').servers),

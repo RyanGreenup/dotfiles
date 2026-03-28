@@ -66,4 +66,12 @@ return {
     repl_open_cmd = 'belowright 15 split',
     python_command = { 'ipython' },
   },
+  minuet = {
+    toggle = '<leader>ai',
+    accept = '<A-y>',
+    dismiss = '<A-n>',
+    next = '<A-o>',
+    prev = '<A-i>',
+    debounce = 50, -- ms after cursor settles before auto-requesting
+  },
 }
