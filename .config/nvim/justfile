@@ -1,7 +1,42 @@
+# Dotfiles bare repo
+dotfiles_dir := env("HOME") / ".local/share/dotfiles"
+home_dir := env("HOME")
+
 # Use podman to compile all the lsp and treesitter artifacts
 # Ideal for testing or systems that don't want makedepends
 init:
     podman build -t neovim-python . && podman run -it --rm -v $(pwd):/workspace -v ~/.config/nvim:/root/.config/nvim -v ~/.local/share/nvim:/root/.local/share/nvim neovim-python nvim
+
+# Test the local nvim config in a clean container
+podman-run:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    podman build -t neovim-python .
+    podman run -it --rm \
+        --security-opt label=disable \
+        -e NVIM_SKIP_MASON=1 \
+        -v "$(pwd):/root/.config/nvim" \
+        -v nvim-test-data:/root/.local/share/nvim \
+        neovim-python bash -c "mkdir -p /usr/local/lib/nvim/parser && nvim"
+
+# Test the committed dotfiles config in a clean container
+# Uses git archive from the bare dotfiles repo so only committed state is tested
+podman-run-committed:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    tmpdir=$(mktemp -d)
+    trap 'rm -rf "$tmpdir"' EXIT
+    # Export the committed nvim config from the dotfiles bare repo
+    git --git-dir "{{dotfiles_dir}}" archive HEAD -- .config/nvim \
+        | tar -x -C "$tmpdir" --strip-components=2
+    # Build image using local Dockerfile (container infra, not config under test)
+    podman build -t neovim-python -f "$(pwd)/Dockerfile" "$tmpdir"
+    podman run -it --rm \
+        --security-opt label=disable \
+        -e NVIM_SKIP_MASON=1 \
+        -v "$tmpdir:/root/.config/nvim" \
+        -v nvim-test-data:/root/.local/share/nvim \
+        neovim-python bash -c "mkdir -p /usr/local/lib/nvim/parser && nvim"
 
 backup-local:
     mv ~/.local/share/nvim ~/.local/share/nvim_bak

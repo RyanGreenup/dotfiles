@@ -26,4 +26,10 @@ RUN apt-get -y install r-cran-tidyverse r-cran-stringr libxml2-dev libcurl4-open
 #     && Rscript -e 'install.packages("languageserver")'
 
 
+# LuaSnip jsregexp build dependency
+RUN apt-get -y install luajit libluajit-5.1-dev
+
 RUN rm -rf /var/lib/apt/lists/*
+
+# Ensure nvim runtime parser directory exists (needed by orgmode tree-sitter install)
+RUN mkdir -p /usr/local/lib/nvim/parser
