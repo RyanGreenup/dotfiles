@@ -161,3 +161,6 @@ nvim --headless "+Lazy! sync" +qa
 ## Julia
 
 See [Julia Sys Images](./julia_images.md).
+
+
+

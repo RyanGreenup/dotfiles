@@ -24,6 +24,7 @@ function M.run_setup()
     signature = { enabled = true },
 
     completion = {
+      trigger = { prefetch_on_insert = false },
       ghost_text = { enabled = true },
       documentation = {
         auto_show = true,
@@ -38,7 +39,6 @@ function M.run_setup()
     },
 
     fuzzy = {
-      use_typo_resistance = true,
       sorts = { "exact", "score", "sort_text" },
     },
 
