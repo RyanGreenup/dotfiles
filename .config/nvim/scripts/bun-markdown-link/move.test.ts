@@ -18,8 +18,9 @@ function fileExists(rel: string): Promise<boolean> {
   return Bun.file(path.join(root, rel)).exists();
 }
 
-function initGit(): Promise<number> {
-  return Bun.write(path.join(root, ".git", "HEAD"), "ref: refs/heads/main\n");
+async function initGit(): Promise<void> {
+  const proc = Bun.spawn(["git", "init"], { cwd: root, stdout: "ignore", stderr: "ignore" });
+  await proc.exited;
 }
 
 function src(rel: string): string {

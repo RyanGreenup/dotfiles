@@ -14,6 +14,10 @@ run = "bun --bun test"
 description = "Compile to standalone binary"
 run = "bun build --compile --bytecode index.ts --outfile cite"
 
+[tasks.bench]
+description = "Run benchmarks"
+run = "bun --bun test bench.test.ts"
+
 [tasks.test-binary]
 description = "Run integration tests against compiled binary"
 depends = ["build"]

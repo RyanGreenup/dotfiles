@@ -20,6 +20,7 @@
     "eslint/func-style": "off",
     "eslint/no-magic-numbers": "off",
     "eslint/sort-keys": "off",
+    "eslint/sort-imports": "off",
     "eslint/max-lines": "off",
     "eslint/id-length": "off",
     "eslint/no-ternary": "off",
@@ -45,5 +46,5 @@
     "typescript/prefer-optional-chain": "error",
     "typescript/no-unnecessary-type-conversion": "error"
   },
-  "ignorePatterns": ["node_modules"]
+  "ignorePatterns": ["node_modules", "bench.test.ts"]
 }

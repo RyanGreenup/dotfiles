@@ -17,11 +17,6 @@ interface LinkNode extends Node {
   type: string;
 }
 
-interface EsmNode extends Node {
-  value: string;
-  type: "mdxjsEsm";
-}
-
 interface SplitResult {
   pathPart: string;
   query: string;
@@ -239,10 +234,6 @@ export function collectUrlEdits(source: string, tree: Parent, rewriter: Rewriter
   return ctx.edits;
 }
 
-function isEsmNode(node: Node): node is EsmNode {
-  return node.type === "mdxjsEsm";
-}
-
 const IMPORT_RE = /from\s+(['"])(\.{1,2}\/[^'"]*)\1/g;
 
 export interface ImportCtx {
@@ -291,6 +282,15 @@ function importMatchToEdit(m: ImportMatch, ctx: EsmEditCtx): Edit | undefined {
   return { offset: ctx.baseOffset + qIdx + 1, length: m.specifier.length, replacement: newSpec };
 }
 
+interface EsmNode extends Node {
+  value: string;
+  type: "mdxjsEsm";
+}
+
+function isEsmNode(node: Node): node is EsmNode {
+  return node.type === "mdxjsEsm";
+}
+
 function collectEsmNodeEdits(node: EsmNode, importCtx: ImportCtx): Edit[] {
   const ctx: EsmEditCtx = {
     value: node.value,
@@ -302,7 +302,7 @@ function collectEsmNodeEdits(node: EsmNode, importCtx: ImportCtx): Edit[] {
     .filter((e): e is Edit => e !== undefined);
 }
 
-export function collectImportEdits(source: string, tree: Parent, ctx: ImportCtx): Edit[] {
+export function collectImportEdits(tree: Parent, ctx: ImportCtx): Edit[] {
   const edits: Edit[] = [];
   visit(tree, (node: Node) => {
     if (isEsmNode(node)) {

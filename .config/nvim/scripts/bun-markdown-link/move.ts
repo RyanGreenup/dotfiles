@@ -13,7 +13,6 @@ import type { Parent } from "unist";
 import { existsSync } from "node:fs";
 import path from "node:path";
 
-const MD_GLOB = "**/*.{md,mdx,mdoc,rmd}";
 const MD_EXTS = new Set([".md", ".mdx", ".mdoc", ".rmd"]);
 
 export function findProjectRoot(startDir: string): string {
@@ -58,7 +57,7 @@ function collectInternalEdits(opts: InternalOpts): Edit[] {
     root,
   };
   const linkEdits = collectUrlEdits(source, tree, buildInternalRewriter(ctx));
-  const importEdits = isMdx(dest) ? collectImportEdits(source, tree, ctx) : [];
+  const importEdits = isMdx(dest) ? collectImportEdits(tree, ctx) : [];
   return [...linkEdits, ...importEdits];
 }
 
@@ -78,8 +77,16 @@ interface ExternalPaths {
   root: string;
 }
 
+function couldReference(source: string, oldPath: string): boolean {
+  const base = path.basename(oldPath);
+  return source.includes(base) || source.includes(encodeURIComponent(base));
+}
+
 export async function updateExternalFile(filePath: string, paths: ExternalPaths): Promise<void> {
   const source = await readText(filePath);
+  if (!couldReference(source, paths.old)) {
+    return;
+  }
   const tree = parse(source, filePath);
   const fileDir = path.dirname(filePath);
   const rewriter = buildExternalRewriter(fileDir, paths);
@@ -90,19 +97,62 @@ export async function updateExternalFile(filePath: string, paths: ExternalPaths)
   await Bun.write(filePath, applyEdits(source, edits));
 }
 
+async function listMarkdownFilesFallback(root: string): Promise<string[]> {
+  const glob = new Bun.Glob("**/*.{md,mdx,mdoc,rmd}");
+  const files: string[] = [];
+  for await (const entry of glob.scan({ cwd: root, absolute: true })) {
+    files.push(entry);
+  }
+  return files;
+}
+
+function warnNoGit(root: string): void {
+  const lines = [
+    "Warning: git is not available or this is not a git repository.",
+    "Falling back to scanning all files including node_modules/.",
+    "This may be slow in large projects.",
+    "",
+    "To fix this, either:",
+    "  1. Install git: https://git-scm.com/downloads",
+    `  2. Run 'git init' in ${root}`,
+    "  3. Add a .gitignore to exclude node_modules/ and other large directories",
+  ];
+  console.warn(lines.join("\n"));
+}
+
+async function listMarkdownFiles(root: string): Promise<string[]> {
+  const args = ["ls-files", "--cached", "--others", "--exclude-standard", "-z"];
+  try {
+    const proc = Bun.spawn(["git", ...args], { cwd: root, stdout: "pipe", stderr: "ignore" });
+    const out = await new Response(proc.stdout).text();
+    const code = await proc.exited;
+    if (code === 0) {
+      return out
+        .split("\0")
+        .filter((f) => MD_EXTS.has(path.extname(f).toLowerCase()))
+        .map((f) => path.resolve(root, f));
+    }
+  } catch {
+    // Git binary not found
+  }
+  warnNoGit(root);
+  return listMarkdownFilesFallback(root);
+}
+
 export async function scanExternalFiles(
   root: string,
   oldPath: string,
   newPath: string,
 ): Promise<void> {
-  const glob = new Bun.Glob(MD_GLOB);
+  const files = await listMarkdownFiles(root);
   const paths = { old: oldPath, new: newPath, root };
+  const resolvedOld = path.resolve(oldPath);
   const resolvedNew = path.resolve(newPath);
-  for await (const entry of glob.scan({ cwd: root, absolute: true })) {
-    if (path.resolve(entry) !== resolvedNew) {
-      await updateExternalFile(entry, paths);
-    }
-  }
+  const skip = new Set([resolvedOld, resolvedNew]);
+  const updates = files
+    .filter((entry) => !skip.has(path.resolve(entry)))
+    .map((entry) => updateExternalFile(entry, paths));
+  await Promise.all(updates);
 }
 
 function resolveDest(src: string, dest: string): string {
