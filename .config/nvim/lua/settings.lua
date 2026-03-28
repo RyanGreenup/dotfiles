@@ -25,7 +25,6 @@ opt.clipboard = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile = false          -- don't use swapfile
 cmd [[
       imap jk <Esc>              " Get jk for Esc
-      let g:markdown_folding=1   " Default Markdown Folding
       ]] --
 
 -- This is required for some FUSE and NFS stuff, see <https://github.com/RyanGreenup/joplin_sqlite_fuse/commit/6d03b93a26f645c76129b809161a34bddf2452b7>

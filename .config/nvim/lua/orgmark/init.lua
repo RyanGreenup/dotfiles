@@ -9,6 +9,15 @@ local M = {}
 --- and display settings for markdown buffers.
 ---@param opts? table  User configuration overrides (see config.lua for defaults)
 function M.setup(opts)
+  -- Pull from the declarative config file when no explicit opts are given.
+  if not opts then
+    local user_cfg = require('config')
+    opts = {
+      folding = {
+        startup_folded = user_cfg.markdown.startup_folded,
+      },
+    }
+  end
   local cfg = config.setup(opts)
 
   vim.api.nvim_create_autocmd('FileType', {

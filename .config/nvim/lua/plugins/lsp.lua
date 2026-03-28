@@ -97,7 +97,7 @@ local function make_mason_table(ensure_installed)
       { 'mason-org/mason.nvim', opts = {} },
     },
     opts = {
-      ensure_installed = ensure_installed,
+      ensure_installed = vim.env.NVIM_SKIP_MASON and {} or ensure_installed,
       automatic_enable = false
     }
   }
