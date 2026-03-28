@@ -1,10 +1,10 @@
 # Minuet: LLM Inline Completions
 
-Ghost-text code suggestions powered by an LLM, shown as virtual text in insert mode.
+Ghost-text code suggestions from an LLM, shown as virtual text in insert mode.
 
 ## Setup
 
-Minuet needs an OpenAI-compatible API key at `~/.local/keys/openai.key` (one line, no
+Minuet reads an OpenAI-compatible API key from `~/.local/keys/openai.key` (one line, no
 trailing newline). The default provider is `gpt-4.1-mini` via the OpenAI chat endpoint.
 
 To switch providers, edit `settings.lua` under `provider_options`. Any
@@ -12,7 +12,7 @@ OpenAI-compatible endpoint works (OpenRouter, Ollama, etc.).
 
 ## Keybindings
 
-All keybindings are defined in `lua/config.lua` under the `minuet` key. Override them
+All keybindings live in `lua/config.lua` under the `minuet` key. Override them
 there, not in the plugin files.
 
 | Key          | Mode   | Action                                     |
@@ -23,17 +23,17 @@ there, not in the plugin files.
 | `<A-y>`      | insert | Accept the current suggestion              |
 | `<A-n>`      | insert | Dismiss the current suggestion             |
 
-Auto-suggest starts **disabled** by default so nothing fires until you toggle it on.
+Auto-suggest starts **disabled** by default, so nothing fires until you toggle it on.
 This prevents accidental API calls when editing sensitive documents.
 
 `<A-o>` doubles as a manual trigger: press it with no suggestion showing and minuet
-requests one on the spot, regardless of whether auto-suggest is enabled.
+requests one on the spot, whether or not auto-suggest is enabled.
 
 ## Loading indicator
 
 A `...` animation appears at the end of the cursor line while a request is in flight.
 It uses minuet's `MinuetRequestStarted` / `MinuetRequestFinished` autocmd events and
-clears itself when the response arrives or the request is cancelled.
+clears when the response arrives or the request is cancelled.
 
 ## Files
 
@@ -47,7 +47,7 @@ clears itself when the response arrives or the request is cancelled.
 
 **"Provide at most 1 completion items"**: if cycling does nothing, check
 `:messages` for this string in the system prompt. It means `n_completions` resolved
-to 1. Restart Neovim after changing the config file; minuet reads it once at setup.
+to 1. Restart Neovim after changing the config; minuet reads it once at setup.
 
 **Single suggestion despite n_completions=3**: chat-based models (gpt-4.1-mini) encode
 the count as a prompt hint. The model may still return fewer. FIM-capable endpoints
