@@ -292,7 +292,7 @@ Per-project keybindings via mise tasks. Define =[tasks.key-<x>]= in your project
 bind ctrl-g         "mise run key-g             2>/dev/null; or echo 'no key-g task';             commandline -f repaint"
 bind ctrl-i         "mise run key-g             2>/dev/null; or echo 'no key-g task';             commandline -f repaint"
 bind alt-g          "mise run key-alt-g         2>/dev/null; or echo 'no key-alt-g task';         commandline -f repaint"
-bind alt-backspace  "mise run key-alt-backspace 2>/dev/null; or echo 'no key-alt-backspace task'; commandline -f repaint"
+bind alt-backspace  "mise run key-alt-backspace 2>/dev/null; or commandline -f backward-kill-word"
 #+end_src
 ** Atuin
 :PROPERTIES:
