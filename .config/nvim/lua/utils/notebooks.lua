@@ -1,7 +1,7 @@
 local M = {}
 
 local function n(string)
-  require('notify')(string)
+  vim.notify(string)
 end
 
 local function on_output(jobid, data, event)
@@ -61,7 +61,7 @@ local function Revert_buffer_pairs()
         ":e")
       for _, buf_ext in ipairs(exts) do
         if string.lower(fileext) == string.lower(buf_ext) then
-          require('notify')(fileext .. buf_ext)
+          vim.notify(fileext .. buf_ext)
           vim.api.nvim_buf_call(buf, function() vim.cmd("e!") end)
         end
       end
@@ -154,7 +154,7 @@ local function jupytext_render_markdown(use_quarto, open_markdown)
   local kernel = ""
   if string.lower(vim.fn.expand("%:e")) == "r" then
     kernel = "--ExecutePreprocessor.kernel_name=ir"
-    require('notify')(string.lower(vim.fn.expand(":e")))
+    vim.notify(string.lower(vim.fn.expand(":e")))
   end
 
   -- Render markdown with quarto or jupyter
@@ -168,7 +168,7 @@ local function jupytext_render_markdown(use_quarto, open_markdown)
   else
     -- how to pass --kernel ir to jupyter?
     local cmd = "jupyter nbconvert " .. vim.fn.expand("%:r") .. ".ipynb " .. kernel .. " --execute  --to markdown"
-    require('notify')(cmd)
+    vim.notify(cmd)
     vim.cmd("! " .. cmd)
   end
 

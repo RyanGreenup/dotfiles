@@ -33,9 +33,10 @@ function M.setup(opts)
       -- Set up all keymaps (folding, headings, lists, etc.)
       require('orgmark.keymaps').setup(ev.buf)
 
-      -- Enable conceal for link display
-      vim.wo.conceallevel = 2
-      vim.wo.concealcursor = 'nc'
+      -- Conceal settings from central config
+      local md_cfg = require('config').markdown
+      vim.wo.conceallevel = md_cfg.conceallevel or 0
+      vim.wo.concealcursor = md_cfg.concealcursor or 'nc'
     end,
   })
 end

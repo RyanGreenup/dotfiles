@@ -42,7 +42,7 @@ vim.api.nvim_set_keymap('n', '<C-M-CR>', '',
 -- Notification Function -------------------------------------------------------
 local function notify(filetype, target_pane)
   local message = "Slime: " .. "Detected: " .. filetype .. " using tmux: " .. target_pane
-  require('notify')(message)
+  vim.notify(message)
 end
 
 local function configure_slime(filetype, cell_delimiter)

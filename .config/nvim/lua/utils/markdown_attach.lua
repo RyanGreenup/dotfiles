@@ -52,7 +52,7 @@ end
 local function on_exit(filepath)
   -- read file into string
   local target_file = read_file(filepath)
-  require('notify')("File attached: " .. target_file)
+  vim.notify("File attached: " .. target_file)
   vim.cmd("bdelete")  -- close the buffer
   os.remove(filepath) -- delete the file
 

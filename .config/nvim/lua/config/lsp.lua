@@ -125,6 +125,21 @@ local function configure_lsp_servers()
     return vim.fs.dirname(vim.fs.find('.git', { path = name, upward = true })[1])
   end
 
+  -- mdx_analyzer requires TypeScript in the project
+  vim.lsp.config('mdx_analyzer', {
+    on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+      local root = client.config.root_dir or vim.fn.getcwd()
+      local ts_path = root .. "/node_modules/typescript/lib/typescript.js"
+      if vim.fn.filereadable(ts_path) == 0 then
+        vim.notify(
+          "mdx_analyzer: TypeScript not found in project. Run `npm install typescript` in " .. root,
+          vim.log.levels.WARN
+        )
+      end
+    end,
+  })
+
   -- Taplo: mise schema managed by lua/plugins/mise/
 
   vim.lsp.config('julials', {

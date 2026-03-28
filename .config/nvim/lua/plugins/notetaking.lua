@@ -6,7 +6,7 @@ local md_in_buffer_preview = {
   'MeanderingProgrammer/render-markdown.nvim',
   name = 'render-markdown',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  ft = { 'markdown', 'mdx' },
+  ft = require('config').markdown.filetypes,
   opts = {
     start_enabled = require('config').markdown.render_on_open,
     heading = {

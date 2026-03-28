@@ -7,8 +7,6 @@ local wk = require("which-key")
 -- Keybindings aim for some degree of consistency with
 -- [Mappings](https://docs.astronvim.com/mappings)
 
-local n = require('notify')
-
 local theme = "ivy" -- Allowed: dropdown, ivy, ...
 wk.add({
   { "<leader><leader>", require('telescope.builtin').find_files, desc = "fzf" },
@@ -189,7 +187,7 @@ function Which_key_modal_bind()
       { "q", function() Which_key_mode = "normal" end, desc = "Quit" },
       {
         mode = { "i", "n" },
-        { "dm", function() n('Hello') end, desc = "Quit", cond = Which_key_mode == "latex" },
+        { "dm", function() vim.notify('Hello') end, desc = "Quit", cond = Which_key_mode == "latex" },
       }
     })
   end
@@ -282,7 +280,8 @@ wk.add({
     -- { "<leader>na",  Attach_file,                                      desc = "Prompt User to attach file under ./assets" },
     { "<leader>na",  function() require("utils/markdown_attach").attach_file() end, desc = "Prompt User to attach file under ./assets" },
     { "<leader>nz",  Search_notes_fzf,                                              desc = "Search Notes using Embeddings" },
-    { "<leader>nm",  function() require("utils.markdown_move").pick_and_move() end,  desc = "Move File to Directory" },
+    { "<leader>nm",  function() require("utils.markdown_move").pick_and_move() end,        desc = "Move File to Directory" },
+    { "<leader>nk",  function() require("utils.markdown_move").pick_and_insert_link() end, desc = "Insert Markdown Link" },
     { "<leader>nj",  group = "Notes" }, -- group
   }
 })
@@ -309,7 +308,8 @@ wk.add({
   {
     { "<leader>ta", function() require('utils/toggle_autosave').toggle() end,   desc = "Autosave",              mode = "n" },
     { "<leader>td", function() require('config.themes').toggle() end,           desc = "Toggle Dark",           mode = "n" },
-    { "<leader>tn", require('notify').dismiss,                                  desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tn", function() Snacks.notifier.hide() end,                      desc = "Dismiss notifications", mode = "n" },
+    { "<leader>tN", function() Snacks.notifier.show_history() end,               desc = "Notification history",  mode = "n" },
     { "<leader>tx", "<cmd>split<CR><cmd>terminal tx<CR>",                       desc = "Dismiss notifications", mode = "n" },
     { "<leader>tf", require('telescope.builtin').filetypes,                     desc = "Filetype",              mode = "n" },
     { "<leader>th", require('utils/misc').conceal_toggle,                       desc = "Conceal",               mode = "n" },
@@ -432,7 +432,7 @@ wk.add({
       "<leader>vA",
       function()
         require('utils/markdown_toggle_autocmd_vscode').toggle()
-        require('notify')("Auto VSCode Markdown Preview")
+        vim.notify("Auto VSCode Markdown Preview")
       end,
       desc = "Auto VSCode Markdown Preview",
       mode = "n"

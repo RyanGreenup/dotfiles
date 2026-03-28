@@ -3,8 +3,9 @@
 --------------------------------------------------------------------------------
 
 local comments = {
-  "numToStr/Comment.nvim",
+  "folke/ts-comments.nvim",
   opts = {},
+  event = "VeryLazy",
 }
 
 --- Annotation Generator
@@ -33,6 +34,8 @@ local bqf = { 'kevinhwang91/nvim-bqf' }
 --------------------------------------------------------------------------------
 -- Syntax ----------------------------------------------------------------------
 --------------------------------------------------------------------------------
+
+local mdx = { "davidmh/mdx.nvim", lazy = false }
 
 local ron = { "https://github.com/ron-rs/ron.vim" }
 local kdl = { "https://github.com/imsnif/kdl.vim" }
@@ -117,6 +120,7 @@ return {
   neogen,
   docs_view,
   neotest,
+  mdx,
   ron,
   kdl,
   xonsh,

@@ -52,6 +52,9 @@ return {
     render_on_open = false,
     fold_ellipsis = '…',
     fold_show_line_count = true,
+    conceallevel = 0,
+    concealcursor = 'nc',
+    filetypes = { 'markdown', 'mdx', 'mdoc', 'rmd', 'qmd', 'quarto' },
   },
   vimtex = {
     viewer = 'zathura',

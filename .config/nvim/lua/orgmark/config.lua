@@ -6,7 +6,7 @@ local M = {}
 --- Submodules reference `M.current` after setup has run.
 ---@type table
 M.defaults = {
-  filetypes = { 'markdown', 'mdx' },
+  filetypes = require('config').markdown.filetypes or { 'markdown', 'mdx' },
   folding = {
     startup_folded = 'content', -- 'overview' | 'content' | 'showeverything'
     ellipsis = '…',
