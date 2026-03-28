@@ -80,7 +80,7 @@ return {
     --   openai:             gpt-4.1-mini, key at ~/.local/keys/openai.key
     provider = 'cerebras',
     debug = true, -- log request lifecycle to :messages
-    cost_display = '<leader>ac', -- show session token usage and cost
+    cost_display = '<leader>au', -- show session token usage and cost
     -- Per-million-token pricing (USD). Update when switching providers.
     cost_per_million_input = 0.60,
     cost_per_million_output = 1.20,

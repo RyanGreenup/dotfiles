@@ -58,16 +58,16 @@ Then in Neovim: `:LspInstall r_language_server` (~10 min on slow machines).
 
 The [`Dockerfile`](Dockerfile) serves as the canonical list of system dependencies. Key requirements:
 
-| Dependency | Purpose |
-|---|---|
-| `neovim` >= 0.11 | Editor |
-| `git` | Plugin management (lazy.nvim) |
-| `uv` | Python LSP servers (basedpyright, ruff) via `uvx` |
-| `tree-sitter-cli` | Treesitter parser compilation |
-| `cmake`, `gcc`/`clang` | Native telescope-fzf, treesitter parsers |
-| `npm` | Tree-sitter CLI, LSP servers via mason |
-| `luajit`, `libluajit-5.1-dev` | LuaSnip jsregexp build |
-| `unzip` | Mason LSP server extraction |
+| Dependency                    | Purpose                                           |
+| ----------------------------- | ------------------------------------------------- |
+| `neovim` >= 0.11              | Editor                                            |
+| `git`                         | Plugin management (lazy.nvim)                     |
+| `uv`                          | Python LSP servers (basedpyright, ruff) via `uvx` |
+| `tree-sitter-cli`             | Treesitter parser compilation                     |
+| `cmake`, `gcc`/`clang`        | Native telescope-fzf, treesitter parsers          |
+| `npm`                         | Tree-sitter CLI, LSP servers via mason            |
+| `luajit`, `libluajit-5.1-dev` | LuaSnip jsregexp build                            |
+| `unzip`                       | Mason LSP server extraction                       |
 
 Python LSP servers (basedpyright, ruff) are managed by `uv` rather than Mason's venvs — see [`lua/config/lsp.lua`](lua/config/lsp.lua). On first use, `uvx` auto-downloads and caches the tools.
 
@@ -162,5 +162,11 @@ nvim --headless "+Lazy! sync" +qa
 
 See [Julia Sys Images](./julia_images.md).
 
+## Copilot / Minuet
 
+Instead of copilot we use minuet with Cerebras for instant code suggestions and
+completions directly in NeoVim, ensuring low latency and privacy.This setup
+requires a `CEREBRAS_API_KEY` configured in your environment variables.
 
+one can get the token usage with the keybinding `<leader>au` or with the
+command `:MinuetUsage<CR>`. This is implemented in `./scripts/bun-minuet-tracker/`.

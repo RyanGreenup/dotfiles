@@ -243,7 +243,7 @@ function M.run_setup()
   end, { desc = "Minuet: toggle auto-suggest" })
 
   -- Cost display: runs bun-minuet-tracker and shows the result
-  vim.keymap.set("n", cfg.cost_display, function()
+  local function show_usage()
     vim.fn.jobstart({
       "bun", "run", tracker_dir .. "/index.ts",
       "--since", session_start,
@@ -260,7 +260,10 @@ function M.run_setup()
         end
       end,
     })
-  end, { desc = "Minuet: show session cost" })
+  end
+
+  vim.keymap.set("n", cfg.cost_display, show_usage, { desc = "Minuet: show session cost" })
+  vim.api.nvim_create_user_command("MinuetUsage", show_usage, { desc = "Show minuet session token usage and cost" })
 end
 
 return M
