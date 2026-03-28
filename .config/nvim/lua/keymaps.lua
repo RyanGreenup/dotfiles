@@ -124,7 +124,6 @@ map('n', '<C-m>', ':Outline<CR>', default_opts) -- open/close
 ------------------------------------------------------------
 map('n', '<C-PageDown>', '<cmd>lua Change_dayplanner_line(-30)<CR>', default_opts)
 map('n', '<C-PageUp>', '<cmd>lua Change_dayplanner_line(30)<CR>', default_opts)
-map('i', '<M-l>', '<cmd>lua My_snippy_state.toggles.latex()<CR>', default_opts)
 
 
 -- vim.cmd [[ autocmd BufEnter *.md :map <f2> :! pandoc -s --katex "%" -o "%".html && chromium "%".html & disown <Enter> <Enter> ]]
@@ -257,14 +256,26 @@ end
 
 -- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
 
--- Keybindings for Snippy
-vim.cmd [[
-imap <expr> <Tab> snippy#can_expand_or_advance() ? '<Plug>(snippy-expand-or-advance)' : '<Tab>'
-imap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
-smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>'
-smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
-xmap <Tab> <Plug>(snippy-cut-text)
-]]
+-- Keybindings for LuaSnip
+local ls = require("luasnip")
+
+vim.keymap.set("i", "<Tab>", function()
+  if ls.expand_or_locally_jumpable() then
+    ls.expand_or_jump()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+  end
+end, { silent = true })
+
+vim.keymap.set({"i", "s"}, "<S-Tab>", function()
+  if ls.jumpable(-1) then ls.jump(-1)
+  else vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true), "n", false) end
+end, { silent = true })
+
+vim.keymap.set("s", "<Tab>", function()
+  if ls.jumpable(1) then ls.jump(1)
+  else vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false) end
+end, { silent = true })
 
 -- Tabby
 -- /home/ryan/.tabby-client/agent/config.toml

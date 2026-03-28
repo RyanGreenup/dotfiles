@@ -1,0 +1,11 @@
+
+snippet enum "Generate enums this way to avoid runtime JavaScript."
+	export const Runtime = {
+	  kind: "kind",
+	  k0s: "k0s",
+	  k3s: "k3s",
+	  minikube: "minikube",
+	  podman: "podman",
+	};
+	type Runtime = (typeof Runtime)[keyof typeof Runtime];
+

@@ -48,15 +48,15 @@ local cmp = {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     {
-      "dcampos/cmp-snippy",
+      "saadparwaiz1/cmp_luasnip",
       dependencies = {
         {
-          "dcampos/nvim-snippy",
-          dependencies = {
-            "honza/vim-snippets"
-          },
+          "L3MON4D3/LuaSnip",
+          version = "v2.*",
+          build = "make install_jsregexp",
+          dependencies = { "honza/vim-snippets" },
           config = function()
-            require("config/snippy").run_setup()
+            require("config/luasnip").run_setup()
           end,
         },
       },

@@ -40,10 +40,7 @@ local lspkind_formatting = require("lspkind").cmp_format({
 -- This function is intended to be used as a callback for a completion source in Neovim.
 -- @param args table A table containing the arguments passed by Neovim's completion API. The 'body' field of this table contains the text that needs to be expanded into a snippet.
 local function snippet_expand(args)
-	-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-	-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-	-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-	require("snippy").expand_snippet(args.body) -- For `snippy` users.
+	require("luasnip").lsp_expand(args.body)
 end
 
 --- Table of completions for the cmp menu
@@ -78,7 +75,7 @@ local cmp_sources = {
 	{ name = "nvim_lsp" },
 	{ name = "otter" },
 	{ name = "conjure" },
-	{ name = "snippy" },
+	{ name = "luasnip" },
 	{ name = "buffer" },
 	{ name = "path" },
 }

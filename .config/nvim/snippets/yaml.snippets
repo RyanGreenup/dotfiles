@@ -1,0 +1,423 @@
+# Kubernetes Resources
+
+snippet deploy "Deployment"
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: ${1:my-app}
+	  namespace: ${2:default}
+	  labels:
+	    app: $1
+	spec:
+	  replicas: ${3:1}
+	  selector:
+	    matchLabels:
+	      app: $1
+	  template:
+	    metadata:
+	      labels:
+	        app: $1
+	    spec:
+	      containers:
+	        - name: $1
+	          image: ${4:nginx:latest}
+	          ports:
+	            - containerPort: ${5:80}
+	$0
+
+snippet svc "Service"
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: ${1:my-service}
+	  namespace: ${2:default}
+	spec:
+	  selector:
+	    app: ${3:my-app}
+	  ports:
+	    - port: ${4:80}
+	      targetPort: ${5:80}
+	      protocol: TCP
+	  type: ${6:ClusterIP}
+	$0
+
+snippet ing "Ingress"
+	apiVersion: networking.k8s.io/v1
+	kind: Ingress
+	metadata:
+	  name: ${1:my-ingress}
+	  namespace: ${2:default}
+	spec:
+	  rules:
+	    - host: ${3:example.com}
+	      http:
+	        paths:
+	          - path: ${4:/}
+	            pathType: Prefix
+	            backend:
+	              service:
+	                name: ${5:my-service}
+	                port:
+	                  number: ${6:80}
+	$0
+
+snippet cm "ConfigMap"
+	apiVersion: v1
+	kind: ConfigMap
+	metadata:
+	  name: ${1:my-config}
+	  namespace: ${2:default}
+	data:
+	  ${3:key}: ${4:value}
+	$0
+
+snippet secret "Secret"
+	apiVersion: v1
+	kind: Secret
+	metadata:
+	  name: ${1:my-secret}
+	  namespace: ${2:default}
+	type: ${3:Opaque}
+	stringData:
+	  ${4:key}: ${5:value}
+	$0
+
+snippet ns "Namespace"
+	apiVersion: v1
+	kind: Namespace
+	metadata:
+	  name: ${1:my-namespace}
+	  labels:
+	    environment: ${2:dev}
+	$0
+
+snippet pvc "PersistentVolumeClaim"
+	apiVersion: v1
+	kind: PersistentVolumeClaim
+	metadata:
+	  name: ${1:my-pvc}
+	  namespace: ${2:default}
+	spec:
+	  accessModes:
+	    - ${3:ReadWriteOnce}
+	  resources:
+	    requests:
+	      storage: ${4:1Gi}
+	$0
+
+snippet job "Job"
+	apiVersion: batch/v1
+	kind: Job
+	metadata:
+	  name: ${1:my-job}
+	  namespace: ${2:default}
+	spec:
+	  template:
+	    spec:
+	      containers:
+	        - name: $1
+	          image: ${3:busybox}
+	          command: [${4:"echo", "hello"}]
+	      restartPolicy: Never
+	  backoffLimit: ${5:3}
+	$0
+
+snippet cron "CronJob"
+	apiVersion: batch/v1
+	kind: CronJob
+	metadata:
+	  name: ${1:my-cronjob}
+	  namespace: ${2:default}
+	spec:
+	  schedule: "${3:*/5 * * * *}"
+	  jobTemplate:
+	    spec:
+	      template:
+	        spec:
+	          containers:
+	            - name: $1
+	              image: ${4:busybox}
+	              command: [${5:"echo", "hello"}]
+	          restartPolicy: Never
+	$0
+
+snippet sts "StatefulSet"
+	apiVersion: apps/v1
+	kind: StatefulSet
+	metadata:
+	  name: ${1:my-statefulset}
+	  namespace: ${2:default}
+	spec:
+	  serviceName: ${3:my-service}
+	  replicas: ${4:1}
+	  selector:
+	    matchLabels:
+	      app: $1
+	  template:
+	    metadata:
+	      labels:
+	        app: $1
+	    spec:
+	      containers:
+	        - name: $1
+	          image: ${5:nginx:latest}
+	          ports:
+	            - containerPort: ${6:80}
+	$0
+
+snippet ds "DaemonSet"
+	apiVersion: apps/v1
+	kind: DaemonSet
+	metadata:
+	  name: ${1:my-daemonset}
+	  namespace: ${2:default}
+	spec:
+	  selector:
+	    matchLabels:
+	      app: $1
+	  template:
+	    metadata:
+	      labels:
+	        app: $1
+	    spec:
+	      containers:
+	        - name: $1
+	          image: ${3:nginx:latest}
+	          ports:
+	            - containerPort: ${4:80}
+	$0
+
+snippet sa "ServiceAccount"
+	apiVersion: v1
+	kind: ServiceAccount
+	metadata:
+	  name: ${1:my-sa}
+	  namespace: ${2:default}
+	$0
+
+snippet role "Role"
+	apiVersion: rbac.authorization.k8s.io/v1
+	kind: Role
+	metadata:
+	  name: ${1:my-role}
+	  namespace: ${2:default}
+	rules:
+	  - apiGroups: ["${3:}"]
+	    resources: ["${4:pods}"]
+	    verbs: ["${5:get}", "list", "watch"]
+	$0
+
+snippet rb "RoleBinding"
+	apiVersion: rbac.authorization.k8s.io/v1
+	kind: RoleBinding
+	metadata:
+	  name: ${1:my-rolebinding}
+	  namespace: ${2:default}
+	subjects:
+	  - kind: ServiceAccount
+	    name: ${3:my-sa}
+	    namespace: $2
+	roleRef:
+	  kind: Role
+	  name: ${4:my-role}
+	  apiGroup: rbac.authorization.k8s.io
+	$0
+
+snippet hpa "HorizontalPodAutoscaler"
+	apiVersion: autoscaling/v2
+	kind: HorizontalPodAutoscaler
+	metadata:
+	  name: ${1:my-hpa}
+	  namespace: ${2:default}
+	spec:
+	  scaleTargetRef:
+	    apiVersion: apps/v1
+	    kind: Deployment
+	    name: ${3:my-app}
+	  minReplicas: ${4:1}
+	  maxReplicas: ${5:10}
+	  metrics:
+	    - type: Resource
+	      resource:
+	        name: cpu
+	        target:
+	          type: Utilization
+	          averageUtilization: ${6:80}
+	$0
+
+snippet probe "Liveness + Readiness probes"
+	livenessProbe:
+	  httpGet:
+	    path: ${1:/healthz}
+	    port: ${2:80}
+	  initialDelaySeconds: ${3:10}
+	  periodSeconds: ${4:10}
+	readinessProbe:
+	  httpGet:
+	    path: ${5:/ready}
+	    port: $2
+	  initialDelaySeconds: ${6:5}
+	  periodSeconds: ${7:5}
+	$0
+
+snippet limits "Resource limits"
+	resources:
+	  requests:
+	    cpu: ${1:100m}
+	    memory: ${2:128Mi}
+	  limits:
+	    cpu: ${3:500m}
+	    memory: ${4:256Mi}
+	$0
+
+snippet --- "Document separator"
+	---
+	$0
+
+snippet container "Container entry"
+	- name: ${1:my-container}
+	  image: ${2:nginx:latest}
+	  ports:
+	    - containerPort: ${3:80}
+	  env:
+	    - name: ${4:MY_VAR}
+	      value: ${5:my-value}
+	$0
+
+snippet envfrom "Env from ConfigMap/Secret"
+	envFrom:
+	  - configMapRef:
+	      name: ${1:my-config}
+	  - secretRef:
+	      name: ${2:my-secret}
+	$0
+
+# Network Policies
+# Pattern: apply #1 to every namespace, then layer #2-#5 as needed.
+
+# 1. Default deny all — baseline for every namespace
+snippet netpol-deny "Default deny all ingress+egress in namespace"
+	apiVersion: networking.k8s.io/v1
+	kind: NetworkPolicy
+	metadata:
+	  name: default-deny-all
+	  namespace: ${1:default}
+	spec:
+	  podSelector: {}
+	  policyTypes:
+	    - Ingress
+	    - Egress
+	  ingress: []
+	  egress:
+	    - to:
+	        - namespaceSelector: {}
+	          podSelector:
+	            matchLabels:
+	              k8s-app: kube-dns
+	      ports:
+	        - port: 53
+	          protocol: UDP
+	        - port: 53
+	          protocol: TCP
+	$0
+
+# 2. Allow ingress from same namespace — frontend/backend/cache talking freely
+snippet netpol-same-ns "Allow ingress from same namespace"
+	apiVersion: networking.k8s.io/v1
+	kind: NetworkPolicy
+	metadata:
+	  name: ${1:allow-same-namespace}
+	  namespace: ${2:default}
+	spec:
+	  podSelector: {}
+	  policyTypes:
+	    - Ingress
+	  ingress:
+	    - from:
+	        - podSelector: {}
+	$0
+
+# 3. Allow ingress from specific namespace — ingress controller, monitoring, shared services
+snippet netpol-from-ns "Allow ingress from specific namespace"
+	apiVersion: networking.k8s.io/v1
+	kind: NetworkPolicy
+	metadata:
+	  name: ${1:allow-from-namespace}
+	  namespace: ${2:default}
+	spec:
+	  podSelector:
+	    matchLabels:
+	      app: ${3:my-app}
+	  policyTypes:
+	    - Ingress
+	  ingress:
+	    - from:
+	        - namespaceSelector:
+	            matchLabels:
+	              kubernetes.io/metadata.name: ${4:ingress-nginx}
+	$0
+
+# 4. Allow egress to external — third-party APIs, external DBs, includes DNS
+snippet netpol-egress "Allow egress to external IPs/CIDRs"
+	apiVersion: networking.k8s.io/v1
+	kind: NetworkPolicy
+	metadata:
+	  name: ${1:allow-external-egress}
+	  namespace: ${2:default}
+	spec:
+	  podSelector:
+	    matchLabels:
+	      app: ${3:my-app}
+	  policyTypes:
+	    - Egress
+	  egress:
+	    - to:
+	        - ipBlock:
+	            cidr: ${4:0.0.0.0/0}
+	      ports:
+	        - port: ${5:443}
+	          protocol: TCP
+	    - to:
+	        - namespaceSelector: {}
+	          podSelector:
+	            matchLabels:
+	              k8s-app: kube-dns
+	      ports:
+	        - port: 53
+	          protocol: UDP
+	        - port: 53
+	          protocol: TCP
+	$0
+
+# 5. Allow ingress on specific port from specific pod — the surgical one
+snippet netpol-port "Allow ingress on port from specific pods"
+	apiVersion: networking.k8s.io/v1
+	kind: NetworkPolicy
+	metadata:
+	  name: ${1:allow-frontend-to-api}
+	  namespace: ${2:default}
+	spec:
+	  podSelector:
+	    matchLabels:
+	      app: ${3:api}
+	  policyTypes:
+	    - Ingress
+	  ingress:
+	    - from:
+	        - podSelector:
+	            matchLabels:
+	              app: ${4:frontend}
+	      ports:
+	        - port: ${5:8080}
+	          protocol: TCP
+	$0
+
+snippet vol "Volume + VolumeMount pair"
+	volumeMounts:
+	  - name: ${1:my-volume}
+	    mountPath: ${2:/data}
+	volumes:
+	  - name: $1
+	    persistentVolumeClaim:
+	      claimName: ${3:my-pvc}
+	$0

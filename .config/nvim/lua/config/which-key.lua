@@ -287,7 +287,6 @@ wk.add({
 wk.add({
   { "<leader>t",  group = "toggle" },
   { "<leader>to", require('utils/telescope_stream_ollama_model').choose_model, desc = "Ollama Model" },
-  { "<leader>ts", group = "Snippets Mode" },
   {
     "<leader>tg",
     function()
@@ -296,10 +295,6 @@ wk.add({
     end,
     desc = "Testing"
   },
-  -- The old approach of using a symlink
-  { "<leader>tsL", require('config/snippy_symlink_toggle').toggle,      desc = "Toggle Auto LaTeX Snippets", mode = "n" },
-  { "<leader>tsa", function() My_snippy_state.toggles.contextual() end, desc = "Contextual LaTeX" },
-  { "<leader>tsl", function() My_snippy_state.toggles.latex() end,      desc = "LaTeX Mode" }
 })
 
 
@@ -336,11 +331,6 @@ wk.add({
   }
 })
 
-wk.add({
-  { "<leader>ts", group = "Toggle+Snippets" }, -- group
-  {
-  }
-})
 
 wk.add({
   { "<leader>j",  group = "Jupyter Notebook",                                       icon = { cat = "extension", name = "ipynb" } }, -- group

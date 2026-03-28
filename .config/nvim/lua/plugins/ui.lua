@@ -92,15 +92,6 @@ local lualine = {
         lualine_c = { { 'filename', path = 1, } },
         lualine_a = { "mode",
           function()
-            local state = ""
-            if My_snippy_state ~= nil then
-              if My_snippy_state.Mode.latex then
-                state = state .. "$$"
-              end
-            end
-            return state
-          end,
-          function()
             if require("utils/tsutils_math").in_mathzone() then
               return "󰘦"
             else
