@@ -23,8 +23,9 @@ export interface UsageSummary {
  * Query usage aggregated since `since` (unix seconds).
  * Costs are computed by the `v_usage_cost` view using the `model_pricing` table.
  */
-export function querySince(db: Database, since: number = 0): UsageSummary {
-  const row = db.query(`
+export function querySince(db: Database, since = 0): UsageSummary {
+  const row = db
+    .query(`
     SELECT
       COUNT(*)                                AS requests,
       COALESCE(SUM(prompt_tokens), 0)         AS promptTokens,
@@ -35,9 +36,20 @@ export function querySince(db: Database, since: number = 0): UsageSummary {
       COALESCE(SUM(total_cost), 0)            AS totalCost
     FROM v_usage_cost
     WHERE ts >= $since
-  `).get({ $since: since }) as UsageSummary | undefined;
+  `)
+    .get({ $since: since }) as UsageSummary | undefined;
 
-  return row ?? { requests: 0, promptTokens: 0, completionTokens: 0, totalTokens: 0, inputCost: 0, outputCost: 0, totalCost: 0 };
+  return (
+    row ?? {
+      requests: 0,
+      promptTokens: 0,
+      completionTokens: 0,
+      totalTokens: 0,
+      inputCost: 0,
+      outputCost: 0,
+      totalCost: 0,
+    }
+  );
 }
 
 /**
@@ -52,7 +64,14 @@ export function queryToday(db: Database): UsageSummary {
 /**
  * Format a single section (session/today/all-time) as two lines.
  */
-function formatSection(icon: string, label: string, s: UsageSummary, last: boolean): string {
+interface SectionOpts {
+  icon: string;
+  label: string;
+  summary: UsageSummary;
+  last: boolean;
+}
+
+function formatSection({ icon, label, summary: s, last }: SectionOpts): string {
   const branch = last ? "╰─" : "├─";
   const pipe = last ? "  " : "│ ";
   const cost = `$${s.totalCost.toFixed(4)}`;
@@ -65,8 +84,8 @@ function formatSection(icon: string, label: string, s: UsageSummary, last: boole
 export function formatCard(session: UsageSummary, today: UsageSummary): string {
   const lines = [
     "   🎵 minuet",
-    formatSection("🕐", "session", session, false),
-    formatSection("📅", "today", today, true),
+    formatSection({ icon: "🕐", label: "session", summary: session, last: false }),
+    formatSection({ icon: "📅", label: "today", summary: today, last: true }),
   ];
   return lines.join("\n");
 }

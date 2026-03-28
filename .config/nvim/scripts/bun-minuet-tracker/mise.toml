@@ -1,0 +1,7 @@
+[tasks.check]
+description = "Format, lint, and typecheck"
+run = """
+npx oxfmt .
+npx oxlint -c .oxlintrc.json .
+npx tsgo --noEmit
+"""

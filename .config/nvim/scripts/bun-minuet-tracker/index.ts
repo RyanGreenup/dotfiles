@@ -11,9 +11,33 @@
  *   bun run index.ts --json              # machine-readable output
  */
 
+import { DEFAULT_DB_PATH, openDb } from "./db.ts";
 import { defineCommand, runMain } from "citty";
-import { openDb, DEFAULT_DB_PATH } from "./db.ts";
-import { querySince, queryToday, formatSummary, formatCard } from "./tracker.ts";
+import { formatCard, formatSummary, querySince, queryToday } from "./tracker.ts";
+
+function print(
+  label: string,
+  summary: ReturnType<typeof querySince>,
+  json: boolean | undefined,
+): void {
+  if (json) {
+    console.log(JSON.stringify({ [label]: summary }, undefined, 2));
+  } else {
+    console.log(formatSummary(label, summary));
+  }
+}
+
+function printDefault(db: ReturnType<typeof openDb>, json: boolean | undefined): void {
+  const hour = Math.floor(Date.now() / 1000) - 3600;
+  const session = querySince(db, hour);
+  const today = queryToday(db);
+
+  if (json) {
+    console.log(JSON.stringify({ session, today }, undefined, 2));
+  } else {
+    console.log(formatCard(session, today));
+  }
+}
 
 const main = defineCommand({
   meta: {
@@ -29,12 +53,10 @@ const main = defineCommand({
     today: {
       description: "Show today's usage only",
       type: "boolean",
-      default: false,
     },
     all: {
       description: "Show all-time usage",
       type: "boolean",
-      default: false,
     },
     db: {
       description: "Path to the SQLite database",
@@ -44,7 +66,6 @@ const main = defineCommand({
     json: {
       description: "Output as JSON",
       type: "boolean",
-      default: false,
     },
   },
   run({ args }) {
@@ -57,28 +78,11 @@ const main = defineCommand({
     } else if (args.since) {
       print("session", querySince(db, Number(args.since)), args.json);
     } else {
-      // Default: session (last hour) + today
-      const hour = Math.floor(Date.now() / 1000) - 3600;
-      const session = querySince(db, hour);
-      const today = queryToday(db);
-
-      if (args.json) {
-        console.log(JSON.stringify({ session, today }, null, 2));
-      } else {
-        console.log(formatCard(session, today));
-      }
+      printDefault(db, args.json);
     }
 
     db.close();
   },
 });
-
-function print(label: string, summary: ReturnType<typeof querySince>, json: boolean): void {
-  if (json) {
-    console.log(JSON.stringify({ [label]: summary }, null, 2));
-  } else {
-    console.log(formatSummary(label, summary));
-  }
-}
 
 runMain(main);

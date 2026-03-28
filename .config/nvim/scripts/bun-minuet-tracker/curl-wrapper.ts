@@ -9,68 +9,94 @@
  * No shell commands or child processes are spawned.
  */
 
-import { openDb, DEFAULT_DB_PATH } from "./db.ts";
+import { DEFAULT_DB_PATH, openDb } from "./db.ts";
+import { readFileSync } from "node:fs";
 
 const model = process.env["MINUET_MODEL"] ?? "unknown";
 const dbPath = process.env["MINUET_DB_PATH"] ?? DEFAULT_DB_PATH;
 
-/** Parse minuet's curl-style arguments into fetch parameters. */
-function parseArgs(argv: string[]): {
+interface ParsedArgs {
   url: string;
   headers: Record<string, string>;
-  body: string | null;
+  body: string | undefined;
   timeoutMs: number;
-} {
-  const args = argv.slice(2); // skip bun + script path
-  const headers: Record<string, string> = {};
-  let bodyFile: string | null = null;
-  let timeoutMs = 15_000;
-  let url = "";
+}
 
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i]!;
+interface TokenUsage {
+  prompt: number;
+  completion: number;
+  total: number;
+}
 
-    if (arg === "-H" && i + 1 < args.length) {
-      const header = args[++i]!;
-      const colon = header.indexOf(":");
-      if (colon > 0) {
-        headers[header.slice(0, colon).trim()] = header.slice(colon + 1).trim();
-      }
-    } else if (arg === "--max-time" && i + 1 < args.length) {
-      timeoutMs = Number(args[++i]) * 1000;
-    } else if (arg === "-d" && i + 1 < args.length) {
-      const data = args[++i]!;
-      bodyFile = data.startsWith("@") ? data.slice(1) : null;
-    } else if (arg === "-L" || arg === "-s" || arg === "--compressed") {
-      // Flags we accept but don't need to act on (fetch follows redirects by default)
-    } else if (arg === "--proxy" && i + 1 < args.length) {
-      i++; // skip proxy value; fetch doesn't support it natively
-    } else if (!arg.startsWith("-")) {
-      url = arg;
+function parseHeader(raw: string, headers: Record<string, string>): void {
+  const colon = raw.indexOf(":");
+  if (colon > 0) {
+    headers[raw.slice(0, colon).trim()] = raw.slice(colon + 1).trim();
+  }
+}
+
+function parseBodyArg(value: string): string | undefined {
+  if (!value.startsWith("@")) {
+    return undefined;
+  }
+  return readFileSync(value.slice(1), "utf8");
+}
+
+type ArgIter = IterableIterator<string>;
+type FlagHandler = (iter: ArgIter, state: ParsedArgs) => void;
+
+const IGNORED_FLAGS = new Set(["-L", "-s", "--compressed"]);
+
+const FLAG_HANDLERS: Record<string, FlagHandler> = {
+  "-H": (iter, state) => parseHeader(iter.next().value ?? "", state.headers),
+  "--max-time": (iter, state) => {
+    state.timeoutMs = Number(iter.next().value) * 1000;
+  },
+  "-d": (iter, state) => {
+    state.body = parseBodyArg(iter.next().value ?? "");
+  },
+  "--proxy": (iter) => {
+    iter.next();
+  },
+};
+
+/** Parse minuet's curl-style arguments into fetch parameters. */
+function parseArgs(argv: string[]): ParsedArgs {
+  const raw = argv.slice(2);
+  const state: ParsedArgs = { url: "", headers: {}, body: undefined, timeoutMs: 15_000 };
+  const iter = raw[Symbol.iterator]();
+
+  for (const arg of iter) {
+    const handler = FLAG_HANDLERS[arg];
+    if (handler) {
+      handler(iter, state);
+    } else if (!IGNORED_FLAGS.has(arg) && !arg.startsWith("-")) {
+      state.url = arg;
     }
   }
 
-  let body: string | null = null;
-  if (bodyFile) {
-    body = require("fs").readFileSync(bodyFile, "utf-8");
-  }
+  return state;
+}
 
-  return { url, headers, body, timeoutMs };
+function matchTokenField(text: string, field: string): number {
+  return Number(text.match(new RegExp(`"${field}":(\\d+)`))?.[1] ?? 0);
 }
 
 /** Extract token counts from response text via regex. */
-function extractUsage(text: string): { prompt: number; completion: number; total: number } | null {
-  const totalMatch = text.match(/"total_tokens":(\d+)/);
-  if (!totalMatch) return null;
+function extractUsage(text: string): TokenUsage | undefined {
+  const total = matchTokenField(text, "total_tokens");
+  if (total === 0) {
+    return undefined;
+  }
   return {
-    prompt: Number(text.match(/"prompt_tokens":(\d+)/)?.[1] ?? 0),
-    completion: Number(text.match(/"completion_tokens":(\d+)/)?.[1] ?? 0),
-    total: Number(totalMatch[1]),
+    prompt: matchTokenField(text, "prompt_tokens"),
+    completion: matchTokenField(text, "completion_tokens"),
+    total,
   };
 }
 
 /** Record usage to SQLite. Fails silently to never break completions. */
-function recordUsage(usage: { prompt: number; completion: number; total: number }): void {
+function recordUsage(usage: TokenUsage): void {
   try {
     const db = openDb(dbPath);
     db.run(
