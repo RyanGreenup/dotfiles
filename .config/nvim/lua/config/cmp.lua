@@ -44,6 +44,8 @@ local function snippet_expand(args)
 end
 
 --- Table of completions for the cmp menu
+local luasnip = require("luasnip")
+
 local cmp_completions = {
 	-- https://teddit.net/r/neovim/comments/u7nsje/nvimcmp_completion_issue_cn_gives_basic_completion/
 	["<C-k>"] = map(map.scroll_docs(-4), { "i", "c" }),
@@ -57,6 +59,24 @@ local cmp_completions = {
 		c = map.close(),
 	}),
 	["<CR>"] = map.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	["<Tab>"] = cmp.mapping(function(fallback)
+		if luasnip.expand_or_locally_jumpable() then
+			luasnip.expand_or_jump()
+		elseif cmp.visible() then
+			cmp.select_next_item()
+		else
+			fallback()
+		end
+	end, { "i", "s" }),
+	["<S-Tab>"] = cmp.mapping(function(fallback)
+		if cmp.visible() then
+			cmp.select_prev_item()
+		elseif luasnip.locally_jumpable(-1) then
+			luasnip.jump(-1)
+		else
+			fallback()
+		end
+	end, { "i", "s" }),
 }
 
 local markdown_oxide_opts = {
