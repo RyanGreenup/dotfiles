@@ -275,4 +275,38 @@ function M.show_daily_usage()
   run_tracker({ "--today" })
 end
 
+--- Cached daily cost string for the statusline. Updated every 30s.
+local statusline_cache = ""
+
+local function refresh_statusline_cache()
+  vim.fn.jobstart({
+    "bun", "run", tracker_dir .. "/index.ts", "--today", "--json",
+  }, {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      local raw = vim.trim(table.concat(data, "\n"))
+      if #raw == 0 then return end
+      local ok, parsed = pcall(vim.json.decode, raw)
+      if ok and parsed.today then
+        local cost = parsed.today.totalCost or 0
+        vim.schedule(function()
+          statusline_cache = string.format("$%.4f", cost)
+        end)
+      end
+    end,
+  })
+end
+
+-- Refresh immediately and then every 30 seconds
+vim.defer_fn(function()
+  refresh_statusline_cache()
+  local timer = vim.uv.new_timer()
+  timer:start(30000, 30000, vim.schedule_wrap(refresh_statusline_cache))
+end, 0)
+
+--- Return the cached daily cost string for use in a statusline provider.
+function M.statusline_daily_cost()
+  return statusline_cache
+end
+
 return M

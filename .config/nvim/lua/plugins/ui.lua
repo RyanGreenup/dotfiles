@@ -89,7 +89,14 @@ local lualine = {
   config = function()
     require("lualine").setup({
       sections = {
-        lualine_x = { { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = { fg = "#ff9e64" }, }, },
+        lualine_x = {
+          {
+            require("plugins.minuet.settings").statusline_daily_cost,
+            icon = "🎵",
+            color = { fg = "#9ece6a" },
+          },
+          { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = { fg = "#ff9e64" }, },
+        },
         lualine_y = {
           { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
           { "location", padding = { left = 0, right = 1 } },
