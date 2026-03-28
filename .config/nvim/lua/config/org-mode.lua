@@ -9,14 +9,17 @@
 --   -- ensure_installed = {'org'}, -- Or run :TSUpdate org
 -- }
 
-require('orgmode').setup({
+local ok, err = pcall(require('orgmode').setup, {
   org_agenda_files = {'~/Agenda/todo.org', '~/Agenda/**/*'},
   org_default_notes_file = '~/Notes/Org/index.org',
-mappings = {
-        org = {
-          org_timestamp_up = '+',
-          org_timestamp_down = '-'
-        }
-      }
+  mappings = {
+    org = {
+      org_timestamp_up = '+',
+      org_timestamp_down = '-'
+    }
+  }
 })
+if not ok then
+  vim.notify('[orgmode] setup failed: ' .. tostring(err), vim.log.levels.WARN)
+end
 

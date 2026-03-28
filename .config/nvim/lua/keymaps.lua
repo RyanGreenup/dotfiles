@@ -256,26 +256,7 @@ end
 
 -- https://neovim.io/doc/user/api.html#nvim_open_win%28%29
 
--- Keybindings for LuaSnip
-local ls = require("luasnip")
-
-vim.keymap.set("i", "<Tab>", function()
-  if ls.expand_or_locally_jumpable() then
-    ls.expand_or_jump()
-  else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-  end
-end, { silent = true })
-
-vim.keymap.set({"i", "s"}, "<S-Tab>", function()
-  if ls.jumpable(-1) then ls.jump(-1)
-  else vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true), "n", false) end
-end, { silent = true })
-
-vim.keymap.set("s", "<Tab>", function()
-  if ls.jumpable(1) then ls.jump(1)
-  else vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false) end
-end, { silent = true })
+-- LuaSnip Tab/S-Tab handled in cmp.lua (super tab pattern)
 
 -- Tabby
 -- /home/ryan/.tabby-client/agent/config.toml
