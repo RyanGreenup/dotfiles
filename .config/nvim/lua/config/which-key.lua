@@ -272,7 +272,6 @@ wk.add({
     { "<leader>ns",  function() Create_markdown_link(true) end,                     desc = "Create a Subpage Link and Open Buffer" },
     { "<leader>nS",  function() Create_markdown_link() end,                         desc = "Create a Link From text and Open Buffer" },
     { "<leader>nu",  Format_url_markdown,                                           desc = "Format a URL as a Markdown Link" },
-    { "<leader>nv",  function() Generate_navigation_tree() end,                     desc = "Generate Navigation Tree" },
     { "<leader>nr",  require('render-markdown').toggle,                             desc = "Render Markdown Toggle" },
     { "<leader>nip", function() Paste_png_image() end,                              desc = "Paste Image from Clipboard" },
     { "<leader>nic", require('utils/markdown_notes').make_cite_page,                desc = "Make a Citation Page" },
