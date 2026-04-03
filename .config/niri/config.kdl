@@ -505,6 +505,9 @@ binds {
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
 
+    Mod+Shift+W { move-workspace-to-monitor-left; }
+    Mod+Shift+R { move-workspace-to-monitor-right; }
+
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
     Mod+U              { focus-workspace-down; }
@@ -606,7 +609,7 @@ binds {
     Mod+R { switch-preset-column-width; }
     // Cycling through the presets in reverse order is also possible.
     // Mod+R { switch-preset-column-width-back; }
-    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Alt+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
     Mod+F { maximize-column; }
     // Mod+Shift+F { fullscreen-window; }
