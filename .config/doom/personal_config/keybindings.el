@@ -89,3 +89,30 @@
  "<M-return>" #'ess-eval-region-or-function-or-paragraph
  "<S-return>" #'ess-eval-region-or-function-or-paragraph-and-step)
 ;;
+
+(defun my/open-todo-org()
+  "Open my todo.org file."
+  (interactive)
+  (find-file "~/Sync/Agenda/logseq_Agenda/pages/todo.org"))
+
+(map! :leader
+      :desc "Open todo.org"
+      "<f2> t" #'my/open-todo-org)
+
+(defun my/open-inbox-org()
+  "Open my inbox.org file."
+  (interactive)
+  (find-file "~/Sync/Agenda/logseq_Agenda/pages/inbox.org"))
+
+(map! :leader
+      :desc "Open inbox.org"
+      "<f2> x" #'my/open-inbox-org)
+
+(defun my/open-work-org()
+  "Open my work.org file."
+  (interactive)
+  (find-file "~/Sync/Agenda/logseq_Agenda/pages/work.org"))
+
+(map! :leader
+      :desc "Open work.org"
+      "<f2> w" #'my/open-work-org)

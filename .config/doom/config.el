@@ -100,7 +100,7 @@
 (defun open-latest-journal-page ()
   "Open the latest journal page."
   (interactive)
-  (let* ((journal-dir "~/Notes/slipbox/journals/")
+  (let* ((journal-dir "~/Sync/Agenda/logseq_Agenda/journals/")
          (journal-files (directory-files journal-dir t "\\.org\\'"))
          (latest-journal-file
           (car (sort journal-files
